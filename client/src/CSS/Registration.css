@@ -1,0 +1,47 @@
+.main-body1 {
+    margin-left: 8rem;
+    margin-right: 8rem;
+  }
+  .formInputRegistraion {
+    width: 100%;
+    margin-left: 0.5rem 0rem;
+    font-size: large;
+  }
+  
+  .formDivRegistraion {
+    margin: 0.8rem 0rem 0.8rem 0.5rem;
+  }
+  .formRadionInputRegistraion {
+    margin-left: 2rem;
+  }
+
+  
+
+  @media only screen and (max-width: 600px) {
+    /* body {
+      background-color: lightblue;
+    } */
+    .formInputRegistraion {
+      width: 54%;
+      height: 2rem;
+      margin-left: 0rem;
+      margin-right: 0rem;
+      font-size: large;
+    }
+    .formInputRegistraion::before {
+      content: "\a";
+      white-space: pre;
+    }
+    .main-body1 {
+      margin-left: 0.1rem;
+      margin-right: 0.1rem;
+    }
+    .nav-btn {
+      margin-left: 0rem;
+      margin-right: 0rem;
+    }
+  }
+
+
+  
+
