@@ -28,12 +28,17 @@ const NewUserRegistrationSchema = new mongoose.Schema({
   gender: {
     type: String,
   },
-  userType: [
-    String
-  ],
+  age: {
+    type: String,
+  },
+  userType: {
+    type: String,
+  },
+  dateOfBirth: {
+    type: String,
+  },
   phoneNo: {
     type: Number,
-    // ,
     // require : true
   },
   state: {
@@ -43,22 +48,18 @@ const NewUserRegistrationSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    // ,
+    default:"India"
     // require : true
   },
   location: {
     type: String,
-    // ,
     // require : true
   },
-  location: {
-    type: String,
-    // ,
-    // require : true
-  },sublocation:{
-    type:String
-  },
+  
   dateOfFormSubmission: {
+    type: String,
+  },
+  convertedDateOfFormSubmission: {
     type: String,
   },
   dateOfEmailValidation: {
@@ -71,12 +72,21 @@ const NewUserRegistrationSchema = new mongoose.Schema({
   otp: {
     type: Number,
   },
+  status: {
+    type: String,
+  },
   isBlocked: {
     type: Boolean,
     default: false,
   },
   blockedBy: {
     type: String
+  },
+  userImage: {
+    data: String,
+    originalFileName: String,
+    publicId: String,
+    contentType: String,
   },
   password: {
     type: String,
@@ -92,28 +102,28 @@ const NewUserRegistrationSchema = new mongoose.Schema({
   },
 });
 
-// NewUserRegistrationSchema.pre("save", async function (next) {
-//   if (this.isModified("password")) {
-//     this.password = await bcrypt.hash(this.password, 10);
-//   }
-//   next();
-// });
+NewUserRegistrationSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
+});
 
-// NewUserRegistrationSchema.methods.generateAuthToken = async function () {
-//   try {
-//     let token1 = jwt.sign({ _id: this._id }, process.env.SECRET_KEY, {
-//       expiresIn: "2592000000",
-//     });
-//     this.tokens = token1;
-//     await this.save();
-//     return token1;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+NewUserRegistrationSchema.methods.generateAuthToken = async function () {
+  try {
+    let token1 = jwt.sign({ _id: this._id }, process.env.SECRET_KEY, {
+      expiresIn: "2592000000",
+    });
+    this.tokens = token1;
+    await this.save();
+    return token1;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const NewUserRegistration = new mongoose.model(
-  "Users",
+  "W_Mark_Users",
   NewUserRegistrationSchema
 );
 module.exports = NewUserRegistration;

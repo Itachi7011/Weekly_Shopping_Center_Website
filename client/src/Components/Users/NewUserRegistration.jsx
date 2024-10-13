@@ -6,25 +6,19 @@ const RequestNewSavingAccount = () => {
   const [user, setUser] = useState("");
 
   const [userImage, setImage1] = useState("");
-  const [voterIdImage, setImage2] = useState("");
-  const [aadharImage, setImage3] = useState("");
-  const [panImage, setImage4] = useState("");
-
-  const [branches, setBranches] = useState([]);
-
   const [data, setData] = useState({
     userType: "",
     accountStatus: "",
     email: "",
     name: "",
-    fatherName: "",
+    gender: "",
     dateOfBirth: "",
-    phoneNo_1: "",
+    phoneNo: "",
     qualification: "",
     country: "",
     state: "",
     district: "",
-    fullAddress: "",
+    location: "",
     dateOfFormSubmission: "",
     password: "",
     cpassword: "",
@@ -59,36 +53,6 @@ const RequestNewSavingAccount = () => {
     UserDetails();
   }, []);
 
-  const branchesList = async () => {
-    try {
-      const res = await fetch("/api/bankbranchList", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-
-      const data = await res.json();
-
-      setBranches(data);
-
-      if (!res === 200) {
-        throw new Error(`Error during retreive data - ${Error}`);
-      }
-
-      if (!res === 200) {
-        throw new Error(`Error during retreive data - ${Error}`);
-      }
-    } catch (err) {
-      console.log(`Error during catch of User's Data -  ${err}`);
-    }
-  };
-  useEffect(() => {
-    branchesList();
-  }, []);
-
   const handleInput = (e) => {
     name = e.target.name;
     value = e.target.value;
@@ -104,30 +68,29 @@ const RequestNewSavingAccount = () => {
 
     var bodyFormData = new FormData();
     bodyFormData.append("userType", data.userType);
+    bodyFormData.append("gender", data.gender);
 
-    bodyFormData.append("accountStatus", data.accountStatus);
     bodyFormData.append("email", data.email);
-    bodyFormData.append("name", data.name);
-    bodyFormData.append("fatherName", data.fatherName);
+    bodyFormData.append("firstName", data.firstName);
+    bodyFormData.append("lastName", data.lastName);
 
     bodyFormData.append("dateOfBirth", data.dateOfBirth);
-    bodyFormData.append("phoneNo_1", data.phoneNo_1);
+    bodyFormData.append("phoneNo", data.phoneNo);
     bodyFormData.append("country", data.country);
     bodyFormData.append("state", data.state);
     bodyFormData.append("district", data.district);
-    bodyFormData.append("fullAddress", data.fullAddress);
-    bodyFormData.append("dateOfFormSubmission", data.dateOfFormSubmission);
+    bodyFormData.append("location", data.location);
+    bodyFormData.append("dateOfFormSubmission", new Date());
 
     bodyFormData.append("password", data.password);
     bodyFormData.append("cpassword", data.cpassword);
 
     bodyFormData.append("userImage", userImage);
 
-
     try {
       console.log(bodyFormData);
       await axios.post(
-        "/api/reqNewSavAcc",
+        "/api/newUserRegistration",
 
         bodyFormData,
 
@@ -137,7 +100,7 @@ const RequestNewSavingAccount = () => {
           },
         }
       );
-      alert("New Saving Account Saved Successfully");
+      alert("New User Added Successfully");
 
       window.location.reload();
     } catch (error) {
@@ -157,7 +120,8 @@ const RequestNewSavingAccount = () => {
               background: "#367588",
               padding: "1rem",
               borderRadius: "10px",
-              margin: "1rem 3.5rem",
+              margin: "0.5rem 3.5rem",
+              marginTop: "-2rem",
               textAlign: "center",
             }}
           >
@@ -174,26 +138,41 @@ const RequestNewSavingAccount = () => {
                 onChange={handleInput}
                 name="userType"
                 className="form formInputRegistraion text_input_forms"
+                value={user.userType}
               >
-                <option>Customer</option>
-                <option>Seller</option>
+                <option value="">-- Please Select --</option>
+                <option value="Customer">Customer</option>
+                <option value="Seller">Seller</option>
               </select>
             </div>
 
             <div className="mb-3 formDivRegistraion text_input_container">
               {" "}
-              <label className="form-label">Name : </label>
+              <label className="form-label">First Name : </label>
               <input
                 autoComplete="off"
                 onChange={handleInput}
                 type="text"
                 className="form formInputRegistraion text_input_forms"
                 id="exampleFormControlInput1"
-                name="name"
+                name="firstName"
                 placeholder=""
               />
             </div>
 
+            <div className="mb-3 formDivRegistraion text_input_container">
+              {" "}
+              <label className="form-label">Last Name : </label>
+              <input
+                autoComplete="off"
+                onChange={handleInput}
+                type="text"
+                className="form formInputRegistraion text_input_forms"
+                id="exampleFormControlInput1"
+                name="lastName"
+                placeholder=""
+              />
+            </div>
             <div className="mb-3 formDivRegistraion text_input_container">
               {" "}
               <label className="form-label">Email : </label>
@@ -227,25 +206,19 @@ const RequestNewSavingAccount = () => {
             {/* Hidden Account Amount Value : */}
             <input type="hidden" name="totalAmount" value="0" placeholder="" />
 
-            {/* Hidden Date Of Form Submission : */}
-            <input
-              type="hidden"
-              name="dateOfFormSubmission"
-              value={new Date()}
-            ></input>
-
             <div className="mb-3 formDivRegistraion text_input_container">
               {" "}
-              <label className="form-label">Father&apos;s Name </label>
-              <input
-                autoComplete="off"
+              <label className="form-label">Gender : </label>
+              <select
                 onChange={handleInput}
-                type="text"
+                name="gender"
                 className="form formInputRegistraion text_input_forms"
-                id="exampleFormControlInput1"
-                name="fatherName"
-                placeholder=""
-              />
+                value={user.userType}
+              >
+                <option value="">-- Please Select --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
             </div>
 
             <div className="mb-3 formDivRegistraion text_input_container">
@@ -271,24 +244,8 @@ const RequestNewSavingAccount = () => {
                 type="number"
                 className="form formInputRegistraion text_input_forms"
                 id="exampleFormControlInput1"
-                name="phoneNo_1"
+                name="phoneNo"
                 placeholder=""
-              />
-            </div>
-
-          
-
-            <div className="mb-3 formDivRegistraion text_input_container">
-              {" "}
-              <label className="form-label">Country : </label>
-              <input
-                autoComplete="off"
-                onChange={handleInput}
-                type="text"
-                className="form formInputRegistraion text_input_forms"
-                id="exampleFormControlInput1"
-                name="country"
-                placeholder="whichever country's citizenship do you have"
               />
             </div>
 
@@ -322,24 +279,21 @@ const RequestNewSavingAccount = () => {
 
             <div className="mb-3 formDivRegistraion text_input_container">
               {" "}
-              <label className="form-label">Full Address : </label>
+              <label className="form-label">Location : </label>
               <input
                 autoComplete="off"
                 onChange={handleInput}
                 type="text"
                 className="form formInputRegistraion text_input_forms"
                 id="exampleFormControlInput1"
-                name="fullAddress"
+                name="location"
                 placeholder=""
               />
             </div>
 
             <div className="mb-3 formDivRegistraion text_input_container">
               {" "}
-              <label className="form-label">
-                {" "}
-                Upload Your Photo :{" "}
-              </label>
+              <label className="form-label"> Upload Your Photo : </label>
               <input
                 autoComplete="off"
                 onChange={(e) => {
@@ -359,7 +313,6 @@ const RequestNewSavingAccount = () => {
                 style={{ width: "200px", height: "150px", marginLeft: "5rem" }}
               />
             )}
-
 
             <div className="mb-3 formDivRegistraion text_input_container">
               {" "}

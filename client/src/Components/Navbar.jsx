@@ -56,7 +56,7 @@ const Navbar = () => {
           <li className="navbar-dropdown">
             <a href="#"><i className="fas fa-user me-1"></i>User</a>
             <div className="dropdown">
-              <a href="#"><i className="fas fa-sign-in-alt me-2"></i>Login</a>
+              <a href="/Login"><i className="fas fa-sign-in-alt me-2"></i>Login</a>
               <a href="/NewUserRegistration"><i className="fas fa-user-plus me-2"></i>Signup</a>
             
             </div>
