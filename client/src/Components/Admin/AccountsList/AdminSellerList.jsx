@@ -65,8 +65,6 @@ const Scale1EmpList = () => {
       });
   };
 
-
-
   const handleDeleteSelected = () => {
     axios
 
@@ -137,7 +135,8 @@ const Scale1EmpList = () => {
     const searchResults = Data.post.filter((item) => {
       return (
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.email.toLowerCase().includes(searchTerm.toLowerCase())
+        item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(item.phoneNo).toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
 
@@ -270,16 +269,28 @@ const Scale1EmpList = () => {
                             <td>{(location, district, state)}</td>
                             <td>
                               {emailVerification === false ? (
-                                <i className="fas fa-times fa-2x"style={{color:"red"}}></i>
+                                <i
+                                  className="fas fa-times fa-2x"
+                                  style={{ color: "red" }}
+                                ></i>
                               ) : (
-                                <i className="far fa-check-circle  fa-2x" style={{color:"green"}}></i>
+                                <i
+                                  className="far fa-check-circle  fa-2x"
+                                  style={{ color: "green" }}
+                                ></i>
                               )}
                             </td>
                             <td>
                               {isBlocked === false ? (
-                                <i className="fas fa-times fa-2x"style={{color:"red"}}></i>
+                                <i
+                                  className="fas fa-times fa-2x"
+                                  style={{ color: "red" }}
+                                ></i>
                               ) : (
-                                <i className="far fa-check-circle  fa-2x" style={{color:"green"}}></i>
+                                <i
+                                  className="far fa-check-circle  fa-2x"
+                                  style={{ color: "green" }}
+                                ></i>
                               )}
                             </td>
                             <td>
