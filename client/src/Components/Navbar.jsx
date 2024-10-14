@@ -2,12 +2,12 @@ const Navbar = () => {
   return (
     <div>
       <nav className="navbar">
-        <a href="#" className="navbar-logo">
+        <a href="/" className="navbar-logo">
         <i className="fas fa-bullhorn flip-horizontal ps-2"></i>   Weekly Market  <i className="fas fa-bullhorn ps-2"></i>
         </a>
         <ul className="navbar-links">
           <li className="navbar-dropdown">
-            <a href="#"><i className="fas fa-home me-1"></i>Home</a>
+            <a href="/"><i className="fas fa-home me-1"></i>Home</a>
          
           </li>
           <li className="navbar-dropdown">

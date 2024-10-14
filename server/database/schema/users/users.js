@@ -46,6 +46,11 @@ const NewUserRegistrationSchema = new mongoose.Schema({
     // ,
     // require : true
   },
+  district: {
+    type: String,
+    // ,
+    // require : true
+  },
   country: {
     type: String,
     default:"India"

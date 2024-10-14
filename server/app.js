@@ -33,6 +33,11 @@ app.use(express.urlencoded({ extended: false }));
 
 const UsersDB = require("./database/schema/users/users");
 
+const LoanEnquiryDB = require("./database/schema/loanEnquiry");
+const SocialMediaDB = require("./database/schema/socialMedia");
+const PhoneAndEmailDB = require("./database/schema/phoneAndEmail");
+
+
 
 const CloudinaryDB = process.env.CLOUD_NAME;
 const CloudinaryAPIKey = process.env.API_KEY;
@@ -261,6 +266,96 @@ app.post("/api/login", async (req, res) => {
 
 
 
+// Customer Account APIs and deleting Functions
+
+
+app.get("/api/adminCustomersList", async (req, res) => {
+  try {
+    const data = await UsersDB.find({userType:"Customer"});
+    console.log(data)
+
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
+app.post("/api/deleteCustomerAccount", async (req, res) => {
+  try {
+    await UsersDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Customer Account Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedSCustomerAccount", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await UsersDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Customer Accounts Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+
+// Sellers Account APIs and deleting Functions
+
+app.get("/api/adminSellersList", async (req, res) => {
+  try {
+    const data = await UsersDB.find({userType:"Seller"});
+    console.log(data)
+
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/api/deleteSellersAccount", async (req, res) => {
+  try {
+    await UsersDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Sellers Account Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedSSellersAccount", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await UsersDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Sellers Accounts Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
 
 
 
@@ -274,6 +369,136 @@ app.post("/api/login", async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.get("/api/uptime", async (req, res) => {
+  const uptime = os.uptime();
+  const uptimeString = moment.duration(uptime, "seconds").humanize();
+  console.log(uptimeString);
+
+  res.json({ uptime: uptimeString });
+});
+
+app.get("/api/system-status", async (req, res) => {
+  try {
+    const systemInfo = await si.system();
+    const cpuInfo = await si.cpu();
+    const memInfo = await si.mem();
+    const diskLayout = await si.diskLayout();
+    const networkInfo = await si.networkStats();
+
+    const diskInfo = diskLayout.reduce(
+      (acc, disk) => {
+        if (typeof disk.size === "number") {
+          acc.total += disk.size;
+
+          acc.available += 0; // or some other default value
+        }
+
+        return acc;
+      },
+      { total: 0, available: 0 }
+    );
+
+    const diskUsed = diskInfo.total - diskInfo.available;
+
+    const systemStatus = {
+      system: {
+        os: systemInfo.os,
+        platform: systemInfo.platform,
+        arch: systemInfo.arch,
+        uptime: os.uptime(),
+      },
+
+      cpu: {
+        manufacturer: cpuInfo.manufacturer,
+        brand: cpuInfo.brand,
+        model: cpuInfo.model,
+        cores: cpuInfo.cores,
+        speed: cpuInfo.speed,
+        usage: cpuInfo.usage,
+      },
+
+      os: {
+        platform: os.platform(),
+
+        arch: os.arch(),
+
+        release: os.release(),
+
+        type: os.type(),
+
+        hostname: os.hostname(),
+      },
+
+      memory: {
+        total: memInfo.total,
+        used: memInfo.used,
+        active: memInfo.active,
+        available: memInfo.available,
+      },
+
+      disk: {
+        total: (diskInfo.total / 1024 / 1024 / 1024).toFixed(2) + " GB",
+
+        used: (diskUsed / 1024 / 1024 / 1024).toFixed(2) + " GB",
+
+        available: (diskInfo.available / 1024 / 1024 / 1024).toFixed(2) + " GB",
+      },
+
+      network: {
+        rx: networkInfo[0].rx,
+        tx: networkInfo[0].tx,
+      },
+    };
+    console.log(systemStatus)
+
+    res.json(systemStatus);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({ error: "Failed to retrieve system status" });
+  }
+});
+
+let isConnected = false;
+
+mongoose.connection.once("open", () => {
+  isConnected = true;
+});
+
+app.get("/api/db-status", (req, res) => {
+  if (isConnected) {
+    res.status(200).json({ message: "Connected" });
+  } else {
+    res.status(500).json({ message: "Not Connected" });
+  }
+});
+
+app.get("/api/response-time", (req, res) => {
+  const startTime = Date.now();
+
+  // Simulate some work or database query
+
+  setTimeout(() => {
+    const endTime = Date.now();
+
+    const responseTime = endTime - startTime;
+
+    res.json({ responseTime: `${responseTime}ms` });
+  }, 2000); // simulate 2 seconds of work
+});
 
 
 app.listen(PORT, () => {
