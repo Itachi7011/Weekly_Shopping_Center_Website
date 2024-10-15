@@ -392,7 +392,6 @@ app.post("/api/deleteSelectedSSellersAccount", async (req, res) => {
 
 app.get("/api/userProfile", authenticate, async (req, res) => {
   try {
-    console.log(req.rootUser);
     res.send(req.rootUser);
   } catch (err) {
     console.log(`Error during Employeee Profile Page -${err}`);
