@@ -43,6 +43,7 @@ const Scale1EmpList = () => {
     });
   };
 
+
   const handleDelete = (id) => {
     axios
 
@@ -116,6 +117,9 @@ const Scale1EmpList = () => {
         console.log(`Error during catch of setProfile -  ${err}`);
       });
   }, []);
+
+  console.log("Profile is : ",Profile)
+
 
   // if (![1, 2, 3, 4, 5, "1", "2", "3", "4", "5"].includes(Profile.scale)) {
   //   return (

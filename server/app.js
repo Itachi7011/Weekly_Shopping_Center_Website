@@ -25,6 +25,7 @@ const cors = require("cors");
 app.use(cors());
 
 require("./database/connection");
+const authenticate = require("./authenticate/customerAuthenticate")
 
 const PORT = process.env.PORT;
 
@@ -255,12 +256,41 @@ app.post("/api/login", async (req, res) => {
         httpOnly: true,
       });
       console.log("Login Successful")
-      // res.redirect("/CustomerSavingAccountsProfile");
+
+      res.redirect("/AdminCustomersList");
     } else if (isMatch === false) {
       res.send("Sorry Password And Email Are Not Matched As Per Our System.");
     } else {
       res.send("Sorry!");
     }
+  }
+});
+
+
+// Logout Function
+
+app.get("/api/logout", authenticate, async (req, res) => {
+  try {
+    const modelName = req.rootUser.constructor.modelName;
+
+    let model;
+
+    switch (modelName) {
+      case "W_Mark_Users":
+        model = UsersDB;
+
+        break;
+
+      default:
+        throw new Error(`Unknown model name: ${modelName}`);
+    }
+
+    await model.updateOne({ _id: req.id }, { $set: { status: "offline" } });
+    res.clearCookie("cookies1", { path: "/" });
+    console.log("cookies-deleted")
+    res.redirect("/Login");
+  } catch (err) {
+    console.log(`Error During Logout - ${err}`);
   }
 });
 
@@ -357,6 +387,17 @@ app.post("/api/deleteSelectedSSellersAccount", async (req, res) => {
   }
 });
 
+
+// Profile Funtions
+
+app.get("/api/userProfile", authenticate, async (req, res) => {
+  try {
+    console.log(req.rootUser);
+    res.send(req.rootUser);
+  } catch (err) {
+    console.log(`Error during Employeee Profile Page -${err}`);
+  }
+});
 
 
 

@@ -1,4 +1,32 @@
+import { UserContext } from "../App";
+import { useContext } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
+
 const Navbar = () => {
+
+  const { state, dispatch } = useContext(UserContext);
+
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("/api/userProfile")
+      .then(async (response) => {
+        const data = await response.data;
+
+        setUser(data);
+
+        console.log("data fetched successfully");
+      })
+      .catch((err) => {
+        console.log(`Error during catch of setProfile -  ${err}`);
+      });
+  }, []);
+
+  console.log("Profile is : ",user)
+
   return (
     <div>
       <nav className="navbar">
@@ -66,7 +94,7 @@ const Navbar = () => {
             
           </li>
           <li className="navbar-dropdown">
-            <a href="#"><i className="fas fa-sign-out-alt me-1"></i>Logout</a>
+            <a href="/api/logout"><i className="fas fa-sign-out-alt me-1"></i>Logout</a>
             
           </li>
         </ul>
