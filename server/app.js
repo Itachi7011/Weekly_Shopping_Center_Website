@@ -34,9 +34,11 @@ app.use(express.urlencoded({ extended: false }));
 
 const UsersDB = require("./database/schema/users/users");
 
-const LoanEnquiryDB = require("./database/schema/loanEnquiry");
+const EnquiryDB = require("./database/schema/enquiry");
 const SocialMediaDB = require("./database/schema/socialMedia");
 const PhoneAndEmailDB = require("./database/schema/phoneAndEmail");
+const TagsDB = require("./database/schema/tags");
+const NavbarItemsDB = require("./database/schema/navbarItems");
 
 
 
@@ -370,7 +372,7 @@ app.post("/api/deleteSellersAccount", async (req, res) => {
   }
 });
 
-app.post("/api/deleteSelectedSSellersAccount", async (req, res) => {
+app.post("/api/deleteSelectedSellersAccount", async (req, res) => {
   try {
     const ObjectId = require("mongoose").Types.ObjectId;
     const ids = req.body.ids;
@@ -380,6 +382,180 @@ app.post("/api/deleteSelectedSSellersAccount", async (req, res) => {
       _id: { $in: objectIds },
     });
     console.log("Selected Sellers Accounts Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+
+
+// Admins Account APIs and deleting Functions
+
+app.get("/api/adminsList", async (req, res) => {
+  try {
+    const data = await UsersDB.find({userType:"Admin"});
+    console.log(data)
+
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/api/deleteAdminAccount", async (req, res) => {
+  try {
+    await UsersDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Admin Account Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedAdminsAccount", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await UsersDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Admin Accounts Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+
+//    Tags
+
+app.post(
+  "/api/addTag",  async (req, res) => {
+    try {
+
+      const userData = await new TagsDB({
+        tagName: req.body.tagName,
+        content: req.body.content,
+        createdBy: req.body.createdBy,
+        dateOfFormSubmission: new Date(),
+      });
+      await userData.save();
+      console.log("New Tag Added in Database Successfully");
+      res.send({ status: "Ok", data: "New Tag Saved." });
+    } catch (err) {
+      console.log(err);
+      res.redirect("/failure-message");
+    }
+  }
+);
+
+app.get("/api/tagsList", async (req, res) => {
+  try {
+    const data = await TagsDB.find();
+    res.send(data);
+  } catch (err) {
+    console.log(`Error during sending Tag List -${err}`);
+  }
+});
+
+app.post("/api/deleteTag", async (req, res) => {
+  try {
+    await TagsDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Tag Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedTags", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await TagsDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Tag Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+
+//    Navbar Items
+
+app.post(
+  "/api/addNavbarItems",  async (req, res) => {
+    try {
+      console.log(req.body)
+
+
+      const userData = await new NavbarItemsDB({
+        itemName: req.body.itemName,
+        itemLink: req.body.itemLink,
+        itemIcon: req.body.itemIcon,
+        subItems: JSON.parse(req.body.subItems),
+        createdBy: req.body.createdBy,
+        dateOfFormSubmission: new Date(),
+      });
+      await userData.save();
+      console.log("New Navbar Items Added in Database Successfully");
+      res.send({ status: "Ok", data: "New Tag Saved." });
+    } catch (err) {
+      console.log(err);
+      res.redirect("/failure-message");
+    }
+  }
+);
+
+app.get("/api/navbarItemsList", async (req, res) => {
+  try {
+    const data = await NavbarItemsDB.find();
+    res.send(data);
+  } catch (err) {
+    console.log(`Error during sending Navbar Items List -${err}`);
+  }
+});
+
+app.post("/api/deleteNavbarItems", async (req, res) => {
+  try {
+    await NavbarItemsDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Navbar Items Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedNavbarItems", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await NavbarItemsDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Navbar Items Deleted Successfully");
     res.send({ status: "OK", data: "Deleted" });
   } catch (err) {
     console.log(err);

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 // import { ToastContainer, toast } from "react-toastify";
-const AdminSellerList = () => {
+const AdminsList = () => {
   let name, value;
   const navigate = useNavigate();
   // const [UserType, setUserType] = useState("");
@@ -15,7 +15,6 @@ const AdminSellerList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  // These 3 are React alert setStates
 
   const [user, setUser] = useState({
     title: "",
@@ -43,14 +42,15 @@ const AdminSellerList = () => {
     });
   };
 
+
   const handleDelete = (id) => {
     axios
 
-      .post("/api/deleteSellersAccount", { id: id })
+      .post("/api/deleteAdminAccount", { id: id })
 
       .then((data) => {
 
-        alert("Seller Account  Deleted"); 
+        alert("Admin Account  Deleted"); 
       })
 
 
@@ -62,13 +62,13 @@ const AdminSellerList = () => {
   const handleDeleteSelected = () => {
     axios
 
-      .post("/api/deleteSelectedSellersAccount", { ids: selectedItems })
+      .post("/api/deleteSelectedAdminsAccount", { ids: selectedItems })
 
       .then((data) => {
 
-        alert("Selected Seller Account  Deleted"); 
+        alert("Selected Admin Account  Deleted"); 
       })
-   
+
 
       .catch((err) => {
         console.log("Error during delete selected:", err);
@@ -76,7 +76,7 @@ const AdminSellerList = () => {
   };
   useEffect(() => {
     axios
-      .get("/api/adminCustomersList")
+      .get("/api/adminsList")
       .then((response) => {
         const data = response.data;
 
@@ -86,7 +86,6 @@ const AdminSellerList = () => {
         console.log("Error during Data:", err);
       });
   }, []);
-
 
   useEffect(() => {
     axios
@@ -103,9 +102,13 @@ const AdminSellerList = () => {
       });
   }, []);
 
+  console.log("Profile is : ",Profile)
+
+
   if (Profile.userType !== "Admin") {
     return <div></div>;
   }
+
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
 
@@ -162,7 +165,7 @@ const AdminSellerList = () => {
                   backgroundColor: "#708090",
                 }}
               >
-                List Of All Sellers&apos; Accounts
+                List Of All Cutomers&apos; Accounts
               </h1>
               <div className="adminListsSearchBar">
                 <input
@@ -352,4 +355,4 @@ const AdminSellerList = () => {
   );
 };
 
-export default AdminSellerList;
+export default AdminsList;

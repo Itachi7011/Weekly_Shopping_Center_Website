@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // import ReactJsAlert from "reactjs-alert";
 import { useNavigate } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { ToastContainer, toast } from "react-toastify";
-const AdminSellerList = () => {
+const ShowAllTags = () => {
   let name, value;
   const navigate = useNavigate();
   // const [UserType, setUserType] = useState("");
@@ -18,20 +18,14 @@ const AdminSellerList = () => {
   // These 3 are React alert setStates
 
   const [user, setUser] = useState({
-    title: "",
-    articleCategory: "",
-    articleCategory1: "",
-    articleContent: "",
-    youtubeUrl: "",
-    developerName: "",
-    projectName: "",
-    status: "",
-    articleImage: "",
+    itemName: "",
+    subItems: "",
+    createdBy: "",
   });
   const [Profile, setProfile] = useState("");
 
   const [selectedItems, setSelectedItems] = useState([]);
-  const [allItemsSelected, setAllItemsSelected] = useState(false);
+  // const [allItemsSelected, setAllItemsSelected] = useState(false);
 
   const inputHandler = (e) => {
     name = e.target.name;
@@ -46,13 +40,11 @@ const AdminSellerList = () => {
   const handleDelete = (id) => {
     axios
 
-      .post("/api/deleteSellersAccount", { id: id })
+      .post("/api/deleteNavbarItems", { id: id })
 
       .then((data) => {
-
-        alert("Seller Account  Deleted"); 
+        alert("Menu Item Deleted");
       })
-
 
       .catch((err) => {
         console.log("Error during delete selected:", err);
@@ -62,13 +54,11 @@ const AdminSellerList = () => {
   const handleDeleteSelected = () => {
     axios
 
-      .post("/api/deleteSelectedSellersAccount", { ids: selectedItems })
+      .post("/api/deleteSelectedNavbarItems", { ids: selectedItems })
 
       .then((data) => {
-
-        alert("Selected Seller Account  Deleted"); 
+        alert("Selected Menu Item Deleted");
       })
-   
 
       .catch((err) => {
         console.log("Error during delete selected:", err);
@@ -76,7 +66,7 @@ const AdminSellerList = () => {
   };
   useEffect(() => {
     axios
-      .get("/api/adminCustomersList")
+      .get("/api/navbarItemsList")
       .then((response) => {
         const data = response.data;
 
@@ -86,7 +76,6 @@ const AdminSellerList = () => {
         console.log("Error during Data:", err);
       });
   }, []);
-
 
   useEffect(() => {
     axios
@@ -106,6 +95,7 @@ const AdminSellerList = () => {
   if (Profile.userType !== "Admin") {
     return <div></div>;
   }
+
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
 
@@ -113,9 +103,8 @@ const AdminSellerList = () => {
 
     const searchResults = Data.post.filter((item) => {
       return (
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        String(item.phoneNo).toLowerCase().includes(searchTerm.toLowerCase())
+        item.cicularTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.cicularSubTitle.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
 
@@ -149,10 +138,10 @@ const AdminSellerList = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "1rem", marginRight: "2rem" }}
+        style={{ marginTop: "3rem", marginRight: "2rem" }}
       >
         <div className="container-fluid">
-          <div className="row justify-content-end">
+          <div className="row justify-subItems-end">
             <div className="col-md-12 mt-3" style={{ marginLeft: "2rem" }}>
               <h1
                 style={{
@@ -162,7 +151,7 @@ const AdminSellerList = () => {
                   backgroundColor: "#708090",
                 }}
               >
-                List Of All Sellers&apos; Accounts
+                List Of Tags
               </h1>
               <div className="adminListsSearchBar">
                 <input
@@ -182,34 +171,23 @@ const AdminSellerList = () => {
                     />
                   </th>
                   <th>S No.</th>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Phone No.</th>
-                  <th>Email</th>
-                  <th>Gender</th>
-                  <th>Age</th>
-
-                  <th>Address</th>
-                  <th>Email-Verification</th>
-                  <th>Blocked</th>
-                  <th>Profile</th>
+                  <th>Menu Name</th>
+                  <th>Menu Icon (Font-Awesome Classes Only)</th>
+                  <th>Sub-Menu Names</th>
+                  <th>Created By</th>
+                  <th>Date</th>
 
                   <th>Delete</th>
                 </thead>
                 {currentItems.map(
                   (
                     {
-                      name,
-                      userImage,
-                      email,
-                      gender,
-                      age,
-                      emailVerification,
-                      isBlocked,
-                      phoneNo,
-                      state,
-                      district,
-                      location,
+                      itemName,
+                      itemLink,
+                      itemIcon,
+                      subItems,
+                      createdBy,
+                      dateOfFormSubmission,
                       _id,
                     },
                     index
@@ -230,70 +208,49 @@ const AdminSellerList = () => {
                               />
                             </td>
                             <td>{indexOfFirstItem + index + 1}</td>
-                            <td>
-                              {" "}
-                              <img
-                                src={userImage.data}
-                                alt="user-photo"
-                                style={{ height: "10vh", width: "8vw" }}
-                              />
-                            </td>
-                            <td>{name}</td>
 
-                            <td>{phoneNo}</td>
-                            <td>{email}</td>
-                            <td>{gender}</td>
-                            <td>{age}</td>
+                            <td>
+                              {itemName} :{" "}
+                              <a
+                                href={itemLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {itemLink}
+                              </a>
+                            </td>
+                            <td>
+                              {itemIcon} :{" "}
+                             <i style={{fontSize:"x-large"}} className={itemIcon}></i>
+                              
+                              {/* <i dangerouslySetInnerHTML={itemIcon} ></i> */}
+                            </td>
+                            <td>
+                              <ol>
+                                {subItems.map((item, index) => (
+                                  <li key={index}>
+                                    {item.name} : 
+                                    
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {item.link}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ol>
+                            </td>
 
-                            <td>{(location, district, state)}</td>
+                            <td>{createdBy}</td>
                             <td>
-                              {emailVerification === false ? (
-                                <i
-                                  className="fas fa-times fa-2x"
-                                  style={{ color: "red" }}
-                                ></i>
-                              ) : (
-                                <i
-                                  className="far fa-check-circle  fa-2x"
-                                  style={{ color: "green" }}
-                                ></i>
-                              )}
-                            </td>
-                            <td>
-                              {isBlocked === false ? (
-                                <i
-                                  className="fas fa-times fa-2x"
-                                  style={{ color: "red" }}
-                                ></i>
-                              ) : (
-                                <i
-                                  className="far fa-check-circle  fa-2x"
-                                  style={{ color: "green" }}
-                                ></i>
-                              )}
-                            </td>
-                            <td>
-                              <form method="POST" action="/updateArticle">
-                                <input
-                                  type="hidden"
-                                  name="_id"
-                                  value={_id}
-                                  onChange={inputHandler}
-                                ></input>
-                                <button
-                                  type="submit"
-                                  className=" btn btn-info px-3"
-                                  onClick={function () {
-                                    navigate("/Scale1EmpAdminProfile", {
-                                      state: {
-                                        id: _id,
-                                      },
-                                    });
-                                  }}
-                                >
-                                  <i className="fas fa-user"></i>
-                                </button>
-                              </form>
+                              {new Date(
+                                new Date(dateOfFormSubmission).getTime() -
+                                  19800000
+                              )
+                                .toUTCString()
+                                .slice(0, -12)}
                             </td>
 
                             <td>
@@ -352,4 +309,4 @@ const AdminSellerList = () => {
   );
 };
 
-export default AdminSellerList;
+export default ShowAllTags;

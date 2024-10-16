@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import $ from "jquery"; // import jQuery
 import { useState } from "react";
+import axios from "axios";
 
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
@@ -31,32 +32,20 @@ const AdminSidebar = () => {
 
   const subBtnRefs = useRef([]);
 
-  const UserDetails = async () => {
-    try {
-      const res = await fetch("/api/empProfile", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
+  useEffect(() => {
+    axios
+      .get("/api/userProfile")
+      .then(async (response) => {
+        const data = await response.data;
+
+        setUser(data);
+
+        console.log("data fetched successfully");
+      })
+      .catch((err) => {
+        console.log(`Error during catch of setProfile -  ${err}`);
       });
-
-      const data = await res.json();
-
-      setUser(data);
-
-      if (!res === 200) {
-        throw new Error(`Error during retreive data - ${Error}`);
-      }
-
-      if (!res === 200) {
-        throw new Error(`Error during retreive data - ${Error}`);
-      }
-    } catch (err) {
-      console.log(`Error during catch of User's Data -  ${err}`);
-    }
-  };
+  }, []);
 
   const handleMenuBtnClick = () => {
     setSidebarActive(true);
@@ -79,13 +68,11 @@ const AdminSidebar = () => {
       .classList.toggle("rotate");
   };
 
-  useEffect(() => {
-    UserDetails();
-  }, []);
 
-  // if (user.scale !== 4 && user.scale !== 5) {
-  //   return <div></div>;
-  // }
+
+  if (user.userType !== "Admin") {
+    return <div></div>;
+  }
   return (
     <>
       <div
@@ -151,25 +138,17 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={() => handleSubBtnClick(1)}
             >
-              <GroupIcon /> Add Bank Employees
+              <GroupIcon /> Tags
               <i className="fas fa-angle-right dropdown"></i>
             </a>
             <div className="sub-menu">
-              <a href="/Scale1Registration" className="sub-item">
-                Scale I Employees
+              <a href="/NewTag" className="sub-item">
+                Add New Tag
               </a>
-              <a href="/Scale2Registration" className="sub-item">
-                Scale II Employees
+              <a href="/ShowAllTags" className="sub-item">
+                Show All Tags
               </a>
-              <a href="/Scale3Registration" className="sub-item">
-                Scale III Employees
-              </a>
-              <a href="/Scale4Registration" className="sub-item">
-                Scale IV Employees
-              </a>
-              <a href="/TechnincalStaffRegistration" className="sub-item">
-                Technical Staff
-              </a>
+            
             </div>
           </div>
 
@@ -179,28 +158,17 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={() => handleSubBtnClick(2)}
             >
-              <GroupIcon /> Employees Info.
+              <GroupIcon /> Navbar Items
               <i className="fas fa-angle-right dropdown"></i>
             </a>
             <div className="sub-menu">
-              <a href="/Scale1EmpList" className="sub-item">
-                Scale I Employees
+              <a href="/NewNavbarItem" className="sub-item">
+                Add Navbar Item
               </a>
-              <a href="/Scale2EmpList" className="sub-item">
-                Scale II Employees
+              <a href="/ShowAllNavbarItems" className="sub-item">
+                Show Navbar Items
               </a>
-              <a href="/Scale3EmpList" className="sub-item">
-                Scale III Employees
-              </a>
-              <a href="/Scale4EmpList" className="sub-item">
-                Scale IV Employees
-              </a>
-              <a href="/Scale5EmpList" className="sub-item">
-                Scale V Employees
-              </a>
-              <a href="/TechnicalStaffEmpList" className="sub-item">
-                Technical Staff
-              </a>
+             
             </div>
           </div>
 

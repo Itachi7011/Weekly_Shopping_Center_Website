@@ -4,10 +4,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 // import { ToastContainer, toast } from "react-toastify";
-const Scale1EmpList = () => {
+const AdminCustomersList = () => {
   let name, value;
   const navigate = useNavigate();
-  const [UserType, setUserType] = useState("");
+  // const [UserType, setUserType] = useState("");
   const [Data, setData] = useState({ post: [] });
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,7 +15,6 @@ const Scale1EmpList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  // These 3 are React alert setStates
 
   const [user, setUser] = useState({
     title: "",
@@ -50,16 +49,10 @@ const Scale1EmpList = () => {
       .post("/api/deleteSellersAccount", { id: id })
 
       .then((data) => {
-        // console.log("Selected bank offers deleted:", response.data);
 
-        alert("Saving Account Request Deleted"); // display success message
-        // alert("Selected Articles Deleted Successfully.")
+        alert("Saving Account  Deleted"); 
       })
-      // .then((data) => {
 
-      // alert("Selected Articles ", data); // display success message
-
-      // })
 
       .catch((err) => {
         console.log("Error during delete selected:", err);
@@ -72,16 +65,10 @@ const Scale1EmpList = () => {
       .post("/api/deleteSelectedSSellersAccount", { ids: selectedItems })
 
       .then((data) => {
-        // console.log("Selected bank offers deleted:", response.data);
 
-        alert("Selected Saving Account Requests Deleted"); // display success message
-        // alert("Selected Articles Deleted Successfully.")
+        alert("Selected Saving Account  Deleted"); 
       })
-      // .then((data) => {
 
-      // alert("Selected Articles ", data); // display success message
-
-      // })
 
       .catch((err) => {
         console.log("Error during delete selected:", err);
@@ -99,13 +86,10 @@ const Scale1EmpList = () => {
         console.log("Error during Data:", err);
       });
   }, []);
-  //   useEffect(() => {
-  //     UserDetails();
-  //   }, []);
 
   useEffect(() => {
     axios
-      .get("/api/empProfile")
+      .get("/api/userProfile")
       .then(async (response) => {
         const data = await response.data;
 
@@ -121,15 +105,9 @@ const Scale1EmpList = () => {
   console.log("Profile is : ",Profile)
 
 
-  // if (![1, 2, 3, 4, 5, "1", "2", "3", "4", "5"].includes(Profile.scale)) {
-  //   return (
-  //     <div>
-  //       <h2 style={{ textAlign: "center", width: "70%", margin: "4rem auto" }}>
-  //         Sorry You Are Not Authorised To Visit This Page
-  //       </h2>
-  //     </div>
-  //   );
-  // }
+  if (Profile.userType !== "Admin") {
+    return <div></div>;
+  }
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
@@ -377,4 +355,4 @@ const Scale1EmpList = () => {
   );
 };
 
-export default Scale1EmpList;
+export default AdminCustomersList;
