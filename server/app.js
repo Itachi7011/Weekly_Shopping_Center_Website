@@ -7,6 +7,7 @@ const os = require("os");
 const moment = require("moment");
 const si = require("systeminformation");
 const exec = require("child_process").exec;
+const shortid = require("shortid");
 
 const mongoose = require("mongoose");
 const alert = require("electron-alert");
@@ -25,7 +26,7 @@ const cors = require("cors");
 app.use(cors());
 
 require("./database/connection");
-const authenticate = require("./authenticate/customerAuthenticate")
+const authenticate = require("./authenticate/customerAuthenticate");
 
 const PORT = process.env.PORT;
 
@@ -39,8 +40,8 @@ const SocialMediaDB = require("./database/schema/socialMedia");
 const PhoneAndEmailDB = require("./database/schema/phoneAndEmail");
 const TagsDB = require("./database/schema/tags");
 const NavbarItemsDB = require("./database/schema/navbarItems");
-
-
+const MarketsDB = require("./database/schema/markets/markets");
+const ProductsDB = require("./database/schema/products/products");
 
 const CloudinaryDB = process.env.CLOUD_NAME;
 const CloudinaryAPIKey = process.env.API_KEY;
@@ -89,50 +90,45 @@ const NewUserRegistrationMulter = multer({
 
     cb(null, true);
   },
-}).fields([
-  { name: "userImage", minCount: 0, maxCount: 1 },
-]);
+}).fields([{ name: "userImage", minCount: 0, maxCount: 1 }]);
 
-app.post("/api/newUserRegistration", NewUserRegistrationMulter, async (req, res) => {
-  console.log(req.files);
-  try {
+app.post(
+  "/api/newUserRegistration",
+  NewUserRegistrationMulter,
+  async (req, res) => {
+    console.log(req.files);
+    try {
+      console.log(req.body);
+      console.log(req.files);
+      const Password = req.body.password;
+      const Cpassword = req.body.cpassword;
+      const Email = req.body.email;
+      const PhoneNo = req.body.phoneNo;
+      const FirstName = req.body.firstName;
+      const LastName = req.body.lastName;
+      const FullName = FirstName + " " + LastName;
 
-    console.log(req.body)
-    console.log(req.files)
-    const Password = req.body.password;
-    const Cpassword = req.body.cpassword;
-    const Email = req.body.email;
-    const PhoneNo = req.body.phoneNo;
-    const FirstName = req.body.firstName;
-    const LastName = req.body.lastName;
-    const FullName = FirstName + " " + LastName;
+      // Already Used Emails
 
-    // Already Used Emails
+      const UsedEmail = await UsersDB.findOne({ email: Email });
 
-    const UsedEmail = await UsersDB.findOne({ email: Email });
- 
+      // Already Used Phone Numbers
 
-    // Already Used Phone Numbers
+      const UsedPhoneNo = await UsersDB.findOne({
+        phoneNo: PhoneNo,
+      });
 
-    const UsedPhoneNo = await UsersDB.findOne({
-      phoneNo: PhoneNo,
-    });
-    
-
-    // Now acutal coding for registration
-    if (Password === Cpassword) {
-      if (UsedEmail) {
-        alert("Sorry , This Email Id is already registered!");
-        console.log("Sorry , This Email Id is already registered!");
-      } else {
-        if (
-          UsedPhoneNo
-        ) {
-          alert(
-            "Sorry Phone Number is already registered! /n Please use another Phone Number."
-          );
-        
-        }  else {
+      // Now acutal coding for registration
+      if (Password === Cpassword) {
+        if (UsedEmail) {
+          alert("Sorry , This Email Id is already registered!");
+          console.log("Sorry , This Email Id is already registered!");
+        } else {
+          if (UsedPhoneNo) {
+            alert(
+              "Sorry Phone Number is already registered! /n Please use another Phone Number."
+            );
+          } else {
             function getAge(dateString) {
               var today = new Date();
               var birthDate = new Date(dateString);
@@ -167,7 +163,6 @@ app.post("/api/newUserRegistration", NewUserRegistrationMulter, async (req, res)
 
             let ConvertedFormSubmittedDate = intlDateObj.format(SubmittedDate);
 
-
             // userImage
 
             const userImage = req.files.userImage[0];
@@ -183,8 +178,6 @@ app.post("/api/newUserRegistration", NewUserRegistrationMulter, async (req, res)
             const cldResUserImageFile = await uploadToCloudinaryUsers(
               dataURIuserImageFile
             );
-
-        
 
             const employeedata = await new UsersDB({
               userType: req.body.userType,
@@ -209,28 +202,25 @@ app.post("/api/newUserRegistration", NewUserRegistrationMulter, async (req, res)
                 contentType: `image/${cldResUserImageFile.format}`,
               },
 
-
               password: req.body.password,
             });
 
             await employeedata.save();
             console.log("Saved in Database Successfully");
-           new alert(
+            new alert(
               `${FullName} Registered Successfully! \n Please Login to Continue`
             );
             // res.redirect("/EmployeeLogin");
-          } 
+          }
         }
-      
-    } else {
-      alert("Sorry! Password And Confirm Passwords do not match.");
+      } else {
+        alert("Sorry! Password And Confirm Passwords do not match.");
+      }
+    } catch (err) {
+      console.log(` Error During Registering Scale 1 Employees --> ${err} `);
     }
-  } catch (err) {
-    console.log(` Error During Registering Scale 1 Employees --> ${err} `);
   }
-});
-
-
+);
 
 app.post("/api/login", async (req, res) => {
   let token;
@@ -242,22 +232,19 @@ app.post("/api/login", async (req, res) => {
   const data1 = await UsersDB.findOne({
     email: Email,
   });
- 
+
   if (data1) {
     const isMatch = await bcryptjs.compare(Password, data1.password);
 
     if (isMatch === true) {
       const token = await data1.generateAuthToken();
-      await UsersDB.updateOne(
-        { _id: data1._id },
-        { status: "online" }
-      );
+      await UsersDB.updateOne({ _id: data1._id }, { status: "online" });
 
       res.cookie("cookies1", token, {
         expires: new Date(Date.now() + 2592000000),
         httpOnly: true,
       });
-      console.log("Login Successful")
+      console.log("Login Successful");
 
       res.redirect("/AdminCustomersList");
     } else if (isMatch === false) {
@@ -267,7 +254,6 @@ app.post("/api/login", async (req, res) => {
     }
   }
 });
-
 
 // Logout Function
 
@@ -289,29 +275,25 @@ app.get("/api/logout", authenticate, async (req, res) => {
 
     await model.updateOne({ _id: req.id }, { $set: { status: "offline" } });
     res.clearCookie("cookies1", { path: "/" });
-    console.log("cookies-deleted")
+    console.log("cookies-deleted");
     res.redirect("/Login");
   } catch (err) {
     console.log(`Error During Logout - ${err}`);
   }
 });
 
-
-
 // Customer Account APIs and deleting Functions
-
 
 app.get("/api/adminCustomersList", async (req, res) => {
   try {
-    const data = await UsersDB.find({userType:"Customer"});
-    console.log(data)
+    const data = await UsersDB.find({ userType: "Customer" });
+    console.log(data);
 
     res.send(data);
   } catch (err) {
     console.log(err);
   }
 });
-
 
 app.post("/api/deleteCustomerAccount", async (req, res) => {
   try {
@@ -320,7 +302,6 @@ app.post("/api/deleteCustomerAccount", async (req, res) => {
     });
     console.log("Customer Account Deleted from Database Successfully");
     res.send({ status: "OK", data: "Deleted" });
-
   } catch (err) {
     console.log(err);
     res.redirect("/failure-message");
@@ -336,7 +317,9 @@ app.post("/api/deleteSelectedSCustomerAccount", async (req, res) => {
     await UsersDB.deleteMany({
       _id: { $in: objectIds },
     });
-    console.log("Selected Customer Accounts Deleted from Database Successfully");
+    console.log(
+      "Selected Customer Accounts Deleted from Database Successfully"
+    );
     res.send({ status: "OK", data: "Deleted" });
   } catch (err) {
     console.log(err);
@@ -344,13 +327,12 @@ app.post("/api/deleteSelectedSCustomerAccount", async (req, res) => {
   }
 });
 
-
 // Sellers Account APIs and deleting Functions
 
 app.get("/api/adminSellersList", async (req, res) => {
   try {
-    const data = await UsersDB.find({userType:"Seller"});
-    console.log(data)
+    const data = await UsersDB.find({ userType: "Seller" });
+    console.log(data);
 
     res.send(data);
   } catch (err) {
@@ -365,7 +347,6 @@ app.post("/api/deleteSellersAccount", async (req, res) => {
     });
     console.log("Sellers Account Deleted from Database Successfully");
     res.send({ status: "OK", data: "Deleted" });
-
   } catch (err) {
     console.log(err);
     res.redirect("/failure-message");
@@ -389,14 +370,12 @@ app.post("/api/deleteSelectedSellersAccount", async (req, res) => {
   }
 });
 
-
-
 // Admins Account APIs and deleting Functions
 
 app.get("/api/adminsList", async (req, res) => {
   try {
-    const data = await UsersDB.find({userType:"Admin"});
-    console.log(data)
+    const data = await UsersDB.find({ userType: "Admin" });
+    console.log(data);
 
     res.send(data);
   } catch (err) {
@@ -411,7 +390,6 @@ app.post("/api/deleteAdminAccount", async (req, res) => {
     });
     console.log("Admin Account Deleted from Database Successfully");
     res.send({ status: "OK", data: "Deleted" });
-
   } catch (err) {
     console.log(err);
     res.redirect("/failure-message");
@@ -435,28 +413,24 @@ app.post("/api/deleteSelectedAdminsAccount", async (req, res) => {
   }
 });
 
-
 //    Tags
 
-app.post(
-  "/api/addTag",  async (req, res) => {
-    try {
-
-      const userData = await new TagsDB({
-        tagName: req.body.tagName,
-        content: req.body.content,
-        createdBy: req.body.createdBy,
-        dateOfFormSubmission: new Date(),
-      });
-      await userData.save();
-      console.log("New Tag Added in Database Successfully");
-      res.send({ status: "Ok", data: "New Tag Saved." });
-    } catch (err) {
-      console.log(err);
-      res.redirect("/failure-message");
-    }
+app.post("/api/addTag", async (req, res) => {
+  try {
+    const userData = await new TagsDB({
+      tagName: req.body.tagName,
+      content: req.body.content,
+      createdBy: req.body.createdBy,
+      dateOfFormSubmission: new Date(),
+    });
+    await userData.save();
+    console.log("New Tag Added in Database Successfully");
+    res.send({ status: "Ok", data: "New Tag Saved." });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
   }
-);
+});
 
 app.get("/api/tagsList", async (req, res) => {
   try {
@@ -497,32 +471,28 @@ app.post("/api/deleteSelectedTags", async (req, res) => {
   }
 });
 
-
 //    Navbar Items
 
-app.post(
-  "/api/addNavbarItems",  async (req, res) => {
-    try {
-      console.log(req.body)
+app.post("/api/addNavbarItems", async (req, res) => {
+  try {
+    console.log(req.body);
 
-
-      const userData = await new NavbarItemsDB({
-        itemName: req.body.itemName,
-        itemLink: req.body.itemLink,
-        itemIcon: req.body.itemIcon,
-        subItems: JSON.parse(req.body.subItems),
-        createdBy: req.body.createdBy,
-        dateOfFormSubmission: new Date(),
-      });
-      await userData.save();
-      console.log("New Navbar Items Added in Database Successfully");
-      res.send({ status: "Ok", data: "New Tag Saved." });
-    } catch (err) {
-      console.log(err);
-      res.redirect("/failure-message");
-    }
+    const userData = await new NavbarItemsDB({
+      itemName: req.body.itemName,
+      itemLink: req.body.itemLink,
+      itemIcon: req.body.itemIcon,
+      subItems: JSON.parse(req.body.subItems),
+      createdBy: req.body.createdBy,
+      dateOfFormSubmission: new Date(),
+    });
+    await userData.save();
+    console.log("New Navbar Items Added in Database Successfully");
+    res.send({ status: "Ok", data: "New Tag Saved." });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
   }
-);
+});
 
 app.get("/api/navbarItemsList", async (req, res) => {
   try {
@@ -563,6 +533,248 @@ app.post("/api/deleteSelectedNavbarItems", async (req, res) => {
   }
 });
 
+//    Markets
+
+const uploadToCloudinaryMarkets = async (file) => {
+  try {
+    console.log("upload starts");
+    const result = await cloudinary.uploader.upload(file, {
+      folder: "W_Mark_Markets",
+      resource_type: "auto",
+    });
+    console.log(result);
+
+    return result;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+const MarketsImageMulter = multer({
+  storage: cloudinaryStorage,
+
+  limits: {
+    fileSize: 10 * 1024 * 1024, // Limit file size to 10MB
+  },
+
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
+      // Allow only image files
+
+      return cb(new Error("Please upload an image (JPG, JPEG or PNG)."));
+    }
+
+    cb(null, true);
+  },
+}).fields([{ name: "photo", minCount: 1, maxCount: 1 }]);
+
+app.post("/api/addMarkets", MarketsImageMulter, async (req, res) => {
+  try {
+    const photo = req.files.photo[0];
+
+    const bufferlogo = photo.buffer;
+
+    const b64logoFile = Buffer.from(bufferlogo).toString("base64");
+
+    const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
+
+    const cldResLogoFile = await uploadToCloudinaryMarkets(dataURIlogoFile);
+
+    const userData = await new MarketsDB({
+      name: req.body.name,
+      state: req.body.state,
+      district: req.body.district,
+      location: req.body.location,
+      totalShops: req.body.totalShops,
+      speciality: JSON.parse(req.body.speciality),
+      createdBy: req.body.createdBy,
+      dateOfFormSubmission: new Date(),
+      photo: {
+        data: cldResLogoFile.secure_url,
+        originalFileName: photo.originalname,
+        publicId: cldResLogoFile.public_id,
+        contentType: `image/${cldResLogoFile.format}`,
+      },
+    });
+
+    await userData.save();
+    console.log("New Market Added in Database Successfully");
+    res.send({ status: "Ok", data: "New Tag Saved." });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.get("/api/marketsList", async (req, res) => {
+  try {
+    const data = await MarketsDB.find();
+    res.send(data);
+  } catch (err) {
+    console.log(`Error during sending Market List -${err}`);
+  }
+});
+
+app.post("/api/deleteMarket", async (req, res) => {
+  try {
+    await MarketsDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Market Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedMarket", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await MarketsDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Market Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+//    Products
+
+const uploadToCloudinaryProducts = async (file) => {
+  try {
+    console.log("upload starts");
+    const result = await cloudinary.uploader.upload(file, {
+      folder: "W_Mark_Products",
+      resource_type: "auto",
+    });
+    console.log(result);
+
+    return result;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+const ProductsImageMulter = multer({
+  storage: cloudinaryStorage,
+
+  limits: {
+    fileSize: 10 * 1024 * 1024, // Limit file size to 10MB
+  },
+
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
+      // Allow only image files
+
+      return cb(new Error("Please upload an image (JPG, JPEG or PNG)."));
+    }
+
+    cb(null, true);
+  },
+}).fields([{ name: "images", minCount: 1, maxCount: 4 }]);
+
+app.post("/api/addProducts", ProductsImageMulter, async (req, res) => {
+  try {
+    const projectImageRaw = req.files.images;
+
+    const projectImage = await Promise.all(
+      projectImageRaw.map((file) => uploadToCloudinaryMultipleFiles(file))
+    );
+
+    const processedImages = projectImage.map((cldRes) => ({
+      data: cldRes.secure_url,
+
+      publicId: cldRes.public_id,
+      originalFileName: cldRes.original_filename + "." + cldRes.format,
+
+      contentType: `image/${cldRes.format}`,
+    }));
+
+    //
+    let productId;
+    do {
+      productId = shortid.generate();
+    } while (await ProductsDB.findOne({ id: productId }));
+    const userData = await new ProductsDB({
+      // id
+      id: productId,
+      name: req.body.name,
+      category: req.body.category,
+      subCategory: req.body.subCategory,
+      price: req.body.price,
+      brand: req.body.brand,
+      model: req.body.model,
+      size: req.body.size,
+      color: req.body.color,
+      weight: req.body.weight,
+      dimensions: req.body.dimensions,
+      discount: req.body.discount,
+      stock_quantity: req.body.stock_quantity,
+      youtubeUrl: req.body.youtubeUrl,
+      description: req.body.description,
+      status: req.body.status,
+      tags: JSON.parse(req.body.tags),
+      createdBy: req.body.createdBy,
+      dateOfFormSubmission: new Date(),
+      images: processedImages,
+    });
+
+    await userData.save();
+    console.log("New Product Added in Database Successfully");
+    res.send({ status: "Ok", data: "New Tag Saved." });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.get("/api/productsList", async (req, res) => {
+  try {
+    const data = await ProductsDB.find();
+    res.send(data);
+  } catch (err) {
+    console.log(`Error during sending Product List -${err}`);
+  }
+});
+
+app.post("/api/deleteProduct", async (req, res) => {
+  try {
+    await ProductsDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Product Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedProduct", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await ProductsDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Product Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
 
 // Profile Funtions
 
@@ -573,30 +785,6 @@ app.get("/api/userProfile", authenticate, async (req, res) => {
     console.log(`Error during Employeee Profile Page -${err}`);
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.get("/api/uptime", async (req, res) => {
   const uptime = os.uptime();
@@ -678,7 +866,7 @@ app.get("/api/system-status", async (req, res) => {
         tx: networkInfo[0].tx,
       },
     };
-    console.log(systemStatus)
+    console.log(systemStatus);
 
     res.json(systemStatus);
   } catch (error) {
@@ -716,7 +904,6 @@ app.get("/api/response-time", (req, res) => {
   }, 2000); // simulate 2 seconds of work
 });
 
-
 app.listen(PORT, () => {
-    console.log("Server is running on : ", PORT);
-  });
+  console.log("Server is running on : ", PORT);
+});

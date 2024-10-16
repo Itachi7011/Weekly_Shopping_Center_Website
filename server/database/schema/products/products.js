@@ -1,51 +1,75 @@
 const mongoose = require("mongoose");
 const { buffer } = require("stream/consumers");
 
-const ArticleSchema = new mongoose.Schema({
-  title: {
+const ProductsSchema = new mongoose.Schema({
+  id: {
     type: String,
   },
-  metaTitle: {
+  name: {
+    type: String,
+  },
+  category: {
+    type: String,
+  },
+  subCategory: {
+    type: String,
+  },
+  price: {
+    type: String,
+  },
+  brand: {
+    type: String,
+  },
+  model: {
+    type: String,
+  },
+  size: {
+    type: String,
+  },
+  color: {
+    type: String,
+  },
+  weight: {
+    type: String,
+  },
+  dimensions: {
     type: String,
   },
 
-  metaKeyword: {
+  // Only Admin Can Apply This
+
+  discount: {
+    // Only Admin Can Apply This
+
+    type: String,
+    default:0
+  },
+  stock_quantity: {
     type: String,
   },
-  metaDescription: {
+  tags: [
+    {
+      type: String,
+    },
+  ],
+
+  images: [
+    {
+      data: String,
+      publicId: String,
+      contentType: String,
+    },
+  ],
+  youtubeUrl: {
     type: String,
   },
-  
-  articleCategory1: {
+  description: {
     type: String,
-    default:""
-  },
-  articleCategory: {
-    type: String,
-    default:""
-  },
-  articleContent: {
-    type: String,
-  },
-  metaDescription: {
-    type: String,
-  },
-  articleImage: {
-    data: String,
-    publicId:String,
-    contentType: String,
-  }, 
-   youtubeUrl: {
-    type: String,
-  },
-  developerName: {
-    type: String,
-    default:""
-  },projectName: {
-    type: String,
-    default:""
   },
   status: {
+    type: String,
+  },
+  createdBy: {
     type: String,
   },
   dateOfFormSubmission: {
@@ -53,8 +77,5 @@ const ArticleSchema = new mongoose.Schema({
   },
 });
 
-const NewArticles = new mongoose.model(
-  "Articles",
-  ArticleSchema
-);
-module.exports = NewArticles;
+const NewProduct = new mongoose.model("W_Mark_Products", ProductsSchema);
+module.exports = NewProduct;

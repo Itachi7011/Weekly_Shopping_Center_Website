@@ -35,6 +35,14 @@ import ShowAllTags from "./Components/Admin/Tags/ShowAllTags";
 import NewNavbarItem from "./Components/Admin/NavbarItems/NewNavbarItem";
 import ShowAllNavbarItems from "./Components/Admin/NavbarItems/ShowAllNavbarItems";
 
+// Markets
+import AddMarketData from "./Components/Admin/MarketsData/AddMarketData";
+import ShowMarketData from "./Components/Admin/MarketsData/ShowMarketData";
+
+// Products
+import AddProductData from "./Components/Admin/ProductsData/AddProductData";
+import ShowProductsData from "./Components/Admin/ProductsData/ShowProductsData";
+
 export const UserContext = createContext();
 
 function App() {
@@ -62,7 +70,10 @@ function App() {
           <Route path="/AdminsList" element={<AdminsList />}></Route>
 
           {/* Phone No. And Email And Settings */}
-          <Route path="/PhoneAndEmailAddress" element={<PhoneAndEmailAddress />}></Route>
+          <Route
+            path="/PhoneAndEmailAddress"
+            element={<PhoneAndEmailAddress />}
+          ></Route>
           <Route path="/SocialMedia" element={<SocialMedia />}></Route>
 
           {/* Tags */}
@@ -71,7 +82,24 @@ function App() {
 
           {/* Navbar Items */}
           <Route path="/NewNavbarItem" element={<NewNavbarItem />}></Route>
-          <Route path="/ShowAllNavbarItems" element={<ShowAllNavbarItems />}></Route>
+          <Route
+            path="/ShowAllNavbarItems"
+            element={<ShowAllNavbarItems />}
+          ></Route>
+
+          {/* Markets */}
+          <Route path="/AddMarketData" element={<AddMarketData />}></Route>
+          <Route
+            path="/ShowMarketData"
+            element={<ShowMarketData />}
+          ></Route>
+
+            {/* Products */}
+            <Route path="/AddProductData" element={<AddProductData />}></Route>
+          <Route
+            path="/ShowProductsData"
+            element={<ShowProductsData />}
+          ></Route>
         </Routes>
         <Footer />
       </BrowserRouter>

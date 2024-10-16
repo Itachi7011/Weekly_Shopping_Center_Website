@@ -180,15 +180,15 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={() => handleSubBtnClick(3)}
             >
-              <PersonAddIcon /> New A/C Requests
+              <PersonAddIcon /> Markets
               <i className="fas fa-angle-right dropdown"></i>
             </a>
             <div className="sub-menu">
-              <a href="/SavingAccountRequest" className="sub-item">
-                Saving A/C
+              <a href="/AddMarketData" className="sub-item">
+                Add New Market
               </a>
-              <a href="/CurrentAccountRequest" className="sub-item">
-                Current A/C
+              <a href="/ShowMarketData" className="sub-item">
+                Show All Markets
               </a>
             </div>
           </div>
@@ -199,15 +199,15 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={() => handleSubBtnClick(4)}
             >
-              <ThumbDownIcon /> Rejected A/C Requests
+              <ThumbDownIcon /> Products
               <i className="fas fa-angle-right dropdown"></i>
             </a>
             <div className="sub-menu">
-              <a href="/RejectedSavingAccount" className="sub-item">
-                Saving A/C
+              <a href="/AddProductData" className="sub-item">
+                Add New Product
               </a>
-              <a href="/RejectedCurrentAccount" className="sub-item">
-                Current A/C
+              <a href="/ShowProductsData" className="sub-item">
+                Show All Products
               </a>
             </div>
           </div>

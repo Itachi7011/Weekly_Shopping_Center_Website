@@ -154,7 +154,7 @@ const ShowMarketData = () => {
                   backgroundColor: "#708090",
                 }}
               >
-                List Of Markets
+                List Of Products
               </h1>
               <div className="adminListsSearchBar">
                 <input

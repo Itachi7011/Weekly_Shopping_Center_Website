@@ -20,17 +20,25 @@ const NewTag = () => {
   const [image, setImage] = useState("");
   const [Data, setData] = useState("");
   const [arr, setArr] = useState(inputArr);
-  const [speciality, setSpeciality] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [description, setDescription] = useState("");
 
   let name, value;
   const [user, setUser] = useState({
     name: "",
-    state: "",
-    district: "",
-    location: "",
-    totalShops: "",
-    speciality: "",
-    additionalComment: "",
+    category: "",
+    subCategory: "",
+    price: "",
+    brand: "",
+    model: "",
+    size: "",
+    color: "",
+    weight: "",
+    dimensions: "",
+    stock_quantity: "",
+    youtubeUrl: "",
+    status: "",
+    tags: "",
     frontPhoto: "",
     createdBy: "",
   });
@@ -77,7 +85,7 @@ const NewTag = () => {
   const handleSubItemChange = (e, index) => {
     const { value } = e.target;
 
-    setSpeciality((prevValues) => {
+    setTags((prevValues) => {
       const newValues = [...prevValues];
 
       newValues[index] = value;
@@ -104,19 +112,33 @@ const NewTag = () => {
     var bodyFormData = new FormData();
 
     bodyFormData.append("name", user.name);
-    bodyFormData.append("state", user.state);
-    bodyFormData.append("district", user.district);
-    bodyFormData.append("location", user.location);
-    bodyFormData.append("totalShops", user.totalShops);
-    bodyFormData.append("speciality", JSON.stringify(speciality));
+    bodyFormData.append("category", user.category);
+    bodyFormData.append("subCategory", user.subCategory);
+    bodyFormData.append("price", user.price);
+    bodyFormData.append("brand", user.brand);
+    bodyFormData.append("model", user.model);
+    bodyFormData.append("size", user.size);
+    bodyFormData.append("color", user.color);
+    bodyFormData.append("weight", user.weight);
+    bodyFormData.append("dimensions", user.dimensions);
+    bodyFormData.append("stock_quantity", user.stock_quantity);
+    bodyFormData.append("youtubeUrl", user.youtubeUrl);
+    bodyFormData.append("status", user.status);
 
-    bodyFormData.append("createdBy", Data.name);
+    bodyFormData.append("tags", JSON.stringify(tags));
+
+    bodyFormData.append("description", description);
+
+    bodyFormData.append(
+      "createdBy",
+      Data.name + " " + "(" + Data.userType + ")"
+    );
 
     bodyFormData.append("photo", image);
 
     try {
       const response = await axios.post(
-        "/api/addMarkets",
+        "/api/addProducts",
 
         bodyFormData,
 
@@ -166,7 +188,7 @@ const NewTag = () => {
                 className="text-center"
                 style={{ marginBottom: "1rem", color: "white" }}
               >
-                Add New Market Data
+                Add New Product Data
               </h3>
               <div
                 className="innerDiv container"
@@ -203,7 +225,7 @@ const NewTag = () => {
                       Photo :
                     </h6>
                     <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
-                      Speciality :
+                      Tags :
                     </h6>
                   </div>
                   <div className="col-lg-8">
@@ -274,6 +296,56 @@ const NewTag = () => {
                       />
                     )}
 
+                    <CKEditor
+                      config={{
+                        height: 800,
+                        toolbar: [
+                          "heading",
+                          "|",
+                          "bold",
+                          "italic",
+                          "blockQuote",
+                          "link",
+                          "numberedList",
+                          "bulletedList",
+                          "imageUpload",
+                          "insertTable",
+                          "tableColumn",
+                          "tableRow",
+                          "mergeTableCells",
+                          "mediaEmbed",
+                          "|",
+                          "undo",
+                          "redo",
+                        ],
+                      }}
+                      style={{
+                        maxWidth: "100%",
+                        height: "800px !important",
+                        maxHeight: "800px !important",
+                        marginBottom: "1rem",
+                      }}
+                      editor={ClassicEditor}
+                      onReady={(editor) => {
+                        editor.editing.view.document.on("change:data", () => {
+                          // debouncedHandleInput({
+                          //   target: {
+                          //     name: "project_specification",
+                          //     value: editor.getData(),
+                          //   },
+                          // });
+                        });
+                      }}
+                      onBlur={(event, editor) => {}}
+                      onFocus={(event, editor) => {}}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        console.log(data);
+                        setDescription(data);
+                      }}
+                      name="description"
+                    />
+
                     <div
                     // style={{ marginLeft: "0.1%" }}
                     >
@@ -283,10 +355,10 @@ const NewTag = () => {
                             <input
                               type="text"
                               style={{ fontWeight: "400", width: "100%" }}
-                              placeholder={`${i + 1} - Speciality `}
+                              placeholder={`${i + 1} - Tags `}
                               className="form-control mb-4"
                               onChange={(e) => handleSubItemChange(e, i)}
-                              value={speciality[i]} // Bind to type
+                              value={tags[i]} // Bind to type
                             />
                           </div>
                         );
