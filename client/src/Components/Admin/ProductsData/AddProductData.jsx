@@ -17,6 +17,7 @@ const NewTag = () => {
       value: "",
     },
   ];
+  
   const [image, setImage] = useState("");
   const [Data, setData] = useState("");
   const [arr, setArr] = useState(inputArr);
@@ -42,6 +43,7 @@ const NewTag = () => {
     frontPhoto: "",
     createdBy: "",
   });
+
   const UserDetails = async () => {
     try {
       const res = await fetch("/api/userProfile", {
