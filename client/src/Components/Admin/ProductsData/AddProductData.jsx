@@ -23,6 +23,7 @@ const NewTag = () => {
   const [arr, setArr] = useState(inputArr);
   const [tags, setTags] = useState([]);
   const [description, setDescription] = useState("");
+  
 
   let name, value;
   const [user, setUser] = useState({
@@ -43,7 +44,6 @@ const NewTag = () => {
     frontPhoto: "",
     createdBy: "",
   });
-
 
   const UserDetails = async () => {
     try {
@@ -71,7 +71,7 @@ const NewTag = () => {
       console.log(`Error during catch of User's Data -  ${err}`);
     }
   };
-  
+
   useEffect(() => {
     UserDetails();
   }, []);
