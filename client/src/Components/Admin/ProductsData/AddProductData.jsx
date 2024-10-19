@@ -44,6 +44,7 @@ const NewTag = () => {
     createdBy: "",
   });
 
+
   const UserDetails = async () => {
     try {
       const res = await fetch("/api/userProfile", {
@@ -70,6 +71,7 @@ const NewTag = () => {
       console.log(`Error during catch of User's Data -  ${err}`);
     }
   };
+  
   useEffect(() => {
     UserDetails();
   }, []);
