@@ -114,6 +114,7 @@ const ShowMarketData = () => {
     setSearchResults(searchResults);
   };
 
+
   const indexOfLastItem = currentPage * itemsPerPage;
 
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -124,6 +125,7 @@ const ShowMarketData = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  
 
   const handleSelectChange = (event, id) => {
     const { checked } = event.target;
