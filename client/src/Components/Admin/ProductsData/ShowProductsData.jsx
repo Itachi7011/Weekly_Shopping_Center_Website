@@ -125,7 +125,7 @@ const ShowMarketData = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  
+
 
   const handleSelectChange = (event, id) => {
     const { checked } = event.target;
@@ -157,6 +157,7 @@ const ShowMarketData = () => {
                 }}
               >
                 List Of Products
+                
               </h1>
               <div className="adminListsSearchBar">
                 <input
