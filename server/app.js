@@ -705,7 +705,6 @@ app.post("/api/addProducts", ProductsImageMulter, async (req, res) => {
       productId = shortid.generate();
     } while (await ProductsDB.findOne({ id: productId }));
     const userData = await new ProductsDB({
-      
       id: productId,
       name: req.body.name,
       category: req.body.category,
