@@ -680,11 +680,11 @@ const ProductsImageMulter = multer({
 
     cb(null, true);
   },
-}).fields([{ name: "images", minCount: 1, maxCount: 5 }]);
-
+}).fields([{ name: "images", minCount: 1, maxCount: 4 }]);
 
 app.post("/api/addProducts", ProductsImageMulter, async (req, res) => {
   try {
+    
     const projectImageRaw = req.files.images;
 
     const projectImage = await Promise.all(
