@@ -879,7 +879,9 @@ app.get("/api/system-status", async (req, res) => {
 let isConnected = false;
 
 mongoose.connection.once("open", () => {
+  
   isConnected = true;
+
 });
 
 app.get("/api/db-status", (req, res) => {
@@ -903,6 +905,7 @@ app.get("/api/response-time", (req, res) => {
     res.json({ responseTime: `${responseTime}ms` });
   }, 2000); // simulate 2 seconds of work
 });
+
 
 app.listen(PORT, () => {
   console.log("Server is running on : ", PORT);
