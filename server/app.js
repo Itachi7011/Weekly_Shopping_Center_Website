@@ -695,6 +695,7 @@ app.post("/api/addProducts", ProductsImageMulter, async (req, res) => {
       data: cldRes.secure_url,
 
       publicId: cldRes.public_id,
+      
       originalFileName: cldRes.original_filename + "." + cldRes.format,
 
       contentType: `image/${cldRes.format}`,
@@ -747,10 +748,12 @@ app.get("/api/productsList", async (req, res) => {
 });
 
 app.post("/api/deleteProduct", async (req, res) => {
-  try {
+  try { 
+
     await ProductsDB.deleteOne({
       _id: req.body.id,
     });
+
     console.log("Product Deleted Successfully");
     res.send({ status: "OK", data: "Deleted" });
   } catch (err) {
@@ -869,7 +872,9 @@ app.get("/api/system-status", async (req, res) => {
     console.log(systemStatus);
 
     res.json(systemStatus);
+
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({ error: "Failed to retrieve system status" });
