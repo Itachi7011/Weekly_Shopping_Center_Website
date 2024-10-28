@@ -684,7 +684,7 @@ const ProductsImageMulter = multer({
 
 app.post("/api/addProducts", ProductsImageMulter, async (req, res) => {
   try {
-    
+
     const projectImageRaw = req.files.images;
 
     const projectImage = await Promise.all(
@@ -695,7 +695,7 @@ app.post("/api/addProducts", ProductsImageMulter, async (req, res) => {
       data: cldRes.secure_url,
 
       publicId: cldRes.public_id,
-      
+
       originalFileName: cldRes.original_filename + "." + cldRes.format,
 
       contentType: `image/${cldRes.format}`,
@@ -748,7 +748,7 @@ app.get("/api/productsList", async (req, res) => {
 });
 
 app.post("/api/deleteProduct", async (req, res) => {
-  try { 
+  try {
 
     await ProductsDB.deleteOne({
       _id: req.body.id,
@@ -884,7 +884,7 @@ app.get("/api/system-status", async (req, res) => {
 let isConnected = false;
 
 mongoose.connection.once("open", () => {
-  
+
   isConnected = true;
 
 });
