@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { buffer } = require("stream/consumers");
 
-const W_Mark_Home_Page_TopNews = new mongoose.Schema({
+const W_Mark_Product_Page_Notifications2 = new mongoose.Schema({
     title: {
         type: String,
     },
@@ -18,15 +18,6 @@ const W_Mark_Home_Page_TopNews = new mongoose.Schema({
         publicId: String,
         contentType: String,
     },
-    images: [
-        {
-            data: String,
-            originalFileName: String,
-            publicId: String,
-            contentType: String,
-        },
-    ],
-
     status: {
         type: String,
         default: "Active"
@@ -37,8 +28,8 @@ const W_Mark_Home_Page_TopNews = new mongoose.Schema({
     },
 });
 
-const HomePageTopNews = new mongoose.model(
-    "W_Mark_Home_Page_TopNews",
-    W_Mark_Home_Page_TopNews
+const ProductPageNotifications2 = new mongoose.model(
+    "W_Mark_Product_Page_Notifications2",
+    W_Mark_Product_Page_Notifications2
 );
-module.exports = HomePageTopNews;
+module.exports = ProductPageNotifications2;

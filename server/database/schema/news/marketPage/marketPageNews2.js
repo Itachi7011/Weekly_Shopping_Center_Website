@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { buffer } = require("stream/consumers");
 
-const W_Mark_Home_Page_TopNews = new mongoose.Schema({
+const W_Mark_Market_Page_News2 = new mongoose.Schema({
     title: {
         type: String,
     },
@@ -37,8 +37,8 @@ const W_Mark_Home_Page_TopNews = new mongoose.Schema({
     },
 });
 
-const HomePageTopNews = new mongoose.model(
-    "W_Mark_Home_Page_TopNews",
-    W_Mark_Home_Page_TopNews
+const MarketPageNews2 = new mongoose.model(
+    "W_Mark_Market_Page_News2",
+    W_Mark_Market_Page_News2
 );
-module.exports = HomePageTopNews;
+module.exports = MarketPageNews2;
