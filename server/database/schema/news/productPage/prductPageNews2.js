@@ -11,7 +11,7 @@ const W_Mark_Product_Page_News2 = new mongoose.Schema({
     iconClass: {
         type: String,
     },
-    
+
     logoImage:
     {
         data: String,
