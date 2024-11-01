@@ -39,6 +39,7 @@ const EnquiryDB = require("./database/schema/enquiry");
 const SocialMediaDB = require("./database/schema/socialMedia");
 const PhoneAndEmailDB = require("./database/schema/phoneAndEmail");
 const TagsDB = require("./database/schema/tags");
+const CategoriesDB = require("./database/schema/categories");
 const NavbarItemsDB = require("./database/schema/navbarItems");
 const MarketsDB = require("./database/schema/markets/markets");
 const ProductsDB = require("./database/schema/products/products");
@@ -464,6 +465,65 @@ app.post("/api/deleteSelectedTags", async (req, res) => {
       _id: { $in: objectIds },
     });
     console.log("Selected Tag Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+
+//    Categories
+
+app.post("/api/addCategory", async (req, res) => {
+  try {
+    const userData = await new CategoriesDB({
+      tagName: req.body.tagName,
+      content: req.body.content,
+      createdBy: req.body.createdBy,
+      dateOfFormSubmission: new Date(),
+    });
+    await userData.save();
+    console.log("New Tag Added in Database Successfully");
+    res.send({ status: "Ok", data: "New Category Saved." });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.get("/api/categoriesList", async (req, res) => {
+  try {
+    const data = await CategoriesDB.find();
+    res.send(data);
+  } catch (err) {
+    console.log(`Error during sending Category List -${err}`);
+  }
+});
+
+app.post("/api/deleteCategory", async (req, res) => {
+  try {
+    await CategoriesDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Category Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedCategories", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await CategoriesDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Category Deleted Successfully");
     res.send({ status: "OK", data: "Deleted" });
   } catch (err) {
     console.log(err);

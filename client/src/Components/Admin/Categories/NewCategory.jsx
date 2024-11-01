@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-
 // import { useNavigate } from "react-router-dom";
 
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -10,40 +9,16 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 const NewTag = () => {
   // const navigate = useNavigate();
 
-  const inputArr = [
-    {
-      type: "text",
-      id: 1,
-      value: "",
-    },
-  ];
-  
-  const [image, setImage] = useState("");
+  const [content, setContent] = useState("");
   const [Data, setData] = useState("");
-  const [arr, setArr] = useState(inputArr);
-  const [tags, setTags] = useState([]);
-  const [description, setDescription] = useState("");
 
   let name, value;
   const [user, setUser] = useState({
-    name: "",
-    category: "",
-    subCategory: "",
-    price: "",
-    brand: "",
-    model: "",
-    size: "",
-    color: "",
-    weight: "",
-    dimensions: "",
-    stock_quantity: "",
-    youtubeUrl: "",
-    status: "",
-    tags: "",
-    frontPhoto: "",
+    categoryName: "",
+    content: "",
     createdBy: "",
+    dateOfFormSubmission: "",
   });
-
   const UserDetails = async () => {
     try {
       const res = await fetch("/api/userProfile", {
@@ -70,7 +45,6 @@ const NewTag = () => {
       console.log(`Error during catch of User's Data -  ${err}`);
     }
   };
-
   useEffect(() => {
     UserDetails();
   }, []);
@@ -85,76 +59,36 @@ const NewTag = () => {
     });
   };
 
-  const handleSubItemChange = (e, index) => {
-    const { value } = e.target;
-
-    setTags((prevValues) => {
-      const newValues = [...prevValues];
-
-      newValues[index] = value;
-
-      return newValues;
-    });
-  };
-
-  const addInput = () => {
-    setArr((s) => {
-      return [
-        ...s,
-        {
-          type: "text",
-          value: "",
-        },
-      ];
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     var bodyFormData = new FormData();
 
-    bodyFormData.append("name", user.name);
-    bodyFormData.append("category", user.category);
-    bodyFormData.append("subCategory", user.subCategory);
-    bodyFormData.append("price", user.price);
-    bodyFormData.append("brand", user.brand);
-    bodyFormData.append("model", user.model);
-    bodyFormData.append("size", user.size);
-    bodyFormData.append("color", user.color);
-    bodyFormData.append("weight", user.weight);
-    bodyFormData.append("dimensions", user.dimensions);
-    bodyFormData.append("stock_quantity", user.stock_quantity);
-    bodyFormData.append("youtubeUrl", user.youtubeUrl);
-    bodyFormData.append("status", user.status);
+    bodyFormData.append("categoryName", user.categoryName);
+    bodyFormData.append("createdBy", Data.name);
 
-    bodyFormData.append("tags", JSON.stringify(tags));
-
-    bodyFormData.append("description", description);
-
-    bodyFormData.append(
-      "createdBy",
-      Data.name + " " + "(" + Data.userType + ")"
-    );
-
-    bodyFormData.append("photo", image);
+    bodyFormData.append("content", content);
 
     try {
       const response = await axios.post(
-        "/api/addProducts",
+        "/api/addCategory",
 
         bodyFormData,
 
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         }
       );
       alert("New Tag added Successfully");
 
+      // request successful, refresh the page
+
       window.location.reload();
     } catch (error) {
+      //handle error
+
       console.log(error);
     }
   };
@@ -167,8 +101,11 @@ const NewTag = () => {
       <div
         className="addLocation"
         style={{
+          // zIndex: "20",
           width: "100%",
-
+          // margin: "7% auto",
+          // marginLeft: "7%",
+          // position: "absolute",
           textAlign: "left",
         }}
       >
@@ -191,7 +128,7 @@ const NewTag = () => {
                 className="text-center"
                 style={{ marginBottom: "1rem", color: "white" }}
               >
-                Add New Product Data
+                Add New Category
               </h3>
               <div
                 className="innerDiv container"
@@ -204,73 +141,22 @@ const NewTag = () => {
                 <div className="row">
                   <div className="col-12 col-lg-3 mt-2 ">
                     <h6 style={{ marginBottom: "2.7rem", fontSize: "1rem" }}>
-                      Name :
+                      Category Name :
                     </h6>
-                    <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
-                      Market :
-                    </h6>
-                   
 
-                    <h6
-                      style={{
-                        marginBottom: image ? "10rem" : "2.5rem",
-                        fontSize: "1rem",
-                      }}
-                    >
-                      Photo :
-                    </h6>
                     <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                       Details :
-                    </h6>
-                    <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
-                      Tags :
                     </h6>
                   </div>
                   <div className="col-lg-8">
                     <input
                       type="text"
-                      name="name"
+                      name="categoryName"
                       style={{ fontWeight: "400" }}
                       onChange={inputHandler}
-                      placeholder="Name"
-                      className="form-control mb-4"
-                    />
-                    <input
-                      type="text"
-                      name="market"
-                      style={{ fontWeight: "400" }}
-                      onChange={inputHandler}
-                      placeholder="State"
-                      className="form-control mb-4"
-                    />
-                   
-                   
-                   
-                    <input
-                      type="file"
-                      name="photo"
-                      style={{ fontWeight: "400" }}
-                      onChange={(e) => {
-                        setImage(e.target.files[0]);
-
-                        console.log(image);
-                      }}
                       placeholder=""
                       className="form-control mb-4"
                     />
-
-                    {image && (
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt="Preview"
-                        style={{
-                          width: "200px",
-                          height: "150px",
-                          marginLeft: "5rem",
-                          marginBottom: "1rem",
-                        }}
-                      />
-                    )}
 
                     <CKEditor
                       config={{
@@ -317,47 +203,11 @@ const NewTag = () => {
                       onChange={(event, editor) => {
                         const data = editor.getData();
                         console.log(data);
-                        setDescription(data);
+                        setContent(data);
                       }}
-                      name="description"
+                      name="content"
                     />
 
-                    <div
-                    // style={{ marginLeft: "0.1%" }}
-                    >
-                      {arr.map((item, i) => {
-                        return (
-                          <div key={i} className="col-lg-4">
-                            <input
-                              type="text"
-                              style={{ fontWeight: "400", width: "100%" }}
-                              placeholder={`${i + 1} - Tags `}
-                              className="form-control mb-4"
-                              onChange={(e) => handleSubItemChange(e, i)}
-                              value={tags[i]} // Bind to type
-                            />
-                          </div>
-                        );
-                      })}
-
-                      <br />
-                      <div>
-                        <button
-                          className="btn btn-primary"
-                          type="button"
-                          onClick={addInput}
-                          style={{
-                            marginLeft: "1rem",
-                            marginTop: "-3rem",
-                            padding: "0rem !important",
-                            height: "5px !important",
-                            fontSize: "large",
-                          }}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
 
                     <br />
                     <br />
