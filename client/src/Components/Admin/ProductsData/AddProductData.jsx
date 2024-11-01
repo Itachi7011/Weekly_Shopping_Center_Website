@@ -22,6 +22,7 @@ const NewTag = () => {
   const [Data, setData] = useState("");
   const [arr, setArr] = useState(inputArr);
   const [tags, setTags] = useState([]);
+  const [category, setCategory] = useState([]);
   const [description, setDescription] = useState("");
 
   let name, value;
@@ -75,6 +76,20 @@ const NewTag = () => {
     UserDetails();
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("/api/categoriesList")
+      .then((response) => {
+        const data = response.data;
+
+        setCategory( data );
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+
+  console.log("category:",category)
   const inputHandler = (e) => {
     name = e.target.name;
     value = e.target.value;
@@ -225,10 +240,10 @@ const NewTag = () => {
                     >
                       Photo :
                     </h6>
-                    <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
+                    <h6 style={{ marginBottom: "5.8rem", fontSize: "1rem" }}>
                       Details :
                     </h6>
-                    <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
+                    <h6 style={{ marginBottom: "3.8rem", fontSize: "1rem" }}>
                       Tags :
                     </h6>
                   </div>
@@ -252,19 +267,24 @@ const NewTag = () => {
 
                     <select
                       style={{
-                        height: "3.7vh",
+                        height: "5.3vh",
                         backgroundColor: "white",
                         borderRadius: "5px",
                         width: "100%",
                       }}
-                      name="projectFor"
+                      name="category"
                       className="form-control mb-4"
                       onChange={handleDropdownChange}
                       value={user.category}
                     >
-                      <option value=""></option>
-                      <option value="Sell">Sell</option>
-                      <option value="Rent">Rent</option>
+                      {
+                        category.map((item)=>{
+                          return(<>
+                          <option value={item.categoryName}> {item.categoryName} </option>
+                          </>)
+                        })
+                      }
+                      
                     </select>
 
                     <input
@@ -351,7 +371,7 @@ const NewTag = () => {
                           <div key={i} className="col-lg-4">
                             <input
                               type="text"
-                              style={{ fontWeight: "400", width: "100%" }}
+                              style={{ fontWeight: "400", width: "100%", marginTop:"2rem" }}
                               placeholder={`${i + 1} - Tags `}
                               className="form-control mb-4"
                               onChange={(e) => handleSubItemChange(e, i)}
