@@ -257,15 +257,15 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={() => handleSubBtnClick(7)}
             >
-              <DirectionsCarIcon /> Loans
+              <DirectionsCarIcon /> Categories
               <i className="fas fa-angle-right dropdown"></i>
             </a>
             <div className="sub-menu">
-              <a href="/CustomerSavingLoans" className="sub-item">
-                Add New Loan
+              <a href="/NewCategory" className="sub-item">
+                Add New Category
               </a>
-              <a href="/LoanRequestList" className="sub-item">
-                Show All Loan
+              <a href="/ShowAllCategories" className="sub-item">
+                Show All Categories
               </a>
             </div>
           </div>

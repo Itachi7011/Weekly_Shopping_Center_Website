@@ -17,7 +17,7 @@ const NewTag = () => {
       value: "",
     },
   ];
-  
+
   const [image, setImage] = useState("");
   const [Data, setData] = useState("");
   const [arr, setArr] = useState(inputArr);
@@ -95,6 +95,10 @@ const NewTag = () => {
 
       return newValues;
     });
+  };
+
+  const handleDropdownChange = (e) => {
+    setData({ ...user, [e.target.name]: e.target.value });
   };
 
   const addInput = () => {
@@ -209,7 +213,9 @@ const NewTag = () => {
                     <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                       Market :
                     </h6>
-                   
+                    <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
+                      Category :
+                    </h6>
 
                     <h6
                       style={{
@@ -243,9 +249,24 @@ const NewTag = () => {
                       placeholder="State"
                       className="form-control mb-4"
                     />
-                   
-                   
-                   
+
+                    <select
+                      style={{
+                        height: "3.7vh",
+                        backgroundColor: "white",
+                        borderRadius: "5px",
+                        width: "100%",
+                      }}
+                      name="projectFor"
+                      className="form-control mb-4"
+                      onChange={handleDropdownChange}
+                      value={user.category}
+                    >
+                      <option value=""></option>
+                      <option value="Sell">Sell</option>
+                      <option value="Rent">Rent</option>
+                    </select>
+
                     <input
                       type="file"
                       name="photo"
@@ -312,8 +333,8 @@ const NewTag = () => {
                           // });
                         });
                       }}
-                      onBlur={(event, editor) => {}}
-                      onFocus={(event, editor) => {}}
+                      onBlur={(event, editor) => { }}
+                      onFocus={(event, editor) => { }}
                       onChange={(event, editor) => {
                         const data = editor.getData();
                         console.log(data);

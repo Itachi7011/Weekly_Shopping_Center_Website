@@ -31,6 +31,12 @@ import SocialMedia from "./Components/Admin/ContactInfoAndSocialMedia/SocialMedi
 import NewTag from "./Components/Admin/Tags/NewTag";
 import ShowAllTags from "./Components/Admin/Tags/ShowAllTags";
 
+// Categories
+
+import NewCategory from "./Components/Admin/Categories/NewCategory";
+import ShowAllCategories from "./Components/Admin/Categories/ShowAllCategories";
+
+
 // Navbar Items
 import NewNavbarItem from "./Components/Admin/NavbarItems/NewNavbarItem";
 import ShowAllNavbarItems from "./Components/Admin/NavbarItems/ShowAllNavbarItems";
@@ -80,6 +86,10 @@ function App() {
           <Route path="/NewTag" element={<NewTag />}></Route>
           <Route path="/ShowAllTags" element={<ShowAllTags />}></Route>
 
+          {/* Categories */}
+          <Route path="/NewCategory" element={<NewCategory />}></Route>
+          <Route path="/ShowAllCategories" element={<ShowAllCategories />}></Route>
+
           {/* Navbar Items */}
           <Route path="/NewNavbarItem" element={<NewNavbarItem />}></Route>
           <Route
@@ -94,8 +104,8 @@ function App() {
             element={<ShowMarketData />}
           ></Route>
 
-            {/* Products */}
-            <Route path="/AddProductData" element={<AddProductData />}></Route>
+          {/* Products */}
+          <Route path="/AddProductData" element={<AddProductData />}></Route>
           <Route
             path="/ShowProductsData"
             element={<ShowProductsData />}

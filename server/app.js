@@ -478,7 +478,7 @@ app.post("/api/deleteSelectedTags", async (req, res) => {
 app.post("/api/addCategory", async (req, res) => {
   try {
     const userData = await new CategoriesDB({
-      tagName: req.body.tagName,
+      categoryName: req.body.categoryName,
       content: req.body.content,
       createdBy: req.body.createdBy,
       dateOfFormSubmission: new Date(),
