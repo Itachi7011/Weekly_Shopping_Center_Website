@@ -61,56 +61,26 @@ const AddNewproject = () => {
   const [constructionText, setConstructionText] = useState("");
   const [contactUsText, setContactUsText] = useState("");
 
-  const [User, setUser] = useState("");
-  const [data, setData] = useState({
-    ownerName: "",
-    email: "",
-    phoneNo: "",
-    projectListedBy: "",
-    userType: "",
-    projectType: "",
-    totalAmount: "",
-    area: "",
-    max_area: "",
-    min_area: "",
-    project_name: "",
-    projectFor: "",
-    metaKeyword: "",
-    metaDescription: "",
-    total_area: "",
-    open_area: "",
-    locationMap: "",
-    max_price: "",
-    constructionStatus: "",
-    youtube_URL: "",
-    developerName: "",
-    min_price: "",
+  const [data, setData] = useState("");
+  const [user, setUser] = useState({
+    name: "",
+    category: "",
+    subCategory: "",
     price: "",
-    rera_approval: "",
-    reg: "",
-    posession_date: "",
-    no_of_units: "",
-    no_of_floor: "",
-    no_of_tower: "",
-    bhkNumber: "",
-    masterPlan: "",
-    constructionTitle: "",
-    city: "",
-    location: "",
-    sub_location: "",
-    project_lane_address: "",
-    contactUsDetails: "",
-    specificationStatus: "Active",
-    locationMapStatus: "Active",
-    masterPlanStatus: "Active",
-    floorPlanStatus: "Active",
-    pricePlanStatus: "Active",
-    paymentPlanStatus: "Active",
-    e_brochureStatus: "Active",
-    constructionUpdateStatus: "Active",
-    contactUsStatus: "Active",
-    dateOfFormSubmission: "",
+    brand: "",
+    model: "",
+    size: "",
+    color: "",
+    weight: "",
+    dimensions: "",
+    stock_quantity: "",
+    youtubeUrl: "",
+    status: "",
+    tags: "",
+    frontPhoto: "",
+    createdBy: "",
   });
+
 
   const UserDetails = async () => {
     try {
@@ -125,7 +95,7 @@ const AddNewproject = () => {
 
       const data = await res.json();
 
-      setUser(data);
+      setData(data);
 
       if (!res === 200) {
         throw new Error(`Error during retreive data - ${Error}`);
@@ -138,67 +108,24 @@ const AddNewproject = () => {
       console.log(`Error during catch of User's Data -  ${err}`);
     }
   };
+
   useEffect(() => {
     UserDetails();
   }, []);
 
-  const getLocationsByCity = (city) => {
-    return Array.from(
-      Localities.post.filter((locality) => locality.city === city)
-    );
-  };
-
-  const getSubLocationsByLocation = (location) => {
-    return Array.from(
-      Localities.post.filter((locality) => locality.location === location)
-    );
-  };
-
   useEffect(() => {
     axios
-      .get("/api/localitiesList")
+      .get("/api/categoriesList")
       .then((response) => {
         const data = response.data;
 
-        setLocalities({ post: data });
+        setCategory( data );
       })
       .catch((err) => {
         console.log("Error during Data:", err);
       });
   }, []);
-
-  useEffect(() => {
-    axios
-      .get("/api/bankOfferList")
-      .then((response) => {
-        const data = response.data;
-
-        setBankOffers({ post: data });
-      })
-      .catch((err) => {
-        console.log("Error during Data:", err);
-      });
-  }, []);
-  useEffect(() => {
-    if (selectedCity) {
-      const filteredLocations = getLocationsByCity(selectedCity);
-
-      setLocations([...filteredLocations]); // Use the spread operator to ensure it's an array
-    } else {
-      setLocations([]);
-    }
-  }, [selectedCity]);
-
-  useEffect(() => {
-    if (selectedLocation) {
-      const filteredSubLocations = getSubLocationsByLocation(selectedLocation);
-
-      setSubLocations(filteredSubLocations);
-    } else {
-      setSubLocations([]);
-    }
-  }, [selectedLocation]);
-
+ 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const regRef = useRef(null);
@@ -438,13 +365,10 @@ const AddNewproject = () => {
               <Tab id="Project">Product</Tab>
               <Tab>Brand</Tab>
               <Tab id="LocationMap">Specifications</Tab>
-              <Tab id="MasterPlan">Master Plan</Tab>
-              <Tab id="FloorPlan">Floor Plan</Tab>
-              <Tab id="PricePlan">Price Plan</Tab>
-              <Tab id="PaymentPlan">Payment Plan</Tab>
-              <Tab id="Brochure">E-Brochure</Tab>
-              <Tab id="ConstructionUpdate">Construction Update</Tab>
-              <Tab id="ContactUs">Contact Us</Tab>
+              <Tab id="MasterPlan">Price Details</Tab>
+              <Tab id="FloorPlan">Stock Available</Tab>
+              <Tab id="PricePlan">Images & Videos</Tab>
+
             </TabList>
 
             <TabPanel>
@@ -1605,425 +1529,7 @@ const AddNewproject = () => {
                 </Container>
               </div>
             </TabPanel>
-            <TabPanel>
-              <div>
-                <Container
-                  component="main"
-                  maxWidth="lg"
-                  style={{
-                    marginTop: "2%",
-                    marginBottom: "2%",
-                    display: "block",
-                  }}
-                >
-                  <InputLabel
-                    id="demo-simple-select-label"
-                    style={{ marginTop: "2%", marginBottom: "1%" }}
-                  >
-                    <h3>Tab Content</h3>
-                  </InputLabel>
-                  <CKEditor
-                    config={{
-                      height: 600,
-                      toolbar: [
-                        "heading",
-                        "|",
-                        "bold",
-                        "italic",
-                        "blockQuote",
-                        "link",
-                        "numberedList",
-                        "bulletedList",
-                        "imageUpload",
-                        "insertTable",
-                        "tableColumn",
-                        "tableRow",
-                        "mergeTableCells",
-                        "mediaEmbed",
-                        "|",
-                        "undo",
-                        "redo",
-                      ],
-                    }}
-                    style={{
-                      maxWidth: "100%",
-                      height: "800px",
-                      marginBottom: "1rem",
-                    }}
-                    editor={ClassicEditor}
-                    onReady={(editor) => {
-                      editor.editing.view.document.on("change:data", () => {
-                        // debouncedHandleInput({
-                        //   target: {
-                        //     name: "project_specification",
-                        //     value: editor.getData(),
-                        //   },
-                        // });
-                      });
-                    }}
-                    onBlur={(event, editor) => { }}
-                    onFocus={(event, editor) => { }}
-                    onChange={debouncedOnChange3}
-                  />
-                  <br />
-                  <br />
-                  <Grid item xs={8}>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Upload Payment Plan Image
-                      <input
-                        type="file"
-                        name="paymentPlanImage"
-                        onChange={(e) => {
-                          setImage4(e.target.files[0]);
-                        }}
-                      />
-                    </Button>
-                  </Grid>
-                  <br />
-                  <Grid item xs={5}>
-                    <InputLabel id="demo-simple-select-label">
-                      Tab Status
-                    </InputLabel>
 
-                    <select
-                      style={{
-                        height: "5vh",
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "10%",
-                      }}
-                      name="paymentPlanStatus"
-                      value={data.paymentPlanStatus}
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                  </Grid>
-                  <br /> <br />
-                  <Grid item xs={8} style={{ textAlign: "center" }}>
-                    <Button
-                      type="button"
-                      variant="contained"
-                      color="primary"
-                      style={{ padding: "0.6rem 1.5rem" }}
-                      onClick={() => setTabIndex(tabIndex + 1)}
-                    >
-                      Next
-                    </Button>
-                  </Grid>
-                </Container>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              {" "}
-              <div>
-                <br />
-                <Container
-                  component="main"
-                  maxWidth="lg"
-                  style={{
-                    marginTop: "2%",
-                    marginBottom: "2%",
-                    display: "block",
-                  }}
-                >
-                  <Grid item xs={8}>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Upload E-Brochure Image
-                      <input
-                        type="file"
-                        name="e_brochureImage"
-                        onChange={(e) => {
-                          setImage5(e.target.files[0]);
-                        }}
-                      />
-                    </Button>
-                  </Grid>
-                  <br />
-                  <Grid item xs={5}>
-                    <InputLabel id="demo-simple-select-label">
-                      Tab Status
-                    </InputLabel>
-
-                    <select
-                      style={{
-                        height: "5vh",
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "10%",
-                      }}
-                      name="e_brochureStatus"
-                      value={data.e_brochureStatus}
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                  </Grid>
-                  <br /> <br />
-                  <Grid item xs={8} style={{ textAlign: "center" }}>
-                    <Button
-                      type="button"
-                      variant="contained"
-                      color="primary"
-                      style={{ padding: "0.6rem 1.5rem" }}
-                      onClick={() => setTabIndex(tabIndex + 1)}
-                    >
-                      Next
-                    </Button>
-                  </Grid>
-                </Container>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div>
-                <br />
-
-                <Container
-                  component="main"
-                  maxWidth="lg"
-                  style={{
-                    marginTop: "2%",
-                    marginBottom: "2%",
-                    display: "block",
-                  }}
-                >
-                  <Grid item xs={8}>
-                    <TextField
-                      placeholder="Title of Construction Update"
-                      label="Title"
-                      fullWidth
-                      type="text"
-                      name="constructionTitle"
-                      onChange={debouncedHandleInput}
-                    />
-                  </Grid>
-                  <br />
-                  <Grid item xs={8}>
-                    <CKEditor
-                      config={{
-                        height: 600,
-                        toolbar: [
-                          "heading",
-                          "|",
-                          "bold",
-                          "italic",
-                          "blockQuote",
-                          "link",
-                          "numberedList",
-                          "bulletedList",
-                          "imageUpload",
-                          "insertTable",
-                          "tableColumn",
-                          "tableRow",
-                          "mergeTableCells",
-                          "mediaEmbed",
-                          "|",
-                          "undo",
-                          "redo",
-                        ],
-                      }}
-                      style={{
-                        maxWidth: "100%",
-                        height: "800px",
-                        marginBottom: "1rem",
-                      }}
-                      editor={ClassicEditor}
-                      onReady={(editor) => {
-                        editor.editing.view.document.on("change:data", () => {
-                          // debouncedHandleInput({
-                          //   target: {
-                          //     name: "project_specification",
-                          //     value: editor.getData(),
-                          //   },
-                          // });
-                        });
-                      }}
-                      onBlur={(event, editor) => { }}
-                      onFocus={(event, editor) => { }}
-                      onChange={debouncedOnChange4}
-                    />
-                  </Grid>
-                  <br />
-                  <Grid item xs={8}>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Upload Construction Update Image
-                      <input
-                        type="file"
-                        name="constructionUpdateImage"
-                        onChange={(e) => {
-                          setImage6(e.target.files[0]);
-                        }}
-                      />
-                    </Button>
-                  </Grid>
-                  <br />
-                  <Grid item xs={5}>
-                    <InputLabel id="demo-simple-select-label">
-                      Tab Status
-                    </InputLabel>
-
-                    <select
-                      style={{
-                        height: "5vh",
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "10%",
-                      }}
-                      name="constructionUpdateStatus"
-                      value={data.constructionUpdateStatus}
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                  </Grid>
-                  <br /> <br />
-                  <Grid item xs={8} style={{ textAlign: "center" }}>
-                    <Button
-                      type="button"
-                      variant="contained"
-                      color="primary"
-                      style={{ padding: "0.6rem 1.5rem" }}
-                      onClick={() => setTabIndex(tabIndex + 1)}
-                    >
-                      Next
-                    </Button>
-                  </Grid>
-                </Container>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div>
-                <Container
-                  component="main"
-                  maxWidth="lg"
-                  style={{
-                    marginTop: "2%",
-                    marginBottom: "2%",
-                    display: "block",
-                  }}
-                >
-                  <InputLabel
-                    id="demo-simple-select-label"
-                    style={{ marginTop: "2%", marginBottom: "1%" }}
-                  >
-                    <h3>Tab Content</h3>
-                  </InputLabel>
-                  <CKEditor
-                    config={{
-                      height: 600,
-                      toolbar: [
-                        "heading",
-                        "|",
-                        "bold",
-                        "italic",
-                        "blockQuote",
-                        "link",
-                        "numberedList",
-                        "bulletedList",
-                        "imageUpload",
-                        "insertTable",
-                        "tableColumn",
-                        "tableRow",
-                        "mergeTableCells",
-                        "mediaEmbed",
-                        "|",
-                        "undo",
-                        "redo",
-                      ],
-                    }}
-                    style={{
-                      maxWidth: "100%",
-                      height: "800px",
-                      marginBottom: "1rem",
-                    }}
-                    editor={ClassicEditor}
-                    onReady={(editor) => {
-                      editor.editing.view.document.on("change:data", () => {
-                        // debouncedHandleInput({
-                        //   target: {
-                        //     name: "project_specification",
-                        //     value: editor.getData(),
-                        //   },
-                        // });
-                      });
-                    }}
-                    onBlur={(event, editor) => { }}
-                    onFocus={(event, editor) => { }}
-                    onChange={debouncedOnChange5}
-                  />
-                  <br />
-
-                  <br />
-
-                  <Grid item xs={8}>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Upload Contact Us Image
-                      <input
-                        type="file"
-                        name="contactUsImage"
-                        onChange={(e) => {
-                          setImage7(e.target.files[0]);
-                        }}
-                      />
-                    </Button>
-                  </Grid>
-                  <br />
-                  <Grid item xs={5}>
-                    <InputLabel id="demo-simple-select-label">
-                      Tab Status
-                    </InputLabel>
-
-                    <select
-                      style={{
-                        height: "5vh",
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "10%",
-                      }}
-                      name="contactUsStatus"
-                      value={data.contactUsStatus}
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                  </Grid>
-                  <Grid item xs={5} style={{ textAlign: "center" }}>
-                    <Button
-                      onClick={handleSubmit}
-                      variant="contained"
-                      style={{ padding: "0.6rem 1.5rem" }}
-                    >
-                      {" "}
-                      Save{" "}
-                    </Button>
-                  </Grid>
-                </Container>
-              </div>
-            </TabPanel>
           </Tabs>
         </div>
       </div>
