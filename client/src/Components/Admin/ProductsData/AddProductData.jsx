@@ -119,13 +119,13 @@ const AddNewproject = () => {
       .then((response) => {
         const data = response.data;
 
-        setCategory( data );
+        setCategory(data);
       })
       .catch((err) => {
         console.log("Error during Data:", err);
       });
   }, []);
- 
+
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const regRef = useRef(null);
@@ -383,31 +383,32 @@ const AddNewproject = () => {
                 }}
               >
                 <div>
-                  <Grid container spacing={2} rowSpacing={1.2}>
+                  <Grid container spacing={2} rowSpacing={2}>
                     {/* email address */}
-                    <Grid item xs={4}>
-                      Project Name
+
+                    <Grid item xs={10}>
                       <TextField
-                        placeholder="Project Name"
-                        // label="Project Name"
-                        size="small"
+                        placeholder="Please Enter Product Name"
+                        label="Product Name"
                         fullWidth
-                        name="project_name"
+                        name="posession_date"
                         onChange={debouncedHandleInput}
                       />
                     </Grid>
-                    <Grid item xs={4}>
-                      Meta Keyword{" "}
+
+
+                    <Grid item xs={10}>
+
                       <TextField
-                        placeholder="Meta Keyword"
+                        placeholder="Please Enter Market Name"
+                        label="Market Name"
                         fullWidth
-                        size="small"
                         name="metaKeyword"
                         onChange={debouncedHandleInput}
                       />
                     </Grid>
                     <br />
-                    <Grid item xs={4}>
+                    <Grid item xs={10}>
                       For{" "}
                       <select
                         style={{
@@ -425,7 +426,7 @@ const AddNewproject = () => {
                         <option value="Rent">Rent</option>
                       </select>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={10}>
                       Minimum Price{" "}
                       <TextField
                         placeholder="Minimum Price"
@@ -437,7 +438,7 @@ const AddNewproject = () => {
                       />
                     </Grid>
                     {/* last name */}
-                    <Grid item xs={4}>
+                    <Grid item xs={10}>
                       Maximum Price{" "}
                       <TextField
                         placeholder="Maximum Price"
@@ -456,7 +457,7 @@ const AddNewproject = () => {
                       rowSpacing={2}
                       style={{ marginLeft: "0.1%" }}
                     >
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         Minimum Area{" "}
                         <TextField
                           placeholder="Minimum Area"
@@ -468,7 +469,7 @@ const AddNewproject = () => {
                         />
                       </Grid>
                       {/* last name */}
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         Maximum Area{" "}
                         <TextField
                           placeholder="Maximum Area"
@@ -480,7 +481,7 @@ const AddNewproject = () => {
                         />
                       </Grid>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={10}>
                       <InputLabel id="demo-simple-select-label">
                         Project Type
                       </InputLabel>
@@ -502,7 +503,7 @@ const AddNewproject = () => {
                         <option value="Commercial Plot">Commercial Plot</option>
                       </select>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={10}>
                       <InputLabel id="demo-simple-select-label">
                         Select BHK
                       </InputLabel>
@@ -527,7 +528,7 @@ const AddNewproject = () => {
                         <option value="5+ BHK">5+ BHK</option>
                       </select>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={10}>
                       <InputLabel id="demo-simple-select-label">
                         Construction Status
                       </InputLabel>
@@ -558,7 +559,7 @@ const AddNewproject = () => {
                       spacing={2}
                       style={{ marginLeft: "0.1%" }}
                     >
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         <FormControl>
                           <FormLabel id="demo-radio-buttons-group-label">
                             Feature Project
@@ -587,7 +588,7 @@ const AddNewproject = () => {
                           </RadioGroup>
                         </FormControl>
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         <FormControl>
                           <FormLabel id="demo-radio-buttons-group-label">
                             RERA Approval
@@ -626,7 +627,7 @@ const AddNewproject = () => {
                       <br />
                       <Grid
                         item
-                        xs={4}
+                        xs={10}
                         ref={regRef}
                         style={{ display: "none" }}
                       >
@@ -646,7 +647,7 @@ const AddNewproject = () => {
                       rowSpacing={1}
                       style={{ marginLeft: "0.1%" }}
                     >
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         <TextField
                           placeholder=" USP"
                           label="USP"
@@ -657,7 +658,7 @@ const AddNewproject = () => {
                       </Grid>
                       {arr.map((item, i) => {
                         return (
-                          <Grid item xs={4}>
+                          <Grid item xs={10}>
                             <TextField
                               placeholder=" USP"
                               label="USP"
@@ -694,7 +695,7 @@ const AddNewproject = () => {
                       rowSpacing={1}
                       style={{ marginLeft: "0.1%", marginTop: "3rem" }}
                     >
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         <TextField
                           placeholder="Possession Date"
                           label="Possession Date"
@@ -703,7 +704,7 @@ const AddNewproject = () => {
                           onChange={debouncedHandleInput}
                         />
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         <TextField
                           placeholder=" No. Of Units"
                           label="No. Of Units"
@@ -712,7 +713,7 @@ const AddNewproject = () => {
                           onChange={debouncedHandleInput}
                         />
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         <TextField
                           placeholder=" No. Of Tower"
                           label="No. Of Tower"
@@ -721,7 +722,7 @@ const AddNewproject = () => {
                           onChange={debouncedHandleInput}
                         />
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         <TextField
                           placeholder=" No. Of Floor"
                           label="No. Of Floor"
@@ -730,7 +731,7 @@ const AddNewproject = () => {
                           onChange={debouncedHandleInput}
                         />
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         <TextField
                           placeholder=" Total Area"
                           label="Total Area"
@@ -739,7 +740,7 @@ const AddNewproject = () => {
                           onChange={debouncedHandleInput}
                         />
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         <TextField
                           placeholder=" Open Area"
                           label="Open Area"
@@ -932,7 +933,7 @@ const AddNewproject = () => {
                       </FormLabel>
                     </Grid>
                     <Grid container spacing={2} rowSpacing={2} item xs={12}>
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         City
                         <select
                           style={{
@@ -956,7 +957,7 @@ const AddNewproject = () => {
                         </select>
                       </Grid>
 
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         Location{" "}
                         <select
                           style={{
@@ -977,7 +978,7 @@ const AddNewproject = () => {
                         </select>
                       </Grid>
 
-                      <Grid item xs={4}>
+                      <Grid item xs={10}>
                         Sub - Location{" "}
                         <select
                           style={{
@@ -1027,112 +1028,110 @@ const AddNewproject = () => {
               </Container>
             </TabPanel>
             <TabPanel>
-              <div>
-                <Container
-                  component="main"
-                  maxWidth="lg"
-                  style={{
-                    marginTop: "2%",
-                    marginBottom: "2%",
-                    display: "block",
-                  }}
-                >
-                  <InputLabel
-                    id="demo-simple-select-label"
-                    style={{ marginTop: "2%", marginBottom: "1%" }}
-                  >
-                    <h3>
-                      Tab Content (Explain All Specifications Of Project )
-                    </h3>
-                  </InputLabel>
-                  <CKEditor
-                    config={{
-                      height: 600,
-                      toolbar: [
-                        "heading",
-                        "|",
-                        "bold",
-                        "italic",
-                        "blockQuote",
-                        "link",
-                        "numberedList",
-                        "bulletedList",
-                        "imageUpload",
-                        "insertTable",
-                        "tableColumn",
-                        "tableRow",
-                        "mergeTableCells",
-                        "mediaEmbed",
-                        "|",
-                        "undo",
-                        "redo",
-                      ],
-                    }}
-                    style={{
-                      maxWidth: "100%",
-                      height: "800px",
-                      marginBottom: "1rem",
-                    }}
-                    editor={ClassicEditor}
-                    onReady={(editor) => { }}
-                    onBlur={(event, editor) => { }}
-                    onFocus={(event, editor) => { }}
-                    onChange={debouncedOnChange6}
-                  />
-                  <br />
-                  <br />
-                  <Grid item xs={5}>
-                    <InputLabel id="demo-simple-select-label">
-                      Tab Status
-                    </InputLabel>
 
-                    <select
-                      style={{
-                        height: "5vh",
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "10%",
-                      }}
-                      name="specificationStatus"
+              <Container
+                component="main"
+                rowspacing={2}
+                maxWidth="xl"
+                style={{
+                  marginTop: "2%",
+                  marginBottom: "2%",
+                  display: "block",
+                }}
+              >
+                <Grid container spacing={2} rowSpacing={2}>
+
+                  <Grid item xs={10}>
+                    <TextField
+                      placeholder="Please Enter Brand Name"
+                      label="Brand Name"
+                      fullWidth
+                      name="metaKeyword"
                       onChange={debouncedHandleInput}
-                      value={data.specificationStatus}
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
+                    /> </Grid>
+                  <Grid item xs={10}>
+                    <TextField
+                      placeholder="Please Enter Model Name"
+                      label="Model Name"
+                      fullWidth
+                      name="metaKeyword"
+                      onChange={debouncedHandleInput}
+                    />
                   </Grid>
-                  <br /> <br />
-                  <Grid item xs={8} style={{ textAlign: "center" }}>
-                    <Button
-                      type="button"
-                      variant="contained"
-                      color="primary"
-                      style={{ padding: "0.6rem 1.5rem" }}
-                      onClick={() => setTabIndex(tabIndex + 1)}
-                    >
-                      Next
-                    </Button>
-                  </Grid>
-                </Container>
-              </div>
+
+                </Grid>
+
+
+
+
+
+                <br />
+
+
+                <br /> <br />
+                <Grid item xs={8} style={{ textAlign: "center" }}>
+                  <Button
+                    type="button"
+                    variant="contained"
+                    color="primary"
+                    style={{ padding: "0.6rem 1.5rem" }}
+                    onClick={() => setTabIndex(tabIndex + 1)}
+                  >
+                    Next
+                  </Button>
+                </Grid>
+              </Container>
+
             </TabPanel>
             <TabPanel>
               <div>
                 <Container
                   component="main"
-                  maxWidth="lg"
+                  rowspacing={2}
+                  maxWidth="xl"
                   style={{
                     marginTop: "2%",
                     marginBottom: "2%",
                     display: "block",
                   }}
                 >
+                  <Grid container spacing={2} rowSpacing={2}>
+
+                    <Grid item xs={10}>
+                      <TextField
+                        placeholder="Please Enter Product Dimensions"
+                        label="Product Dimensions"
+                        fullWidth
+                        name="metaKeyword"
+                        onChange={debouncedHandleInput}
+                      /> </Grid>
+                    <Grid item xs={10}>
+                      <TextField
+                        placeholder="Please Enter Product Weight"
+                        label="Product Weight"
+                        fullWidth
+                        name="metaKeyword"
+                        onChange={debouncedHandleInput}
+                      />
+                    </Grid>
+                    <Grid item xs={10}>
+                      <TextField
+                        placeholder="Please Enter Product Color"
+                        label="Product Color"
+                        fullWidth
+                        name="metaKeyword"
+                        onChange={debouncedHandleInput}
+                      />
+                    </Grid>
+
+
+                  </Grid>
                   {" "}
                   <InputLabel
                     id="demo-simple-select-label"
                     style={{ marginTop: "2%", marginBottom: "1%" }}
                   >
-                    <h3>Tab Content</h3>
+                    <h3>Detailed Specifications</h3>
                   </InputLabel>
                   <CKEditor
                     config={{
@@ -1171,46 +1170,10 @@ const AddNewproject = () => {
                     onChange={debouncedOnChange}
                   />
                   <br />
-                  <Grid item xs={8}>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Upload Location Map Image
-                      <input
-                        type="file"
-                        name="locationMapImage"
-                        onChange={(e) => {
-                          setImage8(e.target.files[0]);
-                        }}
-                      />
-                    </Button>
-                  </Grid>
+                 
                   <br />
                   <br />
-                  <Grid item xs={5}>
-                    <InputLabel id="demo-simple-select-label">
-                      Tab Status
-                    </InputLabel>
 
-                    <select
-                      style={{
-                        height: "5vh",
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "10%",
-                      }}
-                      name="locationMapStatus"
-                      onChange={debouncedHandleInput}
-                      value={data.locationMapStatus}
-                    >
-                      <option value="Home Loan">Active</option>
-                      <option value="Property Legal Service">Inactive</option>
-                    </select>
-                  </Grid>
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
                     <Button
@@ -1230,74 +1193,38 @@ const AddNewproject = () => {
               <div>
                 <Container
                   component="main"
-                  maxWidth="lg"
+                  rowspacing={2}
+                  maxWidth="xl"
                   style={{
                     marginTop: "2%",
                     marginBottom: "2%",
                     display: "block",
                   }}
                 >
-                  <InputLabel
-                    id="demo-simple-select-label"
-                    style={{ marginTop: "2%", marginBottom: "1%" }}
-                  >
-                    <h3>Tab Content</h3>
-                  </InputLabel>
-                  <CKEditor
-                    config={{
-                      height: 600,
-                      toolbar: [
-                        "heading",
-                        "|",
-                        "bold",
-                        "italic",
-                        "blockQuote",
-                        "link",
-                        "numberedList",
-                        "bulletedList",
-                        "imageUpload",
-                        "insertTable",
-                        "tableColumn",
-                        "tableRow",
-                        "mergeTableCells",
-                        "mediaEmbed",
-                        "|",
-                        "undo",
-                        "redo",
-                      ],
-                    }}
-                    style={{ maxWidth: "100%", height: "800px" }}
-                    editor={ClassicEditor}
-                    onReady={(editor) => {
-                      editor.editing.view.document.on("change:data", () => { });
-                      const data = editor.getData();
-                    }}
-                    onBlur={(event, editor) => { }}
-                    onFocus={(event, editor) => { }}
-                    onChange={debouncedOnChange1}
-                  />
-                  <br />
-                  <br />
-                  <Grid item xs={5}>
-                    <InputLabel id="demo-simple-select-label">
-                      Tab Status
-                    </InputLabel>
+                  <Grid container spacing={2} rowSpacing={2}>
+                    <Grid item xs={10}>
+                      <TextField
+                        placeholder="Please Enter Product Price (Without Discount)"
+                        label="Product Price (Without Discount)"
+                        fullWidth
+                        name="posession_date"
+                        onChange={debouncedHandleInput}
+                      />
+                    </Grid>
 
-                    <select
-                      style={{
-                        height: "5vh",
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "10%",
-                      }}
-                      name="masterPlanStatus"
-                      onChange={debouncedHandleInput}
-                      value={data.masterPlanStatus}
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
+                    <Grid item xs={10}>
+                      <TextField
+                        placeholder="Please Enter Discount (Only In Numbers, without %)"
+                        label="Discount (Only In Numbers, without %)"
+                        fullWidth
+                        name="posession_date"
+                        onChange={debouncedHandleInput}
+                      />
+                    </Grid>
                   </Grid>
+                  <br />
+                  <br />
+
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
                     <Button
@@ -1317,7 +1244,8 @@ const AddNewproject = () => {
               <div>
                 <Container
                   component="main"
-                  maxWidth="lg"
+                  rowspacing={2}
+                  maxWidth="xl"
                   style={{
                     marginTop: "2%",
                     marginBottom: "2%",
@@ -1327,77 +1255,17 @@ const AddNewproject = () => {
                   <br />
                   <Grid item xs={8}>
                     <TextField
-                      placeholder="Total Amount"
-                      label="Total Amount"
+                      placeholder="Please Enter Total Stock Available"
+                      label="Total Stock Available"
                       fullWidth
                       name="totalAmount"
                       onChange={debouncedHandleInput}
                     />
                   </Grid>
                   <br />
-                  <Grid item xs={8}>
-                    <TextField
-                      placeholder="Area (Sq.Ft.)"
-                      label="Area (Sq.Ft.)"
-                      fullWidth
-                      name="area"
-                      onChange={debouncedHandleInput}
-                    />
-                  </Grid>
+                  
                   <br />
-                  <Grid item xs={8}>
-                    <TextField
-                      placeholder="Price"
-                      label="Price"
-                      fullWidth
-                      name="price"
-                      onChange={debouncedHandleInput}
-                    />
-                  </Grid>
-                  <br />
-                  <Grid item xs={8}>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Upload Floor Plan Image
-                      <input
-                        multiple="multiple"
-                        type="file"
-                        name="floorPlanImage"
-                        onChange={(e) => {
-                          setImage2((prevImages) => [
-                            ...prevImages,
-                            ...e.target.files,
-                          ]);
-                        }}
-                      />
-                    </Button>
-                  </Grid>
-                  <br />
-                  <Grid item xs={5}>
-                    <InputLabel id="demo-simple-select-label">
-                      Tab Status
-                    </InputLabel>
-
-                    <select
-                      style={{
-                        height: "5vh",
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "10%",
-                      }}
-                      name="floorPlanStatus"
-                      onChange={debouncedHandleInput}
-                      value={data.floorPlanStatus}
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                  </Grid>
+                 
                   <br />
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
@@ -1418,102 +1286,57 @@ const AddNewproject = () => {
               <div>
                 <Container
                   component="main"
-                  maxWidth="lg"
+                  rowspacing={2}
+                  maxWidth="xl"
                   style={{
                     marginTop: "2%",
                     marginBottom: "2%",
                     display: "block",
                   }}
                 >
-                  <InputLabel
-                    id="demo-simple-select-label"
-                    style={{ marginTop: "2%", marginBottom: "1%" }}
-                  >
-                    <h3>Tab Content</h3>
-                  </InputLabel>
-                  <CKEditor
-                    config={{
-                      height: 600,
-                      toolbar: [
-                        "heading",
-                        "|",
-                        "bold",
-                        "italic",
-                        "blockQuote",
-                        "link",
-                        "numberedList",
-                        "bulletedList",
-                        "imageUpload",
-                        "insertTable",
-                        "tableColumn",
-                        "tableRow",
-                        "mergeTableCells",
-                        "mediaEmbed",
-                        "|",
-                        "undo",
-                        "redo",
-                      ],
-                    }}
-                    style={{
-                      maxWidth: "100%",
-                      height: "800px",
-                      marginBottom: "1rem",
-                    }}
-                    editor={ClassicEditor}
-                    onReady={(editor) => {
-                      editor.editing.view.document.on("change:data", () => {
-                        // debouncedHandleInput({
-                        //   target: {
-                        //     name: "project_specification",
-                        //     value: editor.getData(),
-                        //   },
-                        // });
-                      });
-                    }}
-                    onBlur={(event, editor) => { }}
-                    onFocus={(event, editor) => { }}
-                    onChange={debouncedOnChange2}
-                  />
-                  <br />
+                 
                   <br />
                   <Grid item xs={8}>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Upload Price Plan Image
-                      <input
-                        type="file"
-                        name="pricePlanImage"
-                        onChange={(e) => {
-                          setImage3(e.target.files[0]);
-                        }}
-                      />
-                    </Button>
-                  </Grid>
-                  <br />
-                  <Grid item xs={5}>
-                    <InputLabel id="demo-simple-select-label">
-                      Tab Status
-                    </InputLabel>
+                      <Button
+                        component="label"
+                        role={undefined}
+                        variant="contained"
+                        tabIndex={-1}
+                        startIcon={<CloudUploadIcon />}
+                      >
+                        Upload Product Images
+                        <input
+                          multiple="multiple"
+                          type="file"
+                          name="projectImage"
+                          onChange={(e) => {
+                            setImage1((prevImages) => [
+                              ...prevImages,
+                              ...e.target.files,
+                            ]);
+                            // setImage1(e.target.files);
+                            // setImage1((prevImages) => {
 
-                    <select
-                      style={{
-                        height: "5vh",
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        width: "10%",
-                      }}
-                      name="pricePlanStatus"
-                      value={data.pricePlanStatus}
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                  </Grid>
+                            //   const newImages = [...e.target.files];
+
+                            //   return [...prevImages, ...newImages];
+
+                            // });
+                            console.log(image1);
+                          }}
+                        />
+                      </Button>{" "}
+                      ( You can select upto 5 Product Images)
+                    </Grid>
+                  <br />
+                  <Grid item xs={10}>
+                      <TextField
+                        placeholder="Please Enter Product Youtube Video URL"
+                        label="Youtube Video URL"
+                        fullWidth
+                        name="metaKeyword"
+                        onChange={debouncedHandleInput}
+                      /> </Grid>
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
                     <Button

@@ -14,6 +14,9 @@ const ProductsSchema = new mongoose.Schema({
   subCategory: {
     type: String,
   },
+  newOrRefurbished: {
+    type: String,
+  },
   price: {
     type: String,
   },
@@ -21,9 +24,6 @@ const ProductsSchema = new mongoose.Schema({
     type: String,
   },
   model: {
-    type: String,
-  },
-  size: {
     type: String,
   },
   color: {
@@ -35,16 +35,21 @@ const ProductsSchema = new mongoose.Schema({
   dimensions: {
     type: String,
   },
+  sellerDiscount: {
+
+    type: String,
+    default:0
+  },
 
   // Only Admin Can Apply This
 
-  discount: {
+  adminDiscount: {
     // Only Admin Can Apply This
 
     type: String,
     default:0
   },
-  stock_quantity: {
+  stock_avilable: {
     type: String,
   },
   tags: [
