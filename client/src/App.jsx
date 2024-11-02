@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createContext, useReducer } from "react";
 import { reducer, initialState } from "./reducers/UseReducer";
+import 'react-tabs/style/react-tabs.css';
 
 import "./CSS/App.css";
 import "./CSS/navbar.css";
