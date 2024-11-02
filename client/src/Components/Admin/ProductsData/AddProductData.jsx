@@ -27,6 +27,10 @@ const AddNewproject = () => {
       value: "",
     },
   ];
+
+  const [category, setCategory] = useState([]);
+
+
   const [arr, setArr] = useState(inputArr);
   const [bankOffers, setBankOffers] = useState({ post: [] });
   const [selectedValues, setSelectedValues] = useState([]);
@@ -363,7 +367,6 @@ const AddNewproject = () => {
           >
             <TabList>
               <Tab id="Project">Product</Tab>
-              <Tab>Brand</Tab>
               <Tab id="LocationMap">Specifications</Tab>
               <Tab id="MasterPlan">Price Details</Tab>
               <Tab id="FloorPlan">Stock Available</Tab>
@@ -408,11 +411,11 @@ const AddNewproject = () => {
                       />
                     </Grid>
                     <br />
-                    <Grid item xs={10}>
-                      For{" "}
+                    <Grid item xs={8}>
+                      Product Type{" "}
                       <select
                         style={{
-                          height: "3.7vh",
+                          height: "6vh",
                           backgroundColor: "white",
                           borderRadius: "5px",
                           width: "100%",
@@ -421,71 +424,14 @@ const AddNewproject = () => {
                         onChange={handleDropdownChange}
                         value={data.projectFor}
                       >
-                        <option value=""></option>
-                        <option value="Sell">Sell</option>
-                        <option value="Rent">Rent</option>
+                        <option value="">- - - - Please Choose - - - </option>
+                        <option value="New">New</option>
+                        <option value="Refurbished">Refurbished</option>
                       </select>
                     </Grid>
-                    <Grid item xs={10}>
-                      Minimum Price{" "}
-                      <TextField
-                        placeholder="Minimum Price"
-                        // label="Minimum Price"
-                        name="min_price"
-                        fullWidth
-                        size="small"
-                        onChange={debouncedHandleInput}
-                      />
-                    </Grid>
-                    {/* last name */}
-                    <Grid item xs={10}>
-                      Maximum Price{" "}
-                      <TextField
-                        placeholder="Maximum Price"
-                        name="max_price"
-                        fullWidth
-                        size="small"
-                        onChange={debouncedHandleInput}
-                      />
-                    </Grid>
-                    <br />
-                    <br />
-                    <Grid
-                      container
-                      xs={12}
-                      spacing={2}
-                      rowSpacing={2}
-                      style={{ marginLeft: "0.1%" }}
-                    >
-                      <Grid item xs={10}>
-                        Minimum Area{" "}
-                        <TextField
-                          placeholder="Minimum Area"
-                          // label="Minimum Area"
-                          name="min_area"
-                          fullWidth
-                          size="small"
-                          onChange={debouncedHandleInput}
-                        />
-                      </Grid>
-                      {/* last name */}
-                      <Grid item xs={10}>
-                        Maximum Area{" "}
-                        <TextField
-                          placeholder="Maximum Area"
-                          // label="Maximum Area"
-                          name="max_area"
-                          fullWidth
-                          size="small"
-                          onChange={debouncedHandleInput}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={10}>
-                      <InputLabel id="demo-simple-select-label">
-                        Project Type
-                      </InputLabel>
 
+                    <Grid item xs={8}>
+                      Product Category{" "}
                       <select
                         style={{
                           height: "6vh",
@@ -493,526 +439,71 @@ const AddNewproject = () => {
                           borderRadius: "5px",
                           width: "100%",
                         }}
-                        name="projectType"
+                        name="projectFor"
                         onChange={handleDropdownChange}
-                        value={data.projectType}
+                        value={data.projectFor}
                       >
-                        <option value=""></option>
-                        <option value="Residential">Residential</option>
-                        <option value="Commercial">Commercial</option>
-                        <option value="Commercial Plot">Commercial Plot</option>
+                        <option value="">- - - - Please Choose - - - </option>
+
+                        {
+                          category.map((item) => {
+                            return (<>
+                              <option value={item.categoryName}> {item.categoryName} </option>
+                            </>)
+                          })
+                        }
+
+                      </select>
+                    </Grid>
+                    <Grid item xs={8}>
+                      Product Sub - Category{" "}
+                      <select
+                        style={{
+                          height: "6vh",
+                          backgroundColor: "white",
+                          borderRadius: "5px",
+                          width: "100%",
+                        }}
+                        name="projectFor"
+                        onChange={handleDropdownChange}
+                        value={data.projectFor}
+                      >
+                        <option value="">- - - - Please Choose - - - </option>
+
+                        {
+                          category.map((item) => {
+                            return (<>
+                              <option value={item.categoryName}> {item.categoryName} </option>
+                            </>)
+                          })
+                        }
+
                       </select>
                     </Grid>
                     <Grid item xs={10}>
-                      <InputLabel id="demo-simple-select-label">
-                        Select BHK
-                      </InputLabel>
-
-                      <select
-                        style={{
-                          height: "6vh",
-                          backgroundColor: "white",
-                          borderRadius: "5px",
-                          width: "100%",
-                        }}
-                        name="bhkNumber"
-                        onChange={handleDropdownChange}
-                        value={data.bhkNumber}
-                      >
-                        <option value=""></option>
-                        <option value="1 BHK">1 BHK</option>
-                        <option value="2 BHK">2 BHK</option>
-                        <option value="3 BHK">3 BHK</option>
-                        <option value="4 BHK">4 BHK</option>
-                        <option value="5 BHK">5 BHK</option>
-                        <option value="5+ BHK">5+ BHK</option>
-                      </select>
-                    </Grid>
+                      <TextField
+                        placeholder="Please Enter Brand Name"
+                        label="Brand Name"
+                        fullWidth
+                        name="metaKeyword"
+                        onChange={debouncedHandleInput}
+                      /> </Grid>
                     <Grid item xs={10}>
-                      <InputLabel id="demo-simple-select-label">
-                        Construction Status
-                      </InputLabel>
-
-                      <select
-                        style={{
-                          height: "6vh",
-                          backgroundColor: "white",
-                          borderRadius: "5px",
-                          width: "100%",
-                        }}
-                        name="constructionStatus"
-                        onChange={handleDropdownChange}
-                        value={data.constructionStatus}
-                      >
-                        <option value=""></option>
-                        <option value="New Launch">New Launch</option>
-                        <option value="Under Construction">
-                          Under Construction
-                        </option>
-                        <option value="Ready To Move">Ready To Move</option>
-                      </select>
-                    </Grid>
-                    <br />
-                    <Grid
-                      container
-                      xs={12}
-                      spacing={2}
-                      style={{ marginLeft: "0.1%" }}
-                    >
-                      <Grid item xs={10}>
-                        <FormControl>
-                          <FormLabel id="demo-radio-buttons-group-label">
-                            Feature Project
-                          </FormLabel>
-                          <RadioGroup
-                            row
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                          >
-                            <FormControlLabel
-                              value="Yes"
-                              control={<Radio />}
-                              label="Yes"
-                              name="featureProject"
-                              className="radioBtn"
-                              onChange={debouncedHandleInput}
-                            />
-                            <FormControlLabel
-                              value="No"
-                              control={<Radio />}
-                              label="No"
-                              name="featureProject"
-                              className="radioBtn"
-                              onChange={debouncedHandleInput}
-                            />
-                          </RadioGroup>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={10}>
-                        <FormControl>
-                          <FormLabel id="demo-radio-buttons-group-label">
-                            RERA Approval
-                          </FormLabel>
-                          <RadioGroup
-                            row
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                          >
-                            <FormControlLabel
-                              value="Yes"
-                              control={<Radio />}
-                              label="Yes"
-                              name="rera_approval"
-                              className="radioBtn"
-                              onChange={debouncedHandleInput}
-                              onClick={() => {
-                                regRef.current.style.display = "block";
-                              }}
-                            />
-                            <FormControlLabel
-                              value="No"
-                              control={<Radio />}
-                              label="No"
-                              name="rera_approval"
-                              className="radioBtn"
-                              onChange={debouncedHandleInput}
-                              onClick={() => {
-                                regRef.current.style.display = "none";
-                              }}
-                            />
-                          </RadioGroup>
-                        </FormControl>
-                      </Grid>
-
-                      <br />
-                      <Grid
-                        item
-                        xs={10}
-                        ref={regRef}
-                        style={{ display: "none" }}
-                      >
-                        <TextField
-                          placeholder="Reg"
-                          label="Reg"
-                          fullWidth
-                          onChange={debouncedHandleInput}
-                          name="reg"
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid
-                      container
-                      xs={12}
-                      spacing={2}
-                      rowSpacing={1}
-                      style={{ marginLeft: "0.1%" }}
-                    >
-                      <Grid item xs={10}>
-                        <TextField
-                          placeholder=" USP"
-                          label="USP"
-                          fullWidth
-                          name="usp"
-                          onChange={debouncedHandleInputUsp}
-                        />
-                      </Grid>
-                      {arr.map((item, i) => {
-                        return (
-                          <Grid item xs={10}>
-                            <TextField
-                              placeholder=" USP"
-                              label="USP"
-                              fullWidth
-                              onChange={debouncedHandleInputUsp}
-                              // size="40"
-                              name="usp"
-                            />
-                          </Grid>
-                        );
-                      })}{" "}
-                      <br />
-                      <div>
-                        <button
-                          className="btn btn-primary"
-                          type="button"
-                          onClick={addInput}
-                          style={{
-                            marginLeft: "1rem",
-                            marginBottom: "-5rem",
-                            padding: "0rem !important",
-                            height: "5px !important",
-                            fontSize: "large",
-                          }}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </Grid>
-                    <Grid
-                      container
-                      xs={12}
-                      spacing={2}
-                      rowSpacing={1}
-                      style={{ marginLeft: "0.1%", marginTop: "3rem" }}
-                    >
-                      <Grid item xs={10}>
-                        <TextField
-                          placeholder="Possession Date"
-                          label="Possession Date"
-                          fullWidth
-                          name="posession_date"
-                          onChange={debouncedHandleInput}
-                        />
-                      </Grid>
-                      <Grid item xs={10}>
-                        <TextField
-                          placeholder=" No. Of Units"
-                          label="No. Of Units"
-                          fullWidth
-                          name="no_of_units"
-                          onChange={debouncedHandleInput}
-                        />
-                      </Grid>
-                      <Grid item xs={10}>
-                        <TextField
-                          placeholder=" No. Of Tower"
-                          label="No. Of Tower"
-                          fullWidth
-                          name="no_of_tower"
-                          onChange={debouncedHandleInput}
-                        />
-                      </Grid>
-                      <Grid item xs={10}>
-                        <TextField
-                          placeholder=" No. Of Floor"
-                          label="No. Of Floor"
-                          fullWidth
-                          name="no_of_floor"
-                          onChange={debouncedHandleInput}
-                        />
-                      </Grid>
-                      <Grid item xs={10}>
-                        <TextField
-                          placeholder=" Total Area"
-                          label="Total Area"
-                          fullWidth
-                          name="total_area"
-                          onChange={debouncedHandleInput}
-                        />
-                      </Grid>
-                      <Grid item xs={10}>
-                        <TextField
-                          placeholder=" Open Area"
-                          label="Open Area"
-                          fullWidth
-                          name="open_area"
-                          onChange={debouncedHandleInput}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormLabel id="demo-radio-buttons-group-label">
-                        Bank Offer
-                      </FormLabel>
-                      <br />
-                      {bankOffers.post.map(({ bankName, logo }) => {
-                        return (
-                          <>
-                            <Checkbox
-                              {...label}
-                              className="checkboxAddProject"
-                              name="amenities"
-                              onChange={handleCheckboxChange}
-                              value={bankName}
-                            />
-                            {bankName}{" "}
-                            <img
-                              height={30}
-                              width={30}
-                              src={logo.data}
-                              alt="amenity"
-                            />
-                          </>
-                        );
-                      })}
-                    </Grid>
-
-                    <Grid item xs={8}>
-                      <FormLabel id="demo-radio-buttons-group-label">
-                        Project Images
-                      </FormLabel>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Button
-                        component="label"
-                        role={undefined}
-                        variant="contained"
-                        tabIndex={-1}
-                        startIcon={<CloudUploadIcon />}
-                      >
-                        Upload Project Logo
-                        <input
-                          type="file"
-                          name="logoImage"
-                          onChange={(e) => {
-                            setImage(e.target.files[0]);
-                          }}
-                        />
-                      </Button>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Button
-                        component="label"
-                        role={undefined}
-                        variant="contained"
-                        tabIndex={-1}
-                        startIcon={<CloudUploadIcon />}
-                      >
-                        Upload Project Image
-                        <input
-                          multiple="multiple"
-                          type="file"
-                          name="projectImage"
-                          onChange={(e) => {
-                            setImage1((prevImages) => [
-                              ...prevImages,
-                              ...e.target.files,
-                            ]);
-                            // setImage1(e.target.files);
-                            // setImage1((prevImages) => {
-
-                            //   const newImages = [...e.target.files];
-
-                            //   return [...prevImages, ...newImages];
-
-                            // });
-                            console.log(image1);
-                          }}
-                        />
-                      </Button>{" "}
-                      ( You can selsect upto 5 Project Images)
-                    </Grid>
-                    <Grid item xs={8}>
-                      <FormLabel id="demo-radio-buttons-group-label">
-                        Youtube URL Link
-                      </FormLabel>
-                    </Grid>
-                    <Grid item xs={8}>
                       <TextField
-                        placeholder=" Set Project Youtube URL"
-                        label="Project Youtube URL"
+                        placeholder="Please Enter Model Name"
+                        label="Model Name"
                         fullWidth
-                        type="text"
-                        name="youtube_URL"
+                        name="metaKeyword"
                         onChange={debouncedHandleInput}
                       />
                     </Grid>
-                    <Grid item xs={5}>
-                      <InputLabel id="demo-simple-select-label">
-                        Choose Developer
-                      </InputLabel>
 
-                      <select
-                        style={{
-                          height: "6vh",
-                          backgroundColor: "white",
-                          borderRadius: "5px",
-                          width: "100%",
-                        }}
-                        onChange={handleDropdownChange}
-                        name="developerName"
-                        value={data.developerName}
-                      >
-                        <option value=""></option>
-                        <option value="IREO Developer">IREO Developer</option>
-                        <option value="M3M Developer">M3M Developer</option>
-                        <option value="Ansal Developer">Ansal Developer</option>
-                        <option value="Godrej Developer">
-                          Godrej Developer
-                        </option>
-                        <option value="Mapsko Group">Mapsko Group</option>
 
-                        <option value="Corona Developer">
-                          Corona Developer
-                        </option>
-                        <option value="Era Group">Era Group</option>
 
-                        <option value="Cosmos Infra">Cosmos Infra</option>
-                        <option value="Soldier Housing">Soldier Housing</option>
 
-                        <option value="Assotech">Assotech</option>
-                        <option value="Universal Group">Universal Group</option>
 
-                        <option value="ABW Infrastructure Limited">
-                          ABW Infrastructure Limited
-                        </option>
-                        <option value="Orchid Infrastructure Developers">
-                          Orchid Infrastructure Developers
-                        </option>
 
-                        <option value="Ramprashta Group">
-                          Ramprashta Group
-                        </option>
-                        <option value="Unitech Group">Unitech Group</option>
-                        <option value="Pareena Associated">
-                          Pareena Associated
-                        </option>
-                        <option value="Smart City Developers Pvt. Ltd">
-                          Smart City Developers Pvt. Ltd.
-                        </option>
-                        <option value="Vatika Developers">
-                          Vatika Developers
-                        </option>
-                        <option value="Jagrit Infrastructure Pvt. Ltd">
-                          Jagrit Infrastructure Pvt. Ltd.
-                        </option>
-                        <option value="MVL Limited">MVL Limited</option>
-                        <option value="Chishlm Furnished Apartments">
-                          Chishlm Furnished Apartments
-                        </option>
-                        <option value="Paras Buildtech Pvt. Ltd.">
-                          Paras Buildtech Pvt. Ltd.
-                        </option>
-                        <option value="Orris Infrastructure Pvt. Ltd">
-                          Orris Infrastructure Pvt. Ltd.
-                        </option>
-                        <option value="ABW Infrastructure Limited">
-                          ABW Infrastructure Limited
-                        </option>
-                        <option value="Bharti Realty Limited">
-                          Bharti Realty Limited
-                        </option>
-                      </select>
-                    </Grid>{" "}
-                    {/* <InputLabel id="demo-simple-select-label">
-                        Project Address
-                      </InputLabel> */}
-                    <Grid item xs={8}>
-                      <FormLabel id="demo-radio-buttons-group-label">
-                        Property Address
-                      </FormLabel>
-                    </Grid>
-                    <Grid container spacing={2} rowSpacing={2} item xs={12}>
-                      <Grid item xs={10}>
-                        City
-                        <select
-                          style={{
-                            height: "6vh",
-                            backgroundColor: "white",
-                            borderRadius: "5px",
-                            width: "100%",
-                          }}
-                          onChange={(e) => {
-                            setSelectedCity(e.target.value);
-                            setLocations(getLocationsByCity(e.target.value));
-                          }}
-                          name="city"
-                        // value={data.city}
-                        >
-                          {Array.from(
-                            new Set(Localities.post.map(({ city }) => city))
-                          ).map((city) => (
-                            <option value={city}>{city}</option>
-                          ))}
-                        </select>
-                      </Grid>
-
-                      <Grid item xs={10}>
-                        Location{" "}
-                        <select
-                          style={{
-                            height: "6vh",
-                            backgroundColor: "white",
-                            borderRadius: "5px",
-                            width: "100%",
-                          }}
-                          onChange={(e) => setSelectedLocation(e.target.value)}
-                          name="location"
-                        // value={data.location}
-                        >
-                          {Array.from(
-                            new Set(locations.map(({ location }) => location))
-                          ).map((location) => (
-                            <option value={location}>{location}</option>
-                          ))}
-                        </select>
-                      </Grid>
-
-                      <Grid item xs={10}>
-                        Sub - Location{" "}
-                        <select
-                          style={{
-                            height: "6vh",
-                            backgroundColor: "white",
-                            borderRadius: "5px",
-                            width: "100%",
-                          }}
-                          onChange={(e) =>
-                            setSelectedSubLocation(e.target.value)
-                          }
-                          name="sub_location"
-                        // value={data.sub_location}
-                        >
-                          {Array.isArray(subLocations) &&
-                            subLocations.map((subLocation) => (
-                              <option value={subLocation.sub_location}>
-                                {subLocation.sub_location}
-                              </option>
-                            ))}
-                        </select>{" "}
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <TextField
-                        placeholder="Lane Address"
-                        label="Lane Address"
-                        fullWidth
-                        name="project_lane_address"
-                        onChange={debouncedHandleInput}
-                      />
-                    </Grid>
                   </Grid>
-                  <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
                     <Button
                       type="button"
@@ -1027,62 +518,7 @@ const AddNewproject = () => {
                 </div>
               </Container>
             </TabPanel>
-            <TabPanel>
 
-              <Container
-                component="main"
-                rowspacing={2}
-                maxWidth="xl"
-                style={{
-                  marginTop: "2%",
-                  marginBottom: "2%",
-                  display: "block",
-                }}
-              >
-                <Grid container spacing={2} rowSpacing={2}>
-
-                  <Grid item xs={10}>
-                    <TextField
-                      placeholder="Please Enter Brand Name"
-                      label="Brand Name"
-                      fullWidth
-                      name="metaKeyword"
-                      onChange={debouncedHandleInput}
-                    /> </Grid>
-                  <Grid item xs={10}>
-                    <TextField
-                      placeholder="Please Enter Model Name"
-                      label="Model Name"
-                      fullWidth
-                      name="metaKeyword"
-                      onChange={debouncedHandleInput}
-                    />
-                  </Grid>
-
-                </Grid>
-
-
-
-
-
-                <br />
-
-
-                <br /> <br />
-                <Grid item xs={8} style={{ textAlign: "center" }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    color="primary"
-                    style={{ padding: "0.6rem 1.5rem" }}
-                    onClick={() => setTabIndex(tabIndex + 1)}
-                  >
-                    Next
-                  </Button>
-                </Grid>
-              </Container>
-
-            </TabPanel>
             <TabPanel>
               <div>
                 <Container
@@ -1170,7 +606,7 @@ const AddNewproject = () => {
                     onChange={debouncedOnChange}
                   />
                   <br />
-                 
+
                   <br />
                   <br />
 
@@ -1263,9 +699,9 @@ const AddNewproject = () => {
                     />
                   </Grid>
                   <br />
-                  
+
                   <br />
-                 
+
                   <br />
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
@@ -1294,49 +730,49 @@ const AddNewproject = () => {
                     display: "block",
                   }}
                 >
-                 
+
                   <br />
                   <Grid item xs={8}>
-                      <Button
-                        component="label"
-                        role={undefined}
-                        variant="contained"
-                        tabIndex={-1}
-                        startIcon={<CloudUploadIcon />}
-                      >
-                        Upload Product Images
-                        <input
-                          multiple="multiple"
-                          type="file"
-                          name="projectImage"
-                          onChange={(e) => {
-                            setImage1((prevImages) => [
-                              ...prevImages,
-                              ...e.target.files,
-                            ]);
-                            // setImage1(e.target.files);
-                            // setImage1((prevImages) => {
+                    <Button
+                      component="label"
+                      role={undefined}
+                      variant="contained"
+                      tabIndex={-1}
+                      startIcon={<CloudUploadIcon />}
+                    >
+                      Upload Product Images
+                      <input
+                        multiple="multiple"
+                        type="file"
+                        name="projectImage"
+                        onChange={(e) => {
+                          setImage1((prevImages) => [
+                            ...prevImages,
+                            ...e.target.files,
+                          ]);
+                          // setImage1(e.target.files);
+                          // setImage1((prevImages) => {
 
-                            //   const newImages = [...e.target.files];
+                          //   const newImages = [...e.target.files];
 
-                            //   return [...prevImages, ...newImages];
+                          //   return [...prevImages, ...newImages];
 
-                            // });
-                            console.log(image1);
-                          }}
-                        />
-                      </Button>{" "}
-                      ( You can select upto 5 Product Images)
-                    </Grid>
+                          // });
+                          console.log(image1);
+                        }}
+                      />
+                    </Button>{" "}
+                    ( You can select upto 5 Product Images)
+                  </Grid>
                   <br />
                   <Grid item xs={10}>
-                      <TextField
-                        placeholder="Please Enter Product Youtube Video URL"
-                        label="Youtube Video URL"
-                        fullWidth
-                        name="metaKeyword"
-                        onChange={debouncedHandleInput}
-                      /> </Grid>
+                    <TextField
+                      placeholder="Please Enter Product Youtube Video URL"
+                      label="Youtube Video URL"
+                      fullWidth
+                      name="metaKeyword"
+                      onChange={debouncedHandleInput}
+                    /> </Grid>
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
                     <Button

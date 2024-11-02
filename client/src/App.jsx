@@ -35,6 +35,7 @@ import ShowAllTags from "./Components/Admin/Tags/ShowAllTags";
 // Categories
 
 import NewCategory from "./Components/Admin/Categories/NewCategory";
+import NewSubCategory from "./Components/Admin/Categories/NewSubCategory";
 import ShowAllCategories from "./Components/Admin/Categories/ShowAllCategories";
 
 
@@ -89,6 +90,7 @@ function App() {
 
           {/* Categories */}
           <Route path="/NewCategory" element={<NewCategory />}></Route>
+          <Route path="/NewSubCategory" element={<NewSubCategory />}></Route>
           <Route path="/ShowAllCategories" element={<ShowAllCategories />}></Route>
 
           {/* Navbar Items */}

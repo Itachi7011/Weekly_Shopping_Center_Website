@@ -1,11 +1,17 @@
-.adminListsSearchBar{
-    margin-left: 63%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-  .adminListsSearchBar input{
-    width: 30rem;
-    height: 7vh;
-    border-radius: 2rem;
-    font-size: larger;
-  }
+.adminListsSearchBar {
+  margin-left: 63%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.adminListsSearchBar input {
+  width: 30rem;
+  height: 7vh;
+  border-radius: 2rem;
+  font-size: larger;
+}
+
+/* CK Editor */
+
+.ck.ck-editor__main > .ck-editor__editable {
+  height: 30vh !important;
+}

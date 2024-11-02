@@ -4,7 +4,14 @@ const { buffer } = require("stream/consumers");
 const W_Mark_Categories = new mongoose.Schema({
   categoryName: {
     type: String,
+
   },
+  subCategoryName: [{
+
+    type: String,
+
+
+  }],
   content: {
     type: String,
   },

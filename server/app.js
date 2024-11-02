@@ -531,6 +531,32 @@ app.post("/api/deleteSelectedCategories", async (req, res) => {
   }
 });
 
+//    Sub - Categories
+
+app.post("/api/addSubCategory", async (req, res) => {
+  try {
+
+    console.log(req.body)
+    const category = req.body.categoryName;
+    const subCategory = req.body.subCategoryName;
+    const CategoriesDB1 = await CategoriesDB.findOne({
+      categoryName: category,
+    });
+
+    await CategoriesDB1.updateOne({
+      $push: {
+        subCategoryName: subCategory,
+      },
+    });
+
+    console.log("New SubCategory Added in Database Successfully");
+    res.send({ status: "Ok", data: "New SubCategory Saved." });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
 //    Navbar Items
 
 app.post("/api/addNavbarItems", async (req, res) => {

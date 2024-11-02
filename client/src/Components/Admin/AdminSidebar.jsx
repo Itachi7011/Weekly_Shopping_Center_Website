@@ -264,6 +264,9 @@ const AdminSidebar = () => {
               <a href="/NewCategory" className="sub-item">
                 Add New Category
               </a>
+              <a href="/NewSubCategory" className="sub-item">
+                Add New Sub-Category
+              </a>
               <a href="/ShowAllCategories" className="sub-item">
                 Show All Categories
               </a>
