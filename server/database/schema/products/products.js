@@ -14,6 +14,9 @@ const ProductsSchema = new mongoose.Schema({
   subCategory: {
     type: String,
   },
+  marketName: {
+    type: String,
+  },
   newOrRefurbished: {
     type: String,
   },

@@ -93,7 +93,7 @@ const NewTag = () => {
           },
         }
       );
-      alert("New Tag added Successfully");
+      alert("New Sub Category added Successfully");
 
       // request successful, refresh the page
 

@@ -9,67 +9,27 @@ import {
   Grid,
   TextField,
   Button,
-  FormControl,
   InputLabel,
-  RadioGroup,
-  FormControlLabel,
-  Checkbox,
-  FormLabel,
-  Radio,
+
 } from "@mui/material";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-const AddNewproject = () => {
-  const inputArr = [
-    {
-      type: "text",
-      id: 1,
-      value: "",
-    },
-  ];
+const AddNewProduct = () => {
 
   const [category, setCategory] = useState([]);
+  const [market, setMarket] = useState([]);
 
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  const [arr, setArr] = useState(inputArr);
-  const [bankOffers, setBankOffers] = useState({ post: [] });
-  const [selectedValues, setSelectedValues] = useState([]);
-  const [bankOfferSend, setbankOfferSend] = useState([]);
-  const [selectedValues1, setSelectedValues1] = useState([]);
-
-  const [selectedCity, setSelectedCity] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
-  const [selectedSubLocation, setSelectedSubLocation] = useState("");
-  const [locations, setLocations] = useState([]);
-
-  const [subLocations, setSubLocations] = useState([]);
-  const [usps, setUsps] = useState([]);
-
-  const [Localities, setLocalities] = useState({ post: [] });
   const [tabIndex, setTabIndex] = useState(0);
-  const [image, setImage] = useState("");
   const [image1, setImage1] = useState([]);
-  const [image2, setImage2] = useState("");
-  const [image3, setImage3] = useState("");
-  const [image4, setImage4] = useState("");
-  const [image5, setImage5] = useState("");
-  const [image6, setImage6] = useState("");
-  const [image7, setImage7] = useState("");
-  const [image8, setImage8] = useState("");
-
-  const [specificationText, setSpecificationText] = useState("");
-  const [locationMapText, setLcationMapText] = useState("");
-  const [masterPlanText, setMasterPlanText] = useState("");
-  const [pricePlanText, setPricePlanText] = useState("");
-  const [paymentPlanText, setPaymentPlanText] = useState("");
-  const [constructionText, setConstructionText] = useState("");
-  const [contactUsText, setContactUsText] = useState("");
-
+  
   const [data, setData] = useState("");
   const [user, setUser] = useState({
     name: "",
     category: "",
     subCategory: "",
+    marketName: "",
     price: "",
     brand: "",
     model: "",
@@ -130,22 +90,40 @@ const AddNewproject = () => {
       });
   }, []);
 
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-  const regRef = useRef(null);
+  useEffect(() => {
+    axios
+      .get("/api/marketsList")
+      .then((response) => {
+        const data = response.data;
 
-  const debouncedHandleInputUsp = debounce((e) => {
-    const { value } = e.target;
-    setUsps([...usps, value]);
-  }, 300);
+        setMarket(data);
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+
+
+
 
   const debouncedHandleInput = debounce((e) => {
     const { name, value } = e.target;
-    setData({ ...data, [name]: value });
+    setUser({ ...user, [name]: value });
   }, 300);
 
   const handleDropdownChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+
+    const { name, value } = e.target;
+
+    if (name === "category") {
+
+      setSelectedCategory(value); // Set selected category
+
+    }
+
+    setUser({ ...user, [name]: value });
+
   };
   const debouncedOnChange = debounce((event, editor) => {
     const data = editor.getData();
@@ -153,68 +131,16 @@ const AddNewproject = () => {
     setLcationMapText(data);
   }, 500); // debounce for 500ms
 
-  const debouncedOnChange1 = debounce((event, editor) => {
-    const data = editor.getData();
 
-    setMasterPlanText(data);
-  }, 500);
-  const debouncedOnChange2 = debounce((event, editor) => {
-    const data = editor.getData();
+console.log(user.name)
 
-    setPricePlanText(data);
-  }, 500);
-  const debouncedOnChange3 = debounce((event, editor) => {
-    const data = editor.getData();
 
-    setPaymentPlanText(data);
-  }, 500);
-  const debouncedOnChange4 = debounce((event, editor) => {
-    const data = editor.getData();
+  const getSubCategories = () => {
 
-    setConstructionText(data);
-  }, 500);
-  const debouncedOnChange5 = debounce((event, editor) => {
-    const data = editor.getData();
+    const selectedCat = category.find(item => item.categoryName === selectedCategory);
 
-    setContactUsText(data);
-  }, 500);
+    return selectedCat ? selectedCat.subCategoryName : [];
 
-  const debouncedOnChange6 = debounce((event, editor) => {
-    const data = editor.getData();
-
-    setSpecificationText(data);
-  }, 500);
-
-  const addInput = () => {
-    setArr((s) => {
-      return [
-        ...s,
-        {
-          type: "text",
-          value: "",
-        },
-      ];
-    });
-  };
-
-  const handleCheckboxChange = (event) => {
-    const { value, checked } = event.target;
-
-    if (checked) {
-      setbankOfferSend([...bankOfferSend, value]);
-    } else {
-      setbankOfferSend(bankOfferSend.filter((val) => val !== value));
-    }
-  };
-
-  const handleCheckboxChange1 = (event) => {
-    const { value, checked } = event.target;
-
-    if (checked) {
-      setSelectedValues1([...selectedValues1, value]);
-    } else {
-      setSelectedValues1(selectedValues1.filter((val) => val !== value));
-    }
   };
 
 
@@ -386,7 +312,7 @@ const AddNewproject = () => {
                 }}
               >
                 <div>
-                  <Grid container spacing={2} rowSpacing={2}>
+                  <Grid container spacing={2} rowSpacing={4}>
                     {/* email address */}
 
                     <Grid item xs={10}>
@@ -394,21 +320,36 @@ const AddNewproject = () => {
                         placeholder="Please Enter Product Name"
                         label="Product Name"
                         fullWidth
-                        name="posession_date"
+                        name="name"
                         onChange={debouncedHandleInput}
                       />
                     </Grid>
 
 
-                    <Grid item xs={10}>
+                    <Grid item xs={8}>
+                    Market Name{" "}
+                    <select
+                        style={{
+                          height: "6vh",
+                          backgroundColor: "white",
+                          borderRadius: "5px",
+                          width: "100%",
+                        }}
+                        name="marketName"
+                        onChange={handleDropdownChange}
+                        value={data.marketName}
+                      >
+                        <option value="">- - - - Please Choose - - - </option>
 
-                      <TextField
-                        placeholder="Please Enter Market Name"
-                        label="Market Name"
-                        fullWidth
-                        name="metaKeyword"
-                        onChange={debouncedHandleInput}
-                      />
+                        {
+                          market.map((item) => {
+                            return (<>
+                              <option value={item.name}> {item.name} </option>
+                            </>)
+                          })
+                        }
+
+                      </select>
                     </Grid>
                     <br />
                     <Grid item xs={8}>
@@ -439,9 +380,9 @@ const AddNewproject = () => {
                           borderRadius: "5px",
                           width: "100%",
                         }}
-                        name="projectFor"
+                        name="category"
                         onChange={handleDropdownChange}
-                        value={data.projectFor}
+                        value={data.category}
                       >
                         <option value="">- - - - Please Choose - - - </option>
 
@@ -458,24 +399,37 @@ const AddNewproject = () => {
                     <Grid item xs={8}>
                       Product Sub - Category{" "}
                       <select
+
                         style={{
+
                           height: "6vh",
+
                           backgroundColor: "white",
+
                           borderRadius: "5px",
+
                           width: "100%",
+
                         }}
-                        name="projectFor"
+
+                        name="subCategory"
+
                         onChange={handleDropdownChange}
-                        value={data.projectFor}
+
+                        value={data.subCategory} // Update this to the correct state
+
                       >
+
                         <option value="">- - - - Please Choose - - - </option>
 
                         {
-                          category.map((item) => {
-                            return (<>
-                              <option value={item.categoryName}> {item.categoryName} </option>
-                            </>)
-                          })
+
+                          getSubCategories().map((subCat, index) => (
+
+                            <option key={index} value={subCat}>{subCat}</option>
+
+                          ))
+
                         }
 
                       </select>
@@ -796,4 +750,4 @@ const AddNewproject = () => {
   );
 };
 
-export default AddNewproject;
+export default AddNewProduct;

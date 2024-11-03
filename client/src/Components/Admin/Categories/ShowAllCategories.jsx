@@ -9,6 +9,7 @@ const ShowAllTags = () => {
   const navigate = useNavigate();
   // const [UserType, setUserType] = useState("");
   const [Data, setData] = useState({ post: [] });
+  const [showAll, setShowAll] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -51,6 +52,7 @@ const ShowAllTags = () => {
       });
   };
 
+
   const handleDeleteSelected = () => {
     axios
 
@@ -64,6 +66,23 @@ const ShowAllTags = () => {
         console.log("Error during delete selected:", err);
       });
   };
+
+  const handleSubcategoryDelete = (id, categoryName,
+    subCategoryName) => {
+    axios
+
+      .post("/api/deleteSubCategory", { id: id, categoryName: categoryName, subCategoryName: subCategoryName })
+
+      .then((data) => {
+        alert("SubCategory Deleted");
+      })
+
+      .catch((err) => {
+        console.log("Error during delete selected:", err);
+      });
+  };
+
+
   useEffect(() => {
     axios
       .get("/api/categoriesList")
@@ -91,6 +110,12 @@ const ShowAllTags = () => {
         console.log(`Error during catch of setProfile -  ${err}`);
       });
   }, []);
+
+  const handleShowMore = () => {
+
+    showAll === false ? setShowAll(true) : setShowAll(false);
+
+  };
 
   if (Profile.userType !== "Admin") {
     return <div></div>;
@@ -173,6 +198,7 @@ const ShowAllTags = () => {
                   <th>S No.</th>
                   <th>Name</th>
                   <th>Details</th>
+                  <th>Sub-Categories</th>
                   <th>Created By</th>
                   <th>Date</th>
 
@@ -180,7 +206,7 @@ const ShowAllTags = () => {
                 </thead>
                 {currentItems.map(
                   (
-                    { categoryName, content, createdBy, dateOfFormSubmission, _id },
+                    { categoryName, content, createdBy, dateOfFormSubmission, subCategoryName, _id },
                     index
                   ) => {
                     return (
@@ -205,12 +231,32 @@ const ShowAllTags = () => {
                             <td
                               dangerouslySetInnerHTML={{ __html: content }}
                             ></td>
+                            <td><li>
+                              <ol>
+                                {subCategoryName.slice(0, showAll ? subCategoryName.length : 4).map((item, index) => (
 
+                                  <li key={index}>{item}<span> <button
+                                    className=" btn btn-danger px-2"
+                                    onClick={() => handleSubcategoryDelete(_id, categoryName, item)}
+                                  >
+                                    <i className="fas fa-trash-alt text-white mx-auto"></i>
+                                  </button> </span></li>
+
+                                ))}
+
+                                {subCategoryName.length > 4 && (
+
+
+
+                                  <span onClick={handleShowMore} style={{ color: "white", background: "#0080FF", cursor: "pointer", padding: "0.2rem", borderRadius: "5px" }}> {showAll === false ? "show" : "hide"} +{subCategoryName.length - 4} more</span>
+
+                                )}
+                              </ol></li></td>
                             <td>{createdBy}</td>
                             <td>
                               {new Date(
                                 new Date(dateOfFormSubmission).getTime() -
-                                  19800000
+                                19800000
                               )
                                 .toUTCString()
                                 .slice(0, -12)}
