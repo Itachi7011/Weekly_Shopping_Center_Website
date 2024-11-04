@@ -23,7 +23,7 @@ const AddNewProduct = () => {
 
   const [tabIndex, setTabIndex] = useState(0);
   const [image1, setImage1] = useState([]);
-  
+
   const [data, setData] = useState("");
   const [user, setUser] = useState({
     name: "",
@@ -132,7 +132,7 @@ const AddNewProduct = () => {
   }, 500); // debounce for 500ms
 
 
-console.log(user.name)
+  console.log(user.name)
 
 
   const getSubCategories = () => {
@@ -242,7 +242,7 @@ console.log(user.name)
 
     try {
       await axios.post(
-        "/api/add-new-project",
+        "/api/addNewProduct",
 
         bodyFormData,
 
@@ -327,8 +327,8 @@ console.log(user.name)
 
 
                     <Grid item xs={8}>
-                    Market Name{" "}
-                    <select
+                      Market Name{" "}
+                      <select
                         style={{
                           height: "6vh",
                           backgroundColor: "white",
@@ -455,18 +455,16 @@ console.log(user.name)
 
 
 
-
-
                   </Grid>
                   <Grid item xs={8} style={{ textAlign: "center" }}>
                     <Button
                       type="button"
                       variant="contained"
                       color="primary"
-                      style={{ padding: "0.6rem 1.5rem" }}
+                      style={{ padding: "0.6rem 1.5rem", marginTop: "2rem" }}
                       onClick={() => setTabIndex(tabIndex + 1)}
                     >
-                      Next
+                      Next <span style={{  marginLeft:"0.2rem"}}> ⟶ </span>
                     </Button>
                   </Grid>
                 </div>
@@ -570,11 +568,20 @@ console.log(user.name)
                       type="button"
                       variant="contained"
                       color="primary"
+                      style={{ padding: "0.6rem 1.5rem", marginRight: "2rem" }}
+                      onClick={() => setTabIndex(tabIndex - 1)}
+                    >
+                     <span style={{ marginRight:"0.2rem"}}> ⟵ </span> Prev 
+                    </Button> <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
                       style={{ padding: "0.6rem 1.5rem" }}
                       onClick={() => setTabIndex(tabIndex + 1)}
                     >
-                      Next
+                      Next  <span style={{ marginLeft:"0.2rem"}}> ⟶ </span>
                     </Button>
+
                   </Grid>
                 </Container>
               </div>
@@ -617,14 +624,22 @@ console.log(user.name)
 
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
-                    <Button
+                  <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
+                      style={{ padding: "0.6rem 1.5rem", marginRight: "2rem" }}
+                      onClick={() => setTabIndex(tabIndex - 1)}
+                    >
+                     <span style={{ marginRight:"0.2rem"}}> ⟵ </span> Prev 
+                    </Button> <Button
                       type="button"
                       variant="contained"
                       color="primary"
                       style={{ padding: "0.6rem 1.5rem" }}
                       onClick={() => setTabIndex(tabIndex + 1)}
                     >
-                      Next
+                      Next  <span style={{ marginLeft:"0.2rem"}}> ⟶ </span>
                     </Button>
                   </Grid>
                 </Container>
@@ -659,14 +674,22 @@ console.log(user.name)
                   <br />
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
-                    <Button
+                  <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
+                      style={{ padding: "0.6rem 1.5rem", marginRight: "2rem" }}
+                      onClick={() => setTabIndex(tabIndex - 1)}
+                    >
+                     <span style={{ marginRight:"0.2rem"}}> ⟵ </span> Prev 
+                    </Button> <Button
                       type="button"
                       variant="contained"
                       color="primary"
                       style={{ padding: "0.6rem 1.5rem" }}
                       onClick={() => setTabIndex(tabIndex + 1)}
                     >
-                      Next
+                      Next  <span style={{ marginLeft:"0.2rem"}}> ⟶ </span>
                     </Button>
                   </Grid>
                 </Container>
@@ -730,13 +753,12 @@ console.log(user.name)
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
                     <Button
-                      type="button"
+                      onClick={handleSubmit}
                       variant="contained"
-                      color="primary"
-                      style={{ padding: "0.6rem 1.5rem" }}
-                      onClick={() => setTabIndex(tabIndex + 1)}
+                      style={{ padding: "0.6rem 1.5rem", background: "green" }}
                     >
-                      Next
+                      {" "}
+                      Save{" "}
                     </Button>
                   </Grid>
                 </Container>
