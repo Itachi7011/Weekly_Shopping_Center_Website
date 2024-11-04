@@ -301,7 +301,7 @@ const AddNewProduct = () => {
               <Tab id="FloorPlan">Stock Available</Tab>
 
               <Tab id="PricePlan">Images & Videos</Tab>
-              
+
 
             </TabList>
 
@@ -469,7 +469,7 @@ const AddNewProduct = () => {
                       style={{ padding: "0.6rem 1.5rem", marginTop: "2rem" }}
                       onClick={() => setTabIndex(tabIndex + 1)}
                     >
-                      Next <span style={{  marginLeft:"0.2rem"}}> ⟶ </span>
+                      Next <span style={{ marginLeft: "0.2rem" }}> ⟶ </span>
                     </Button>
                   </Grid>
                 </div>
@@ -576,7 +576,7 @@ const AddNewProduct = () => {
                       style={{ padding: "0.6rem 1.5rem", marginRight: "2rem" }}
                       onClick={() => setTabIndex(tabIndex - 1)}
                     >
-                     <span style={{ marginRight:"0.2rem"}}> ⟵ </span> Prev 
+                      <span style={{ marginRight: "0.2rem" }}> ⟵ </span> Prev
                     </Button> <Button
                       type="button"
                       variant="contained"
@@ -584,7 +584,7 @@ const AddNewProduct = () => {
                       style={{ padding: "0.6rem 1.5rem" }}
                       onClick={() => setTabIndex(tabIndex + 1)}
                     >
-                      Next  <span style={{ marginLeft:"0.2rem"}}> ⟶ </span>
+                      Next  <span style={{ marginLeft: "0.2rem" }}> ⟶ </span>
                     </Button>
 
                   </Grid>
@@ -629,14 +629,14 @@ const AddNewProduct = () => {
 
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
-                  <Button
+                    <Button
                       type="button"
                       variant="contained"
                       color="primary"
                       style={{ padding: "0.6rem 1.5rem", marginRight: "2rem" }}
                       onClick={() => setTabIndex(tabIndex - 1)}
                     >
-                     <span style={{ marginRight:"0.2rem"}}> ⟵ </span> Prev 
+                      <span style={{ marginRight: "0.2rem" }}> ⟵ </span> Prev
                     </Button> <Button
                       type="button"
                       variant="contained"
@@ -644,7 +644,7 @@ const AddNewProduct = () => {
                       style={{ padding: "0.6rem 1.5rem" }}
                       onClick={() => setTabIndex(tabIndex + 1)}
                     >
-                      Next  <span style={{ marginLeft:"0.2rem"}}> ⟶ </span>
+                      Next  <span style={{ marginLeft: "0.2rem" }}> ⟶ </span>
                     </Button>
                   </Grid>
                 </Container>
@@ -679,14 +679,14 @@ const AddNewProduct = () => {
                   <br />
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
-                  <Button
+                    <Button
                       type="button"
                       variant="contained"
                       color="primary"
                       style={{ padding: "0.6rem 1.5rem", marginRight: "2rem" }}
                       onClick={() => setTabIndex(tabIndex - 1)}
                     >
-                     <span style={{ marginRight:"0.2rem"}}> ⟵ </span> Prev 
+                      <span style={{ marginRight: "0.2rem" }}> ⟵ </span> Prev
                     </Button> <Button
                       type="button"
                       variant="contained"
@@ -694,7 +694,7 @@ const AddNewProduct = () => {
                       style={{ padding: "0.6rem 1.5rem" }}
                       onClick={() => setTabIndex(tabIndex + 1)}
                     >
-                      Next  <span style={{ marginLeft:"0.2rem"}}> ⟶ </span>
+                      Next  <span style={{ marginLeft: "0.2rem" }}> ⟶ </span>
                     </Button>
                   </Grid>
                 </Container>
