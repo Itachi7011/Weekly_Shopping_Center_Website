@@ -293,10 +293,15 @@ const AddNewProduct = () => {
           >
             <TabList>
               <Tab id="Project">Product</Tab>
+
               <Tab id="LocationMap">Specifications</Tab>
+
               <Tab id="MasterPlan">Price Details</Tab>
+
               <Tab id="FloorPlan">Stock Available</Tab>
+
               <Tab id="PricePlan">Images & Videos</Tab>
+              
 
             </TabList>
 
