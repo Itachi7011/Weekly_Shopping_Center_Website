@@ -11,13 +11,11 @@ import {
   Button,
   InputLabel,
   TextareaAutosize,
-
   List,
   ListItem,
   ListItemText,
 
 } from "@mui/material";
-
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 const AddNewProduct = () => {
 
@@ -27,6 +25,7 @@ const AddNewProduct = () => {
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const textareaRef = useRef(null);
 
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -163,27 +162,38 @@ const AddNewProduct = () => {
 
   const handleTagClick = (tag) => {
 
+    console.log("Tag clicked:", tag); // Log the clicked tag
 
     setSelectedTags((prevTags) => [...prevTags, tag.tagName]);
 
-    setShowSuggestions(false);
+    textareaRef.current.focus(); // Focus on the textarea immediately after clicking the tag
+
+    setShowSuggestions(false); // Hide suggestions
 
   };
 
-  const filteredTags = tags.filter(tag => !selectedTags.includes(tag.tagName));
 
   const handleFocus = () => {
 
-    setShowSuggestions(true);
+    setShowSuggestions(true); // Show suggestions when focused
+
   };
 
 
   const handleBlur = () => {
 
-
-    setTimeout(() => setShowSuggestions(false), 100);
+    setTimeout(() => setShowSuggestions(false), 100); // Delay to allow click event on suggestions
 
   };
+
+  const handleRemoveTag = (tagToRemove) => {
+
+    setSelectedTags((prevTags) => prevTags.filter(tag => tag !== tagToRemove));
+
+  };
+  // Filter out selected tags from the suggestions
+
+  const filteredTags = tags.filter(tag => !selectedTags.includes(tag.tagName));
 
 
   const handleSubmit = async (e) => {
@@ -388,7 +398,7 @@ const AddNewProduct = () => {
                         onChange={handleDropdownChange}
                         value={data.marketName}
                       >
-                        <option value="">- - - - Please Choose - - - </option>
+                        <option value="">- - - - Please Choose - - - - </option>
 
                         {
                           market.map((item) => {
@@ -414,7 +424,7 @@ const AddNewProduct = () => {
                         onChange={handleDropdownChange}
                         value={data.projectFor}
                       >
-                        <option value="">- - - - Please Choose - - - </option>
+                        <option value="">- - - - Please Choose - - - - </option>
                         <option value="New">New</option>
                         <option value="Refurbished">Refurbished</option>
                       </select>
@@ -433,7 +443,7 @@ const AddNewProduct = () => {
                         onChange={handleDropdownChange}
                         value={data.category}
                       >
-                        <option value="">- - - - Please Choose - - - </option>
+                        <option value="">- - - - Please Choose - - - - </option>
 
                         {
                           category.map((item) => {
@@ -469,7 +479,7 @@ const AddNewProduct = () => {
 
                       >
 
-                        <option value="">- - - - Please Choose - - - </option>
+                        <option value="">- - - - Please Choose - - - - </option>
 
                         {
 
@@ -654,7 +664,7 @@ const AddNewProduct = () => {
                 >
                   <Grid container spacing={2} rowSpacing={2}>
 
-                    <Grid item xs={10}>
+                    <Grid item xs={6}>
 
                       <TextareaAutosize
 
@@ -677,15 +687,13 @@ const AddNewProduct = () => {
 
                     {showSuggestions && filteredTags.length > 0 && (
 
-                      <List style={{ cursor: "pointer", position: "absolute" }}>
+                      <List style={{ cursor: "pointer", position: "absolute", zIndex: 200 }}>
 
-                        {tags.map((tag) => (
+                        {filteredTags.map((tag) => (
 
-                          <ListItem button key={tag._id} onClick={() => handleTagClick(tag)} style={{
-                            marginRight: "45rem", cursor: "pointer", zIndex: "200"
-                          }} >
+                          <ListItem button key={tag._id} onMouseDown={() => handleTagClick(tag)} style={{ cursor: "pointer" }}>
 
-                            <ListItemText primary={tag.tagName} style={{ cursor: "pointer" }} /> {/* Access tagName property */}
+                            <ListItemText primary={tag.tagName} style={{ color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem" }} />
 
                           </ListItem>
 
@@ -695,7 +703,7 @@ const AddNewProduct = () => {
 
                     )}
 
-                    <div>
+                    <div style={{ marginLeft:"5%"}} >
 
                       <h4>Selected Tags:</h4>
 
@@ -703,7 +711,35 @@ const AddNewProduct = () => {
 
                         {selectedTags.map((tag, index) => (
 
-                          <li key={index} style={{ cursor: "ponter" }}>{tag}</li>
+                          <li key={index} style={{ color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem", marginTop: "0.5rem" }}>{tag}
+                            <span
+
+                              onClick={() => handleRemoveTag(tag)}
+
+                              style={{
+
+                                color: "white",
+                                marginLeft:"0.4rem",
+                                paddingRight: "0.3rem",
+                                paddingLeft: "0.3rem",
+
+                                cursor: "pointer",
+                                float:"right",
+
+                                fontWeight: "bold",
+
+                                fontSize: "1rem",
+                                background: "red"
+
+                              }}
+
+                            >
+
+                              &times; {/* This is the close (X) character */}
+
+                            </span>
+
+                          </li>
 
                         ))}
 
@@ -932,7 +968,7 @@ const AddNewProduct = () => {
           </Tabs>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
