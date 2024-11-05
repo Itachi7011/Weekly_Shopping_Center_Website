@@ -38,6 +38,9 @@ const ProductsSchema = new mongoose.Schema({
   dimensions: {
     type: String,
   },
+  stockNextRefillDate: {
+    type: String,
+  },
   sellerDiscount: {
 
     type: String,

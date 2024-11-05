@@ -16,6 +16,8 @@ import {
   ListItemText,
 
 } from "@mui/material";
+
+
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 const AddNewProduct = () => {
 
@@ -49,6 +51,7 @@ const AddNewProduct = () => {
     youtubeUrl: "",
     status: "",
     tags: "",
+    stockNextRefillDate: "",
     frontPhoto: "",
     createdBy: "",
   });
@@ -709,7 +712,7 @@ const AddNewProduct = () => {
 
                       <ul>
 
-                        {selectedTags.map((tag, index) => (
+                        {selectedTags.length===0 ? "No Tags Selected Yet ! " :selectedTags.map((tag, index) => (
 
                           <li key={index} style={{ color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem", marginTop: "0.5rem" }}>{tag}
                             <span
@@ -867,6 +870,12 @@ const AddNewProduct = () => {
                       onChange={debouncedHandleInput}
                     />
                   </Grid>
+<Grid item xs={8}>
+
+ <span> Stock Next Refill Date : </span> <input type="date" className="p-2 mt-4 ms-4 dateTimeInput" style={{borderRadius:"5px"}} ></input>
+
+                  </Grid>
+
                   <br />
 
                   <br />
