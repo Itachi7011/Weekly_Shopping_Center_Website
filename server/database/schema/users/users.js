@@ -74,6 +74,7 @@ const NewUserRegistrationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  
   otp: {
     type: Number,
   },

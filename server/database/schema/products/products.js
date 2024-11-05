@@ -78,6 +78,36 @@ const ProductsSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  technicalDetails: {
+    type: String,
+  },
+  additionalInformation: {
+    type: String,
+  },
+  rating: {
+    type: Number,
+  },
+  comments: [
+    {
+      userName: String,
+      userEmail: String,
+      comment: String,
+      likes: Number,
+      disLikes: Number,
+    },
+  ],
+  freqAskedQuest: [
+    {
+      userName: String,
+      userEmail: String,
+      question: String,
+      answer: String,
+      comment: String,
+      likes: Number,
+      disLikes: Number,
+    },
+  ],
+
   status: {
     type: String,
   },
