@@ -10,6 +10,11 @@ import {
   TextField,
   Button,
   InputLabel,
+  TextareaAutosize,
+
+  List,
+  ListItem,
+  ListItemText,
 
 } from "@mui/material";
 
@@ -18,6 +23,10 @@ const AddNewProduct = () => {
 
   const [category, setCategory] = useState([]);
   const [market, setMarket] = useState([]);
+
+  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -104,7 +113,18 @@ const AddNewProduct = () => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("/api/tagsList")
+      .then((response) => {
+        const data = response.data;
 
+        setTags(data);
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
 
 
   const debouncedHandleInput = debounce((e) => {
@@ -118,7 +138,7 @@ const AddNewProduct = () => {
 
     if (name === "category") {
 
-      setSelectedCategory(value); // Set selected category
+      setSelectedCategory(value);
 
     }
 
@@ -129,10 +149,8 @@ const AddNewProduct = () => {
     const data = editor.getData();
 
     setLcationMapText(data);
-  }, 500); // debounce for 500ms
+  }, 500);
 
-
-  console.log(user.name)
 
 
   const getSubCategories = () => {
@@ -140,6 +158,30 @@ const AddNewProduct = () => {
     const selectedCat = category.find(item => item.categoryName === selectedCategory);
 
     return selectedCat ? selectedCat.subCategoryName : [];
+
+  };
+
+  const handleTagClick = (tag) => {
+
+
+    setSelectedTags((prevTags) => [...prevTags, tag.tagName]);
+
+    setShowSuggestions(false);
+
+  };
+
+  const filteredTags = tags.filter(tag => !selectedTags.includes(tag.tagName));
+
+  const handleFocus = () => {
+
+    setShowSuggestions(true);
+  };
+
+
+  const handleBlur = () => {
+
+
+    setTimeout(() => setShowSuggestions(false), 100);
 
   };
 
@@ -295,6 +337,8 @@ const AddNewProduct = () => {
               <Tab id="Project">Product</Tab>
 
               <Tab id="LocationMap">Specifications</Tab>
+
+              <Tab id="LocationMap">Tags</Tab>
 
               <Tab id="MasterPlan">Price Details</Tab>
 
@@ -591,6 +635,121 @@ const AddNewProduct = () => {
                 </Container>
               </div>
             </TabPanel>
+
+
+
+
+
+            <TabPanel>
+              <div>
+                <Container
+                  component="main"
+                  rowspacing={2}
+                  maxWidth="xl"
+                  style={{
+                    marginTop: "2%",
+                    marginBottom: "2%",
+                    display: "block",
+                  }}
+                >
+                  <Grid container spacing={2} rowSpacing={2}>
+
+                    <Grid item xs={10}>
+
+                      <TextareaAutosize
+
+                        aria-label="minimum height"
+
+                        minRows={8}
+
+                        placeholder=""
+
+                        style={{ width: "100%" }}
+
+                        onFocus={handleFocus}
+
+                        onBlur={handleBlur}
+
+                      />
+
+                    </Grid>
+
+
+                    {showSuggestions && filteredTags.length > 0 && (
+
+                      <List style={{ cursor: "pointer", position: "absolute" }}>
+
+                        {tags.map((tag) => (
+
+                          <ListItem button key={tag._id} onClick={() => handleTagClick(tag)} style={{
+                            marginRight: "45rem", cursor: "pointer", zIndex: "200"
+                          }} >
+
+                            <ListItemText primary={tag.tagName} style={{ cursor: "pointer" }} /> {/* Access tagName property */}
+
+                          </ListItem>
+
+                        ))}
+
+                      </List>
+
+                    )}
+
+                    <div>
+
+                      <h4>Selected Tags:</h4>
+
+                      <ul>
+
+                        {selectedTags.map((tag, index) => (
+
+                          <li key={index} style={{ cursor: "ponter" }}>{tag}</li>
+
+                        ))}
+
+                      </ul>
+
+                    </div>
+
+
+
+                  </Grid>
+                  {" "}
+
+                  <br />
+
+                  <br /> <br />
+                  <Grid item xs={8} style={{ textAlign: "center" }}>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
+                      style={{ padding: "0.6rem 1.5rem", marginRight: "2rem" }}
+                      onClick={() => setTabIndex(tabIndex - 1)}
+                    >
+                      <span style={{ marginRight: "0.2rem" }}> ⟵ </span> Prev
+                    </Button> <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
+                      style={{ padding: "0.6rem 1.5rem" }}
+                      onClick={() => setTabIndex(tabIndex + 1)}
+                    >
+                      Next  <span style={{ marginLeft: "0.2rem" }}> ⟶ </span>
+                    </Button>
+
+                  </Grid>
+                </Container>
+              </div>
+            </TabPanel>
+
+
+
+
+
+
+
+
             <TabPanel>
               <div>
                 <Container
