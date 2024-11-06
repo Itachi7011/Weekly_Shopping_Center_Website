@@ -22,6 +22,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 const AddNewProduct = () => {
 
   const [category, setCategory] = useState([]);
+  const [brand, setBrand] = useState([]);
   const [market, setMarket] = useState([]);
 
   const [tags, setTags] = useState([]);
@@ -107,6 +108,19 @@ const AddNewProduct = () => {
         const data = response.data;
 
         setCategory(data);
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("/api/brandsList")
+      .then((response) => {
+        const data = response.data;
+
+        setBrand(data);
       })
       .catch((err) => {
         console.log("Error during Data:", err);
@@ -521,7 +535,32 @@ const AddNewProduct = () => {
                         name="brand"
                         onChange={debouncedHandleInput}
                         style={{ background: "#F0E7F2 " }}
-                      /> </Grid>
+                      /> 
+                      
+                      Product Brands{" "}
+                      <select
+                        style={{
+                          height: "6vh",
+                          backgroundColor: "white",
+                          borderRadius: "5px",
+                          width: "100%",
+                          background: "#ECEFE3"
+                        }}
+                        name="subCategory"
+                        onChange={handleDropdownChange}
+                        value={data.subCategory} // Update this to the correct state
+                      >
+                        <option value="">- - - - Please Choose - - - - </option>
+                        {
+                        brand.map((item) => {
+                          return (<>
+                            <option value={item.brandName}> {item.brandName} </option>
+                          </>)
+                        })
+                        }
+                      </select>
+                      
+                      </Grid>
                     <Grid item xs={10}>
                       <TextField
                         placeholder="Please Enter Model Name"

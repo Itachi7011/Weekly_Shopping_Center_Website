@@ -608,6 +608,7 @@ app.post("/api/addBrand", async (req, res) => {
   try {
     const userData = await new BrandsDB({
       brandName: req.body.brandName,
+      categoryName: req.body.categoryName,
       content: req.body.content,
       createdBy: req.body.createdBy,
       dateOfFormSubmission: new Date(),

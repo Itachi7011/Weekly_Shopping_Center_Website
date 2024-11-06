@@ -39,6 +39,12 @@ import NewSubCategory from "./Components/Admin/Categories/NewSubCategory";
 import ShowAllCategories from "./Components/Admin/Categories/ShowAllCategories";
 
 
+
+// Categories
+
+import NewBrand from "./Components/Admin/Brands/NewBrand";
+import ShowAllBrands from "./Components/Admin/Brands/ShowAllBrands";
+
 // Navbar Items
 import NewNavbarItem from "./Components/Admin/NavbarItems/NewNavbarItem";
 import ShowAllNavbarItems from "./Components/Admin/NavbarItems/ShowAllNavbarItems";
@@ -92,6 +98,11 @@ function App() {
           <Route path="/NewCategory" element={<NewCategory />}></Route>
           <Route path="/NewSubCategory" element={<NewSubCategory />}></Route>
           <Route path="/ShowAllCategories" element={<ShowAllCategories />}></Route>
+
+
+          {/* Brands */}
+          <Route path="/NewBrand" element={<NewBrand />}></Route>
+          <Route path="/ShowAllBrands" element={<ShowAllBrands />}></Route>
 
           {/* Navbar Items */}
           <Route path="/NewNavbarItem" element={<NewNavbarItem />}></Route>

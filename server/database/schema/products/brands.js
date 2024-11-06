@@ -6,6 +6,10 @@ const W_Mark_Brands = new mongoose.Schema({
     type: String,
 
   },
+  categoryName: {
+    type: String,
+
+  },
   content: {
     type: String,
   },

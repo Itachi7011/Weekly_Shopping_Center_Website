@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import axios from "axios";
 
 
-const NewTag = () => {
+const NewSubCategory = () => {
 
   const [content, setContent] = useState("");
   const [Data, setData] = useState("");
@@ -227,4 +227,4 @@ const NewTag = () => {
   );
 };
 
-export default NewTag;
+export default NewSubCategory;

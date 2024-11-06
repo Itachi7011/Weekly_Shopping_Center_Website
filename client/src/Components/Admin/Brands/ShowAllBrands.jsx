@@ -63,7 +63,7 @@ const ShowAllTags = () => {
 
   useEffect(() => {
     axios
-      .get("/api/categoriesList")
+      .get("/api/brandsList")
       .then((response) => {
         const data = response.data;
 
@@ -172,6 +172,7 @@ const ShowAllTags = () => {
                   <th>S No.</th>
                   <th>Name</th>
                   <th>Details</th>
+                  <th>Category</th>
                   <th>Created By</th>
                   <th>Date</th>
 
@@ -179,7 +180,7 @@ const ShowAllTags = () => {
                 </thead>
                 {currentItems.map(
                   (
-                    { brandName, content, createdBy, dateOfFormSubmission, _id },
+                    { brandName, content, createdBy, dateOfFormSubmission, categoryName , _id },
                     index
                   ) => {
                     return (
@@ -205,6 +206,7 @@ const ShowAllTags = () => {
                               dangerouslySetInnerHTML={{ __html: content }}
                             ></td>
                             
+                            <td>{categoryName}</td>
                             <td>{createdBy}</td>
                             <td>
                               {new Date(

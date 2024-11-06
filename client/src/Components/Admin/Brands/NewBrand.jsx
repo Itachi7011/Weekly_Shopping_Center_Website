@@ -1,23 +1,21 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
 
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const NewTag = () => {
-  // const navigate = useNavigate();
+const NewBrand = () => {
 
   const [content, setContent] = useState("");
   const [Data, setData] = useState("");
+  const [category, setCategory] = useState([]);
 
   let name, value;
   const [user, setUser] = useState({
     categoryName: "",
     content: "",
-    createdBy: "",
-    dateOfFormSubmission: "",
+    brandName: "",
   });
   const UserDetails = async () => {
     try {
@@ -49,6 +47,22 @@ const NewTag = () => {
     UserDetails();
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("/api/categoriesList")
+      .then((response) => {
+        const data = response.data;
+
+        setCategory( data );
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+
+  const handleDropdownChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
   const inputHandler = (e) => {
     name = e.target.name;
     value = e.target.value;
@@ -65,13 +79,14 @@ const NewTag = () => {
     var bodyFormData = new FormData();
 
     bodyFormData.append("categoryName", user.categoryName);
+    bodyFormData.append("brandName", user.brandName);
     bodyFormData.append("createdBy", Data.name);
 
     bodyFormData.append("content", content);
 
     try {
       const response = await axios.post(
-        "/api/addCategory",
+        "/api/addBrand",
 
         bodyFormData,
 
@@ -81,7 +96,7 @@ const NewTag = () => {
           },
         }
       );
-      alert("New Category added Successfully");
+      alert("New Brand added Successfully");
 
       // request successful, refresh the page
 
@@ -92,6 +107,9 @@ const NewTag = () => {
       console.log(error);
     }
   };
+
+
+
   if (Data.userType !== "Admin") {
     return <div></div>;
   }
@@ -128,7 +146,7 @@ const NewTag = () => {
                 className="text-center"
                 style={{ marginBottom: "1rem", color: "white" }}
               >
-                Add New Category
+                Add New Brand
               </h3>
               <div
                 className="innerDiv container"
@@ -143,22 +161,48 @@ const NewTag = () => {
                     <h6 style={{ marginBottom: "2.7rem", fontSize: "1rem" }}>
                       Category Name :
                     </h6>
-
+                    <h6 style={{ marginBottom: "2.7rem", fontSize: "1rem" }}>
+                      Brand Name :
+                    </h6>
                     <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                       Details :
                     </h6>
+                   
                   </div>
                   <div className="col-lg-8">
-                    <input
+                  <select
+                        style={{
+                          height: "6vh",
+                          backgroundColor: "white",
+                          borderRadius: "5px",
+                          width: "100%",
+                          marginBottom:"1.6rem"
+                        }}
+                        name="categoryName"
+                        onChange={handleDropdownChange}
+                        // value={user.categoryName}
+                      >
+                        <option value="">- - - - Please Choose - - - </option>
+
+                        {
+                          category.map((item) => {
+                            return (<>
+                              <option value={item.categoryName}> {item.categoryName} </option>
+                            </>)
+                          })
+                        }
+
+                      </select>
+
+                      <input
                       type="text"
-                      name="categoryName"
+                      name="brandName"
                       style={{ fontWeight: "400" }}
                       onChange={inputHandler}
                       placeholder=""
                       className="form-control mb-4"
                     />
-
-                    <CKEditor
+ <CKEditor
                       config={{
                         height: 800,
                         toolbar: [
@@ -211,6 +255,8 @@ const NewTag = () => {
 
                     <br />
                     <br />
+                  
+                    <br />
                     <button
                       className="btn  me-4"
                       style={{ background: "#4681f4", color: "white" }}
@@ -238,4 +284,4 @@ const NewTag = () => {
   );
 };
 
-export default NewTag;
+export default NewBrand;

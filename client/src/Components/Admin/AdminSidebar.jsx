@@ -218,15 +218,15 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={() => handleSubBtnClick(5)}
             >
-              <ReceiptLongIcon /> Transactions
+              <ReceiptLongIcon /> Brands / Companies
               <i className="fas fa-angle-right dropdown"></i>
             </a>
             <div className="sub-menu">
-              <a href="/SavingAccountTransactionList" className="sub-item">
-                Saving A/C Tran.
+              <a href="/NewBrand" className="sub-item">
+                Add New Brand
               </a>
-              <a href="/CurrentAccountTransactionList" className="sub-item">
-                Current A/C Tran.
+              <a href="/ShowAllBrands" className="sub-item">
+                Show All Brands
               </a>
             </div>
           </div>
