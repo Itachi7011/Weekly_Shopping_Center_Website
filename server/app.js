@@ -256,6 +256,9 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+
+
+
 // Logout Function
 
 app.get("/api/logout", authenticate, async (req, res) => {
@@ -282,6 +285,8 @@ app.get("/api/logout", authenticate, async (req, res) => {
     console.log(`Error During Logout - ${err}`);
   }
 });
+
+
 
 // Customer Account APIs and deleting Functions
 
@@ -773,21 +778,21 @@ app.post("/api/deleteSelectedMarket", async (req, res) => {
 
 //    Products
 
-const uploadToCloudinaryProducts = async (file) => {
+
+const uploadToCloudinaryMultipleFiles = async (file) => {
   try {
-    console.log("upload starts");
-    const result = await cloudinary.uploader.upload(file, {
+    const result = await cloudinary.uploader.upload(file.path, {
       folder: "W_Mark_Products",
       resource_type: "auto",
     });
-    console.log(result);
-
+    console.log("uploadinary:", result)
     return result;
   } catch (err) {
     console.error(err);
     return null;
   }
 };
+
 
 const ProductsImageMulter = multer({
   storage: cloudinaryStorage,
@@ -805,18 +810,23 @@ const ProductsImageMulter = multer({
 
     cb(null, true);
   },
-}).fields([{ name: "images", minCount: 1, maxCount: 4 }]);
+}).fields([{ name: "images", minCount: 1, maxCount: 5 }]);
 
-app.post("/api/addProducts", ProductsImageMulter, async (req, res) => {
+app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
   try {
 
-    const projectImageRaw = req.files.images;
+    // console.log(req.body)
+    // console.log(req.files)
 
-    const projectImage = await Promise.all(
-      projectImageRaw.map((file) => uploadToCloudinaryMultipleFiles(file))
+    const productImagesRaw = req.files.images;
+    console.log("log1:",productImagesRaw)
+
+    const productImages = await Promise.all(
+      productImagesRaw.map((file) => uploadToCloudinaryMultipleFiles(file))
     );
+    console.log("product Images: ",productImages)
 
-    const processedImages = projectImage.map((cldRes) => ({
+    const processedImages = productImages.map((cldRes) => ({
       data: cldRes.secure_url,
 
       publicId: cldRes.public_id,
@@ -826,37 +836,61 @@ app.post("/api/addProducts", ProductsImageMulter, async (req, res) => {
       contentType: `image/${cldRes.format}`,
     }));
 
-    //
+    console.log("tags are: ",req.body.tags)
+    const stockAvailable = req.body.stock_available;
+
     let productId;
     do {
       productId = shortid.generate();
     } while (await ProductsDB.findOne({ id: productId }));
+
+    // Discount Calculation
+
+    const price = parseFloat(req.body.price) || 0;
+
+    const discount = parseFloat(req.body.sellerDiscount) || 0;
+    const adminDiscount = parseFloat(req.body.adminDiscount) || 0;
+    const totalDiscount = discount + adminDiscount
+
+    const discountAmount = (price * totalDiscount) / 100;
+
+    const effectivePrice = price - discountAmount;
+    const EffectivePrice = effectivePrice.toFixed(0)
+
+
     const userData = await new ProductsDB({
       id: productId,
       name: req.body.name,
       category: req.body.category,
       subCategory: req.body.subCategory,
       price: req.body.price,
+      effectivePrice: EffectivePrice,
+      newOrRefurbished: req.body.newOrRefurbished,
       brand: req.body.brand,
       model: req.body.model,
-      size: req.body.size,
       color: req.body.color,
       weight: req.body.weight,
       dimensions: req.body.dimensions,
-      discount: req.body.discount,
-      stock_quantity: req.body.stock_quantity,
+      sellerDiscount: req.body.sellerDiscount,
+      adminDiscount: req.body.adminDiscount,
+      adminDiscount: 0,
+      rating: 0,
+      stock_available: req.body.stock_available,
+      stockNextRefillDate: req.body.stockNextRefillDate,
       youtubeUrl: req.body.youtubeUrl,
-      description: req.body.description,
-      status: req.body.status,
-      tags: JSON.parse(req.body.tags),
-      createdBy: req.body.createdBy,
+      productDetails: req.body.productDetails,
+      warrantyDetails: req.body.warrantyDetails,
+      technicalDetails: req.body.technicalDetails,
+      tags: JSON.parse(req.body.tags.tagName),
+      createdByName: req.body.createdByName,
+      createdByType: req.body.createdByType,
       dateOfFormSubmission: new Date(),
       images: processedImages,
     });
 
-    await userData.save();
-    console.log("New Product Added in Database Successfully");
-    res.send({ status: "Ok", data: "New Tag Saved." });
+    // await userData.save();
+    // console.log("New Product Added in Database Successfully");
+    // res.send({ status: "Ok", data: "New Tag Saved." });
   } catch (err) {
     console.log(err);
     res.redirect("/failure-message");

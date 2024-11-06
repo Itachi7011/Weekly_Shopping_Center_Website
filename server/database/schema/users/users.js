@@ -53,14 +53,14 @@ const NewUserRegistrationSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    default:"India"
+    default: "India"
     // require : true
   },
   location: {
     type: String,
     // require : true
   },
-  
+
   dateOfFormSubmission: {
     type: String,
   },
@@ -74,7 +74,22 @@ const NewUserRegistrationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  
+  cart: [{
+    productName: String,
+    productId: String,
+
+  }],
+  likedProducts: [{
+    productName: String,
+    productId: String,
+  }],
+
+  alreadyPurchased: [{
+    productName: String,
+    productId: String,
+
+  }],
+
   otp: {
     type: Number,
   },

@@ -23,6 +23,9 @@ const ProductsSchema = new mongoose.Schema({
   price: {
     type: String,
   },
+  effectivePrice: {
+    type: String,
+  },
   brand: {
     type: String,
   },
@@ -38,6 +41,7 @@ const ProductsSchema = new mongoose.Schema({
   dimensions: {
     type: String,
   },
+
   stockNextRefillDate: {
     type: String,
   },
@@ -55,7 +59,7 @@ const ProductsSchema = new mongoose.Schema({
     type: String,
     default:0
   },
-  stock_avilable: {
+  stock_available: {
     type: String,
   },
   tags: [
@@ -75,15 +79,16 @@ const ProductsSchema = new mongoose.Schema({
   youtubeUrl: {
     type: String,
   },
-  description: {
+  productDetails: {
+    type: String,
+  },
+  warrantyDetails: {
     type: String,
   },
   technicalDetails: {
     type: String,
   },
-  additionalInformation: {
-    type: String,
-  },
+
   rating: {
     type: Number,
   },
@@ -108,10 +113,11 @@ const ProductsSchema = new mongoose.Schema({
     },
   ],
 
-  status: {
+
+  createdByName: {
     type: String,
   },
-  createdBy: {
+  createdByType: {
     type: String,
   },
   dateOfFormSubmission: {

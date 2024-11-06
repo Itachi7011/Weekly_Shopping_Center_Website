@@ -27,9 +27,22 @@ const AddNewProduct = () => {
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+
   const textareaRef = useRef(null);
 
+
+  const [priceWithoutDiscount, setPriceWithoutDiscount] = useState("");
+
+  const [sellerDiscount, setSellerDiscount] = useState("");
+
+  const [effectivePrice, setEffectivePrice] = useState("");
+
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  const [productDetailsText, setproductDetailsText] = useState("");
+  const [warrantyDetailsText, setwarrantyDetailsText] = useState("");
+  const [technicalDetailsText, settechnicalDetailsText] = useState("");
+
 
   const [tabIndex, setTabIndex] = useState(0);
   const [image1, setImage1] = useState([]);
@@ -41,19 +54,18 @@ const AddNewProduct = () => {
     subCategory: "",
     marketName: "",
     price: "",
+    newOrRefurbished: "",
+    sellerDiscount: "",
     brand: "",
     model: "",
-    size: "",
     color: "",
     weight: "",
     dimensions: "",
-    stock_quantity: "",
+    stock_available: "",
     youtubeUrl: "",
-    status: "",
-    tags: "",
     stockNextRefillDate: "",
-    frontPhoto: "",
-    createdBy: "",
+    createdByName: "",
+    createdByType: "",
   });
 
 
@@ -132,6 +144,11 @@ const AddNewProduct = () => {
   const debouncedHandleInput = debounce((e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
+    if (name === "price") {
+      setPriceWithoutDiscount(value);
+    } else if (name === "sellerDiscount") {
+      setSellerDiscount(value);
+    }
   }, 300);
 
   const handleDropdownChange = (e) => {
@@ -147,11 +164,41 @@ const AddNewProduct = () => {
     setUser({ ...user, [name]: value });
 
   };
-  const debouncedOnChange = debounce((event, editor) => {
+  const debouncedOnChange1 = debounce((event, editor) => {
     const data = editor.getData();
 
-    setLcationMapText(data);
+    setproductDetailsText(data);
   }, 500);
+
+  const debouncedOnChange2 = debounce((event, editor) => {
+    const data = editor.getData();
+
+    setproductDetailsText(data);
+  }, 500);
+
+  const debouncedOnChange3 = debounce((event, editor) => {
+    const data = editor.getData();
+
+    settechnicalDetailsText(data);
+  }, 500);
+
+
+  //   effectivePrice
+  // setEffectivePrice
+  useEffect(() => {
+
+    const price = parseFloat(priceWithoutDiscount) || 0;
+
+    const discount = parseFloat(sellerDiscount) || 0;
+
+    const discountAmount = (price * discount) / 100;
+
+    const effectivePrice = price - discountAmount;
+    const EffectivePrice = effectivePrice.toFixed(0)
+
+    setEffectivePrice(EffectivePrice);
+
+  }, [priceWithoutDiscount, sellerDiscount]);
 
 
 
@@ -165,7 +212,6 @@ const AddNewProduct = () => {
 
   const handleTagClick = (tag) => {
 
-    console.log("Tag clicked:", tag); // Log the clicked tag
 
     setSelectedTags((prevTags) => [...prevTags, tag.tagName]);
 
@@ -204,96 +250,39 @@ const AddNewProduct = () => {
     console.log("submit button pressed");
 
     var bodyFormData = new FormData();
-    bodyFormData.append("ownerName", data.developerName);
-    bodyFormData.append("email", User.email);
-    bodyFormData.append("totalAmount", data.totalAmount);
-    bodyFormData.append("projectType", data.projectType);
-    bodyFormData.append("userType", User.userType);
-    bodyFormData.append("projectListedBy", User.name);
-    bodyFormData.append("phoneNo", User.phoneNo);
+    bodyFormData.append("name", user.name);
+    bodyFormData.append("category", user.category);
+    bodyFormData.append("subCategory", user.subCategory);
+    bodyFormData.append("marketName", user.marketName);
+    bodyFormData.append("price", user.price);
+    bodyFormData.append("newOrRefurbished", user.newOrRefurbished);
+    bodyFormData.append("sellerDiscount", user.sellerDiscount);
+    bodyFormData.append("brand", user.brand);
+    bodyFormData.append("model", user.model);
+    bodyFormData.append("color", user.color);
+    bodyFormData.append("weight", user.weight);
+    bodyFormData.append("dimensions", user.dimensions);
+    bodyFormData.append("stock_available", user.stock_available);
+    bodyFormData.append("youtubeUrl", user.youtubeUrl);
+    bodyFormData.append("stockNextRefillDate", user.stockNextRefillDate);
+    bodyFormData.append("tags", JSON.stringify(tags));
 
-    bodyFormData.append("total_area", data.total_area);
-    bodyFormData.append("project_name", data.project_name);
-    bodyFormData.append("min_area", data.min_area);
-    bodyFormData.append("max_area", data.max_area);
-    bodyFormData.append("bank_offers", JSON.stringify(bankOfferSend));
-    bodyFormData.append("amenities", JSON.stringify(selectedValues1));
-    bodyFormData.append("floorPlan", data.floorPlan);
-    bodyFormData.append("featureProject", data.featureProject);
-    bodyFormData.append("usp", JSON.stringify(usps));
-    bodyFormData.append("posession_date", data.posession_date);
-    bodyFormData.append("reg", data.reg);
-    bodyFormData.append("rera_approval", data.rera_approval);
-    bodyFormData.append("price", data.price);
-    bodyFormData.append("min_price", data.min_price);
-    bodyFormData.append("developerName", data.developerName);
-    bodyFormData.append("youtube_URL", data.youtube_URL);
-    bodyFormData.append("max_price", data.max_price);
-    bodyFormData.append("area", data.area);
-    bodyFormData.append("open_area", data.open_area);
-    bodyFormData.append("projectFor", data.projectFor);
-    bodyFormData.append("project_lane_address", data.project_lane_address);
-    bodyFormData.append("sub_location", selectedSubLocation);
-    bodyFormData.append("location", selectedLocation);
-    bodyFormData.append("city", selectedCity);
-    // bodyFormData.append("city", data.city);
-    bodyFormData.append("constructionStatus", data.constructionStatus);
-    bodyFormData.append("bhkNumber", data.bhkNumber);
-    bodyFormData.append("no_of_tower", data.no_of_tower);
-    bodyFormData.append("no_of_floor", data.no_of_floor);
-    bodyFormData.append("no_of_units", data.no_of_units);
-    bodyFormData.append("metaKeyword", data.metaKeyword);
+    bodyFormData.append("createdByName", data.name);
+    bodyFormData.append("createdByType", data.userType);
 
-    bodyFormData.append("specificationStatus", data.specificationStatus);
-    bodyFormData.append("locationMapStatus", data.locationMapStatus);
-    bodyFormData.append("masterPlanStatus", data.masterPlanStatus);
-    bodyFormData.append("floorPlanStatus", data.floorPlanStatus);
-    bodyFormData.append("pricePlanStatus", data.pricePlanStatus);
-    bodyFormData.append("paymentPlanStatus", data.paymentPlanStatus);
-    bodyFormData.append("e_brochureStatus", data.e_brochureStatus);
-    bodyFormData.append(
-      "constructionUpdateStatus",
-      data.constructionUpdateStatus
-    );
-    bodyFormData.append("contactUsStatus", data.contactUsStatus);
 
-    bodyFormData.append("logoImage", image);
-
-    // bodyFormData.append("projectImage", image1);
-    // Array.from(image1).forEach(item=>{
-    //   bodyFormData.append("projectImage", JSON.stringify(image1))
-    // })
-    // bodyFormData.append("projectImage", image1)
 
     for (let i = 0; i < image1.length; i++) {
-      bodyFormData.append("projectImage", image1[i]);
+      bodyFormData.append("images", image1[i]);
     }
 
-    // image1.forEach((file, index) => {
 
-    //   bodyFormData.append(`projectImage${index}`, file);
+    bodyFormData.append("effectivePrice", effectivePrice);
 
-    // });
-    for (let i = 0; i < image2.length; i++) {
-      bodyFormData.append("floorPlanImage", image2[i]);
-    }
+    bodyFormData.append("productDetails", productDetailsText);
+    bodyFormData.append("warrantyDetails", warrantyDetailsText);
+    bodyFormData.append("technicalDetails", technicalDetailsText);
 
-    // bodyFormData.append("floorPlanImage", image2);
-    bodyFormData.append("pricePlanImage", image3);
-    bodyFormData.append("paymentPlanImage", image4);
-    bodyFormData.append("locationMapImage", image8);
-
-    bodyFormData.append("e_brochureImage", image5);
-    bodyFormData.append("constructionUpdateImage", image6);
-    bodyFormData.append("contactUsImage", image7);
-
-    bodyFormData.append("constructionData", constructionText);
-    bodyFormData.append("project_specification", specificationText);
-    bodyFormData.append("locationMap", locationMapText);
-    bodyFormData.append("masterPlan", masterPlanText);
-    bodyFormData.append("pricePlanDetails", pricePlanText);
-    bodyFormData.append("paymentPlanDetails", paymentPlanText);
-    bodyFormData.append("contactUsDetails", contactUsText);
 
     try {
       await axios.post(
@@ -307,17 +296,43 @@ const AddNewProduct = () => {
           },
         }
       );
-      alert("New Property added Successfully");
+      
+      // alert("New Product added Successfully");
 
-      // request successful, refresh the page
 
-      window.location.reload();
+      // window.location.reload();'
     } catch (error) {
       //handle error
 
       console.log(error);
     }
   };
+
+  if (!data) {
+    return <div style={{textAlign:"center", color: "white", background: "#63B7B7", padding: "5rem", margin: "5rem" }}>You must Login To Add A New Product
+      <br />
+      <Button
+        href="/Login"
+        variant="contained"
+        style={{ padding: "0.6rem 1.5rem", background: "green" }}
+      >
+        {" "}
+        Login{" "}
+      </Button>
+
+      <br />
+
+      <Button
+        href="/LogiNewUserRegistrationn"
+        variant="contained"
+        style={{ padding: "0.6rem 1.5rem", background: "green" }}
+      >
+        {" "}
+        New User{" "}
+      </Button>
+    </div>;
+  }
+
 
   return (
     <div
@@ -334,10 +349,10 @@ const AddNewProduct = () => {
         // position: "absolute",
         // left: "12rem",
       }}
-    >
+    ><h2 style={{ textAlign: "center", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", margin: "1% 30%", padding: "0.6rem 0.2rem" }}>Add New Product</h2>
       <div>
         <div>
-          <h2 style={{ textAlign: "center", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", margin: "1% 30%", padding: "0.2rem" }}>Add New Product</h2>
+
         </div>
 
         <div className="tablist">
@@ -350,6 +365,7 @@ const AddNewProduct = () => {
               <Tab id="Project">Product</Tab>
 
               <Tab id="LocationMap">Specifications</Tab>
+              <Tab id="LocationMap">Tech. Details</Tab>
 
               <Tab id="LocationMap">Tags</Tab>
 
@@ -383,6 +399,7 @@ const AddNewProduct = () => {
                         label="Product Name"
                         fullWidth
                         name="name"
+                        style={{ background: "#F0E7F2 " }}
                         onChange={debouncedHandleInput}
                       />
                     </Grid>
@@ -396,6 +413,7 @@ const AddNewProduct = () => {
                           backgroundColor: "white",
                           borderRadius: "5px",
                           width: "100%",
+                          background: "#ECEFE3"
                         }}
                         name="marketName"
                         onChange={handleDropdownChange}
@@ -415,17 +433,18 @@ const AddNewProduct = () => {
                     </Grid>
                     <br />
                     <Grid item xs={8}>
-                      Product Type{" "}
+                      Product Type{" "} (New Or Refurbished)
                       <select
                         style={{
                           height: "6vh",
                           backgroundColor: "white",
                           borderRadius: "5px",
                           width: "100%",
+                          background: "#ECEFE3"
                         }}
-                        name="projectFor"
+                        name="newOrRefurbished"
                         onChange={handleDropdownChange}
-                        value={data.projectFor}
+                        value={data.newOrRefurbished}
                       >
                         <option value="">- - - - Please Choose - - - - </option>
                         <option value="New">New</option>
@@ -441,6 +460,7 @@ const AddNewProduct = () => {
                           backgroundColor: "white",
                           borderRadius: "5px",
                           width: "100%",
+                          background: "#ECEFE3"
                         }}
                         name="category"
                         onChange={handleDropdownChange}
@@ -463,14 +483,11 @@ const AddNewProduct = () => {
                       <select
 
                         style={{
-
                           height: "6vh",
-
                           backgroundColor: "white",
-
                           borderRadius: "5px",
-
                           width: "100%",
+                          background: "#ECEFE3"
 
                         }}
 
@@ -501,16 +518,18 @@ const AddNewProduct = () => {
                         placeholder="Please Enter Brand Name"
                         label="Brand Name"
                         fullWidth
-                        name="metaKeyword"
+                        name="brand"
                         onChange={debouncedHandleInput}
+                        style={{ background: "#F0E7F2 " }}
                       /> </Grid>
                     <Grid item xs={10}>
                       <TextField
                         placeholder="Please Enter Model Name"
                         label="Model Name"
                         fullWidth
-                        name="metaKeyword"
+                        name="model"
                         onChange={debouncedHandleInput}
+                        style={{ background: "#F0E7F2 " }}
                       />
                     </Grid>
 
@@ -549,19 +568,21 @@ const AddNewProduct = () => {
 
                     <Grid item xs={10}>
                       <TextField
-                        placeholder="Please Enter Product Dimensions"
-                        label="Product Dimensions"
+                        placeholder="Please Enter Product Dimensions (Ex: 20cm X 30cm)"
+                        label="Product Dimensions (Ex: 20cm X 30cm)"
                         fullWidth
-                        name="metaKeyword"
+                        name="dimensions"
                         onChange={debouncedHandleInput}
+                        style={{ background: "#F0E7F2 " }}
                       /> </Grid>
                     <Grid item xs={10}>
                       <TextField
                         placeholder="Please Enter Product Weight"
                         label="Product Weight"
                         fullWidth
-                        name="metaKeyword"
+                        name="weight"
                         onChange={debouncedHandleInput}
+                        style={{ background: "#F0E7F2 " }}
                       />
                     </Grid>
                     <Grid item xs={10}>
@@ -569,8 +590,9 @@ const AddNewProduct = () => {
                         placeholder="Please Enter Product Color"
                         label="Product Color"
                         fullWidth
-                        name="metaKeyword"
+                        name="color"
                         onChange={debouncedHandleInput}
+                        style={{ background: "#F0E7F2 " }}
                       />
                     </Grid>
 
@@ -617,7 +639,7 @@ const AddNewProduct = () => {
                     }}
                     onBlur={(event, editor) => { }}
                     onFocus={(event, editor) => { }}
-                    onChange={debouncedOnChange}
+                    onChange={debouncedOnChange1}
                   />
                   <br />
 
@@ -650,7 +672,90 @@ const AddNewProduct = () => {
             </TabPanel>
 
 
+            <TabPanel>
+              <div>
+                <Container
+                  component="main"
+                  rowspacing={2}
+                  maxWidth="xl"
+                  style={{
+                    marginTop: "2%",
+                    marginBottom: "2%",
+                    display: "block",
+                  }}
+                >
 
+                  <InputLabel
+                    id="demo-simple-select-label"
+                    style={{ marginTop: "2%", marginBottom: "1%" }}
+                  >
+                    <h3>Technical Details</h3>
+                  </InputLabel>
+                  <CKEditor
+                    config={{
+                      height: 600,
+                      toolbar: [
+                        "heading",
+                        "|",
+                        "bold",
+                        "italic",
+                        "blockQuote",
+                        "link",
+                        "numberedList",
+                        "bulletedList",
+                        "imageUpload",
+                        "insertTable",
+                        "tableColumn",
+                        "tableRow",
+                        "mergeTableCells",
+                        "mediaEmbed",
+                        "|",
+                        "undo",
+                        "redo",
+                      ],
+                    }}
+                    style={{
+                      maxWidth: "100%",
+                      height: "800px",
+                      marginBottom: "1rem",
+                    }}
+                    editor={ClassicEditor}
+                    onReady={(editor) => {
+                      editor.editing.view.document.on("change:data", () => { });
+                    }}
+                    onBlur={(event, editor) => { }}
+                    onFocus={(event, editor) => { }}
+                    onChange={debouncedOnChange3}
+                  />
+                  <br />
+
+                  <br />
+                  <br />
+
+                  <br /> <br />
+                  <Grid item xs={8} style={{ textAlign: "center" }}>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
+                      style={{ padding: "0.6rem 1.5rem", marginRight: "2rem" }}
+                      onClick={() => setTabIndex(tabIndex - 1)}
+                    >
+                      <span style={{ marginRight: "0.2rem" }}> ⟵ </span> Prev
+                    </Button> <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
+                      style={{ padding: "0.6rem 1.5rem" }}
+                      onClick={() => setTabIndex(tabIndex + 1)}
+                    >
+                      Next  <span style={{ marginLeft: "0.2rem" }}> ⟶ </span>
+                    </Button>
+
+                  </Grid>
+                </Container>
+              </div>
+            </TabPanel>
 
 
             <TabPanel>
@@ -670,19 +775,13 @@ const AddNewProduct = () => {
                     <Grid item xs={6}>
 
                       <TextareaAutosize
-
                         aria-label="minimum height"
-
                         minRows={8}
-
                         placeholder=""
-
                         style={{ width: "100%" }}
-
                         onFocus={handleFocus}
-
                         onBlur={handleBlur}
-
+                        name="tags"
                       />
 
                     </Grid>
@@ -706,13 +805,13 @@ const AddNewProduct = () => {
 
                     )}
 
-                    <div style={{ marginLeft:"5%"}} >
+                    <div style={{ marginLeft: "5%" }} >
 
                       <h4>Selected Tags:</h4>
 
                       <ul>
 
-                        {selectedTags.length===0 ? "No Tags Selected Yet ! " :selectedTags.map((tag, index) => (
+                        {selectedTags.length === 0 ? "No Tags Selected Yet ! " : selectedTags.map((tag, index) => (
 
                           <li key={index} style={{ color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem", marginTop: "0.5rem" }}>{tag}
                             <span
@@ -722,12 +821,12 @@ const AddNewProduct = () => {
                               style={{
 
                                 color: "white",
-                                marginLeft:"0.4rem",
+                                marginLeft: "0.4rem",
                                 paddingRight: "0.3rem",
                                 paddingLeft: "0.3rem",
 
                                 cursor: "pointer",
-                                float:"right",
+                                float: "right",
 
                                 fontWeight: "bold",
 
@@ -807,8 +906,9 @@ const AddNewProduct = () => {
                         placeholder="Please Enter Product Price (Without Discount)"
                         label="Product Price (Without Discount)"
                         fullWidth
-                        name="posession_date"
+                        name="price"
                         onChange={debouncedHandleInput}
+                        style={{ background: "#F0E7F2 " }}
                       />
                     </Grid>
 
@@ -817,11 +917,70 @@ const AddNewProduct = () => {
                         placeholder="Please Enter Discount (Only In Numbers, without %)"
                         label="Discount (Only In Numbers, without %)"
                         fullWidth
-                        name="posession_date"
+                        name="sellerDiscount"
                         onChange={debouncedHandleInput}
+                        style={{ background: "#F0E7F2 " }}
                       />
                     </Grid>
+
+
+                    <Grid item xs={10}>Effective Price
+                      <TextField
+
+                        fullWidth
+                        name="effectivePrice"
+                        value={"₹ " + effectivePrice}
+                        readonly
+                        style={{ color: "white", background: "#F0E2DE " }}
+                      />
+                    </Grid>
+
                   </Grid>
+                  <br />
+                  <InputLabel
+                    id="demo-simple-select-label"
+                    style={{ marginTop: "2%", marginBottom: "1%" }}
+                  >
+                    <h3>Warranty / Guarantee Details </h3> <span> (Leave It Empty If No Warranty / Guarantee Available)  </span>
+                  </InputLabel>
+                  <CKEditor
+                    config={{
+                      height: 600,
+                      toolbar: [
+                        "heading",
+                        "|",
+                        "bold",
+                        "italic",
+                        "blockQuote",
+                        "link",
+                        "numberedList",
+                        "bulletedList",
+                        "imageUpload",
+                        "insertTable",
+                        "tableColumn",
+                        "tableRow",
+                        "mergeTableCells",
+                        "mediaEmbed",
+                        "|",
+                        "undo",
+                        "redo",
+                      ],
+                    }}
+                    style={{
+                      maxWidth: "100%",
+                      height: "800px",
+                      marginBottom: "1rem",
+                    }}
+                    editor={ClassicEditor}
+                    onReady={(editor) => {
+                      editor.editing.view.document.on("change:data", () => { });
+                    }}
+                    onBlur={(event, editor) => { }}
+                    onFocus={(event, editor) => { }}
+                    onChange={debouncedOnChange2}
+                  />
+                  <br />
+
                   <br />
                   <br />
 
@@ -866,13 +1025,20 @@ const AddNewProduct = () => {
                       placeholder="Please Enter Total Stock Available"
                       label="Total Stock Available"
                       fullWidth
-                      name="totalAmount"
+                      name="stock_available"
                       onChange={debouncedHandleInput}
+                      style={{ background: "#F0E7F2 " }}
                     />
                   </Grid>
-<Grid item xs={8}>
+                  <Grid item xs={8}>
 
- <span> Stock Next Refill Date : </span> <input type="date" className="p-2 mt-4 ms-4 dateTimeInput" style={{borderRadius:"5px"}} ></input>
+                    <span> Stock Next Refill Date : </span>
+                    <input type="date"
+                      className="p-2 mt-4 ms-4 dateTimeInput"
+                      name="stockNextRefillDate"
+                      onClick={debouncedHandleInput}
+                      style={{ borderRadius: "5px", background: "#F0E2DE" }}
+                    />
 
                   </Grid>
 
@@ -930,7 +1096,7 @@ const AddNewProduct = () => {
                       <input
                         multiple="multiple"
                         type="file"
-                        name="projectImage"
+                        name="images"
                         onChange={(e) => {
                           setImage1((prevImages) => [
                             ...prevImages,
@@ -956,8 +1122,9 @@ const AddNewProduct = () => {
                       placeholder="Please Enter Product Youtube Video URL"
                       label="Youtube Video URL"
                       fullWidth
-                      name="metaKeyword"
+                      name="youtubeUrl"
                       onChange={debouncedHandleInput}
+                      style={{ background: "#F0E7F2 " }}
                     /> </Grid>
                   <br /> <br />
                   <Grid item xs={8} style={{ textAlign: "center" }}>
