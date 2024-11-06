@@ -40,6 +40,7 @@ const SocialMediaDB = require("./database/schema/socialMedia");
 const PhoneAndEmailDB = require("./database/schema/phoneAndEmail");
 const TagsDB = require("./database/schema/tags");
 const CategoriesDB = require("./database/schema/categories");
+const BrandsDB = require("./database/schema/products/brands");
 const NavbarItemsDB = require("./database/schema/navbarItems");
 const MarketsDB = require("./database/schema/markets/markets");
 const ProductsDB = require("./database/schema/products/products");
@@ -599,6 +600,68 @@ app.post("/api/deleteSubCategory", async (req, res) => {
     res.redirect("/failure-message");
   }
 });
+
+
+//    Brands
+
+app.post("/api/addBrand", async (req, res) => {
+  try {
+    const userData = await new BrandsDB({
+      brandName: req.body.brandName,
+      content: req.body.content,
+      createdBy: req.body.createdBy,
+      dateOfFormSubmission: new Date(),
+    });
+    await userData.save();
+    console.log("New Brand Added in Database Successfully");
+    res.send({ status: "Ok", data: "New Brand Saved." });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.get("/api/brandsList", async (req, res) => {
+  try {
+    const data = await BrandsDB.find();
+    res.send(data);
+  } catch (err) {
+    console.log(`Error during sending Brand List -${err}`);
+  }
+});
+
+app.post("/api/deleteBrand", async (req, res) => {
+  try {
+    await BrandsDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Brand Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedBrands", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await BrandsDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Brand Deleted Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+
+
 
 
 //    Navbar Items

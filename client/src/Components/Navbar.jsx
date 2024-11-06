@@ -99,6 +99,12 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="navbar-dropdown">
+                <a href="#">
+                <i className="fas fa-shopping-cart me-1"></i>
+                  Cart
+                </a>
+              </li>
+              <li className="navbar-dropdown">
                 <a href="/api/logout">
                   <i className="fas fa-sign-out-alt me-1"></i>Logout
                 </a>
