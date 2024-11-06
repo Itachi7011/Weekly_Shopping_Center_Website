@@ -579,7 +579,7 @@ app.post("/api/deleteSubCategory", async (req, res) => {
           subCategoryName: req.body.subCategoryName
         }
       }
-     
+
     );
     // console.log(result)
 
@@ -780,17 +780,28 @@ app.post("/api/deleteSelectedMarket", async (req, res) => {
 
 
 const uploadToCloudinaryMultipleFiles = async (file) => {
-  try {
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: "W_Mark_Products",
-      resource_type: "auto",
-    });
-    console.log("uploadinary:", result)
-    return result;
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "W_Mark_Products",
+        resource_type: "auto",
+      },
+      (error, result) => {
+        if (error) {
+          console.error("Upload error:", error);
+          return reject(error);
+        }
+        resolve(result);
+      }
+    );
+
+
+    // End the stream with the file buffer
+
+    stream.end(file.buffer);
+
+  });
+
 };
 
 
@@ -810,21 +821,18 @@ const ProductsImageMulter = multer({
 
     cb(null, true);
   },
-}).fields([{ name: "images", minCount: 1, maxCount: 5 }]);
+}).fields([{ name: "images", minCount: 1, maxCount: 8 }]);
 
 app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
   try {
 
-    // console.log(req.body)
-    // console.log(req.files)
+
 
     const productImagesRaw = req.files.images;
-    console.log("log1:",productImagesRaw)
 
     const productImages = await Promise.all(
       productImagesRaw.map((file) => uploadToCloudinaryMultipleFiles(file))
     );
-    console.log("product Images: ",productImages)
 
     const processedImages = productImages.map((cldRes) => ({
       data: cldRes.secure_url,
@@ -836,7 +844,6 @@ app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
       contentType: `image/${cldRes.format}`,
     }));
 
-    console.log("tags are: ",req.body.tags)
     const stockAvailable = req.body.stock_available;
 
     let productId;
@@ -857,6 +864,7 @@ app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
     const effectivePrice = price - discountAmount;
     const EffectivePrice = effectivePrice.toFixed(0)
 
+    const tags = JSON.parse(req.body.tags);
 
     const userData = await new ProductsDB({
       id: productId,
@@ -881,16 +889,16 @@ app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
       productDetails: req.body.productDetails,
       warrantyDetails: req.body.warrantyDetails,
       technicalDetails: req.body.technicalDetails,
-      tags: JSON.parse(req.body.tags.tagName),
+      tags: tags.map(tag => tag.tagName),
       createdByName: req.body.createdByName,
       createdByType: req.body.createdByType,
       dateOfFormSubmission: new Date(),
       images: processedImages,
     });
 
-    // await userData.save();
-    // console.log("New Product Added in Database Successfully");
-    // res.send({ status: "Ok", data: "New Tag Saved." });
+    await userData.save();
+    console.log("New Product Added in Database Successfully");
+    res.send({ status: "Ok", data: "New Tag Saved." });
   } catch (err) {
     console.log(err);
     res.redirect("/failure-message");

@@ -173,7 +173,7 @@ const AddNewProduct = () => {
   const debouncedOnChange2 = debounce((event, editor) => {
     const data = editor.getData();
 
-    setproductDetailsText(data);
+    setwarrantyDetailsText(data);
   }, 500);
 
   const debouncedOnChange3 = debounce((event, editor) => {
