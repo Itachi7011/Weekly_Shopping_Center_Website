@@ -865,6 +865,8 @@ app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
     const EffectivePrice = effectivePrice.toFixed(0)
 
     const tags = JSON.parse(req.body.tags);
+    console.log(tags.map(tag => tag))
+
 
     const userData = await new ProductsDB({
       id: productId,
@@ -889,7 +891,7 @@ app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
       productDetails: req.body.productDetails,
       warrantyDetails: req.body.warrantyDetails,
       technicalDetails: req.body.technicalDetails,
-      tags: tags.map(tag => tag.tagName),
+      tags: JSON.parse(req.body.tags),
       createdByName: req.body.createdByName,
       createdByType: req.body.createdByType,
       dateOfFormSubmission: new Date(),

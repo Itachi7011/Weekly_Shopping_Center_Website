@@ -265,7 +265,7 @@ const AddNewProduct = () => {
     bodyFormData.append("stock_available", user.stock_available);
     bodyFormData.append("youtubeUrl", user.youtubeUrl);
     bodyFormData.append("stockNextRefillDate", user.stockNextRefillDate);
-    bodyFormData.append("tags", JSON.stringify(tags));
+    bodyFormData.append("tags", JSON.stringify(selectedTags));
 
     bodyFormData.append("createdByName", data.name);
     bodyFormData.append("createdByType", data.userType);
@@ -300,7 +300,7 @@ const AddNewProduct = () => {
       // alert("New Product added Successfully");
 
 
-      // window.location.reload();'
+      // window.location.reload();
     } catch (error) {
       //handle error
 
