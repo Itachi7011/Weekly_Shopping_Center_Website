@@ -896,6 +896,7 @@ app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
       createdByType: req.body.createdByType,
       dateOfFormSubmission: new Date(),
       images: processedImages,
+      
     });
 
     await userData.save();
