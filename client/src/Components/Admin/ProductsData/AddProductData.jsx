@@ -310,7 +310,7 @@ const AddNewProduct = () => {
           },
         }
       );
-      
+
       // alert("New Product added Successfully");
 
 
@@ -323,7 +323,7 @@ const AddNewProduct = () => {
   };
 
   if (!data) {
-    return <div style={{textAlign:"center", color: "white", background: "#63B7B7", padding: "5rem", margin: "5rem" }}>You must Login To Add A New Product
+    return <div style={{ textAlign: "center", color: "white", background: "#63B7B7", padding: "5rem", margin: "5rem" }}>You must Login To Add A New Product
       <br />
       <Button
         href="/Login"
@@ -528,39 +528,52 @@ const AddNewProduct = () => {
                       </select>
                     </Grid>
                     <Grid item xs={10}>
-                      <TextField
-                        placeholder="Please Enter Brand Name"
-                        label="Brand Name"
-                        fullWidth
-                        name="brand"
-                        onChange={debouncedHandleInput}
-                        style={{ background: "#F0E7F2 " }}
-                      /> 
-                      
+                     
+
                       Product Brands{" "}
                       <select
+
                         style={{
+
                           height: "6vh",
+
                           backgroundColor: "white",
+
                           borderRadius: "5px",
+
                           width: "100%",
+
                           background: "#ECEFE3"
+
                         }}
-                        name="subCategory"
+
+                        name="brand"
+
                         onChange={handleDropdownChange}
-                        value={data.subCategory} // Update this to the correct state
+
+                        value={user.brand} // Update this to the correct state
+
                       >
+
                         <option value="">- - - - Please Choose - - - - </option>
+
                         {
-                        brand.map((item) => {
-                          return (<>
-                            <option value={item.brandName}> {item.brandName} </option>
-                          </>)
-                        })
+
+                          brand
+
+                            .filter(item => item.categoryName === selectedCategory) // Filter brands based on selected category
+
+                            .map(item => (
+
+                              <option key={item.brandName} value={item.brandName}> {item.brandName} </option>
+
+                            ))
+
                         }
+
                       </select>
-                      
-                      </Grid>
+
+                    </Grid>
                     <Grid item xs={10}>
                       <TextField
                         placeholder="Please Enter Model Name"
@@ -1124,6 +1137,7 @@ const AddNewProduct = () => {
 
                   <br />
                   <Grid item xs={8}>
+                  Upload Product Images  ( You can select upto 5 Product Images)<br/><br/>
                     <Button
                       component="label"
                       role={undefined}
@@ -1153,9 +1167,9 @@ const AddNewProduct = () => {
                         }}
                       />
                     </Button>{" "}
-                    ( You can select upto 5 Product Images)
+                   
                   </Grid>
-                  <br />
+                  <br /><br/>
                   <Grid item xs={10}>
                     <TextField
                       placeholder="Please Enter Product Youtube Video URL"

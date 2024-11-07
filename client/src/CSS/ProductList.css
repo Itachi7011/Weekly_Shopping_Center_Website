@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500;700&display=swap");
+
+.productListPage {
+
+  font-family: "Roboto", sans-serif;
+
+  background-color: #f8f9fa; /* Light background for contrast */
+  padding: 1rem 5rem;
+  max-width: 1800px;
+
+}
+
+.container {
+  margin-top: 50px;
+}
+
+.card {
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  border: none; /* Remove default border */
+
+  border-radius: 10px; /* Rounded corners */
+
+  overflow: hidden; /* Prevent overflow of content */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.card-img-top {
+  border-radius: 10px 10px 0 0; /* Rounded top corners */
+}
+
+.card-title {
+  font-family: "Montserrat", sans-serif; /* Use Montserrat for titles */
+
+  font-size: 1.25rem;
+
+  color: #343a40; /* Darker text color */
+}
+
+.card-text {
+  color: #495057; /* Slightly lighter text color */
+}
+
+.text-danger {
+  font-weight: bold; /* Bold discount text */
+}
+
+.rating {
+  font-size: 1.5rem; /* Increase star size */
+}
+
+.text-warning {
+  color: #ffc107; /* Gold color for filled stars */
+}
+
+.text-muted {
+  color: #e4e5e9; /* Light gray for unfilled stars */
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: 20px; /* Space between cards on smaller screens */
+  }
+}

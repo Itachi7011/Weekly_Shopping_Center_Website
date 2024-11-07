@@ -20,6 +20,22 @@ const ProductsSchema = new mongoose.Schema({
   newOrRefurbished: {
     type: String,
   },
+  isPopular: {
+    type: Boolean,
+    default: false
+  },
+  isNew: {
+    type: Boolean,
+    default: false
+  },
+  isPremium: {
+    type: Boolean,
+    default: false
+  },
+  isLimitedTimeDeal: {
+    type: Boolean,
+    default: false
+  },
   price: {
     type: String,
   },
@@ -50,8 +66,6 @@ const ProductsSchema = new mongoose.Schema({
     type: String,
     default:0
   },
-
-  // Only Admin Can Apply This
 
   adminDiscount: {
     // Only Admin Can Apply This
@@ -112,7 +126,12 @@ const ProductsSchema = new mongoose.Schema({
       disLikes: Number,
     },
   ],
-
+  totalSold: {
+    type: Number,
+  },
+  totalCart: {
+    type: Number,
+  },
 
   createdByName: {
     type: String,

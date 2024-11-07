@@ -10,6 +10,7 @@ import "./CSS/LoginForm.css";
 import "./CSS/Footer.css";
 import "./CSS/adminSidebar.css";
 import "./CSS/dashboard.css";
+import "./CSS/ProductList.css";
 
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
@@ -56,6 +57,7 @@ import ShowMarketData from "./Components/Admin/MarketsData/ShowMarketData";
 // Products
 import AddProductData from "./Components/Admin/ProductsData/AddProductData";
 import ShowProductsData from "./Components/Admin/ProductsData/ShowProductsData";
+import ProductsList from "./Components/Products/ProductsList";
 
 export const UserContext = createContext();
 
@@ -123,6 +125,10 @@ function App() {
           <Route
             path="/ShowProductsData"
             element={<ShowProductsData />}
+          ></Route>
+          <Route
+            path="/ProductsList"
+            element={<ProductsList />}
           ></Route>
         </Routes>
         <Footer />
