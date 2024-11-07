@@ -11,9 +11,10 @@ main-body-login {
   align-items: center;
   min-height: 100vh;
   background: #000;
+  margin-bottom: -5rem;
 }
-section {
-  position: absolute;
+.loginSection {
+  position: relative;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -22,8 +23,10 @@ section {
   gap: 2px;
   flex-wrap: wrap;
   overflow: hidden;
+  margin-bottom: -5rem;
+
 }
-section::before {
+.loginSection::before {
   content: "";
   position: absolute;
   width: 100%;
@@ -39,7 +42,7 @@ section::before {
     transform: translateY(100%);
   }
 }
-section span {
+.loginSection span {
   position: relative;
   display: block;
   width: calc(6.25vw - 2px);
@@ -48,12 +51,12 @@ section span {
   z-index: 2;
   transition: 1.5s;
 }
-section span:hover {
+.loginSection span:hover {
   background: #0f0;
   transition: 0s;
 }
 
-section .signin {
+.loginSection .signin {
   position: absolute;
   width: 400px;
   background: #222;
@@ -65,7 +68,7 @@ section .signin {
   border-radius: 4px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 9);
 }
-section .signin .content {
+.loginSection .signin .content {
   position: relative;
   width: 100%;
   display: flex;
@@ -74,22 +77,22 @@ section .signin .content {
   flex-direction: column;
   gap: 40px;
 }
-section .signin .content h2 {
+.loginSection .signin .content h2 {
   font-size: 2em;
   color: #0f0;
   text-transform: uppercase;
 }
-section .signin .content .form {
+.loginSection .signin .content .form {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
-section .signin .content .form .inputBox {
+.loginSection .signin .content .form .inputBox {
   position: relative;
   width: 100%;
 }
-section .signin .content .form .inputBox input {
+.loginSection .signin .content .form .inputBox input {
   position: relative;
   width: 100%;
   background: #333;
@@ -101,7 +104,7 @@ section .signin .content .form .inputBox input {
   font-weight: 500;
   font-size: 1em;
 }
-section .signin .content .form .inputBox i {
+.loginSection .signin .content .form .inputBox i {
   position: absolute;
   left: 0;
   padding: 15px 10px;
@@ -146,13 +149,13 @@ input[type="submit"]:active {
 background: red !important;
 }
 @media (max-width: 900px) {
-  section span {
+  .loginSection span {
     width: calc(10vw - 2px);
     height: calc(10vw - 2px);
   }
 }
 @media (max-width: 600px) {
-  section span {
+  .loginSection span {
     width: calc(20vw - 2px);
     height: calc(20vw - 2px);
   }

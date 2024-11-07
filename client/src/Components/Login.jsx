@@ -5,33 +5,6 @@ import { useContext } from "react";
 // import axios from "axios";
 
 const Login = () => {
-  //   const { state, dispatch } = useContext(UserContext);
-
-  //   const [Data, setData] = useState({ post: [] });
-
-  //   useEffect(() => {
-  //     axios
-  //       .get("/api/empSearchResults")
-  //       .then((response) => {
-  //         const data = response.data;
-
-  //         setData({ post: data });
-
-  //         if (data.status === 4000) {
-  //           console.log("Sorry wrong credentials!");
-  //         } else {
-  //           console.log("Login Successful.");
-
-  //           //dispatch function here
-  //           dispatch({ type: "USER", payload: false });
-  //         }
-
-  //         console.log("data fetch successfully");
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }, []);
 
   let name, value;
   const [user, setUser] = useState({ email: "", password: "" });
@@ -47,7 +20,7 @@ const Login = () => {
       <div className="main-body-login">
         {/* Form Starts Here */}
         <form className="loginForm" action="/api/login" method="POST">
-          <section>
+          <section className="loginSection">
             {" "}
             <span></span> <span></span> <span></span> <span></span>{" "}
             <span></span> <span></span> <span></span> <span></span>{" "}

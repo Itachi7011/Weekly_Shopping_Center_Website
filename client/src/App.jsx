@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createContext, useReducer } from "react";
 import { reducer, initialState } from "./reducers/UseReducer";
+
 import 'react-tabs/style/react-tabs.css';
 
 import "./CSS/App.css";
@@ -58,6 +59,7 @@ import ShowMarketData from "./Components/Admin/MarketsData/ShowMarketData";
 import AddProductData from "./Components/Admin/ProductsData/AddProductData";
 import ShowProductsData from "./Components/Admin/ProductsData/ShowProductsData";
 import ProductsList from "./Components/Products/ProductsList";
+import ProductProfile from "./Components/Products/ProductProfile";
 
 export const UserContext = createContext();
 
@@ -129,6 +131,10 @@ function App() {
           <Route
             path="/ProductsList"
             element={<ProductsList />}
+          ></Route>
+          <Route
+            path="/ProductProfile"
+            element={<ProductProfile />}
           ></Route>
         </Routes>
         <Footer />
