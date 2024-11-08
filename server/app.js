@@ -41,6 +41,7 @@ const PhoneAndEmailDB = require("./database/schema/phoneAndEmail");
 const TagsDB = require("./database/schema/tags");
 const CategoriesDB = require("./database/schema/categories");
 const BrandsDB = require("./database/schema/products/brands");
+const BankOfferDB = require("./database/schema/BankOffers/bankOffers");
 const NavbarItemsDB = require("./database/schema/navbarItems");
 const MarketsDB = require("./database/schema/markets/markets");
 const ProductsDB = require("./database/schema/products/products");
@@ -944,6 +945,7 @@ app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
       model: req.body.model,
       color: req.body.color,
       weight: req.body.weight,
+      marketName: req.body.marketName,
       dimensions: req.body.dimensions,
       sellerDiscount: req.body.sellerDiscount,
       adminDiscount: req.body.adminDiscount,
@@ -960,7 +962,7 @@ app.post("/api/addNewProduct", ProductsImageMulter, async (req, res) => {
       createdByType: req.body.createdByType,
       dateOfFormSubmission: new Date(),
       images: processedImages,
-      
+
     });
 
     await userData.save();
@@ -1012,6 +1014,91 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
     res.redirect("/failure-message");
   }
 });
+
+// Bank Offers
+
+
+
+const uploadToCloudinaryBankOffer = async (file) => {
+  try {
+    console.log("upload starts");
+    const result = await cloudinary.uploader.upload(file, {
+      folder: "W_Mark_Bank_Offers",
+      resource_type: "auto",
+    });
+    console.log(result);
+
+    return result;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+const BankOfferMulter = multer({
+  storage: cloudinaryStorage,
+
+  limits: {
+    fileSize: 10 * 1024 * 1024, // Limit file size to 10MB
+  },
+
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
+      // Allow only image files
+
+      return cb(new Error("Please upload an image (JPG, JPEG or PNG)."));
+    }
+
+    cb(null, true);
+  },
+}).fields([{ name: "logo", minCount: 1, maxCount: 1 }]);
+
+
+
+
+app.post("/api/addBankOffer", BankOfferMulter, async (req, res) => {
+  try {
+
+    console.log(req.body)
+    console.log(req.files)
+    const photo = req.files.logo[0];
+
+    const bufferlogo = photo.buffer;
+
+    const b64logoFile = Buffer.from(bufferlogo).toString("base64");
+
+    const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
+
+    const cldResLogoFile = await uploadToCloudinaryMarkets(dataURIlogoFile);
+
+    const userData = await new BankOfferDB({
+      bankName: req.body.bankName,
+      tenure: req.body.tenure,
+      processingFees: req.body.processingFees,
+      rateOfInterest: req.body.rateOfInterest,
+      phoneNo: req.body.phoneNo,
+      prepaymentCharges: req.body.prepaymentCharges,
+      loanAmount: req.body.loanAmount,
+      foreclosureCharges: req.body.foreclosureCharges,
+      logo: {
+        data: cldResLogoFile.secure_url,
+        originalFileName: photo.originalname,
+        publicId: cldResLogoFile.public_id,
+        contentType: `image/${cldResLogoFile.format}`,
+      },
+      dateOfFormSubmission: new Date(),
+    });
+    await userData.save();
+    console.log("New Bank Offer Added in Database Successfully");
+    res.send({ status: "Ok", data: "New Developer Details Saved." });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+
+
 
 // Profile Funtions
 

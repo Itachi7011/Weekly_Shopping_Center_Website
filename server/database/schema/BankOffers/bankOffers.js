@@ -26,6 +26,9 @@ const BankOffersSchema = new mongoose.Schema({
   foreclosureCharges: {
     type: String,
   },
+  otherInformation: {
+    type: String,
+  },
 
   logo: {
     data: String,
@@ -39,7 +42,7 @@ const BankOffersSchema = new mongoose.Schema({
 });
 
 const NewBankOffers = new mongoose.model(
-  "Bank_Offers_Details",
+  "W_Mark_Bank_Offers",
   BankOffersSchema
 );
 module.exports = NewBankOffers;

@@ -133,7 +133,7 @@ const ProductProfile = () => {
                         marketName,
                         newOrRefurbished,
                         isPopular,
-                        isNew,
+                        isNewProduct,
                         isPremium,
                         isLimitedTimeDeal,
                         price,
@@ -242,7 +242,7 @@ const ProductProfile = () => {
 
                                                         <div
                                                             className="carousel-inner"
-                                                            style={{ marginTop: "-2rem" }}
+                                                            style={{ marginTop: "0rem" }}
                                                         >
                                                             {images.map((image, index) => (
 
@@ -308,7 +308,7 @@ const ProductProfile = () => {
 
 
                                                     <div className="side-bar-contant">
-                                                        <div className="card" style={{ padding: "2rem", marginRight: "-10rem", marginTop:"-1.5rem" }}>
+                                                        <div className="card" style={{ padding: "2rem", marginRight: "-10rem", marginTop: "0rem" }}>
                                                             <h1 className="heading-side">
                                                                 {name}
                                                                 <br />
@@ -373,25 +373,77 @@ const ProductProfile = () => {
                                                                 <br />
                                                             </h6>
                                                             <h6 className="">
-                                                               Model : {model} 
+                                                                Model : {model}
                                                                 <br />
                                                             </h6>
                                                             <h6 className="">
-                                                               Category : {category} ( {subCategory} )
+                                                                Category : {category} ( {subCategory} )
                                                                 <br />
                                                             </h6>
 
                                                             <h6 className="">
-                                                                Market Name : { marketName}
+                                                                Market Name : {marketName}
                                                                 <br />
                                                             </h6>
                                                             <h6 className="">
-                                                                Basic Specs : { color} , &nbsp;{ weight} ,&nbsp;{ dimensions}
+                                                                About : {color} - Color , &nbsp;{weight} ,&nbsp;{dimensions}
                                                                 <br />
                                                             </h6>
-                                                            <h6 className="">
-                                                                Occupation : { }
-                                                                <br />
+                                                            <h6 className="d-flex align-items-center">
+
+                                                                {isPremium && (
+
+                                                                    <span className="badge bg-warning text-dark me-2">
+
+                                                                        Premium
+
+                                                                    </span>
+
+                                                                )}
+
+
+                                                                {isPopular && (
+
+                                                                    <span className="badge" style={{ background: "#00A86B", marginRight: '0.5rem' }}>
+
+                                                                        New
+
+                                                                    </span>
+
+                                                                )}
+
+
+                                                                {isNewProduct && (
+
+                                                                    <span className="badge" style={{ background: "#00A86B", marginRight: '0.5rem' }}>
+
+                                                                        Popular
+
+                                                                    </span>
+
+                                                                )}
+
+
+                                                                {isLimitedTimeDeal && (
+
+                                                                    <span style={{ display: "inline-flex", alignItems: "center", marginRight: '0.5rem' }}>
+
+                                                                        <i
+
+                                                                            className="fa-solid fa-hourglass-half"
+
+                                                                            style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
+
+                                                                        ></i>
+
+                                                                        {/* Tooltip */}
+
+                                                                        <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
+
+                                                                    </span>
+
+                                                                )}
+
                                                             </h6>
                                                             <h6>
                                                                 { }

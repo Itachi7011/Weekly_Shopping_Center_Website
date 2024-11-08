@@ -3,6 +3,7 @@ import { createContext, useReducer } from "react";
 import { reducer, initialState } from "./reducers/UseReducer";
 
 import 'react-tabs/style/react-tabs.css';
+import 'regenerator-runtime/runtime';
 
 import "./CSS/App.css";
 import "./CSS/navbar.css";
@@ -61,6 +62,12 @@ import ShowProductsData from "./Components/Admin/ProductsData/ShowProductsData";
 import ProductsList from "./Components/Products/ProductsList";
 import ProductProfile from "./Components/Products/ProductProfile";
 
+// Bank Offers
+
+import AddBankOffer from "./Components/Admin/BankOffer/AddBankOffer";
+import UpdateBankOffer from "./Components/Admin/BankOffer/UpdateBankOffer";
+import ViewAllBankOffers from "./Components/Admin/BankOffer/ViewAllBankOffers";
+
 export const UserContext = createContext();
 
 function App() {
@@ -102,6 +109,11 @@ function App() {
           <Route path="/NewCategory" element={<NewCategory />}></Route>
           <Route path="/NewSubCategory" element={<NewSubCategory />}></Route>
           <Route path="/ShowAllCategories" element={<ShowAllCategories />}></Route>
+
+           {/* Bank Offers */}
+           <Route path="/AddBankOffer" element={<AddBankOffer />}></Route>
+          <Route path="/UpdateBankOffer" element={<UpdateBankOffer />}></Route>
+          <Route path="/ViewAllBankOffers" element={<ViewAllBankOffers />}></Route>
 
 
           {/* Brands */}

@@ -279,12 +279,15 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={() => handleSubBtnClick(8)}
             >
-              <SavingsIcon /> Fixed Deposit
+              <SavingsIcon /> Bank Offers
               <i className="fas fa-angle-right dropdown"></i>
             </a>
             <div className="sub-menu">
-              <a href="/SavingAccountFixedDeposit" className="sub-item">
-                Add/View Fixed Deposit
+              <a href="/AddBankOffer" className="sub-item">
+                Add Bank Offer
+              </a>
+              <a href="/ViewAllBankOffers" className="sub-item">
+                Show Bank Offers
               </a>
             </div>
           </div>
