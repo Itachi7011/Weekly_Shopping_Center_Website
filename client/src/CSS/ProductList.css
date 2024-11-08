@@ -132,7 +132,7 @@ span:hover .tooltip-text {
 del {
   text-decoration: line-through; /* Ensure strikethrough is applied */
 
-  text-decoration-thickness: 4px; /* Adjust thickness of the line */
+  text-decoration-thickness: 3px; /* Adjust thickness of the line */
 
   text-decoration-color: red; /* Change the color of the strikethrough line */
 

@@ -308,7 +308,7 @@ const ProductProfile = () => {
 
 
                                                     <div className="side-bar-contant">
-                                                        <div className="card" style={{ padding: "2rem", marginRight: "-10rem" }}>
+                                                        <div className="card" style={{ padding: "2rem", marginRight: "-10rem", marginTop:"-1.5rem" }}>
                                                             <h1 className="heading-side">
                                                                 {name}
                                                                 <br />
@@ -369,20 +369,24 @@ const ProductProfile = () => {
 
                                                             </div>
                                                             <h6 className="">
-                                                                Brand : {brand}
+                                                                Brand : {brand} (Official <a href="www.google.com">{brand} </a> Website)
                                                                 <br />
                                                             </h6>
                                                             <h6 className="">
-                                                                Phone No. : { }
+                                                               Model : {model} 
+                                                                <br />
+                                                            </h6>
+                                                            <h6 className="">
+                                                               Category : {category} ( {subCategory} )
                                                                 <br />
                                                             </h6>
 
                                                             <h6 className="">
-                                                                Email : { }
+                                                                Market Name : { marketName}
                                                                 <br />
                                                             </h6>
                                                             <h6 className="">
-                                                                Father&apos;s Name : { }
+                                                                Basic Specs : { color} , &nbsp;{ weight} ,&nbsp;{ dimensions}
                                                                 <br />
                                                             </h6>
                                                             <h6 className="">
@@ -410,9 +414,12 @@ const ProductProfile = () => {
                                                                 <div className="box-1"></div>
                                                                 <div className="box-2">
                                                                     <span className="ms-2 me-5">
-                                                                        Date Of Listing
+
+                                                                        Date Of Listing:{" "}
+                                                                        <strong style={{ marginLeft: "1rem" }}>    {new Date(new Date(dateOfFormSubmission).getTime() - (5 * 60 + 30) * 60 * 1000).toLocaleString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).replace(',', '')}</strong>
+
                                                                     </span>
-                                                                    <span className="ms-2"><strong> {dateOfFormSubmission}</strong> </span>
+
 
                                                                 </div>
                                                             </div>

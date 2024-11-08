@@ -10,6 +10,9 @@ const W_Mark_Brands = new mongoose.Schema({
     type: String,
 
   },
+  brandOfficialWebsite: {
+    type: String,
+  },
   content: {
     type: String,
   },

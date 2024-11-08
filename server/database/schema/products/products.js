@@ -64,14 +64,14 @@ const ProductsSchema = new mongoose.Schema({
   sellerDiscount: {
 
     type: String,
-    default:0
+    default: 0
   },
 
   adminDiscount: {
     // Only Admin Can Apply This
 
     type: String,
-    default:0
+    default: 0
   },
   stock_available: {
     type: String,
@@ -124,6 +124,16 @@ const ProductsSchema = new mongoose.Schema({
       comment: String,
       likes: Number,
       disLikes: Number,
+    },
+  ],
+
+  issueReports: [
+    {
+      userName: String,
+      userEmail: String,
+      topic: String,
+      content: String,
+      dateOfFormSubmission: String,
     },
   ],
   totalSold: {
