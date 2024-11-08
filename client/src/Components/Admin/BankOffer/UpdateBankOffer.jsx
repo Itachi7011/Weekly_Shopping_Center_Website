@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { useLocation ,useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const PostNewCommercialProperty = () => {
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+const UpdateBankOffer = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const [Data, setData] = useState("");
   const [image, setImage] = useState("");
   const [Settings, setSettingsData] = useState("");
+  const [content, setContent] = useState("");
 
   const previousId = location.state.id;
   const previousbankName = location.state.bankName;
@@ -56,13 +60,13 @@ const PostNewCommercialProperty = () => {
 
   let name, value;
   const [user, setUser] = useState({
-    id:previousId,
+    id: previousId,
     bankName: previousbankName,
     tenure: previoustenure,
     processingFees: previousprocessingFees,
     phoneNo: previousphoneNo,
     rateOfInterest: previousRateOfInteres,
-    loanAmount:previousLoanAmount,
+    loanAmount: previousLoanAmount,
     prepaymentCharges: previousprepaymentCharges,
     foreclosureCharges: previousforeclosureCharges,
     dateOfFormSubmission: "",
@@ -127,6 +131,7 @@ const PostNewCommercialProperty = () => {
     bodyFormData.append("prepaymentCharges", user.prepaymentCharges);
 
     bodyFormData.append("foreclosureCharges", user.foreclosureCharges);
+    bodyFormData.append("otherInformation", content);
 
     bodyFormData.append("phoneNo", user.phoneNo);
 
@@ -158,7 +163,7 @@ const PostNewCommercialProperty = () => {
     }
   };
 
-  if (Data.userType !== "admin") {
+  if (Data.userType !== "Admin") {
     return (
       <div style={{ margin: "10% 10%", textAlign: "center" }}>
         sorry, only admin can visit this page.
@@ -170,7 +175,7 @@ const PostNewCommercialProperty = () => {
     <>
       <div
         className="container"
-        style={{ backgroundColor: "#F1F1EC", marginTop: "5rem" }}
+        style={{ backgroundColor: "#808080", marginTop: "5rem" }}
       >
         <Helmet>
           <meta charSet="utf-8" />
@@ -188,7 +193,7 @@ const PostNewCommercialProperty = () => {
               borderRadius: "5px",
             }}
           >
-            <h3 className="text-center" style={{ marginBottom: "4rem" }}>
+            <h3 className="text-center" style={{ marginBottom: "1rem", color: "white" }}>
               Update Existing Bank Offer
             </h3>
             <div
@@ -200,132 +205,190 @@ const PostNewCommercialProperty = () => {
               }}
             >
               <div className="row">
-                <div className="col-12 col-lg-2 mt-2 ">
-                  <h6 style={{ marginBottom: "3.2rem", fontSize: "1rem" }}>
-                    Bank  Name :
+                <div className="col-12 col-lg-3 mt-2 ">
+                  <h6 style={{ marginBottom: "2.7rem", fontSize: "1rem" }}>
+                    Bank Name :
                   </h6>
-                  <h6 style={{ marginBottom: "3.2rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.5rem", fontSize: "1rem" }}>
                     Phone Number :
                   </h6>
                   <h6 style={{ marginBottom: "3rem", fontSize: "1rem" }}>
-                  Tenure :
+                    Tenure :
                   </h6>
                   <h6 style={{ marginBottom: "2.3rem", fontSize: "1rem" }}>
-                  Processing Fees :
+                    Processing Fees :
                   </h6>
-                  <h6 style={{ marginBottom: "2rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "1.6rem", fontSize: "1rem" }}>
                     Rate Of Interest (% Per Year):
                   </h6>
                   <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                     Loan Amount :
-                    </h6>
+                  </h6>
                   <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                     Prepayment Charges :
                   </h6>
-                  <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2rem", fontSize: "1rem" }}>
                     Foreclosure Charges :
                   </h6>
+                  <h6 style={{ marginBottom: "4.8rem", fontSize: "1rem" }}>
+                    Logo :
+                  </h6>
                   <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
-                      Logo :
-                    </h6>
-                    
+                    Other Information :
+                  </h6>
+
                 </div>
                 <div className="col-lg-8">
                   <form
                     action="/api/updateBankOffer"
                     method="post"
-                    // encType="multipart/form-data"
+                  // encType="multipart/form-data"
                   >
                     <input type="hidden" name="id" value={previousId} />
 
                     <input
-                        type="text"
-                        name="bankName"
-                        style={{ fontWeight: "400" }}
-                        onChange={inputHandler}
-                        placeholder=""
-                        className="form-control mb-4"
-                        value={user.bankName}
-                      />
-                       <input
-                        type="text"
-                        name="phoneNo"
-                        style={{ fontWeight: "400" }}
-                        onChange={inputHandler}
-                        placeholder=""
-                        className="form-control mb-4"
-                        value={user.phoneNo}
-                      />
-                      <input
-                        type="text"
-                        name="tenure"
-                        style={{ fontWeight: "400" }}
-                        onChange={inputHandler}
-                        placeholder=""
-                        className="form-control mb-4"
-                        value={user.tenure}
-                      />
+                      type="text"
+                      name="bankName"
+                      style={{ fontWeight: "400" }}
+                      onChange={inputHandler}
+                      placeholder=""
+                      className="form-control mb-4"
+                      value={user.bankName}
+                    />
+                    <input
+                      type="text"
+                      name="phoneNo"
+                      style={{ fontWeight: "400" }}
+                      onChange={inputHandler}
+                      placeholder=""
+                      className="form-control mb-4"
+                      value={user.phoneNo}
+                    />
+                    <input
+                      type="text"
+                      name="tenure"
+                      style={{ fontWeight: "400" }}
+                      onChange={inputHandler}
+                      placeholder=""
+                      className="form-control mb-4"
+                      value={user.tenure}
+                    />
 
 
-                      <input
-                        type="text"
-                        name="processingFees"
-                        style={{ fontWeight: "400" }}
-                        onChange={inputHandler}
-                        placeholder=""
-                        className="form-control mb-4"
-                        value={user.processingFees}
-                      />
-                      <input
-                        type="text"
-                        name="rateOfInterest"
-                        style={{ fontWeight: "400" }}
-                        onChange={inputHandler}
-                        placeholder=""
-                        className="form-control mb-4"
-                        value={user.rateOfInterest}
-                      />
-                      <input
-                        type="text"
-                        name="loanAmount"
-                        style={{ fontWeight: "400" }}
-                        onChange={inputHandler}
-                        placeholder=""
-                        className="form-control mb-4"
-                        value={user.loanAmount}
-                      />
-                      <input
-                        type="text"
-                        name="prepaymentCharges"
-                        style={{ fontWeight: "400" }}
-                        onChange={inputHandler}
-                        placeholder=""
-                        className="form-control mb-4"
-                        value={user.prepaymentCharges}
-                      />
-                      <input
-                        type="text"
-                        name="foreclosureCharges"
-                        style={{ fontWeight: "400" }}
-                        onChange={inputHandler}
-                        placeholder=""
-                        className="form-control mb-4"
-                        value={user.foreclosureCharges}
-                      />
-                      
-                      <input
-                        type="file"
-                        name="logo"
-                        style={{ fontWeight: "400" }}
-                        onChange={(e) => {
-                          setImage(e.target.files[0]);
+                    <input
+                      type="text"
+                      name="processingFees"
+                      style={{ fontWeight: "400" }}
+                      onChange={inputHandler}
+                      placeholder=""
+                      className="form-control mb-4"
+                      value={user.processingFees}
+                    />
+                    <input
+                      type="text"
+                      name="rateOfInterest"
+                      style={{ fontWeight: "400" }}
+                      onChange={inputHandler}
+                      placeholder=""
+                      className="form-control mb-4"
+                      value={user.rateOfInterest}
+                    />
+                    <input
+                      type="text"
+                      name="loanAmount"
+                      style={{ fontWeight: "400" }}
+                      onChange={inputHandler}
+                      placeholder=""
+                      className="form-control mb-4"
+                      value={user.loanAmount}
+                    />
+                    <input
+                      type="text"
+                      name="prepaymentCharges"
+                      style={{ fontWeight: "400" }}
+                      onChange={inputHandler}
+                      placeholder=""
+                      className="form-control mb-4"
+                      value={user.prepaymentCharges}
+                    />
+                    <input
+                      type="text"
+                      name="foreclosureCharges"
+                      style={{ fontWeight: "400" }}
+                      onChange={inputHandler}
+                      placeholder=""
+                      className="form-control mb-4"
+                      value={user.foreclosureCharges}
+                    />
+
+                    <input
+                      type="file"
+                      name="logo"
+                      style={{ fontWeight: "400" }}
+                      onChange={(e) => {
+                        setImage(e.target.files[0]);
 
 
-                          console.log(image);
-                        }}
-                        placeholder=""
-                        className="form-control mb-4"
-                      />
+                        console.log(image);
+                      }}
+                      placeholder=""
+                      className="form-control mb-4"
+                    />
+
+                    <br />
+
+                    <CKEditor
+                      config={{
+                        height: 800,
+                        toolbar: [
+                          "heading",
+                          "|",
+                          "bold",
+                          "italic",
+                          "blockQuote",
+                          "link",
+                          "numberedList",
+                          "bulletedList",
+                          "imageUpload",
+                          "insertTable",
+                          "tableColumn",
+                          "tableRow",
+                          "mergeTableCells",
+                          "mediaEmbed",
+                          "|",
+                          "undo",
+                          "redo",
+                        ],
+                      }}
+                      style={{
+                        maxWidth: "100%",
+                        height: "800px !important",
+                        maxHeight: "800px !important",
+                        marginBottom: "1rem",
+                      }}
+                      editor={ClassicEditor}
+                      onReady={(editor) => {
+                        editor.editing.view.document.on("change:data", () => {
+                          // debouncedHandleInput({
+                          //   target: {
+                          //     name: "project_specification",
+                          //     value: editor.getData(),
+                          //   },
+                          // });
+                        });
+                      }}
+                      onBlur={(event, editor) => { }}
+                      onFocus={(event, editor) => { }}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        console.log(data);
+                        setContent(data);
+                      }}
+                      name="content"
+                    />
+
+
+                    <br />
 
                     <br />
                     <br />
@@ -348,4 +411,4 @@ const PostNewCommercialProperty = () => {
   );
 };
 
-export default PostNewCommercialProperty;
+export default UpdateBankOffer;

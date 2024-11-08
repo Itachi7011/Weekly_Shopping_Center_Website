@@ -1051,7 +1051,7 @@ const BankOfferMulter = multer({
 
     cb(null, true);
   },
-}).fields([{ name: "logo", minCount: 1, maxCount: 1 }]);
+}).fields([{ name: "logo", minCount: 0, maxCount: 1 }]);
 
 
 
@@ -1059,8 +1059,7 @@ const BankOfferMulter = multer({
 app.post("/api/addBankOffer", BankOfferMulter, async (req, res) => {
   try {
 
-    console.log(req.body)
-    console.log(req.files)
+
     const photo = req.files.logo[0];
 
     const bufferlogo = photo.buffer;
@@ -1069,7 +1068,7 @@ app.post("/api/addBankOffer", BankOfferMulter, async (req, res) => {
 
     const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
 
-    const cldResLogoFile = await uploadToCloudinaryMarkets(dataURIlogoFile);
+    const cldResLogoFile = await uploadToCloudinaryBankOffer(dataURIlogoFile);
 
     const userData = await new BankOfferDB({
       bankName: req.body.bankName,
@@ -1079,6 +1078,7 @@ app.post("/api/addBankOffer", BankOfferMulter, async (req, res) => {
       phoneNo: req.body.phoneNo,
       prepaymentCharges: req.body.prepaymentCharges,
       loanAmount: req.body.loanAmount,
+      otherInformation: req.body.otherInformation,
       foreclosureCharges: req.body.foreclosureCharges,
       logo: {
         data: cldResLogoFile.secure_url,
@@ -1098,7 +1098,106 @@ app.post("/api/addBankOffer", BankOfferMulter, async (req, res) => {
 });
 
 
+app.get("/api/bankOfferList", async (req, res) => {
+  try {
+    const data = await BankOfferDB.find();
+    res.send(data);
+  } catch (err) {
+    console.log(`Error during sending Properties List -${err}`);
+  }
+});
 
+app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
+  try {
+
+    console.log(req.body)
+    console.log(req.files)
+
+   
+
+
+    const id = req.body.id;
+
+    let previous = await BankOfferDB.findOne({
+      _id: id,
+    });
+
+    const prevPublicId = previous.logo.publicId;
+
+    const updateData = {
+        bankName: req.body.bankName,
+      tenure: req.body.tenure,
+      processingFees: req.body.processingFees,
+      rateOfInterest: req.body.rateOfInterest,
+      phoneNo: req.body.phoneNo,
+      prepaymentCharges: req.body.prepaymentCharges,
+      loanAmount: req.body.loanAmount,
+      otherInformation: req.body.otherInformation,
+      foreclosureCharges: req.body.foreclosureCharges,
+    
+      dateOfFormSubmission: new Date(),
+      }
+
+      if (req.file === undefined) {
+        updateData.logo = {
+          publicId: previous.logo.publicId,
+          originalFileName: previous.logo.originalFileName,
+          data: previous.logo.data,
+          contentType: "image/png",
+        };
+
+        console.log("Bank Offer (without Images) Updated Successfully");
+      } else {
+        const photo = req.files.logo[0];
+
+        const bufferlogo = photo.buffer;
+    
+        const b64logoFile = Buffer.from(bufferlogo).toString("base64");
+    
+        const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
+    
+        const cldResLogoFile = await uploadToCloudinaryBankOffer(dataURIlogoFile);
+    
+
+        if (cldResLogoFile) {
+          try {
+            await cloudinary.uploader.destroy(prevPublicId, {
+              invalidate: true,
+            });
+          } catch (err) {
+            console.error(`Error deleting image from Cloudinary: ${err}`);
+          }
+
+          updateData.logo = {
+            publicId: cldRes.public_id,
+            originalFileName: photo.originalname,
+            data: cldRes.secure_url,
+            contentType: "image/png",
+          };
+
+          console.log("Logo (with image) Updated Successfully");
+        } else {
+          updateData.logo = {
+            publicId: previous.logo.publicId,
+            data: previous.logo.data,
+            contentType: "image/png",
+          };
+          console.log("Logo (without image) Updated Successfully");
+        }
+      }
+
+      await BankOfferDB.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: updateData,
+        }
+      );
+    console.log("Existing Bank Offer Updated in Database Successfully");
+    res.send({ status: "Ok", data: "New Developer Details Saved." });
+  } catch (err) {
+    console.log(`Error during updating bank offer -${err}`);
+  }
+});
 
 // Profile Funtions
 

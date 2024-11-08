@@ -113,10 +113,10 @@ const AddBankOffer = () => {
         }
 
       );
-      // alert("New Bank Offer added Successfully");
+      alert("New Bank Offer added Successfully");
 
 
-      // window.location.reload();
+      window.location.reload();
 
     } catch (error) {
 

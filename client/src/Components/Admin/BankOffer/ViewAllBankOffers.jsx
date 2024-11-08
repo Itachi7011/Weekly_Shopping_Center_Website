@@ -77,12 +77,8 @@ const BankOffersList = () => {
     UserDetails();
   }, []);
 
-  if (UserType.userType !== "admin") {
-    return (
-      <div style={{ margin: "10% 10%", textAlign: "center" }}>
-        sorry, only admin can visit this page.
-      </div>
-    );
+  if (UserType.userType !== "Admin") {
+    return <div></div>;
   }
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -154,7 +150,7 @@ const BankOffersList = () => {
       >
         <div className="container-fluid">
           <div className="row justify-content-end">
-            <div className="col-md-10">
+            <div className="col-md-12">
               <h1
                 style={{
                   padding: "1rem",
@@ -184,6 +180,7 @@ const BankOffersList = () => {
                   <th>Processing Fees</th>
                   <th>Prepayment Charges</th>
                   <th>Foreclosure Charges</th>
+                  <th>Other Info.</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </thead>
@@ -195,8 +192,9 @@ const BankOffersList = () => {
                       tenure,
                       processingFees,
                       prepaymentCharges,
-                      foreclosureCharges, phoneNo,
-
+                      foreclosureCharges,
+                      phoneNo,
+                      otherInformation,
                       rateOfInterest,
                       logo,
                       _id,
@@ -235,6 +233,7 @@ const BankOffersList = () => {
                             <td>{tenure} </td>
                             <td>{processingFees}</td>
                             <td>{prepaymentCharges}</td>
+                            <td>{otherInformation}</td>
                             <td>{foreclosureCharges}</td>
                             <td>
                               <form method="POST" action="/deleteSubLocality">
@@ -298,7 +297,7 @@ const BankOffersList = () => {
                                   type="submit"
                                   className=" btn btn-danger px-3"
                                   onClick={function () {
-                                    navigate("/update-bank-offer", {
+                                    navigate("/UpdateBankOffer", {
                                       state: {
                                         id: _id,
                                         loanAmount: loanAmount,
