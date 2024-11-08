@@ -127,33 +127,42 @@ const ProductProfile = () => {
                 .map(
                     ({
                         _id,
-
-                        accountNumber,
-                        bankName,
-                        bankBranch,
-                        accountType,
-                        accountStatus,
-                        totalAmount,
                         name,
-                        email,
-                        phoneNo_1,
-                        fatherName,
-                        dateOfBirth,
-                        occupation,
-                        occupationDescription,
+                        category,
+                        subCategory,
+                        marketName,
+                        newOrRefurbished,
+                        isPopular,
+                        isNew,
+                        isPremium,
+                        isLimitedTimeDeal,
+                        price,
+                        effectivePrice,
                         brand,
-                        age,
-                        aadharCardNumber,
-                        panNumber,
-                        electionVoterIdNo,
-                        country,
-                        state,
-                        district,
-                        fullAddress,
-                        qualification,
+                        model,
+                        color,
+                        weight,
+                        dimensions,
+                        stockNextRefillDate,
+                        sellerDiscount,
+                        adminDiscount,
+                        stock_available,
+                        tags,
+                        images,
+                        youtubeUrl,
+                        productDetails,
+                        warrantyDetails,
+                        technicalDetails,
+                        rating,
+                        comments,
+                        freqAskedQuest,
+                        totalSold,
+                        totalCart,
+                        createdByName,
+                        createdByType,
                         dateOfFormSubmission,
 
-                        images,
+
 
                     }) => {
                         return (
@@ -164,9 +173,9 @@ const ProductProfile = () => {
 
                                     <div className="small-images-section mt-3 ms-5">
 
-                                        
 
-                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft:"1rem" }}>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: "1rem" }}>
 
                                             {images.map((image, index) => (
 
@@ -193,7 +202,7 @@ const ProductProfile = () => {
                                     </div>
 
 
-                                    <section className="left-side-section" style={{marginTop:"-20rem"}}>
+                                    <section className="left-side-section" style={{ marginTop: "-20rem", }}>
                                         <div className="container">
                                             <div className="row">
                                                 <div
@@ -299,43 +308,101 @@ const ProductProfile = () => {
 
 
                                                     <div className="side-bar-contant">
-                                                        <div className="card">
+                                                        <div className="card" style={{ padding: "2rem", marginRight: "-10rem" }}>
                                                             <h1 className="heading-side">
                                                                 {name}
                                                                 <br />
                                                             </h1>
+
+                                                            <div className="rating-stars" style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', padding: "0.5rem" }}>
+
+                                                                <div className="rating-stars" style={{ display: 'flex', alignItems: 'center' }}>
+
+                                                                    {[...Array(5)].map((_, index) => (
+
+                                                                        <i key={index} className="fas fa-star" style={{ fontSize: "x-large", color: "green" }}></i>
+
+                                                                    ))}
+
+                                                                </div>
+
+
+                                                                {/* Simple button to go to the Review section */}
+
+                                                                <a
+
+                                                                    href="#reviews" // Link to the reviews section
+
+                                                                    style={{
+
+                                                                        marginLeft: '1rem', // Space between stars and button
+
+                                                                        padding: '0.5rem 1rem', // Padding for the button
+
+                                                                        backgroundColor: '#007bff', // Bootstrap primary color
+
+                                                                        color: 'white', // Text color
+
+                                                                        border: 'none', // No border
+
+                                                                        borderRadius: '0.25rem', // Rounded corners
+
+                                                                        textDecoration: 'none', // Remove underline
+
+                                                                        display: 'inline-block', // Align as block for padding
+
+                                                                        textAlign: 'center', // Center text
+
+                                                                        transition: 'background-color 0.3s', // Smooth transition for hover effect
+
+                                                                    }}
+
+                                                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0056b3'} // Darker blue on hover
+
+                                                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#007bff'} // Original blue on mouse leave
+
+                                                                >
+
+                                                                    Reviews
+
+                                                                </a>
+
+                                                            </div>
                                                             <h6 className="">
                                                                 Brand : {brand}
                                                                 <br />
                                                             </h6>
                                                             <h6 className="">
-                                                                Phone No. : {phoneNo_1}
+                                                                Phone No. : { }
                                                                 <br />
                                                             </h6>
 
                                                             <h6 className="">
-                                                                Email : {email}
+                                                                Email : { }
                                                                 <br />
                                                             </h6>
                                                             <h6 className="">
-                                                                Father&apos;s Name : {fatherName}
+                                                                Father&apos;s Name : { }
                                                                 <br />
                                                             </h6>
                                                             <h6 className="">
-                                                                Occupation : {occupation}
+                                                                Occupation : { }
                                                                 <br />
                                                             </h6>
                                                             <h6>
-                                                                {fullAddress}, {district}, {state}, {country}{" "}
+                                                                { }
                                                             </h6>
 
                                                             <hr />
-                                                            <h1 className="price-text">₹ {totalAmount}</h1>
+                                                            <h1 className="price-text">
+                                                                <del>₹ {price}</del> <span className="text-danger">(-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {effectivePrice}</strong> <span className="text-danger"> (Save ₹ {price - (effectivePrice - (adminDiscount || 0))}) </span>
+
+                                                            </h1>
                                                             <span>
-                                                                Account Status:{" "}
+                                                                Stock Available:{" "}
                                                                 <strong style={{ marginLeft: "1rem" }}>
                                                                     {" "}
-                                                                    {accountStatus}{" "}
+                                                                    {stock_available}{" "}
                                                                 </strong>
                                                             </span>
 
@@ -343,19 +410,10 @@ const ProductProfile = () => {
                                                                 <div className="box-1"></div>
                                                                 <div className="box-2">
                                                                     <span className="ms-2 me-5">
-                                                                        Date Of Birth
+                                                                        Date Of Listing
                                                                     </span>
-                                                                    <span className="ms-2">Age</span>
-                                                                    <ul className="d-flex">
-                                                                        <strong>
-                                                                            <li style={{ marginRight: "5rem" }}>
-                                                                                {dateOfBirth}{" "}
-                                                                            </li>{" "}
-                                                                        </strong>
-                                                                        <strong>
-                                                                            <li>{age} Years </li>{" "}
-                                                                        </strong>
-                                                                    </ul>
+                                                                    <span className="ms-2"><strong> {dateOfFormSubmission}</strong> </span>
+
                                                                 </div>
                                                             </div>
                                                             <div>
@@ -466,27 +524,27 @@ const ProductProfile = () => {
 
                                                         <h6 className="" > {name} </h6>
 
-                                                        <h6 className="" > {accountNumber} </h6>
+                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > {phoneNo_1}1 </h6>
+                                                        <h6 className="" > { }1 </h6>
 
-                                                        <h6 className="" > {email} </h6>
+                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" >  {fullAddress}, {district}, {state}, {country}{" "} </h6>
+                                                        <h6 className="" >  { },  </h6>
 
-                                                        <h6 className="" > {fatherName} </h6>
+                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > {qualification} </h6>
+                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > {dateOfBirth} </h6>
+                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > {age} Years Old </h6>
+                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > {aadharCardNumber} </h6>
+                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > {electionVoterIdNo} </h6>
+                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > {panNumber} </h6>
+                                                        <h6 className="" > { } </h6>
 
                                                         <h6 className="" > {dateOfFormSubmission} </h6>
                                                     </div>
@@ -504,11 +562,11 @@ const ProductProfile = () => {
                                                 <div className="col-lg-12 col-md-12 col-12">
                                                     <h2>Occupation Description</h2>
                                                     <hr />
-                                                    <div
+                                                    {/* <div
                                                         dangerouslySetInnerHTML={{
                                                             __html: occupationDescription,
                                                         }}
-                                                    />
+                                                    /> */}
                                                 </div>
                                             </div>
                                         </div>

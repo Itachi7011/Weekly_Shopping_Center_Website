@@ -69,6 +69,7 @@
 .rating-stars {
   font-size: 1rem; /* Adjust size as needed */
   background: #f1f1ec;
+  color: yellow;
   border-radius: 5px;
   padding: 0px 5px;
 }
@@ -126,6 +127,16 @@ span:hover .tooltip-text {
   top: 0; /* Align to the top */
 
   z-index: 10; /* Ensure it's above other content */
+}
+
+del {
+  text-decoration: line-through; /* Ensure strikethrough is applied */
+
+  text-decoration-thickness: 4px; /* Adjust thickness of the line */
+
+  text-decoration-color: red; /* Change the color of the strikethrough line */
+
+  text-decoration-style: solid; /* Change the style of the line (solid, dashed, etc.) */
 }
 
 /* Responsive adjustments */

@@ -72,15 +72,15 @@ const ProductListing = () => {
 
 
 
-                            <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "350px", objectFit: "cover", position: "relative",cursor: "pointer" }} onClick={function () {
-                                        navigate("/ProductProfile", {
-                                          state: {
-                                            _id: product._id,
-                                            id:product.id,
-                                            name:product.name,
-                                          },
-                                        });
-                                      }}/>
+                            <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "350px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
+                                navigate("/ProductProfile", {
+                                    state: {
+                                        _id: product._id,
+                                        id: product.id,
+                                        name: product.name,
+                                    },
+                                });
+                            }} />
 
                             <div className="card-body">
 
@@ -115,7 +115,7 @@ const ProductListing = () => {
                                             zIndex: 1,
                                             background: "#00A86B"
                                         }}>
-                                        {product.isNew === true ? (<span className="badge "
+                                        {product.isNewProduct === true ? (<span className="badge "
                                         >
                                             Popular
                                         </span>) : ""}
@@ -127,7 +127,7 @@ const ProductListing = () => {
 
                                 <p className="card-text">
 
-                                    <del>₹ {product.price}</del> <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {product.effectivePrice}</strong> <span className="text-danger"> Save ₹ {product.price - (product.effectivePrice - (product.adminDiscount || 0))} </span>
+                                    <strong> <del>₹ {product.price}</del> </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {product.effectivePrice}</strong> <span className="text-danger"> Save ₹ {product.price - (product.effectivePrice - (product.adminDiscount || 0))} </span>
 
                                 </p>
 

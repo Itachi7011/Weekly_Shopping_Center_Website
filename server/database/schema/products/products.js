@@ -24,7 +24,7 @@ const ProductsSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  isNew: {
+  isNewProduct: {
     type: Boolean,
     default: false
   },
