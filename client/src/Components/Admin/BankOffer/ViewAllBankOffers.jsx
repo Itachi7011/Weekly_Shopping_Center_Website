@@ -141,6 +141,14 @@ const BankOffersList = () => {
         console.log("Error during delete selected:", err);
       });
   };
+  const truncateString = (str, num) => {
+
+    const words = str.split(' ');
+
+    return words.length <= num ? str : words.slice(0, num).join(' ') + "  ...";
+
+  };
+
 
   return (
     <>
@@ -233,7 +241,11 @@ const BankOffersList = () => {
                             <td>{tenure} </td>
                             <td>{processingFees}</td>
                             <td>{prepaymentCharges}</td>
-                            <td>{otherInformation}</td>
+                            <td
+
+                              dangerouslySetInnerHTML={{ __html: truncateString(otherInformation, 20) }}
+
+                            ></td>
                             <td>{foreclosureCharges}</td>
                             <td>
                               <form method="POST" action="/deleteSubLocality">
@@ -308,6 +320,7 @@ const BankOffersList = () => {
                                         processingFees: processingFees,
                                         prepaymentCharges: prepaymentCharges,
                                         foreclosureCharges: foreclosureCharges,
+                                        otherInformation: otherInformation,
                                         logo: logo,
 
                                         rateOfInterest: rateOfInterest,

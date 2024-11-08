@@ -14,19 +14,22 @@ const UpdateBankOffer = () => {
   const [Data, setData] = useState("");
   const [image, setImage] = useState("");
   const [Settings, setSettingsData] = useState("");
-  const [content, setContent] = useState("");
 
   const previousId = location.state.id;
   const previousbankName = location.state.bankName;
   const previousLoanAmount = location.state.loanAmount;
   const previoustenure = location.state.tenure;
   const previousphoneNo = location.state.phoneNo;
+  const previouscontentDescription = location.state.otherInformation;
+
   const previousprocessingFees = location.state.processingFees;
   const previousprepaymentCharges = location.state.prepaymentCharges;
   const previousforeclosureCharges = location.state.foreclosureCharges;
   const previousLogo = location.state.logo;
   const previousRateOfInteres = location.state.rateOfInterest;
-  console.log(previousLoanAmount)
+
+  const [content, setContent] = useState(previouscontentDescription);
+
 
   const SettingDetails = async () => {
     try {
@@ -69,6 +72,7 @@ const UpdateBankOffer = () => {
     loanAmount: previousLoanAmount,
     prepaymentCharges: previousprepaymentCharges,
     foreclosureCharges: previousforeclosureCharges,
+    otherInformation: previouscontentDescription,
     dateOfFormSubmission: "",
   });
 
@@ -153,9 +157,8 @@ const UpdateBankOffer = () => {
       );
       alert(" Bank Offer updated Successfully");
 
-      // request successful, refresh the page
 
-      navigate("/view-bank-offers")
+      navigate("/ViewAllBankOffers")
     } catch (error) {
       //handle error
 
@@ -175,7 +178,7 @@ const UpdateBankOffer = () => {
     <>
       <div
         className="container"
-        style={{ backgroundColor: "#808080", marginTop: "5rem" }}
+        style={{ backgroundColor: "#808080", marginTop: "1rem" }}
       >
         <Helmet>
           <meta charSet="utf-8" />
@@ -360,6 +363,7 @@ const UpdateBankOffer = () => {
                           "redo",
                         ],
                       }}
+                      data={previouscontentDescription}
                       style={{
                         maxWidth: "100%",
                         height: "800px !important",

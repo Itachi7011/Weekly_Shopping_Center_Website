@@ -1138,7 +1138,7 @@ app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
       dateOfFormSubmission: new Date(),
       }
 
-      if (req.file === undefined) {
+      if (req.files === undefined) {
         updateData.logo = {
           publicId: previous.logo.publicId,
           originalFileName: previous.logo.originalFileName,
@@ -1148,7 +1148,9 @@ app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
 
         console.log("Bank Offer (without Images) Updated Successfully");
       } else {
+
         const photo = req.files.logo[0];
+        console.log(photo)
 
         const bufferlogo = photo.buffer;
     
@@ -1169,9 +1171,9 @@ app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
           }
 
           updateData.logo = {
-            publicId: cldRes.public_id,
+            publicId: cldResLogoFile.public_id,
             originalFileName: photo.originalname,
-            data: cldRes.secure_url,
+            data: cldResLogoFile.secure_url,
             contentType: "image/png",
           };
 
@@ -1193,7 +1195,7 @@ app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
         }
       );
     console.log("Existing Bank Offer Updated in Database Successfully");
-    res.send({ status: "Ok", data: "New Developer Details Saved." });
+    res.send({ status: "Ok", data: "Existing Bank Offer Updated." });
   } catch (err) {
     console.log(`Error during updating bank offer -${err}`);
   }
