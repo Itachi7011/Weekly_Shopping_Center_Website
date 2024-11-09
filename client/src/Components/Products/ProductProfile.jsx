@@ -10,6 +10,7 @@ const ProductProfile = () => {
     const previousData = location.state._id;
     const previousId = location.state.id;
 
+    const bankOffersRef = useRef(null);
     const specificationRef = useRef(null);
     const aadharcardRef = useRef(null);
     const pancardRef = useRef(null);
@@ -26,6 +27,8 @@ const ProductProfile = () => {
     const [user1, setUser1] = useState("");
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    const [bankOffers, setBankOffers] = useState({ post: [] });
 
 
     const Profile = async () => {
@@ -83,6 +86,19 @@ const ProductProfile = () => {
         printWindow.print();
     };
 
+    useEffect(() => {
+        axios
+            .get("/api/bankOfferList")
+            .then((response) => {
+                const data = response.data;
+
+                setBankOffers({ post: data });
+            })
+            .catch((err) => {
+                console.log("Error during Data:", err);
+            });
+    }, []);
+
     const useScrollIntoView = (ref, options = {}) => {
         const {
             behavior = "smooth",
@@ -111,6 +127,7 @@ const ProductProfile = () => {
 
 
 
+    const handleBankOffersClick = useScrollIntoView(bankOffersRef);
     const handleSpecificationClick = useScrollIntoView(specificationRef);
     const handleAadharClick = useScrollIntoView(aadharcardRef);
     const handlePancardClick = useScrollIntoView(pancardRef);
@@ -495,6 +512,18 @@ const ProductProfile = () => {
                                                             id="navbarSupportedContent"
                                                         >
                                                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+
+                                                                <li
+                                                                    className="nav-item"
+                                                                    style={{ cursor: "pointer" }}
+                                                                >
+                                                                    <a
+                                                                        className="nav-link"
+                                                                        onClick={handleBankOffersClick}
+                                                                    >
+                                                                        Bank Offers
+                                                                    </a>
+                                                                </li>
                                                                 <li
                                                                     className="nav-item"
                                                                     style={{ cursor: "pointer" }}
@@ -552,7 +581,104 @@ const ProductProfile = () => {
 
                                     <section
                                         className="specification-section"
-                                        ref={voteridcarRef}
+                                        ref={bankOffersRef}
+                                    >
+                                        <div className="container">
+                                            <h2>Home Loan Offers</h2>
+                                            {bankOffers.post.map(
+                                                ({
+                                                    bankName,
+                                                    logo,
+                                                    rateOfInterest,
+                                                    tenure,
+                                                    processingFees,
+                                                    prepaymentCharges,
+                                                    loanAmount,
+                                                    foreclosureCharges,
+                                                }) => {
+                                                    return (
+                                                        <>
+                                                            <div
+                                                                className="row justify-content-center"
+                                                            //  style={{cursor:"pointer"}}
+                                                            >
+                                                                <div className="col-lg-2 col-12">
+                                                                    <div className="bank-details-check d-flex">
+                                                                        {/* <input type="checkbox" className="form-check" /> */}
+                                                                        <img
+                                                                            height={60}
+                                                                            width={60}
+                                                                            src={logo.data}
+                                                                            className="img-fluid ms-2"
+                                                                            alt=""
+                                                                        />
+                                                                    </div>
+                                                                    <h6> {bankName} </h6>
+                                                                </div>
+
+                                                                <div className="col-lg-2 col-12">
+                                                                    <h6>Loan Amount</h6>
+                                                                    <h6 className="loan-amount">
+                                                                        ₹ {loanAmount}
+                                                                    </h6>
+                                                                </div>
+
+                                                                <div className="col-lg-2 col-12">
+                                                                    <h6>Interest Rate</h6>
+                                                                    <h6 className="interest-rate">
+                                                                        Starts {rateOfInterest}
+                                                                    </h6>
+                                                                </div>
+
+                                                                <div className="col-lg-2 col-12">
+                                                                    <h6>Processing Fees</h6>
+                                                                    <h6 className="emi"> {processingFees} </h6>
+                                                                </div>
+
+                                                                <div className="col-lg-2 col-12">
+                                                                    <h6>Total Tenure</h6>
+                                                                    <h6 className=" "> {tenure} </h6>
+                                                                </div>
+                                                                <div className="col-lg-2 col-12">
+
+                                                                    <button
+                                                                        className="undefined tupleNew__contactCta"
+                                                                        data-label="CONTACT"
+                                                                        id="Contact"
+                                                                        onClick={function () {
+                                                                            navigate("/home-loan", {
+                                                                                state: {
+                                                                                    logo: logo,
+                                                                                    bankName: bankName,
+                                                                                    loanAmount: loanAmount,
+                                                                                    rateOfInterest: rateOfInterest,
+                                                                                    processingFees: processingFees,
+                                                                                    tenure: tenure,
+                                                                                    prepaymentCharges: prepaymentCharges,
+                                                                                    foreclosureCharges: foreclosureCharges,
+                                                                                },
+                                                                            });
+                                                                        }}
+                                                                    >
+                                                                        <i
+                                                                            className="iconS_Common_20 icon_call tupleNew__iconClass"
+                                                                            data-sstheme="_BUTTON_RIGHT_ICON"
+                                                                        />
+                                                                        View Offer
+                                                                    </button>
+                                                                </div>
+
+                                                            </div>
+                                                        </>
+                                                    );
+                                                }
+                                            )}
+                                        </div>
+                                    </section>
+
+                                    <section
+                                        className="specification-section"
+                                        ref={specificationRef}
                                     >
                                         <div className="container">
                                             <h2>Details</h2>

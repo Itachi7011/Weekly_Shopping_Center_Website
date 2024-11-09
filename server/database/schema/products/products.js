@@ -82,6 +82,7 @@ const ProductsSchema = new mongoose.Schema({
     },
   ],
 
+
   bankOffers: [
     {
       id: String,

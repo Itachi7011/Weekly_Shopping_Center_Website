@@ -182,7 +182,7 @@ const UpdateBankOffer = () => {
       >
         <Helmet>
           <meta charSet="utf-8" />
-          <title>My Title</title>
+          <title>Update {previousbankName} Offer</title>
           {/* <link rel="canonical" href="http://mysite.com/example" /> */}
         </Helmet>
         <div className="row justify-content-center">
