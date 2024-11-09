@@ -192,7 +192,7 @@ const ProductProfile = () => {
 
 
 
-                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: "1rem" }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: "-3rem" }}>
 
                                             {images.map((image, index) => (
 
@@ -208,7 +208,7 @@ const ProductProfile = () => {
 
                                                     onClick={() => handleImageClick(index)} // Update the carousel when clicked
 
-                                                    style={{ cursor: "pointer", width: "10rem", height: "auto", marginBottom: "0.5rem" }} // Make images clickable and set small width
+                                                    style={{ cursor: "pointer", width: "7rem", height: "auto", marginBottom: "0.5rem" }} // Make images clickable and set small width
 
                                                 />
 
@@ -219,7 +219,7 @@ const ProductProfile = () => {
                                     </div>
 
 
-                                    <section className="left-side-section" style={{ marginTop: "-20rem", }}>
+                                    <section className="left-side-section" style={{ marginTop: "-16rem", }}>
                                         <div className="container">
                                             <div className="row">
                                                 <div
@@ -325,7 +325,7 @@ const ProductProfile = () => {
 
 
                                                     <div className="side-bar-contant">
-                                                        <div className="card" style={{ padding: "2rem", marginRight: "-10rem", marginTop: "0rem" }}>
+                                                        <div className="card" style={{ padding: "1rem", marginRight: "-10rem", marginTop: "2rem" }}>
                                                             <h1 className="heading-side">
                                                                 {name}
                                                                 <br />
@@ -606,10 +606,10 @@ const ProductProfile = () => {
                                                                     <div className="bank-details-check d-flex">
                                                                         {/* <input type="checkbox" className="form-check" /> */}
                                                                         <img
-                                                                            height={60}
-                                                                            width={60}
+                                                                            height={80}
+                                                                            width={100}
                                                                             src={logo.data}
-                                                                            className="img-fluid ms-2"
+                                                                            className="img-fluid ms-2 mb-3"
                                                                             alt=""
                                                                         />
                                                                     </div>
@@ -617,26 +617,26 @@ const ProductProfile = () => {
                                                                 </div>
 
                                                                 <div className="col-lg-2 col-12">
-                                                                    <h6>Loan Amount</h6>
+                                                                    <h3>Loan Amount</h3>
                                                                     <h6 className="loan-amount">
                                                                         ₹ {loanAmount}
                                                                     </h6>
                                                                 </div>
 
                                                                 <div className="col-lg-2 col-12">
-                                                                    <h6>Interest Rate</h6>
+                                                                    <h3>Interest Rate</h3>
                                                                     <h6 className="interest-rate">
                                                                         Starts {rateOfInterest}
                                                                     </h6>
                                                                 </div>
 
                                                                 <div className="col-lg-2 col-12">
-                                                                    <h6>Processing Fees</h6>
+                                                                    <h3>Processing Fees</h3>
                                                                     <h6 className="emi"> {processingFees} </h6>
                                                                 </div>
 
                                                                 <div className="col-lg-2 col-12">
-                                                                    <h6>Total Tenure</h6>
+                                                                    <h3>Total Tenure</h3>
                                                                     <h6 className=" "> {tenure} </h6>
                                                                 </div>
                                                                 <div className="col-lg-2 col-12">
@@ -669,6 +669,7 @@ const ProductProfile = () => {
                                                                 </div>
 
                                                             </div>
+                                                            <hr/>
                                                         </>
                                                     );
                                                 }

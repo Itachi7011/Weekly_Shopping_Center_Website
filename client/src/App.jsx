@@ -13,6 +13,7 @@ import "./CSS/Footer.css";
 import "./CSS/adminSidebar.css";
 import "./CSS/dashboard.css";
 import "./CSS/ProductList.css";
+import "./CSS/ProductProfile.css";
 
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
@@ -110,8 +111,8 @@ function App() {
           <Route path="/NewSubCategory" element={<NewSubCategory />}></Route>
           <Route path="/ShowAllCategories" element={<ShowAllCategories />}></Route>
 
-           {/* Bank Offers */}
-           <Route path="/AddBankOffer" element={<AddBankOffer />}></Route>
+          {/* Bank Offers */}
+          <Route path="/AddBankOffer" element={<AddBankOffer />}></Route>
           <Route path="/UpdateBankOffer" element={<UpdateBankOffer />}></Route>
           <Route path="/ViewAllBankOffers" element={<ViewAllBankOffers />}></Route>
 
