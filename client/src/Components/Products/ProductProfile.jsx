@@ -24,6 +24,15 @@ const ProductProfile = () => {
 
     const [Data, setData] = useState({ post: [] });
 
+
+    const [isHovered, setIsHovered] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
+    const [visibleOffers, setVisibleOffers] = useState(2);
+
     const [user1, setUser1] = useState("");
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -93,6 +102,8 @@ const ProductProfile = () => {
                 const data = response.data;
 
                 setBankOffers({ post: data });
+
+                setSearchResults(data);
             })
             .catch((err) => {
                 console.log("Error during Data:", err);
@@ -132,6 +143,79 @@ const ProductProfile = () => {
     const handleAadharClick = useScrollIntoView(aadharcardRef);
     const handlePancardClick = useScrollIntoView(pancardRef);
     const handlevoteridcardClick = useScrollIntoView(voteridcarRef);
+
+
+    const handleSearch = (e) => {
+        const searchTerm = e.target.value;
+
+        setSearchTerm(searchTerm);
+
+        if (!searchTerm) {
+            setSearchResults(bankOffers.post)
+        } else {
+            const searchResults = bankOffers.post.filter((item) => {
+                return (
+                    item.bankName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.rateOfInterest.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.otherInformation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.loanAmount.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            });
+
+            setSearchResults(searchResults);
+        }
+
+
+    };
+
+    const buttonStyle = {
+
+        backgroundColor: '#4CAF50', // Green background
+
+        color: 'white', // White text
+
+        border: 'none', // No border
+
+        borderRadius: '25px', // Rounded corners
+
+        padding: '15px 30px', // Padding
+
+        fontSize: '16px', // Font size
+
+        fontWeight: 'bold', // Bold text
+
+        textTransform: 'uppercase', // Uppercase text
+
+        cursor: 'pointer', // Pointer cursor on hover
+
+        transition: 'background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease', // Transition effects
+
+        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)', // Shadow effect
+
+        outline: 'none', // Remove outline
+
+    };
+
+
+    const hoverStyle = {
+
+        backgroundColor: '#45a049', // Darker green on hover
+
+        transform: 'translateY(-3px)', // Lift effect
+
+        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.3)', // Deeper shadow on hover
+
+    };
+
+
+    const activeStyle = {
+
+        transform: 'translateY(1px)', // Pressed effect
+
+        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)', // Shadow returns to normal
+
+    };
+
 
     return (
         <>
@@ -325,7 +409,7 @@ const ProductProfile = () => {
 
 
                                                     <div className="side-bar-contant">
-                                                        <div className="card" style={{ padding: "1rem", marginRight: "-10rem", marginTop: "2rem" }}>
+                                                        <div className="card" style={{ padding: "1rem", marginRight: "-8em", marginTop: "2rem" }}>
                                                             <h1 className="heading-side">
                                                                 {name}
                                                                 <br />
@@ -584,13 +668,31 @@ const ProductProfile = () => {
                                         ref={bankOffersRef}
                                     >
                                         <div className="container">
-                                            <h2>Home Loan Offers</h2>
-                                            {bankOffers.post.map(
+                                            <h2>Bank Offers
+                                                <input
+                                                    placeholder="Search Bank Offers"
+                                                    style={{
+
+                                                        width: "20rem",
+                                                        height: "3rem",
+                                                        borderRadius: "10px",
+                                                        marginLeft: "10rem",
+                                                        marginRight: "-30rem",
+                                                        fontSize: "1.3rem",
+
+                                                    }}
+                                                    value={searchTerm}
+                                                    onChange={handleSearch}
+
+                                                />
+                                            </h2>
+                                            {searchResults.slice(0, visibleOffers).map(
                                                 ({
                                                     bankName,
                                                     logo,
                                                     rateOfInterest,
                                                     tenure,
+                                                    otherInformation,
                                                     processingFees,
                                                     prepaymentCharges,
                                                     loanAmount,
@@ -642,9 +744,38 @@ const ProductProfile = () => {
                                                                 <div className="col-lg-2 col-12">
 
                                                                     <button
-                                                                        className="undefined tupleNew__contactCta"
+                                                                        className=""
                                                                         data-label="CONTACT"
                                                                         id="Contact"
+                                                                        style={{
+
+                                                                            ...buttonStyle,
+
+                                                                            ...(isHovered ? hoverStyle : {}),
+
+                                                                            ...(isActive ? activeStyle : {}),
+
+                                                                        }}
+
+                                                                        onMouseEnter={() => setIsHovered(true)}
+
+                                                                        onMouseLeave={() => setIsHovered(false)}
+
+                                                                        onMouseDown={() => setIsActive(true)}
+
+                                                                        onMouseUp={() => setIsActive(false)}
+
+                                                                        onFocus={(e) => {
+
+                                                                            e.target.style.boxShadow = '0 0 5px rgba(76, 175, 80, 0.5)'; // Green glow on focus
+
+                                                                        }}
+
+                                                                        onBlur={(e) => {
+
+                                                                            e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)'; // Reset shadow on blur
+
+                                                                        }}
                                                                         onClick={function () {
                                                                             navigate("/home-loan", {
                                                                                 state: {
@@ -655,25 +786,49 @@ const ProductProfile = () => {
                                                                                     processingFees: processingFees,
                                                                                     tenure: tenure,
                                                                                     prepaymentCharges: prepaymentCharges,
+                                                                                    otherInformation: otherInformation,
                                                                                     foreclosureCharges: foreclosureCharges,
                                                                                 },
                                                                             });
                                                                         }}
                                                                     >
-                                                                        <i
-                                                                            className="iconS_Common_20 icon_call tupleNew__iconClass"
-                                                                            data-sstheme="_BUTTON_RIGHT_ICON"
-                                                                        />
+
                                                                         View Offer
                                                                     </button>
                                                                 </div>
 
                                                             </div>
-                                                            <hr/>
+                                                            <hr />
                                                         </>
                                                     );
                                                 }
                                             )}
+                                            <button
+
+                                                onClick={() => setVisibleOffers(visibleOffers + 2)} // Increase the number of visible offers by 2
+
+                                                style={{
+                                                    marginLeft:"45%",
+
+                                                    padding: "1rem",
+
+                                                    backgroundColor: "transparent",
+
+                                                    border: "none",
+
+                                                    cursor: "pointer",
+
+                                                    color: "#007bff",
+
+                                                }}
+
+                                            >
+
+                                                <i className="fas fa-chevron-down"></i> {/* Downward arrow icon */}
+
+                                                Load 2 More
+
+                                            </button>
                                         </div>
                                     </section>
 

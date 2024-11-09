@@ -157,7 +157,7 @@
 .sidebar-white {
   background-color: black !important;
 }
-button:active {
+/* button:active {
   outline: none !important;
 }
 button:hover {
@@ -165,7 +165,7 @@ button:hover {
 }
 button:focus {
   outline: none !important;
-}
+} */
 
 hr {
   border-color: #e4e4e4;
@@ -20104,10 +20104,78 @@ body {
   font-size: 1rem;
 }
 
+css
+
+/* Button Styles */
+
+.homeLoanBtn {
+
+    background-color: #4CAF50; /* Green background */
+
+    color: white !important; /* White text */
+
+    border: none; /* No border */
+
+    border-radius: 25px; /* Rounded corners */
+
+    padding: 15px 30px; /* Padding */
+
+    font-size: 16px; /* Font size */
+
+    font-weight: bold; /* Bold text */
+
+    text-transform: uppercase; /* Uppercase text */
+
+    cursor: pointer; /* Pointer cursor on hover */
+
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transition effects */
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow effect */
+
+    outline: none; /* Remove outline */
+
+}
+
+
+/* Hover Effect */
+
+.homeLoanBtn:hover {
+
+    background-color: #45a049; /* Darker green on hover */
+
+    transform: translateY(-3px); /* Lift effect */
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+
+}
+
+
+/* Active Effect */
+
+.homeLoanBtn:active {
+
+    transform: translateY(1px); /* Pressed effect */
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow returns to normal */
+
+}
+
+
+/* Focus Effect */
+
+.homeLoanBtn:focus {
+
+    outline: none; /* Remove outline */
+
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green glow on focus */
+
+}
+
 /* end rating section */
 
 .specification-section {
   margin-top: 5rem;
+  margin: 0rem 7rem;
   background-color: #ededed;
 }
 
