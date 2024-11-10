@@ -147,9 +147,11 @@ const ProductsSchema = new mongoose.Schema({
   ],
   totalSold: {
     type: Number,
+    default:0
   },
   totalCart: {
     type: Number,
+    default:0
   },
 
   createdByName: {

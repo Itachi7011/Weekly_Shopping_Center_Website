@@ -12,9 +12,9 @@ const ProductProfile = () => {
 
     const bankOffersRef = useRef(null);
     const specificationRef = useRef(null);
-    const aadharcardRef = useRef(null);
-    const pancardRef = useRef(null);
-    const voteridcarRef = useRef(null);
+    const technicalDetailsRef = useRef(null);
+    const otherDetailsRef = useRef(null);
+    const warrantyDetailsRef = useRef(null);
 
     const navigate = useNavigate();
 
@@ -140,9 +140,9 @@ const ProductProfile = () => {
 
     const handleBankOffersClick = useScrollIntoView(bankOffersRef);
     const handleSpecificationClick = useScrollIntoView(specificationRef);
-    const handleAadharClick = useScrollIntoView(aadharcardRef);
-    const handlePancardClick = useScrollIntoView(pancardRef);
-    const handlevoteridcardClick = useScrollIntoView(voteridcarRef);
+    const handleAadharClick = useScrollIntoView(technicalDetailsRef);
+    const handlePancardClick = useScrollIntoView(otherDetailsRef);
+    const handlevoteridcardClick = useScrollIntoView(warrantyDetailsRef);
 
 
     const handleSearch = (e) => {
@@ -628,22 +628,9 @@ const ProductProfile = () => {
                                                                         className="nav-link"
                                                                         onClick={handleAadharClick}
                                                                     >
-                                                                        Aadhar Card Image
+                                                                        Technical Details
                                                                     </a>
                                                                 </li>
-
-                                                                <li
-                                                                    className="nav-item"
-                                                                    style={{ cursor: "pointer" }}
-                                                                >
-                                                                    <a
-                                                                        onClick={handlePancardClick}
-                                                                        className="nav-link"
-                                                                    >
-                                                                        PAN Card Image
-                                                                    </a>
-                                                                </li>
-
                                                                 <li
                                                                     className="nav-item"
                                                                     style={{ cursor: "pointer" }}
@@ -652,9 +639,22 @@ const ProductProfile = () => {
                                                                         onClick={handlevoteridcardClick}
                                                                         className="nav-link"
                                                                     >
-                                                                        Voter ID Image
+                                                                        Warranty Details
                                                                     </a>
                                                                 </li>
+                                                                <li
+                                                                    className="nav-item"
+                                                                    style={{ cursor: "pointer" }}
+                                                                >
+                                                                    <a
+                                                                        onClick={handlePancardClick}
+                                                                        className="nav-link"
+                                                                    >
+                                                                        Other Details
+                                                                    </a>
+                                                                </li>
+
+
                                                             </ul>
                                                         </div>
                                                     </nav>
@@ -808,7 +808,7 @@ const ProductProfile = () => {
                                                 onClick={() => setVisibleOffers(visibleOffers + 2)} // Increase the number of visible offers by 2
 
                                                 style={{
-                                                    marginLeft:"45%",
+                                                    marginLeft: "45%",
 
                                                     padding: "1rem",
 
@@ -842,18 +842,31 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-3 col-md-3 col-3 mt-4">
                                                     <h6>Name</h6>
-                                                    <h6>Account No.</h6>
-                                                    <h6>Phone No.</h6>
-                                                    <h6>Email</h6>
-                                                    <h6>Address</h6>
-                                                    <h6>Father&apos;s Name</h6>
-                                                    <h6>Qualifications</h6>
-                                                    <h6>Date Of Birth</h6>
-                                                    <h6>Age</h6>
-                                                    <h6>Aadhar Card No.</h6>
-                                                    <h6>Voter Id Card No.</h6>
-                                                    <h6>PAN Card No.</h6>
-                                                    <h6>Account Opening Date</h6>
+                                                    <h6>Brand</h6>
+                                                    <h6>Model</h6>
+                                                    <h6>Effective Price</h6>
+                                                    <h6>Price Without Discount</h6>
+                                                    <h6>Discount</h6>
+                                                    <h6>Category</h6>
+                                                    <h6>New / Refurb.</h6>
+                                                    {isPopular === true ? (<h6>Popular</h6>) : ""}
+                                                    <h6> Color </h6>
+                                                    <h6> Weight </h6>
+                                                    <h6> Dimensions </h6>
+                                                    <h6> Stock Available </h6>
+                                                    <h6> Stock Next Refill Date </h6>
+                                                    <h6>Video URL</h6>
+
+                                                    {Data.userType !== "Admin" ? "" : <>
+                                                        <h6>Total Sold</h6>
+                                                        <h6>Total Cart</h6>
+                                                    </>}
+
+
+
+                                                    <h6>Date Of Listing</h6>
+
+                                                    <h6>Tags</h6>
                                                 </div>
 
                                                 <div
@@ -864,188 +877,106 @@ const ProductProfile = () => {
 
 
                                                         <h6 className="" > {name} </h6>
+                                                        <h6 className="" > {brand} </h6>
+                                                        <h6 className="" > {model} </h6>
+                                                        <h6> <span className="text-success"><strong>  ₹ {effectivePrice} </strong></span>  </h6>
+                                                        <h6 className="" > <del> ₹ {price}  </del></h6>
+                                                        <h6 className="" > <span className="text-danger">-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} (Save ₹ {price - (effectivePrice - (adminDiscount || 0))}) </span> </h6>
 
-                                                        <h6 className="" > { } </h6>
+                                                        <h6 className="" > {category} ({subCategory}) </h6>
 
-                                                        <h6 className="" > { }1 </h6>
+                                                        <h6 className="" > {isNewProduct === true ? "New" : "Refurbished"} </h6>
 
-                                                        <h6 className="" > { } </h6>
+                                                        {isPopular === true ? (<h6> Yes </h6>) : ""}
+                                                        <h6 className="" > {color} </h6>
 
-                                                        <h6 className="" >  { },  </h6>
+                                                        <h6 className="" >  {weight}  </h6>
 
-                                                        <h6 className="" > { } </h6>
+                                                        <h6 className="" > {dimensions} </h6>
+                                                        <h6 className="" > {stock_available} </h6>
+                                                        <h6 className="" > {stockNextRefillDate} </h6>
 
-                                                        <h6 className="" > { } </h6>
+                                                        <h6 className="" > {youtubeUrl} </h6>
 
-                                                        <h6 className="" > { } </h6>
+                                                        {Data.userType !== "Admin" ? "" : <>
+                                                            <h6 className="" > {((totalSold === 0) || (!totalSold)) ? <span className="text-danger">Sorry! No Sold Yet</span> : <span className="text-success" > {totalSold} People Bought This Product </span>} </h6>
+                                                            <h6 className="" > {((totalCart === 0) || (!totalCart)) ? <span className="text-danger">Sorry! No Cart Yet</span> : <span className="text-success" > {totalCart} People Add This Product To Cart </span>}  </h6>
+                                                        </>}
 
-                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > { } </h6>
 
-                                                        <h6 className="" > { } </h6>
 
                                                         <h6 className="" > {dateOfFormSubmission} </h6>
+                                                        <h6 className="">
+
+                                                            {tags.map((tag, index) => (
+
+                                                                <span key={tag}>
+
+                                                                    ({index + 1}). {tag} , &nbsp; &nbsp;
+
+                                                                </span>
+
+                                                            ))}
+
+                                                        </h6>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </section>
 
-                                    <section
-                                        className="about-project-section Project-Info"
-                                        id="aboutProject"
-                                    >
-                                        <div className="container mt-4">
-                                            <div className="row align-items-center">
-                                                <div className="col-lg-12 col-md-12 col-12">
-                                                    <h2>Occupation Description</h2>
-                                                    <hr />
-                                                    {/* <div
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: occupationDescription,
-                                                        }}
-                                                    /> */}
+
+
+                                    <section className="location-section" ref={technicalDetailsRef}>
+                                        <div className="container">
+                                            <h2> Technical Details</h2>
+                                            <div className="row justify-content-center">
+                                                <div className="col-lg-12 col-12 mb-4">
+
+                                                    <div dangerouslySetInnerHTML={{ __html: technicalDetails }} />
+
                                                 </div>
                                             </div>
                                         </div>
                                     </section>
 
-                                    <section className="location-section" ref={aadharcardRef}>
+                                    {
+                                        !warrantyDetails ? "" : (
+                                            <section
+                                                className="location-section"
+                                                id="voteridcard"
+                                                ref={warrantyDetailsRef}
+                                            >
+                                                <div className="container">
+                                                    <h2> Warranty Details</h2>
+                                                    <div className="row justify-content-center">
+                                                        <div className="col-lg-12 col-12 mb-4">
+
+                                                            <div dangerouslySetInnerHTML={{ __html: warrantyDetails }} />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        )
+                                    }
+
+
+                                    <section className="location-section" ref={otherDetailsRef}>
                                         <div className="container">
-                                            <h2> Aadhar Card</h2>
+                                            <h2> Other Details</h2>
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
-                                                    {/* <div className="location-map">
-                            <img
-                              src={
-                                new URL(
-                                  `../Uploads/Customers/SavingAccounts/${aadharImage.data}`,
-                                  import.meta.url
-                                ).href
-                              }
-                              // src={aadharImage.data}
-                              className="img-fluid mx-auto"
-                              alt="map"
-                            />
-                            <button
-                              className="btn btn-success btn-lg "
-                              style={{
-                                marginTop: "1rem",
-                                marginLeft: "2rem",
-                                marginBottom: "-5rem",
-                                border: "3px solid green",
-                              }}
-                              onClick={() =>
-                                printImage(
-                                  new URL(
-                                    `../Uploads/Customers/SavingAccounts/${aadharImage.data}`,
-                                    import.meta.url
-                                  ).href
-                                )
-                              }
-                            >
-                              Print
-                            </button>
-                          </div> */}
+
+                                                    <div dangerouslySetInnerHTML={{ __html: productDetails }} />
+
                                                 </div>
                                             </div>
                                         </div>
                                     </section>
 
-                                    <section
-                                        className="location-section"
-                                        id="voteridcard"
-                                        ref={voteridcarRef}
-                                    >
-                                        <div className="container">
-                                            <h2> Voter ID Card</h2>
-                                            <div className="row justify-content-center">
-                                                <div className="col-lg-12 col-12 mb-4">
-                                                    {/* <div className="location-map">
-                            <img
-                              src={
-                                new URL(
-                                  `../Uploads/Customers/SavingAccounts/${voterIdImage.data}`,
-                                  import.meta.url
-                                ).href
-                              }
-                              // src={aadharImage.data}
-                              className="img-fluid mx-auto"
-                              alt="map"
-                            />
-                            <button
-                              className="btn btn-success btn-lg "
-                              style={{
-                                marginTop: "1rem",
-                                marginLeft: "2rem",
-                                marginBottom: "-5rem",
-                                border: "3px solid green",
-                              }}
-                              onClick={() =>
-                                printImage(
-                                  new URL(
-                                    `../Uploads/Customers/SavingAccounts/${voterIdImage.data}`,
-                                    import.meta.url
-                                  ).href
-                                )
-                              }
-                            >
-                              Print
-                            </button>
-                          </div> */}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-
-                                    <section
-                                        className="location-section"
-                                        id="pancard"
-                                        ref={pancardRef}
-                                    >
-                                        <div className="container">
-                                            <h2> PAN Card</h2>
-                                            <div className="row justify-content-center">
-                                                <div className="col-lg-12 col-12 mb-4">
-                                                    {/* <div className="location-map">
-                            <img
-                              src={
-                                new URL(
-                                  `../Uploads/Customers/SavingAccounts/${panImage.data}`,
-                                  import.meta.url
-                                ).href
-                              }
-                              // src={aadharImage.data}
-                              className="img-fluid mx-auto"
-                              alt="map"
-                            />
-                            <button
-                              className="btn btn-success btn-lg "
-                              style={{
-                                marginTop: "1rem",
-                                marginLeft: "2rem",
-                                marginBottom: "-5rem",
-                                border: "3px solid green",
-                              }}
-                              onClick={() =>
-                                printImage(
-                                  new URL(
-                                    `../Uploads/Customers/SavingAccounts/${panImage.data}`,
-                                    import.meta.url
-                                  ).href
-                                )
-                              }
-                            >
-                              Print
-                            </button>
-                          </div> */}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
                                 </div>
                             </>
                         );
