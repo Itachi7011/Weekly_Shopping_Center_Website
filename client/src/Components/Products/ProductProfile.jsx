@@ -860,6 +860,7 @@ const ProductProfile = () => {
                                                     {Data.userType !== "Admin" ? "" : <>
                                                         <h6>Total Sold</h6>
                                                         <h6>Total Cart</h6>
+                                                        <h6>Created By</h6>
                                                     </>}
 
 
@@ -901,6 +902,10 @@ const ProductProfile = () => {
                                                         {Data.userType !== "Admin" ? "" : <>
                                                             <h6 className="" > {((totalSold === 0) || (!totalSold)) ? <span className="text-danger">Sorry! No Sold Yet</span> : <span className="text-success" > {totalSold} People Bought This Product </span>} </h6>
                                                             <h6 className="" > {((totalCart === 0) || (!totalCart)) ? <span className="text-danger">Sorry! No Cart Yet</span> : <span className="text-success" > {totalCart} People Add This Product To Cart </span>}  </h6>
+
+                                                            <h6 className="" > {createdByName
+                                                                } ({createdByType}) </h6>
+
                                                         </>}
 
 

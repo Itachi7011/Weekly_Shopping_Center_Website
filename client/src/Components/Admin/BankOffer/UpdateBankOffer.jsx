@@ -209,19 +209,19 @@ const UpdateBankOffer = () => {
             >
               <div className="row">
                 <div className="col-12 col-lg-3 mt-2 ">
-                  <h6 style={{ marginBottom: "2.7rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.9rem", fontSize: "1rem" }}>
                     Bank Name :
                   </h6>
-                  <h6 style={{ marginBottom: "2.5rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.9rem", fontSize: "1rem" }}>
                     Phone Number :
                   </h6>
                   <h6 style={{ marginBottom: "3rem", fontSize: "1rem" }}>
                     Tenure :
                   </h6>
-                  <h6 style={{ marginBottom: "2.3rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.9rem", fontSize: "1rem" }}>
                     Processing Fees :
                   </h6>
-                  <h6 style={{ marginBottom: "1.6rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.9rem", fontSize: "1rem" }}>
                     Rate Of Interest (% Per Year):
                   </h6>
                   <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
@@ -230,7 +230,7 @@ const UpdateBankOffer = () => {
                   <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                     Prepayment Charges :
                   </h6>
-                  <h6 style={{ marginBottom: "2rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                     Foreclosure Charges :
                   </h6>
                   <h6 style={{ marginBottom: "4.8rem", fontSize: "1rem" }}>
