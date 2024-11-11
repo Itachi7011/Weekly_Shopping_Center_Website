@@ -28,6 +28,8 @@ const ProductProfile = () => {
     const [Data, setData] = useState({ post: [] });
 
 
+
+
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
@@ -155,27 +157,40 @@ const ProductProfile = () => {
 
     const openModal = (product) => {
 
-        setCurrentProduct(product);
+        if (user1) {
 
-        setIsModalOpen(true);
+            // User is logged in, open the rating modal
+
+            setIsModalOpen(true);
+            setCurrentProduct(product);
+
+            setTimeout(() => {
+
+                const modalElement = document.querySelector('.modal');
+
+                if (modalElement) {
+
+                    modalElement.style.display = 'block';
+
+                    modalElement.offsetHeight; // Trigger reflow
+
+                }
+
+            }, 0);
 
 
+        } else {
 
-        // Force a reflow
+            // User is not logged in, show a message or redirect
 
-        setTimeout(() => {
+            alert("You must be logged in to add a rating.");
 
-            const modalElement = document.querySelector('.modal');
+            // Optionally redirect to login page
 
-            if (modalElement) {
+            navigate("/Login");
 
-                modalElement.style.display = 'block';
+        }
 
-                modalElement.offsetHeight; // Trigger reflow
-
-            }
-
-        }, 0);
 
     };
 
@@ -385,9 +400,8 @@ const ProductProfile = () => {
                     }) => {
                         return (
                             <>
-                                {isModalOpen && (
-
-                                    <div className={`modal ${isModalOpen ? 'show' : ''}`} tabIndex="1" role="dialog" style={{ display: 'block', zIndex: 1050 }}>
+                                {user1 ? (<>
+                                    <div className={`modal ${isModalOpen ? 'show' : ''}`} tabIndex="2" role="dialog" style={{ display: 'block', zIndex: 1050 }}>
 
                                         <div className="modal-dialog modal-dialog-centered" role="document">
 
@@ -395,7 +409,7 @@ const ProductProfile = () => {
 
                                                 <div className="modal-header">
 
-                                                    <h5 className="modal-title">Enter Rating For {currentProduct?.name}</h5>
+                                                    <h5 className="modal-title" > Invalid Operation </h5>
 
                                                     <button type="button" className="close" onClick={closeModal}>
 
@@ -407,26 +421,7 @@ const ProductProfile = () => {
 
                                                 <div className="modal-body">
 
-                                                    <h6>Rating</h6>
 
-                                                    <div className="rating-stars" style={{ paddingLeft: "30%" }}>
-
-                                                        {Array.from({ length: 5 }, (_, i) => (
-
-                                                            <i
-
-                                                                key={i}
-
-                                                                className={`fas fa-star rating-icon ${selectedStars[currentProduct?._id]?.includes(i + 1) ? "yellow" : "gray"}`}
-
-                                                                onClick={(e) => handleIconClick(e, currentProduct._id, currentProduct.name, i + 1)}
-
-                                                                style={{ marginLeft: "2rem", fontSize: 'larger', paddingTop: "1rem", paddingBottom: "1rem" }}
-                                                            />
-
-                                                        ))}
-
-                                                    </div>
                                                     <div
                                                         className="innerDiv container"
                                                         style={{
@@ -436,76 +431,27 @@ const ProductProfile = () => {
                                                         }}
                                                     >
                                                         <div className="row">
-                                                            <div className="col-12 col-lg-2  ">
+                                                            <div className="col-12 col-lg-12  " style={{ textAlign: "center" }}>
 
-                                                                <h6
+                                                                <h2
                                                                     style={{
                                                                         marginBottom: "1.3rem",
-                                                                        fontSize: "1rem",
+                                                                        fontSize: "2rem",
+                                                                        textAlign: "center"
                                                                     }}
                                                                 >
-                                                                    Comment
-                                                                </h6>
+                                                                    Sorry You Can&apos;t Post Review Without Login
+                                                                </h2>
+                                                                <br />
+                                                                <button className="btn btn-primary" href="/Login" style={{ fontSize: "1.5rem", }} >Login</button>
                                                             </div>
-                                                            <div className="col-lg-10">
 
-                                                                <h6 className="ps-1">
-                                                                    <CKEditor
-                                                                        config={{
-                                                                            height: 600,
-                                                                            toolbar: [
-                                                                                "heading",
-                                                                                "|",
-                                                                                "bold",
-                                                                                "italic",
-                                                                                "blockQuote",
-                                                                                "link",
-                                                                                "numberedList",
-                                                                                "bulletedList",
-                                                                                "imageUpload",
-                                                                                "insertTable",
-                                                                                "tableColumn",
-                                                                                "tableRow",
-                                                                                "mergeTableCells",
-                                                                                "mediaEmbed",
-                                                                                "|",
-                                                                                "undo",
-                                                                                "redo",
-                                                                            ],
-                                                                        }}
-                                                                        style={{
-                                                                            maxWidth: "100%",
-                                                                            height: "800px",
-                                                                            marginBottom: "1rem",
-                                                                        }}
-                                                                        editor={ClassicEditor}
-                                                                        onReady={(editor) => { }}
-                                                                        onBlur={(event, editor) => { }}
-                                                                        onFocus={(event, editor) => { }}
-                                                                        onChange={debouncedOnChange1}
-                                                                    />
-                                                                </h6>
-                                                            </div>
                                                         </div>
                                                     </div>
 
                                                 </div>
 
-                                                <div className="modal-footer">
 
-                                                    <button type="button" className="btn btn-secondary" onClick={closeModal}>
-
-                                                        Close
-
-                                                    </button>
-
-                                                    <button type="button" className="btn btn-primary" onClick={saveRating}>
-
-                                                        Save
-
-                                                    </button>
-
-                                                </div>
 
                                             </div>
 
@@ -513,7 +459,138 @@ const ProductProfile = () => {
 
                                     </div>
 
-                                )}
+                                </>) : (
+
+
+                                    isModalOpen && (
+
+                                        <div className={`modal ${isModalOpen ? 'show' : ''}`} tabIndex="1" role="dialog" style={{ display: 'block', zIndex: 1050 }}>
+
+                                            <div className="modal-dialog modal-dialog-centered" role="document">
+
+                                                <div className="modal-content">
+
+                                                    <div className="modal-header">
+
+                                                        <h5 className="modal-title">Enter Rating For {currentProduct?.name}</h5>
+
+                                                        <button type="button" className="close" onClick={closeModal}>
+
+                                                            <span aria-hidden="true">&times;</span>
+
+                                                        </button>
+
+                                                    </div>
+
+                                                    <div className="modal-body">
+
+                                                        <h6>Rating</h6>
+
+                                                        <div className="rating-stars" style={{ paddingLeft: "30%" }}>
+
+                                                            {Array.from({ length: 5 }, (_, i) => (
+
+                                                                <i
+
+                                                                    key={i}
+
+                                                                    className={`fas fa-star rating-icon ${selectedStars[currentProduct?._id]?.includes(i + 1) ? "yellow" : "gray"}`}
+
+                                                                    onClick={(e) => handleIconClick(e, currentProduct._id, currentProduct.name, i + 1)}
+
+                                                                    style={{ marginLeft: "2rem", fontSize: 'larger', paddingTop: "1rem", paddingBottom: "1rem" }}
+                                                                />
+
+                                                            ))}
+
+                                                        </div>
+                                                        <div
+                                                            className="innerDiv container"
+                                                            style={{
+                                                                backgroundColor: "white",
+                                                                // padding: "4rem 5rem 2rem 1rem",
+                                                                borderRadius: "5px",
+                                                            }}
+                                                        >
+                                                            <div className="row">
+                                                                <div className="col-12 col-lg-2  ">
+
+                                                                    <h6
+                                                                        style={{
+                                                                            marginBottom: "1.3rem",
+                                                                            fontSize: "1rem",
+                                                                        }}
+                                                                    >
+                                                                        Comment
+                                                                    </h6>
+                                                                </div>
+                                                                <div className="col-lg-10">
+
+                                                                    <h6 className="ps-1">
+                                                                        <CKEditor
+                                                                            config={{
+                                                                                height: 600,
+                                                                                toolbar: [
+                                                                                    "heading",
+                                                                                    "|",
+                                                                                    "bold",
+                                                                                    "italic",
+                                                                                    "blockQuote",
+                                                                                    "link",
+                                                                                    "numberedList",
+                                                                                    "bulletedList",
+                                                                                    "imageUpload",
+                                                                                    "insertTable",
+                                                                                    "tableColumn",
+                                                                                    "tableRow",
+                                                                                    "mergeTableCells",
+                                                                                    "mediaEmbed",
+                                                                                    "|",
+                                                                                    "undo",
+                                                                                    "redo",
+                                                                                ],
+                                                                            }}
+                                                                            style={{
+                                                                                maxWidth: "100%",
+                                                                                height: "800px",
+                                                                                marginBottom: "1rem",
+                                                                            }}
+                                                                            editor={ClassicEditor}
+                                                                            onReady={(editor) => { }}
+                                                                            onBlur={(event, editor) => { }}
+                                                                            onFocus={(event, editor) => { }}
+                                                                            onChange={debouncedOnChange1}
+                                                                        />
+                                                                    </h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div className="modal-footer">
+
+                                                        <button type="button" className="btn btn-secondary" onClick={closeModal}>
+
+                                                            Close
+
+                                                        </button>
+
+                                                        <button type="button" className="btn btn-primary" onClick={saveRating}>
+
+                                                            Save
+
+                                                        </button>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    ))}
                                 <div style={{ marginTop: "3rem" }}>
 
                                     {/* All Images Main Div */}
