@@ -1,6 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import debounce from "lodash/debounce";
 
 import axios from "axios";
 
@@ -30,6 +33,8 @@ const ProductProfile = () => {
 
     const [selectedStars, setSelectedStars] = useState({});
     const [clickedIcons, setClickedIcons] = useState({});
+
+    const [answer, setAnswer] = useState("");
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -101,6 +106,12 @@ const ProductProfile = () => {
         printWindow.print();
     };
 
+    const debouncedOnChange1 = debounce((event, editor) => {
+        const data = editor.getData();
+
+        setAnswer(data);
+    }, 500);
+
     useEffect(() => {
         axios
             .get("/api/bankOfferList")
@@ -148,6 +159,24 @@ const ProductProfile = () => {
 
         setIsModalOpen(true);
 
+
+
+        // Force a reflow
+
+        setTimeout(() => {
+
+            const modalElement = document.querySelector('.modal');
+
+            if (modalElement) {
+
+                modalElement.style.display = 'block';
+
+                modalElement.offsetHeight; // Trigger reflow
+
+            }
+
+        }, 0);
+
     };
 
 
@@ -165,8 +194,21 @@ const ProductProfile = () => {
 
             const { _id, name } = currentProduct;
 
-            const rating = selectedStars[_id]?.length || 0;
+            const rating = selectedStars[_id]?.length || 0; // Get the rating from the state
 
+            const comment = answer;
+
+            console.log("Sending data to backend:", {
+
+                id: _id,
+
+                name: name,
+
+                rating: rating,
+
+                comment: comment,
+
+            });
 
             const bodyFormData = new FormData();
 
@@ -174,10 +216,18 @@ const ProductProfile = () => {
 
             bodyFormData.append("name", name);
 
-            bodyFormData.append("rating", rating);
+            bodyFormData.append("rating", rating); // Send the rating
+
+            bodyFormData.append("comment", answer); // Send the comment
 
 
-            axios.post("/api/productRating", bodyFormData)
+            axios.post("/api/productRating", bodyFormData,
+
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
 
                 .then(response => {
 
@@ -195,46 +245,15 @@ const ProductProfile = () => {
 
     const handleIconClick = (e, id, name, rating) => {
         e.preventDefault();
-        var bodyFormData = new FormData();
-        bodyFormData.append("id", id);
-        bodyFormData.append("name", name);
-        bodyFormData.append("rating", rating);
-    
-        console.log(id);
-        setClickedIcons((prevClickedIcons) => ({
-          ...prevClickedIcons,
-    
-          [id]: !prevClickedIcons[id],
-        }));
-        axios
-          .post(
-            "/api/productRating",
-            bodyFormData,
-    
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then(function (response) {
-            //handle success
-            console.log(response);
-          })
-          .catch(function (response) {
-            //handle error
-            console.log(response);
-          });
-    
-        const currentSelectedStars = selectedStars[id] || [];
+
+        // Update the selected stars state without sending data to the backend
         const newSelectedStars = Array.from({ length: rating }, (_, i) => i + 1);
-    
+
         setSelectedStars({
-          ...selectedStars,
-    
-          [id]: newSelectedStars,
+            ...selectedStars,
+            [id]: newSelectedStars,
         });
-      };
+    };
 
     const handleBankOffersClick = useScrollIntoView(bankOffersRef);
     const handleSpecificationClick = useScrollIntoView(specificationRef);
@@ -366,6 +385,135 @@ const ProductProfile = () => {
                     }) => {
                         return (
                             <>
+                                {isModalOpen && (
+
+                                    <div className={`modal ${isModalOpen ? 'show' : ''}`} tabIndex="1" role="dialog" style={{ display: 'block', zIndex: 1050 }}>
+
+                                        <div className="modal-dialog modal-dialog-centered" role="document">
+
+                                            <div className="modal-content">
+
+                                                <div className="modal-header">
+
+                                                    <h5 className="modal-title">Enter Rating For {currentProduct?.name}</h5>
+
+                                                    <button type="button" className="close" onClick={closeModal}>
+
+                                                        <span aria-hidden="true">&times;</span>
+
+                                                    </button>
+
+                                                </div>
+
+                                                <div className="modal-body">
+
+                                                    <h6>Rating</h6>
+
+                                                    <div className="rating-stars" style={{ paddingLeft: "30%" }}>
+
+                                                        {Array.from({ length: 5 }, (_, i) => (
+
+                                                            <i
+
+                                                                key={i}
+
+                                                                className={`fas fa-star rating-icon ${selectedStars[currentProduct?._id]?.includes(i + 1) ? "yellow" : "gray"}`}
+
+                                                                onClick={(e) => handleIconClick(e, currentProduct._id, currentProduct.name, i + 1)}
+
+                                                                style={{ marginLeft: "2rem", fontSize: 'larger', paddingTop: "1rem", paddingBottom: "1rem" }}
+                                                            />
+
+                                                        ))}
+
+                                                    </div>
+                                                    <div
+                                                        className="innerDiv container"
+                                                        style={{
+                                                            backgroundColor: "white",
+                                                            // padding: "4rem 5rem 2rem 1rem",
+                                                            borderRadius: "5px",
+                                                        }}
+                                                    >
+                                                        <div className="row">
+                                                            <div className="col-12 col-lg-2  ">
+
+                                                                <h6
+                                                                    style={{
+                                                                        marginBottom: "1.3rem",
+                                                                        fontSize: "1rem",
+                                                                    }}
+                                                                >
+                                                                    Comment
+                                                                </h6>
+                                                            </div>
+                                                            <div className="col-lg-10">
+
+                                                                <h6 className="ps-1">
+                                                                    <CKEditor
+                                                                        config={{
+                                                                            height: 600,
+                                                                            toolbar: [
+                                                                                "heading",
+                                                                                "|",
+                                                                                "bold",
+                                                                                "italic",
+                                                                                "blockQuote",
+                                                                                "link",
+                                                                                "numberedList",
+                                                                                "bulletedList",
+                                                                                "imageUpload",
+                                                                                "insertTable",
+                                                                                "tableColumn",
+                                                                                "tableRow",
+                                                                                "mergeTableCells",
+                                                                                "mediaEmbed",
+                                                                                "|",
+                                                                                "undo",
+                                                                                "redo",
+                                                                            ],
+                                                                        }}
+                                                                        style={{
+                                                                            maxWidth: "100%",
+                                                                            height: "800px",
+                                                                            marginBottom: "1rem",
+                                                                        }}
+                                                                        editor={ClassicEditor}
+                                                                        onReady={(editor) => { }}
+                                                                        onBlur={(event, editor) => { }}
+                                                                        onFocus={(event, editor) => { }}
+                                                                        onChange={debouncedOnChange1}
+                                                                    />
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div className="modal-footer">
+
+                                                    <button type="button" className="btn btn-secondary" onClick={closeModal}>
+
+                                                        Close
+
+                                                    </button>
+
+                                                    <button type="button" className="btn btn-primary" onClick={saveRating}>
+
+                                                        Save
+
+                                                    </button>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                )}
                                 <div style={{ marginTop: "3rem" }}>
 
                                     {/* All Images Main Div */}
@@ -567,73 +715,7 @@ const ProductProfile = () => {
 
                                                             </div>
 
-                                                            {isModalOpen && (
 
-                                                                <div className="modal show" tabIndex="1" role="dialog" style={{ display: 'block', zIndex: 1050 }}>
-
-                                                                    <div className="modal-dialog modal-dialog-centered" role="document">
-
-                                                                        <div className="modal-content">
-
-                                                                            <div className="modal-header">
-
-                                                                                <h5 className="modal-title">Enter Rating For {currentProduct?.name}</h5>
-
-                                                                                <button type="button" className="close" onClick={closeModal}>
-
-                                                                                    <span aria-hidden="true">&times;</span>
-
-                                                                                </button>
-
-                                                                            </div>
-
-                                                                            <div className="modal-body">
-
-                                                                                <h6>Rating</h6>
-
-                                                                                <div className="rating-stars">
-
-                                                                                    {Array.from({ length: 5 }, (_, i) => (
-
-                                                                                        <i
-
-                                                                                            key={i}
-
-                                                                                            className={`fas fa-star rating-icon ${selectedStars[currentProduct?._id]?.includes(i + 1) ? "yellow" : "gray"}`}
-
-                                                                                            onClick={(e) => handleIconClick(e, _id,name, i + 1)}
-
-                                                                                        />
-
-                                                                                    ))}
-
-                                                                                </div>
-
-                                                                            </div>
-
-                                                                            <div className="modal-footer">
-
-                                                                                <button type="button" className="btn btn-secondary" onClick={closeModal}>
-
-                                                                                    Close
-
-                                                                                </button>
-
-                                                                                <button type="button" className="btn btn-primary" onClick={saveRating}>
-
-                                                                                    Save
-
-                                                                                </button>
-
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                            )}
 
 
                                                             <h6 className="">
@@ -1143,6 +1225,21 @@ const ProductProfile = () => {
                                                 <div className="col-lg-12 col-12 mb-4">
 
                                                     <div dangerouslySetInnerHTML={{ __html: productDetails }} />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section className="location-section" ref={otherDetailsRef}>
+                                        <div className="container">
+                                            <h2> Top Reviews </h2>
+                                            <button className="btn btn-primary" style={{ fontSize: "medium" }} onClick={() => openModal({ _id, name })}>
+                                                Add Review
+                                            </button>
+                                            <div className="row justify-content-center">
+                                                <div className="col-lg-12 col-12 mb-4">
+
 
                                                 </div>
                                             </div>

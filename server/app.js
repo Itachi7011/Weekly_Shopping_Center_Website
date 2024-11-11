@@ -1019,48 +1019,77 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
 // Product Rating And Reviews
 
 app.post("/api/productRating", async (req, res) => {
+
   try {
-    const id = req.body.id;
-    const rating = parseInt(req.body.rating);;
-    // res.send(data);
-    console.log(req.body);
 
-    const product = await ProductsDB.findById(id);
-    if (!product) {
-      return res.status(404).send({ message: "Product not found" });
-    }
+      const id = req.body.id;
 
-    product.allRatings.push(rating);
+      const rating = parseInt(req.body.rating);
+
+      const name = req.body.name;
+
+      const comment = req.body.comment;
 
 
-    // Calculate the new average rating
+      const product = await ProductsDB.findById(id);
 
-    const totalRatings = product.allRatings.length;
-    const sumOfRatings = product.allRatings.reduce((acc, val) => acc + val, 0);
-    const averageRating = sumOfRatings / totalRatings;
+      if (!product) {
+
+          return res.status(404).send({ message: "Product not found" });
+
+      }
 
 
-    await ProductsDB.findOneAndUpdate(
+      const newReview = {
 
-      { _id: id },
+          rating: rating,
 
-      {
+          comment: comment,
 
-        allRatings: product.allRatings,
+      };
 
-        averageRating: averageRating
 
-      },
+      product.reviews.push(newReview);
 
-      { new: true } // Option to return the updated document
 
-    );
-    console.log(averageRating.toFixed(0))
-    res.status(200).send({ message: "Rating added successfully", averageRating });
+      const totalRatings = product.reviews.reduce((acc, review) => acc + review.rating, 0);
+
+      const averageRating = totalRatings / product.reviews.length;
+
+
+      // Update the product with the new review and average rating
+
+      product.averageRating = averageRating.toFixed(0);
+
+
+      // Save the updated product
+
+      const updatedProduct = await product.save();
+
+      console.log(product.averageRating)
+
+
+      // Send a single response after the product is successfully saved
+
+      res.status(200).send({
+
+          message: "Rating added successfully",
+
+          averageRating: averageRating.toFixed(0), // Send the average rating as a string
+
+          product: updatedProduct, // Optionally include the updated product
+
+      });
+
 
   } catch (err) {
-    console.log(`Error during sending Product List -${err}`);
+
+      console.error(`Error during sending Product List - ${err}`);
+
+      res.status(500).send({ message: "Error updating product" });
+
   }
+
 });
 
 
