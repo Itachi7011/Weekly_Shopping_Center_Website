@@ -28,8 +28,14 @@ const ProductProfile = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
+    const [selectedStars, setSelectedStars] = useState({});
+    const [clickedIcons, setClickedIcons] = useState({});
+
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentProduct, setCurrentProduct] = useState(null);
 
     const [visibleOffers, setVisibleOffers] = useState(2);
 
@@ -133,6 +139,57 @@ const ProductProfile = () => {
     const handleImageClick = (index) => {
 
         setCurrentImageIndex(index); // Update the current image index
+
+    };
+
+    const openModal = (product) => {
+
+        setCurrentProduct(product);
+
+        setIsModalOpen(true);
+
+    };
+
+
+    const closeModal = () => {
+
+        setIsModalOpen(false);
+
+        setSelectedStars({});
+
+    };
+
+    const saveRating = () => {
+
+        if (currentProduct) {
+
+            const { _id, name } = currentProduct;
+
+            const rating = selectedStars[_id]?.length || 0;
+
+
+            const bodyFormData = new FormData();
+
+            bodyFormData.append("id", _id);
+
+            bodyFormData.append("name", name);
+
+            bodyFormData.append("rating", rating);
+
+
+            axios.post("/api/productRating", bodyFormData)
+
+                .then(response => {
+
+                    console.log(response);
+
+                    closeModal(); // Close modal after saving
+
+                })
+
+                .catch(err => console.error("Error saving rating:", err));
+
+        }
 
     };
 
@@ -409,7 +466,7 @@ const ProductProfile = () => {
 
 
                                                     <div className="side-bar-contant">
-                                                        <div className="card" style={{ padding: "1rem", marginRight: "-8em", marginTop: "2rem" }}>
+                                                        <div className="card" style={{ padding: "1rem", marginRight: "-6em", marginTop: "2rem" }}>
                                                             <h1 className="heading-side">
                                                                 {name}
                                                                 <br />
@@ -428,47 +485,116 @@ const ProductProfile = () => {
                                                                 </div>
 
 
-                                                                {/* Simple button to go to the Review section */}
 
-                                                                <a
+                                                                <button
 
-                                                                    href="#reviews" // Link to the reviews section
+                                                                    onClick={() => openModal({ _id, name })}
 
                                                                     style={{
 
-                                                                        marginLeft: '1rem', // Space between stars and button
+                                                                        marginLeft: '1rem',
 
-                                                                        padding: '0.5rem 1rem', // Padding for the button
+                                                                        padding: '0.5rem 1rem',
 
-                                                                        backgroundColor: '#007bff', // Bootstrap primary color
+                                                                        backgroundColor: '#007bff',
 
-                                                                        color: 'white', // Text color
+                                                                        color: 'white',
 
-                                                                        border: 'none', // No border
+                                                                        border: 'none',
 
-                                                                        borderRadius: '0.25rem', // Rounded corners
+                                                                        borderRadius: '0.25rem',
 
-                                                                        textDecoration: 'none', // Remove underline
+                                                                        textDecoration: 'none',
 
-                                                                        display: 'inline-block', // Align as block for padding
+                                                                        display: 'inline-block',
 
-                                                                        textAlign: 'center', // Center text
+                                                                        textAlign: 'center',
 
-                                                                        transition: 'background-color 0.3s', // Smooth transition for hover effect
+                                                                        transition: 'background-color 0.3s',
 
                                                                     }}
 
-                                                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0056b3'} // Darker blue on hover
+                                                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
 
-                                                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#007bff'} // Original blue on mouse leave
+                                                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
 
                                                                 >
 
-                                                                    Reviews
+                                                                    Add Rating
 
-                                                                </a>
+                                                                </button>
 
                                                             </div>
+
+                                                            {isModalOpen && (
+
+                                                                <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block', zIndex: 1050 }}>
+
+                                                                    <div className="modal-dialog modal-dialog-centered" role="document">
+
+                                                                        <div className="modal-content">
+
+                                                                            <div className="modal-header">
+
+                                                                                <h5 className="modal-title">Enter Rating For {currentProduct?.name}</h5>
+
+                                                                                <button type="button" className="close" onClick={closeModal}>
+
+                                                                                    <span aria-hidden="true">&times;</span>
+
+                                                                                </button>
+
+                                                                            </div>
+
+                                                                            <div className="modal-body">
+
+                                                                                <h6>Rating</h6>
+
+                                                                                <div className="rating-stars">
+
+                                                                                    {Array.from({ length: 5 }, (_, i) => (
+
+                                                                                        <i
+
+                                                                                            key={i}
+
+                                                                                            className={`fas fa-star rating-icon ${selectedStars[currentProduct?._id]?.includes(i + 1) ? "yellow" : "gray"}`}
+
+                                                                                            onClick={(e) => handleIconClick(e, currentProduct._id, i + 1)}
+
+                                                                                        />
+
+                                                                                    ))}
+
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                            <div className="modal-footer">
+
+                                                                                <button type="button" className="btn btn-secondary" onClick={closeModal}>
+
+                                                                                    Close
+
+                                                                                </button>
+
+                                                                                <button type="button" className="btn btn-primary" onClick={saveRating}>
+
+                                                                                    Save
+
+                                                                                </button>
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            )}
+
+
                                                             <h6 className="">
                                                                 Brand : {brand} (Official <a href="www.google.com">{brand} </a> Website)
                                                                 <br />
@@ -904,7 +1030,7 @@ const ProductProfile = () => {
                                                             <h6 className="" > {((totalCart === 0) || (!totalCart)) ? <span className="text-danger">Sorry! No Cart Yet</span> : <span className="text-success" > {totalCart} People Add This Product To Cart </span>}  </h6>
 
                                                             <h6 className="" > {createdByName
-                                                                } ({createdByType}) </h6>
+                                                            } ({createdByType}) </h6>
 
                                                         </>}
 

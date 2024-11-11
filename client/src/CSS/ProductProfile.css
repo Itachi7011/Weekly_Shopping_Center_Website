@@ -15010,6 +15010,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.modal {
+
+  display: block; /* Ensure the modal is displayed */
+  background: rgba(0, 0, 0, 0.5); /* Add a background to darken the rest of the page */
+
+}
 @media (max-width: 767px) {
   body {
     font-size: 12px;
