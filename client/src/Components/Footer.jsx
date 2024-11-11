@@ -39,11 +39,11 @@ const NewFooter = () => {
   return (
     <>
       <footer>
-        <div className="container mt-5">
+        <div className="container mt-5" style={{color:"white"}}>
           <div className="footer-top">
             <div className="row">
               <div className="col-md-6 col-lg-3 about-footer">
-                <h3>Weekly Markets </h3>
+                <h3 style={{color:"white"}}>Weekly Markets </h3>
                 <ul>
                   <li>
                    
@@ -67,7 +67,7 @@ const NewFooter = () => {
               </div>
               <div className="col-md-6 col-lg-2 page-more-info">
                 <div className="footer-title">
-                  <h4>Page links</h4>
+                  <h4 style={{color:"white"}}>Page links</h4>
                 </div>
                 <ul>
                   <li>
@@ -88,7 +88,7 @@ const NewFooter = () => {
 
               <div className="col-md-6 col-lg-3 page-more-info">
                 <div className="footer-title">
-                  <h4>Important Links</h4>
+                  <h4 style={{color:"white"}}>Important Links</h4>
                 </div>
                 <ul>
                   <li>
@@ -108,7 +108,7 @@ const NewFooter = () => {
               </div>
               <div className="col-md-6 col-lg-4 open-hours">
                 <div className="footer-title">
-                  <h4>Contact</h4>
+                  <h4 style={{color:"white"}}>Contact</h4>
                   <ul className="footer-social">
                     <li>
                       <a href={"/"+SocialMediaData.facebookId} target="_blank">
