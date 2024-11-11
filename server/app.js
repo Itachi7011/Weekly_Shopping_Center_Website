@@ -1015,6 +1015,20 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
   }
 });
 
+
+// Product Rating And Reviews
+
+app.get("/api/productRating", async (req, res) => {
+  try {
+    // const data = await ProductsDB.find();
+    // res.send(data);
+    console.log(req.body);
+  } catch (err) {
+    console.log(`Error during sending Product List -${err}`);
+  }
+});
+
+
 // Bank Offers
 
 

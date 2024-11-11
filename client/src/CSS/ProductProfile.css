@@ -19924,23 +19924,29 @@ css
   right: -10px;
   top: -10px;
   font-size: 24px;
+  color:red;
   background: #ffffff;
   border-radius: 18px;
   border: 1px solid #cfcece;
 }
+
+.modal-header .close{
+  color: red !important;
+  font-size: larger !important;
+  font-weight: bolder !important;
+}
 .modal-dialog {
 
-  max-width: 1200px; /* adjust the width as needed */
-
-  width: 80%; /* adjust the width as needed */
+  max-width: 1200px;
+  width: 80%; 
 
 }
 
 
 .modal-content {
 
-  height: 800px; /* adjust the height as needed */
+  /* height: 800px;  */
 
-  overflow-y: auto; /* add this to enable vertical scrolling if the content exceeds the height */
+   overflow-y: auto;
 
 }

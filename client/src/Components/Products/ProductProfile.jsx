@@ -193,7 +193,48 @@ const ProductProfile = () => {
 
     };
 
-
+    const handleIconClick = (e, id, name, rating) => {
+        e.preventDefault();
+        var bodyFormData = new FormData();
+        bodyFormData.append("id", id);
+        bodyFormData.append("name", name);
+        bodyFormData.append("rating", rating);
+    
+        console.log(id);
+        setClickedIcons((prevClickedIcons) => ({
+          ...prevClickedIcons,
+    
+          [id]: !prevClickedIcons[id],
+        }));
+        axios
+          .post(
+            "/api/productRating",
+            bodyFormData,
+    
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then(function (response) {
+            //handle success
+            console.log(response);
+          })
+          .catch(function (response) {
+            //handle error
+            console.log(response);
+          });
+    
+        const currentSelectedStars = selectedStars[id] || [];
+        const newSelectedStars = Array.from({ length: rating }, (_, i) => i + 1);
+    
+        setSelectedStars({
+          ...selectedStars,
+    
+          [id]: newSelectedStars,
+        });
+      };
 
     const handleBankOffersClick = useScrollIntoView(bankOffersRef);
     const handleSpecificationClick = useScrollIntoView(specificationRef);
@@ -528,7 +569,7 @@ const ProductProfile = () => {
 
                                                             {isModalOpen && (
 
-                                                                <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block', zIndex: 1050 }}>
+                                                                <div className="modal show" tabIndex="1" role="dialog" style={{ display: 'block', zIndex: 1050 }}>
 
                                                                     <div className="modal-dialog modal-dialog-centered" role="document">
 
@@ -560,7 +601,7 @@ const ProductProfile = () => {
 
                                                                                             className={`fas fa-star rating-icon ${selectedStars[currentProduct?._id]?.includes(i + 1) ? "yellow" : "gray"}`}
 
-                                                                                            onClick={(e) => handleIconClick(e, currentProduct._id, i + 1)}
+                                                                                            onClick={(e) => handleIconClick(e, _id,name, i + 1)}
 
                                                                                         />
 
