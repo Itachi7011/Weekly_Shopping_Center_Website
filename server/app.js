@@ -1021,12 +1021,15 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
 app.post("/api/productRating", async (req, res) => {
 
   try {
+    // console.log(req.body)
 
       const id = req.body.id;
 
       const rating = parseInt(req.body.rating);
 
-      const name = req.body.name;
+      
+      const userName = req.body.userName;
+      const userEmail = req.body.userEmail;
 
       const comment = req.body.comment;
 
@@ -1045,6 +1048,8 @@ app.post("/api/productRating", async (req, res) => {
           rating: rating,
 
           comment: comment,
+          userName: req.body.userName,
+          userEmail: req.body.userEmail,
 
       };
 
@@ -1052,7 +1057,7 @@ app.post("/api/productRating", async (req, res) => {
       product.reviews.push(newReview);
 
 
-      const totalRatings = product.reviews.reduce((acc, review) => acc + review.rating, 0);
+      const totalRatings = product.reviews.reduce((acc, review) => acc + review.rating, 0) || 0;
 
       const averageRating = totalRatings / product.reviews.length;
 

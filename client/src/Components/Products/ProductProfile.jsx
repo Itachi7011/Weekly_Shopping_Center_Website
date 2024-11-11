@@ -112,7 +112,7 @@ const ProductProfile = () => {
         const data = editor.getData();
 
         setAnswer(data);
-    }, 500);
+    }, 1);
 
     useEffect(() => {
         axios
@@ -183,11 +183,15 @@ const ProductProfile = () => {
 
             // User is not logged in, show a message or redirect
 
-            alert("You must be logged in to add a rating.");
+            const userConfirmed = window.confirm("You must be logged in to add a rating. Would you like to go to the login page?");
 
-            // Optionally redirect to login page
-
-            navigate("/Login");
+            if (userConfirmed) {
+    
+                // User clicked "OK", redirect to login page
+    
+                navigate("/Login");
+    
+            }
 
         }
 
@@ -229,11 +233,12 @@ const ProductProfile = () => {
 
             bodyFormData.append("id", _id);
 
-            bodyFormData.append("name", name);
+            
+            bodyFormData.append("userName", user1.name);
+            bodyFormData.append("userEmail", user1.email);
 
-            bodyFormData.append("rating", rating); // Send the rating
-
-            bodyFormData.append("comment", answer); // Send the comment
+            bodyFormData.append("rating", rating); 
+            bodyFormData.append("comment", answer); 
 
 
             axios.post("/api/productRating", bodyFormData,
@@ -400,66 +405,7 @@ const ProductProfile = () => {
                     }) => {
                         return (
                             <>
-                                {user1 ? (<>
-                                    <div className={`modal ${isModalOpen ? 'show' : ''}`} tabIndex="2" role="dialog" style={{ display: 'block', zIndex: 1050 }}>
-
-                                        <div className="modal-dialog modal-dialog-centered" role="document">
-
-                                            <div className="modal-content">
-
-                                                <div className="modal-header">
-
-                                                    <h5 className="modal-title" > Invalid Operation </h5>
-
-                                                    <button type="button" className="close" onClick={closeModal}>
-
-                                                        <span aria-hidden="true">&times;</span>
-
-                                                    </button>
-
-                                                </div>
-
-                                                <div className="modal-body">
-
-
-                                                    <div
-                                                        className="innerDiv container"
-                                                        style={{
-                                                            backgroundColor: "white",
-                                                            // padding: "4rem 5rem 2rem 1rem",
-                                                            borderRadius: "5px",
-                                                        }}
-                                                    >
-                                                        <div className="row">
-                                                            <div className="col-12 col-lg-12  " style={{ textAlign: "center" }}>
-
-                                                                <h2
-                                                                    style={{
-                                                                        marginBottom: "1.3rem",
-                                                                        fontSize: "2rem",
-                                                                        textAlign: "center"
-                                                                    }}
-                                                                >
-                                                                    Sorry You Can&apos;t Post Review Without Login
-                                                                </h2>
-                                                                <br />
-                                                                <button className="btn btn-primary" href="/Login" style={{ fontSize: "1.5rem", }} >Login</button>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </>) : (
+                                {
 
 
                                     isModalOpen && (
@@ -590,7 +536,7 @@ const ProductProfile = () => {
 
                                         </div>
 
-                                    ))}
+                                    )}
                                 <div style={{ marginTop: "3rem" }}>
 
                                     {/* All Images Main Div */}
