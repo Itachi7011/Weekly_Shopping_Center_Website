@@ -112,8 +112,11 @@ const ProductsSchema = new mongoose.Schema({
     type: String,
   },
 
-  rating: {
+  allRatings: [{
     type: Number,
+  }],
+  averageRating: {
+    type: String,
   },
   comments: [
     {

@@ -1018,11 +1018,46 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
 
 // Product Rating And Reviews
 
-app.get("/api/productRating", async (req, res) => {
+app.post("/api/productRating", async (req, res) => {
   try {
-    // const data = await ProductsDB.find();
+    const id = req.body.id;
+    const rating = parseInt(req.body.rating);;
     // res.send(data);
     console.log(req.body);
+
+    const product = await ProductsDB.findById(id);
+    if (!product) {
+      return res.status(404).send({ message: "Product not found" });
+    }
+
+    product.allRatings.push(rating);
+
+
+    // Calculate the new average rating
+
+    const totalRatings = product.allRatings.length;
+    const sumOfRatings = product.allRatings.reduce((acc, val) => acc + val, 0);
+    const averageRating = sumOfRatings / totalRatings;
+
+
+    await ProductsDB.findOneAndUpdate(
+
+      { _id: id },
+
+      {
+
+        allRatings: product.allRatings,
+
+        averageRating: averageRating
+
+      },
+
+      { new: true } // Option to return the updated document
+
+    );
+    console.log(averageRating.toFixed(0))
+    res.status(200).send({ message: "Rating added successfully", averageRating });
+
   } catch (err) {
     console.log(`Error during sending Product List -${err}`);
   }
