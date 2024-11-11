@@ -516,13 +516,13 @@ const ProductProfile = () => {
 
                                                     <div className="modal-footer">
 
-                                                        <button type="button" className="btn btn-secondary" onClick={closeModal}>
+                                                        <button type="button" className="btn btn-danger me-4" onClick={closeModal} style={{fontSize:"1rem"}}>
 
                                                             Close
 
                                                         </button>
 
-                                                        <button type="button" className="btn btn-primary" onClick={saveRating}>
+                                                        <button type="button" className="btn btn-primary" onClick={saveRating} style={{fontSize:"1rem"}}>
 
                                                             Save
 
