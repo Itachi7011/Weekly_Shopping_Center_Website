@@ -1021,7 +1021,6 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
 app.post("/api/productRating", async (req, res) => {
 
   try {
-    // console.log(req.body)
 
     const id = req.body.id;
 
@@ -1076,7 +1075,6 @@ app.post("/api/productRating", async (req, res) => {
 
     const updatedProduct = await product.save();
 
-    console.log(product.averageRating)
 
 
     // Send a single response after the product is successfully saved
@@ -1104,7 +1102,6 @@ app.post("/api/productRating", async (req, res) => {
 
 
 app.post("/api/likedComment", async (req, res) => {
-  console.log(req.body)
 
   try {
 
@@ -1127,7 +1124,6 @@ app.post("/api/likedComment", async (req, res) => {
     // Find the review with the matching commentId
 
     const review = product.reviews.find(review => review.commentId === commentId);
-    console.log("review : ", review)
 
 
     if (!review) {
@@ -1220,7 +1216,6 @@ app.post("/api/likedComment", async (req, res) => {
 });
 
 app.post("/api/dislikedComment", async (req, res) => {
-  console.log(req.body)
 
   try {
 
@@ -1243,7 +1238,6 @@ app.post("/api/dislikedComment", async (req, res) => {
     // Find the review with the matching commentId
 
     const review = product.reviews.find(review => review.commentId === commentId);
-    console.log("review : ", review)
 
 
     if (!review) {
