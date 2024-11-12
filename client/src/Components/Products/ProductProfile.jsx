@@ -18,6 +18,7 @@ const ProductProfile = () => {
     const technicalDetailsRef = useRef(null);
     const otherDetailsRef = useRef(null);
     const warrantyDetailsRef = useRef(null);
+    const ReviewSectionRef = useRef(null);
 
     const navigate = useNavigate();
 
@@ -32,6 +33,8 @@ const ProductProfile = () => {
 
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
+
+    const [refreshReviews, setRefreshReviews] = useState(false); 
 
     const [selectedStars, setSelectedStars] = useState({});
     const [clickedIcons, setClickedIcons] = useState({});
@@ -98,7 +101,7 @@ const ProductProfile = () => {
             .catch((err) => {
                 console.log("Error during Data:", err);
             });
-    }, []);
+    }, [ReviewSectionRef]);
 
     const printImage = (content) => {
         const printWindow = window.open("", "", "width=800,height=600");
@@ -259,12 +262,14 @@ const ProductProfile = () => {
                     console.log(response);
 
                     closeModal(); // Close modal after saving
+                    setRefreshReviews(prev => !prev);
 
                 })
 
                 .catch(err => console.error("Error saving rating:", err));
 
         }
+
 
     };
 
@@ -280,7 +285,7 @@ const ProductProfile = () => {
         });
     };
 
-    const handleLikeCommentClick = (commentId) => {
+    const handleLikeCommentClick = (id,commentId) => {
 
         // Prevent liking if already disliked
 
@@ -298,11 +303,14 @@ const ProductProfile = () => {
             [commentId]: !prev[commentId], // Toggle like state
 
         }));
+        console.log(commentId)
 
         const bodyFormData = new FormData();
 
+        bodyFormData.append("id", id);
         bodyFormData.append("userName", user1.name);
         bodyFormData.append("userEmail", user1.email);
+        bodyFormData.append("commentId", commentId);
 
         axios.post("/api/likedComment", bodyFormData,
 
@@ -316,7 +324,7 @@ const ProductProfile = () => {
 
                 console.log(response);
 
-              
+
 
             })
 
@@ -325,7 +333,8 @@ const ProductProfile = () => {
     };
 
 
-    const handleDislikeCommentClick = (commentId) => {
+    const handleDislikeCommentClick = (id,commentId) => {
+
 
         // Prevent disliking if already liked
 
@@ -346,8 +355,10 @@ const ProductProfile = () => {
 
         const bodyFormData = new FormData();
 
+        bodyFormData.append("id", id);
         bodyFormData.append("userName", user1.name);
         bodyFormData.append("userEmail", user1.email);
+        bodyFormData.append("commentId", commentId);
 
         axios.post("/api/dislikedComment", bodyFormData,
 
@@ -361,7 +372,7 @@ const ProductProfile = () => {
 
                 console.log(response);
 
-             
+
 
             })
 
@@ -450,45 +461,45 @@ const ProductProfile = () => {
     const getStarColor = (index, rating) => {
 
         if (index < rating) {
-    
+
             // If the index is less than the rating, color the star based on the rating
-    
+
             switch (rating) {
-    
+
                 case 1:
-    
+
                     return 'darkred'; // 1 star
-    
+
                 case 2:
-    
+
                     return '#FF6347'; // Light red for 2 stars
-    
+
                 case 3:
-    
+
                     return '#FFD700'; // Yellow for 3 stars
-    
+
                 case 4:
-    
+
                     return '#3CB371'; // Light green for 4 stars
-    
+
                 case 5:
-    
+
                     return 'green'; // Dark green for 5 stars
-    
+
                 default:
-    
+
                     return 'gray'; // Default color for no stars
-    
+
             }
-    
+
         } else {
-    
+
             // If the index is greater than or equal to the rating, return light gray
-    
+
             return 'lightgray';
-    
+
         }
-    
+
     };
 
 
@@ -526,6 +537,7 @@ const ProductProfile = () => {
                         stock_available,
                         tags,
                         images,
+                        averageRating,
                         youtubeUrl,
                         productDetails,
                         warrantyDetails,
@@ -850,7 +862,7 @@ const ProductProfile = () => {
 
                                                                     {[...Array(5)].map((_, index) => (
 
-                                                                        <i key={index} className="fas fa-star" style={{ fontSize: "x-large", color: "green" }}></i>
+                                                                        <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(averageRating)), fontSize: "x-large", }}></i>
 
                                                                     ))}
 
@@ -1414,7 +1426,7 @@ const ProductProfile = () => {
                                         </div>
                                     </section>
 
-                                    <section className="location-section" ref={otherDetailsRef} style={{
+                                    <section className="location-section" ref={ReviewSectionRef} style={{
                                         width: "60%",
                                         margin: "1rem auto"
                                     }}>
@@ -1426,10 +1438,10 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
                                                     {
-                                                        reviews.map(({ rating, userName, comment, title }, index) => {
-                                                            const commentId = `${_id}-${index}`;
+                                                        reviews.map(({ rating, userName, comment, title,likes, disLikes,commentId}, index) => {
+                                                            const Id = `${_id}-${index}`;
                                                             return (<>
-                                                                <div key={commentId}>
+                                                                <div key={Id}>
                                                                     <div style={{ display: 'flex', alignItems: 'center', height: '100px' }}>
 
                                                                         <h5 style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
@@ -1461,19 +1473,19 @@ const ProductProfile = () => {
 
                                                                                     {Array.from({ length: 5 }, (_, index) => {
 
-                                                                                        const starColor = index < rating ? getStarColor(index + 1) : 'lightgray'; // Light gray for unfilled stars
+
 
                                                                                         return (
 
                                                                                             <i
 
-                                                                                            key={index}
-                                                                    
-                                                                                            className="fas fa-star"
-                                                                    
-                                                                                            style={{ color: getStarColor(index , rating), fontSize: "1rem", marginRight: "0.2rem" }}
-                                                                    
-                                                                                        ></i> 
+                                                                                                key={index}
+
+                                                                                                className="fas fa-star"
+
+                                                                                                style={{ color: getStarColor(index, rating), fontSize: "1rem", marginRight: "0.2rem",  }}
+
+                                                                                            ></i>
 
                                                                                         );
 
@@ -1484,7 +1496,6 @@ const ProductProfile = () => {
                                                                                 <span style={{ fontSize: "1rem", fontWeight: "bolder" }}>
 
                                                                                     {title}
-
                                                                                 </span>
 
                                                                             </strong>
@@ -1505,33 +1516,34 @@ const ProductProfile = () => {
 
                                                                     <i
 
-                                                                        className={`fa-regular fa-thumbs-up ${likedComments[commentId] ? 'liked' : ''}`}
+                                                                        className={`fa-solid fa-thumbs-up me-4 p-2 ${likedComments[commentId] ? 'liked' : ''}`}
 
                                                                         style={{
 
-                                                                            color: likedComments[commentId] ? 'green' : 'black',
+                                                                            color: (likedComments[commentId] || likes.some(like => like.userName === user1.name)) ? 'green' : 'grey',
 
                                                                             cursor: 'pointer',
+                                                                            
 
                                                                         }}
 
-                                                                        onClick={() => handleLikeCommentClick(commentId)}
+                                                                        onClick={() => handleLikeCommentClick(_id,commentId)}
 
                                                                     ></i>
 
                                                                     <i
 
-                                                                        className={`fa-regular fa-thumbs-down ${dislikedComments[commentId] ? 'disliked' : ''}`}
+                                                                        className={`fa-solid fa-thumbs-down p-2 ${dislikedComments[commentId] ? 'disliked' : ''}`}
 
                                                                         style={{
 
-                                                                            color: dislikedComments[commentId] ? 'red' : 'black',
+                                                                            color: (dislikedComments[commentId] || disLikes.some(disLikes => disLikes.userName === user1.name)) ? 'red' : 'grey',
 
                                                                             cursor: 'pointer',
 
                                                                         }}
 
-                                                                        onClick={() => handleDislikeCommentClick(commentId)}
+                                                                        onClick={() => handleDislikeCommentClick(_id,commentId)}
 
                                                                     ></i>
 

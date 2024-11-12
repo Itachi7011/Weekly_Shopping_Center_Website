@@ -1104,77 +1104,233 @@ app.post("/api/productRating", async (req, res) => {
 
 
 app.post("/api/likedComment", async (req, res) => {
+  console.log(req.body)
 
   try {
-    console.log(req.body)
 
-    // const id = req.body.id;
-
-    // const rating = parseInt(req.body.rating);
-
-    // const title = req.body.title;
-    // const comment = req.body.comment;
+    const { id, userName, userEmail, commentId } = req.body;
 
 
-    // const product = await ProductsDB.findById(id);
-
-    // if (!product) {
-
-    //     return res.status(404).send({ message: "Product not found" });
-
-    // }
+    // Find the product by ID
 
 
-    // const newReview = {
-
-    //     rating: rating,
-    //     title: title,
-    //     comment: comment,
-    //     userName: req.body.userName,
-    //     userEmail: req.body.userEmail,
-    //     dateOfFormSubmission:new Date()
-
-    // };
+    const product = await ProductsDB.findById(id);
 
 
-    // product.reviews.push(newReview);
+    if (!product) {
+
+      return res.status(404).send({ message: "Product not found" });
+
+    }
 
 
-    // const totalRatings = product.reviews.reduce((acc, review) => acc + review.rating, 0) || 0;
+    // Find the review with the matching commentId
 
-    // const averageRating = totalRatings / product.reviews.length;
-
-
-    // // Update the product with the new review and average rating
-
-    // product.averageRating = averageRating.toFixed(0);
+    const review = product.reviews.find(review => review.commentId === commentId);
+    console.log("review : ", review)
 
 
-    // // Save the updated product
+    if (!review) {
+      console.log("Review not found")
 
-    // const updatedProduct = await product.save();
+      return res.status(404).send({ message: "Review not found" });
 
-    // console.log(product.averageRating)
+    }
 
 
-    // // Send a single response after the product is successfully saved
+    // Check if the user has already liked the comment
 
-    // res.status(200).send({
 
-    //     message: "Rating added successfully",
+    const alreadyLikedIndex = await review.likes.findIndex(like => like.userEmail === userEmail);
 
-    //     averageRating: averageRating.toFixed(0), // Send the average rating as a string
 
-    //     product: updatedProduct, // Optionally include the updated product
+    if (alreadyLikedIndex !== -1) {
 
-    // });
+      // User has already liked the comment, remove their like
+      console.log("You have already liked this comment")
+
+      await review.likes.splice(alreadyLikedIndex, 1);
+
+      console.log("Like removed successfully");
+
+      await product.save();
+
+      return res.status(200).send({ message: "Like removed successfully" });
+
+    }
+
+    // Check if the user has already disliked the comment
+
+    const alreadyDisLikedIndex = await review.disLikes.findIndex(like => like.userEmail === userEmail);
+
+
+    if (alreadyDisLikedIndex !== -1) {
+
+      // User has already liked the comment, remove their like
+      console.log("You have already disliked this comment")
+
+      await review.disLikes.splice(alreadyDisLikedIndex, 1);
+
+      console.log("Dislike removed successfully");
+
+      await product.save();
+
+      // return res.status(200).send({ message: "Dislike removed successfully" });
+
+    }
+
+
+    // Push the like into the likes array
+
+    await review.likes.push({
+
+      userName,
+
+      userEmail,
+
+      dateOfFormSubmission: new Date() // Store the current date
+
+    });
+
+
+    // Save the updated product
+
+    await product.save();
+
+    console.log("comment liked successfully")
+
+
+    // Send a success response
+
+    res.status(200).send({
+
+      message: "Liked Comment added successfully",
+
+    });
 
 
   } catch (err) {
 
-    console.error(`Error during sending Product List - ${err}`);
+    console.error(`Error during sending Liked Comment - ${err}`);
 
-    res.status(500).send({ message: "Error updating product" });
+    res.status(500).send({ message: "Error Sending Liked Comment" });
+
+  }
+
+});
+
+app.post("/api/dislikedComment", async (req, res) => {
+  console.log(req.body)
+
+  try {
+
+    const { id, userName, userEmail, commentId } = req.body;
+
+
+    // Find the product by ID
+
+
+    const product = await ProductsDB.findById(id);
+
+
+    if (!product) {
+
+      return res.status(404).send({ message: "Product not found" });
+
+    }
+
+
+    // Find the review with the matching commentId
+
+    const review = product.reviews.find(review => review.commentId === commentId);
+    console.log("review : ", review)
+
+
+    if (!review) {
+      console.log("Review not found")
+
+      return res.status(404).send({ message: "Review not found" });
+
+    }
+
+
+    // Check if the user has already disliked the comment
+
+    const alreadyDisLikedIndex = await review.disLikes.findIndex(like => like.userEmail === userEmail);
+
+
+    if (alreadyDisLikedIndex !== -1) {
+
+      // User has already liked the comment, remove their like
+      console.log("You have already disliked this comment")
+
+      await review.disLikes.splice(alreadyDisLikedIndex, 1);
+
+      console.log("Dislike removed successfully");
+
+      await product.save();
+
+      return res.status(200).send({ message: "Dislike removed successfully" });
+
+    }
+
+    // Check if the user has already liked the comment
+
+
+    const alreadyLikedIndex = await review.likes.findIndex(like => like.userEmail === userEmail);
+
+
+    if (alreadyLikedIndex !== -1) {
+
+      // User has already liked the comment, remove their like
+      console.log("You have already liked this comment")
+
+      await review.likes.splice(alreadyLikedIndex, 1);
+
+      console.log("Like removed successfully");
+
+      await product.save();
+
+      // return res.status(200).send({ message: "Like removed successfully" });
+
+    }
+
+
+
+    // Push the like into the dislikes array
+
+    await review.disLikes.push({
+
+      userName,
+
+      userEmail,
+
+      dateOfFormSubmission: new Date() // Store the current date
+
+    });
+
+
+    // Save the updated product
+
+    await product.save();
+
+    console.log("comment disiked successfully")
+
+
+    // Send a success response
+
+    res.status(200).send({
+
+      message: "Disiked Comment added successfully",
+
+    });
+
+
+  } catch (err) {
+
+    console.error(`Error during sending Disiked Comment - ${err}`);
+
+    res.status(500).send({ message: "Error Sending Disiked Comment" });
 
   }
 
