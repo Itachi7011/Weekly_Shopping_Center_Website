@@ -119,6 +119,7 @@ const ProductsSchema = new mongoose.Schema({
     {
       userName: String,
       userEmail: String,
+      title: String,
       rating:Number,
       comment: String,
       likes: Number,

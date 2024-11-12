@@ -1027,10 +1027,7 @@ app.post("/api/productRating", async (req, res) => {
 
       const rating = parseInt(req.body.rating);
 
-      
-      const userName = req.body.userName;
-      const userEmail = req.body.userEmail;
-
+      const title = req.body.title;
       const comment = req.body.comment;
 
 
@@ -1046,7 +1043,7 @@ app.post("/api/productRating", async (req, res) => {
       const newReview = {
 
           rating: rating,
-
+          title: title,
           comment: comment,
           userName: req.body.userName,
           userEmail: req.body.userEmail,

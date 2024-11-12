@@ -36,6 +36,7 @@ const ProductProfile = () => {
     const [selectedStars, setSelectedStars] = useState({});
     const [clickedIcons, setClickedIcons] = useState({});
 
+    const [title, setTitle] = useState("");
     const [answer, setAnswer] = useState("");
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -186,11 +187,11 @@ const ProductProfile = () => {
             const userConfirmed = window.confirm("You must be logged in to add a rating. Would you like to go to the login page?");
 
             if (userConfirmed) {
-    
+
                 // User clicked "OK", redirect to login page
-    
+
                 navigate("/Login");
-    
+
             }
 
         }
@@ -233,12 +234,13 @@ const ProductProfile = () => {
 
             bodyFormData.append("id", _id);
 
-            
+
             bodyFormData.append("userName", user1.name);
             bodyFormData.append("userEmail", user1.email);
 
-            bodyFormData.append("rating", rating); 
-            bodyFormData.append("comment", answer); 
+            bodyFormData.append("title", title);
+            bodyFormData.append("rating", rating);
+            bodyFormData.append("comment", answer);
 
 
             axios.post("/api/productRating", bodyFormData,
@@ -371,6 +373,7 @@ const ProductProfile = () => {
                         marketName,
                         newOrRefurbished,
                         isPopular,
+                        reviews,
                         isNewProduct,
                         isPremium,
                         isLimitedTimeDeal,
@@ -461,6 +464,15 @@ const ProductProfile = () => {
                                                             <div className="row">
                                                                 <div className="col-12 col-lg-2  ">
 
+                                                                <h6
+                                            style={{
+                                              marginBottom: "2.2rem",
+                                              fontSize: "1rem",
+                                            }}
+                                          >
+                                            Title
+                                          </h6>
+
                                                                     <h6
                                                                         style={{
                                                                             marginBottom: "1.3rem",
@@ -471,7 +483,19 @@ const ProductProfile = () => {
                                                                     </h6>
                                                                 </div>
                                                                 <div className="col-lg-10">
-
+                                                                <h6 className="ps-1">
+                                            <input
+                                              type="text"
+                                              name="quetion"
+                                              onChange={(e) => {
+                                                setTitle(e.target.value);
+                                              }}
+                                              style={{
+                                                height: "4vh",
+                                                width: "100%",
+                                              }}
+                                            />
+                                          </h6>
                                                                     <h6 className="ps-1">
                                                                         <CKEditor
                                                                             config={{
@@ -516,13 +540,13 @@ const ProductProfile = () => {
 
                                                     <div className="modal-footer">
 
-                                                        <button type="button" className="btn btn-danger me-4" onClick={closeModal} style={{fontSize:"1rem"}}>
+                                                        <button type="button" className="btn btn-danger me-4" onClick={closeModal} style={{ fontSize: "1rem" }}>
 
                                                             Close
 
                                                         </button>
 
-                                                        <button type="button" className="btn btn-primary" onClick={saveRating} style={{fontSize:"1rem"}}>
+                                                        <button type="button" className="btn btn-primary" onClick={saveRating} style={{ fontSize: "1rem" }}>
 
                                                             Save
 
@@ -1262,12 +1286,32 @@ const ProductProfile = () => {
                                             </button>
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
+                                                    {
+                                                        reviews.map(({ rating, userName, comment }) => {
+                                                            return (<>
+                                                                <div>
+                                                                    <h5>
+                                                                        <strong>Q:{userName} ,{rating}  </strong>
+                                                                    </h5>
 
+                                                                    <h5>
+                                                                        <span
+                                                                            dangerouslySetInnerHTML={{
+                                                                                __html: comment,
+                                                                            }}
+                                                                        ></span>
+                                                                    </h5>
+                                                                </div>
+                                                            </>)
+                                                        })
+                                                    }
 
                                                 </div>
                                             </div>
                                         </div>
                                     </section>
+
+
 
                                 </div>
                             </>
