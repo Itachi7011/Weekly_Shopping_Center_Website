@@ -1018,7 +1018,7 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
 
 // Product Rating And Reviews
 
-app.post("/api/productRating", async (req, res) => {
+app.post("/api/likedComment", async (req, res) => {
 
   try {
     // console.log(req.body)
@@ -1047,6 +1047,7 @@ app.post("/api/productRating", async (req, res) => {
           comment: comment,
           userName: req.body.userName,
           userEmail: req.body.userEmail,
+          dateOfFormSubmission:new Date()
 
       };
 
@@ -1094,6 +1095,83 @@ app.post("/api/productRating", async (req, res) => {
 
 });
 
+
+app.post("/api/productRating", async (req, res) => {
+
+  try {
+    console.log(req.body)
+
+      // const id = req.body.id;
+
+      // const rating = parseInt(req.body.rating);
+
+      // const title = req.body.title;
+      // const comment = req.body.comment;
+
+
+      // const product = await ProductsDB.findById(id);
+
+      // if (!product) {
+
+      //     return res.status(404).send({ message: "Product not found" });
+
+      // }
+
+
+      // const newReview = {
+
+      //     rating: rating,
+      //     title: title,
+      //     comment: comment,
+      //     userName: req.body.userName,
+      //     userEmail: req.body.userEmail,
+      //     dateOfFormSubmission:new Date()
+
+      // };
+
+
+      // product.reviews.push(newReview);
+
+
+      // const totalRatings = product.reviews.reduce((acc, review) => acc + review.rating, 0) || 0;
+
+      // const averageRating = totalRatings / product.reviews.length;
+
+
+      // // Update the product with the new review and average rating
+
+      // product.averageRating = averageRating.toFixed(0);
+
+
+      // // Save the updated product
+
+      // const updatedProduct = await product.save();
+
+      // console.log(product.averageRating)
+
+
+      // // Send a single response after the product is successfully saved
+
+      // res.status(200).send({
+
+      //     message: "Rating added successfully",
+
+      //     averageRating: averageRating.toFixed(0), // Send the average rating as a string
+
+      //     product: updatedProduct, // Optionally include the updated product
+
+      // });
+
+
+  } catch (err) {
+
+      console.error(`Error during sending Product List - ${err}`);
+
+      res.status(500).send({ message: "Error updating product" });
+
+  }
+
+});
 
 // Bank Offers
 

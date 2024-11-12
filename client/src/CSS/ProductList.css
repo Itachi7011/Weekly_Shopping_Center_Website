@@ -67,8 +67,8 @@
 }
 
 .rating-stars {
-  font-size: 1rem; /* Adjust size as needed */
-  background: #f1f1ec;
+  font-size: 1rem; 
+  /* background: #f1f1ec; */
   color: yellow;
   border-radius: 5px;
   padding: 0px 5px;

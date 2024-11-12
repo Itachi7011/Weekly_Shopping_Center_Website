@@ -122,8 +122,13 @@ const ProductsSchema = new mongoose.Schema({
       title: String,
       rating:Number,
       comment: String,
-      likes: Number,
+      likes:[{
+        userName:String,
+        userEmail: String,
+        dateOfFormSubmission:String
+      }],
       disLikes: Number,
+      dateOfFormSubmission:String
     },
   ],
   freqAskedQuest: [

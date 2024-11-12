@@ -39,6 +39,9 @@ const ProductProfile = () => {
     const [title, setTitle] = useState("");
     const [answer, setAnswer] = useState("");
 
+    const [likedComments, setLikedComments] = useState({});
+    const [dislikedComments, setDislikedComments] = useState({});
+
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
 
@@ -277,6 +280,95 @@ const ProductProfile = () => {
         });
     };
 
+    const handleLikeCommentClick = (commentId) => {
+
+        // Prevent liking if already disliked
+
+        if (dislikedComments[commentId]) {
+
+            setDislikedComments((prev) => ({ ...prev, [commentId]: false }));
+
+        }
+
+
+        setLikedComments((prev) => ({
+
+            ...prev,
+
+            [commentId]: !prev[commentId], // Toggle like state
+
+        }));
+
+        const bodyFormData = new FormData();
+
+        bodyFormData.append("userName", user1.name);
+        bodyFormData.append("userEmail", user1.email);
+
+        axios.post("/api/likedComment", bodyFormData,
+
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+
+            .then(response => {
+
+                console.log(response);
+
+                closeModal(); // Close modal after saving
+
+            })
+
+            .catch(err => console.error("Error saving liked comment:", err));
+
+    };
+
+
+    const handleDislikeCommentClick = (commentId) => {
+
+        // Prevent disliking if already liked
+
+        if (likedComments[commentId]) {
+
+            setLikedComments((prev) => ({ ...prev, [commentId]: false }));
+
+        }
+
+
+        setDislikedComments((prev) => ({
+
+            ...prev,
+
+            [commentId]: !prev[commentId], // Toggle dislike state
+
+        }));
+
+        const bodyFormData = new FormData();
+
+        bodyFormData.append("userName", user1.name);
+        bodyFormData.append("userEmail", user1.email);
+
+        axios.post("/api/dislikedComment", bodyFormData,
+
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+
+            .then(response => {
+
+                console.log(response);
+
+                closeModal(); // Close modal after saving
+
+            })
+
+            .catch(err => console.error("Error saving liked comment:", err));
+
+    };
+
     const handleBankOffersClick = useScrollIntoView(bankOffersRef);
     const handleSpecificationClick = useScrollIntoView(specificationRef);
     const handleAadharClick = useScrollIntoView(technicalDetailsRef);
@@ -353,6 +445,50 @@ const ProductProfile = () => {
 
         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)', // Shadow returns to normal
 
+    };
+
+    const getStarColor = (index, rating) => {
+
+        if (index < rating) {
+    
+            // If the index is less than the rating, color the star based on the rating
+    
+            switch (rating) {
+    
+                case 1:
+    
+                    return 'darkred'; // 1 star
+    
+                case 2:
+    
+                    return '#FF6347'; // Light red for 2 stars
+    
+                case 3:
+    
+                    return '#FFD700'; // Yellow for 3 stars
+    
+                case 4:
+    
+                    return '#3CB371'; // Light green for 4 stars
+    
+                case 5:
+    
+                    return 'green'; // Dark green for 5 stars
+    
+                default:
+    
+                    return 'gray'; // Default color for no stars
+    
+            }
+    
+        } else {
+    
+            // If the index is greater than or equal to the rating, return light gray
+    
+            return 'lightgray';
+    
+        }
+    
     };
 
 
@@ -464,14 +600,14 @@ const ProductProfile = () => {
                                                             <div className="row">
                                                                 <div className="col-12 col-lg-2  ">
 
-                                                                <h6
-                                            style={{
-                                              marginBottom: "2.2rem",
-                                              fontSize: "1rem",
-                                            }}
-                                          >
-                                            Title
-                                          </h6>
+                                                                    <h6
+                                                                        style={{
+                                                                            marginBottom: "2.2rem",
+                                                                            fontSize: "1rem",
+                                                                        }}
+                                                                    >
+                                                                        Title
+                                                                    </h6>
 
                                                                     <h6
                                                                         style={{
@@ -483,19 +619,19 @@ const ProductProfile = () => {
                                                                     </h6>
                                                                 </div>
                                                                 <div className="col-lg-10">
-                                                                <h6 className="ps-1">
-                                            <input
-                                              type="text"
-                                              name="quetion"
-                                              onChange={(e) => {
-                                                setTitle(e.target.value);
-                                              }}
-                                              style={{
-                                                height: "4vh",
-                                                width: "100%",
-                                              }}
-                                            />
-                                          </h6>
+                                                                    <h6 className="ps-1">
+                                                                        <input
+                                                                            type="text"
+                                                                            name="quetion"
+                                                                            onChange={(e) => {
+                                                                                setTitle(e.target.value);
+                                                                            }}
+                                                                            style={{
+                                                                                height: "4vh",
+                                                                                width: "100%",
+                                                                            }}
+                                                                        />
+                                                                    </h6>
                                                                     <h6 className="ps-1">
                                                                         <CKEditor
                                                                             config={{
@@ -1278,7 +1414,10 @@ const ProductProfile = () => {
                                         </div>
                                     </section>
 
-                                    <section className="location-section" ref={otherDetailsRef}>
+                                    <section className="location-section" ref={otherDetailsRef} style={{
+                                        width: "60%",
+                                        margin: "1rem auto"
+                                    }}>
                                         <div className="container">
                                             <h2> Top Reviews </h2>
                                             <button className="btn btn-primary" style={{ fontSize: "medium" }} onClick={() => openModal({ _id, name })}>
@@ -1287,12 +1426,72 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
                                                     {
-                                                        reviews.map(({ rating, userName, comment }) => {
+                                                        reviews.map(({ rating, userName, comment, title }, index) => {
+                                                            const commentId = `${_id}-${index}`;
                                                             return (<>
-                                                                <div>
-                                                                    <h5>
-                                                                        <strong>Q:{userName} ,{rating}  </strong>
-                                                                    </h5>
+                                                                <div key={commentId}>
+                                                                    <div style={{ display: 'flex', alignItems: 'center', height: '100px' }}>
+
+                                                                        <h5 style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
+
+                                                                            <strong style={{ display: 'flex', alignItems: 'center' }}>
+
+                                                                                <i className="fas fa-user-circle" style={{ fontSize: "2rem", marginRight: "0.5rem" }}></i>
+
+                                                                                <span style={{ fontSize: "1rem" }}>
+
+                                                                                    {userName}
+
+                                                                                </span>
+
+                                                                            </strong>
+
+                                                                        </h5>
+
+                                                                    </div>
+                                                                    <div style={{ display: 'flex', alignItems: 'center', height: '100px', marginTop: "-2rem" }}>
+
+                                                                        <h5 style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
+
+                                                                            <strong style={{ display: 'flex', alignItems: 'center' }}>
+
+                                                                                {/* Replace user icon with stars based on rating */}
+
+                                                                                <div className="rating-stars" style={{ display: 'flex', alignItems: 'center', marginRight: '0.5rem' }}>
+
+                                                                                    {Array.from({ length: 5 }, (_, index) => {
+
+                                                                                        const starColor = index < rating ? getStarColor(index + 1) : 'lightgray'; // Light gray for unfilled stars
+
+                                                                                        return (
+
+                                                                                            <i
+
+                                                                                            key={index}
+                                                                    
+                                                                                            className="fas fa-star"
+                                                                    
+                                                                                            style={{ color: getStarColor(index , rating), fontSize: "1rem", marginRight: "0.2rem" }}
+                                                                    
+                                                                                        ></i> 
+
+                                                                                        );
+
+                                                                                    })}
+
+                                                                                </div>
+
+                                                                                <span style={{ fontSize: "1rem", fontWeight: "bolder" }}>
+
+                                                                                    {title}
+
+                                                                                </span>
+
+                                                                            </strong>
+
+                                                                        </h5>
+
+                                                                    </div>
 
                                                                     <h5>
                                                                         <span
@@ -1301,6 +1500,41 @@ const ProductProfile = () => {
                                                                             }}
                                                                         ></span>
                                                                     </h5>
+                                                                </div>
+                                                                <div>
+
+                                                                    <i
+
+                                                                        className={`fa-regular fa-thumbs-up ${likedComments[commentId] ? 'liked' : ''}`}
+
+                                                                        style={{
+
+                                                                            color: likedComments[commentId] ? 'green' : 'black',
+
+                                                                            cursor: 'pointer',
+
+                                                                        }}
+
+                                                                        onClick={() => handleLikeCommentClick(commentId)}
+
+                                                                    ></i>
+
+                                                                    <i
+
+                                                                        className={`fa-regular fa-thumbs-down ${dislikedComments[commentId] ? 'disliked' : ''}`}
+
+                                                                        style={{
+
+                                                                            color: dislikedComments[commentId] ? 'red' : 'black',
+
+                                                                            cursor: 'pointer',
+
+                                                                        }}
+
+                                                                        onClick={() => handleDislikeCommentClick(commentId)}
+
+                                                                    ></i>
+
                                                                 </div>
                                                             </>)
                                                         })
