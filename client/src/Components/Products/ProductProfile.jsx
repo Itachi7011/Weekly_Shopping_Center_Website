@@ -316,7 +316,7 @@ const ProductProfile = () => {
 
                 console.log(response);
 
-                closeModal(); // Close modal after saving
+              
 
             })
 
@@ -361,11 +361,11 @@ const ProductProfile = () => {
 
                 console.log(response);
 
-                closeModal(); // Close modal after saving
+             
 
             })
 
-            .catch(err => console.error("Error saving liked comment:", err));
+            .catch(err => console.error("Error saving disliked comment:", err));
 
     };
 
