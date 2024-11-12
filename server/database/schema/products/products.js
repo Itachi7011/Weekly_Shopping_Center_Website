@@ -117,6 +117,7 @@ const ProductsSchema = new mongoose.Schema({
   },
   reviews: [
     {
+      commentId: String,
       userName: String,
       userEmail: String,
       title: String,
@@ -127,7 +128,11 @@ const ProductsSchema = new mongoose.Schema({
         userEmail: String,
         dateOfFormSubmission:String
       }],
-      disLikes: Number,
+      disLikes: [{
+        userName:String,
+        userEmail: String,
+        dateOfFormSubmission:String
+      }],
       dateOfFormSubmission:String
     },
   ],

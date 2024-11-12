@@ -1018,156 +1018,163 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
 
 // Product Rating And Reviews
 
-app.post("/api/likedComment", async (req, res) => {
+app.post("/api/productRating", async (req, res) => {
 
   try {
     // console.log(req.body)
 
-      const id = req.body.id;
+    const id = req.body.id;
 
-      const rating = parseInt(req.body.rating);
+    const rating = parseInt(req.body.rating);
 
-      const title = req.body.title;
-      const comment = req.body.comment;
-
-
-      const product = await ProductsDB.findById(id);
-
-      if (!product) {
-
-          return res.status(404).send({ message: "Product not found" });
-
-      }
+    const title = req.body.title;
+    const comment = req.body.comment;
 
 
-      const newReview = {
 
-          rating: rating,
-          title: title,
-          comment: comment,
-          userName: req.body.userName,
-          userEmail: req.body.userEmail,
-          dateOfFormSubmission:new Date()
+    const product = await ProductsDB.findById(id);
 
-      };
+    if (!product) {
 
+      return res.status(404).send({ message: "Product not found" });
 
-      product.reviews.push(newReview);
+    }
 
-
-      const totalRatings = product.reviews.reduce((acc, review) => acc + review.rating, 0) || 0;
-
-      const averageRating = totalRatings / product.reviews.length;
+    let commentId;
+    do {
+      commentId = shortid.generate();
+    } while (await ProductsDB.findOne({ "reviews.commentId": commentId }));
 
 
-      // Update the product with the new review and average rating
+    const newReview = {
 
-      product.averageRating = averageRating.toFixed(0);
+      commentId: commentId,
+      rating: rating,
+      title: title,
+      comment: comment,
+      userName: req.body.userName,
+      userEmail: req.body.userEmail,
+      dateOfFormSubmission: new Date()
+
+    };
 
 
-      // Save the updated product
-
-      const updatedProduct = await product.save();
-
-      console.log(product.averageRating)
+    product.reviews.push(newReview);
 
 
-      // Send a single response after the product is successfully saved
+    const totalRatings = product.reviews.reduce((acc, review) => acc + review.rating, 0) || 0;
 
-      res.status(200).send({
+    const averageRating = totalRatings / product.reviews.length;
 
-          message: "Rating added successfully",
 
-          averageRating: averageRating.toFixed(0), // Send the average rating as a string
+    // Update the product with the new review and average rating
 
-          product: updatedProduct, // Optionally include the updated product
+    product.averageRating = averageRating.toFixed(0);
 
-      });
+
+    // Save the updated product
+
+    const updatedProduct = await product.save();
+
+    console.log(product.averageRating)
+
+
+    // Send a single response after the product is successfully saved
+
+    res.status(200).send({
+
+      message: "Rating added successfully",
+
+      averageRating: averageRating.toFixed(0), // Send the average rating as a string
+
+      product: updatedProduct, // Optionally include the updated product
+
+    });
 
 
   } catch (err) {
 
-      console.error(`Error during sending Product List - ${err}`);
+    console.error(`Error during sending Product List - ${err}`);
 
-      res.status(500).send({ message: "Error updating product" });
+    res.status(500).send({ message: "Error updating product" });
 
   }
 
 });
 
 
-app.post("/api/productRating", async (req, res) => {
+app.post("/api/likedComment", async (req, res) => {
 
   try {
     console.log(req.body)
 
-      // const id = req.body.id;
+    // const id = req.body.id;
 
-      // const rating = parseInt(req.body.rating);
+    // const rating = parseInt(req.body.rating);
 
-      // const title = req.body.title;
-      // const comment = req.body.comment;
-
-
-      // const product = await ProductsDB.findById(id);
-
-      // if (!product) {
-
-      //     return res.status(404).send({ message: "Product not found" });
-
-      // }
+    // const title = req.body.title;
+    // const comment = req.body.comment;
 
 
-      // const newReview = {
+    // const product = await ProductsDB.findById(id);
 
-      //     rating: rating,
-      //     title: title,
-      //     comment: comment,
-      //     userName: req.body.userName,
-      //     userEmail: req.body.userEmail,
-      //     dateOfFormSubmission:new Date()
+    // if (!product) {
 
-      // };
+    //     return res.status(404).send({ message: "Product not found" });
+
+    // }
 
 
-      // product.reviews.push(newReview);
+    // const newReview = {
+
+    //     rating: rating,
+    //     title: title,
+    //     comment: comment,
+    //     userName: req.body.userName,
+    //     userEmail: req.body.userEmail,
+    //     dateOfFormSubmission:new Date()
+
+    // };
 
 
-      // const totalRatings = product.reviews.reduce((acc, review) => acc + review.rating, 0) || 0;
-
-      // const averageRating = totalRatings / product.reviews.length;
+    // product.reviews.push(newReview);
 
 
-      // // Update the product with the new review and average rating
+    // const totalRatings = product.reviews.reduce((acc, review) => acc + review.rating, 0) || 0;
 
-      // product.averageRating = averageRating.toFixed(0);
-
-
-      // // Save the updated product
-
-      // const updatedProduct = await product.save();
-
-      // console.log(product.averageRating)
+    // const averageRating = totalRatings / product.reviews.length;
 
 
-      // // Send a single response after the product is successfully saved
+    // // Update the product with the new review and average rating
 
-      // res.status(200).send({
+    // product.averageRating = averageRating.toFixed(0);
 
-      //     message: "Rating added successfully",
 
-      //     averageRating: averageRating.toFixed(0), // Send the average rating as a string
+    // // Save the updated product
 
-      //     product: updatedProduct, // Optionally include the updated product
+    // const updatedProduct = await product.save();
 
-      // });
+    // console.log(product.averageRating)
+
+
+    // // Send a single response after the product is successfully saved
+
+    // res.status(200).send({
+
+    //     message: "Rating added successfully",
+
+    //     averageRating: averageRating.toFixed(0), // Send the average rating as a string
+
+    //     product: updatedProduct, // Optionally include the updated product
+
+    // });
 
 
   } catch (err) {
 
-      console.error(`Error during sending Product List - ${err}`);
+    console.error(`Error during sending Product List - ${err}`);
 
-      res.status(500).send({ message: "Error updating product" });
+    res.status(500).send({ message: "Error updating product" });
 
   }
 
@@ -1271,7 +1278,7 @@ app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
     console.log(req.body)
     console.log(req.files)
 
-   
+
 
 
     const id = req.body.id;
@@ -1283,7 +1290,7 @@ app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
     const prevPublicId = previous.logo.publicId;
 
     const updateData = {
-        bankName: req.body.bankName,
+      bankName: req.body.bankName,
       tenure: req.body.tenure,
       processingFees: req.body.processingFees,
       rateOfInterest: req.body.rateOfInterest,
@@ -1292,66 +1299,66 @@ app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
       loanAmount: req.body.loanAmount,
       otherInformation: req.body.otherInformation,
       foreclosureCharges: req.body.foreclosureCharges,
-    
-      dateOfFormSubmission: new Date(),
-      }
 
-      if (req.files === undefined) {
+      dateOfFormSubmission: new Date(),
+    }
+
+    if (req.files === undefined) {
+      updateData.logo = {
+        publicId: previous.logo.publicId,
+        originalFileName: previous.logo.originalFileName,
+        data: previous.logo.data,
+        contentType: "image/png",
+      };
+
+      console.log("Bank Offer (without Images) Updated Successfully");
+    } else {
+
+      const photo = req.files.logo[0];
+      console.log(photo)
+
+      const bufferlogo = photo.buffer;
+
+      const b64logoFile = Buffer.from(bufferlogo).toString("base64");
+
+      const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
+
+      const cldResLogoFile = await uploadToCloudinaryBankOffer(dataURIlogoFile);
+
+
+      if (cldResLogoFile) {
+        try {
+          await cloudinary.uploader.destroy(prevPublicId, {
+            invalidate: true,
+          });
+        } catch (err) {
+          console.error(`Error deleting image from Cloudinary: ${err}`);
+        }
+
         updateData.logo = {
-          publicId: previous.logo.publicId,
-          originalFileName: previous.logo.originalFileName,
-          data: previous.logo.data,
+          publicId: cldResLogoFile.public_id,
+          originalFileName: photo.originalname,
+          data: cldResLogoFile.secure_url,
           contentType: "image/png",
         };
 
-        console.log("Bank Offer (without Images) Updated Successfully");
+        console.log("Logo (with image) Updated Successfully");
       } else {
-
-        const photo = req.files.logo[0];
-        console.log(photo)
-
-        const bufferlogo = photo.buffer;
-    
-        const b64logoFile = Buffer.from(bufferlogo).toString("base64");
-    
-        const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
-    
-        const cldResLogoFile = await uploadToCloudinaryBankOffer(dataURIlogoFile);
-    
-
-        if (cldResLogoFile) {
-          try {
-            await cloudinary.uploader.destroy(prevPublicId, {
-              invalidate: true,
-            });
-          } catch (err) {
-            console.error(`Error deleting image from Cloudinary: ${err}`);
-          }
-
-          updateData.logo = {
-            publicId: cldResLogoFile.public_id,
-            originalFileName: photo.originalname,
-            data: cldResLogoFile.secure_url,
-            contentType: "image/png",
-          };
-
-          console.log("Logo (with image) Updated Successfully");
-        } else {
-          updateData.logo = {
-            publicId: previous.logo.publicId,
-            data: previous.logo.data,
-            contentType: "image/png",
-          };
-          console.log("Logo (without image) Updated Successfully");
-        }
+        updateData.logo = {
+          publicId: previous.logo.publicId,
+          data: previous.logo.data,
+          contentType: "image/png",
+        };
+        console.log("Logo (without image) Updated Successfully");
       }
+    }
 
-      await BankOfferDB.findOneAndUpdate(
-        { _id: id },
-        {
-          $set: updateData,
-        }
-      );
+    await BankOfferDB.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: updateData,
+      }
+    );
     console.log("Existing Bank Offer Updated in Database Successfully");
     res.send({ status: "Ok", data: "Existing Bank Offer Updated." });
   } catch (err) {
