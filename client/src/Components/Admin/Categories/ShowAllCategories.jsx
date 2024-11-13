@@ -39,32 +39,54 @@ const ShowAllTags = () => {
   };
 
   const handleDelete = (id) => {
-    axios
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .post("/api/deleteCategory", { id: id })
 
-      .then((data) => {
-        alert("Category Deleted");
-      })
+    if (confirmDelete) {
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+      axios
+
+        .post("/api/deleteCategory", { id: id })
+
+        .then((data) => {
+          alert("Category Deleted");
+        })
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+
+      console.log("Delete action canceled.");
+
+    }
   };
 
 
   const handleDeleteSelected = () => {
-    axios
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .post("/api/deleteSelectedCategories", { ids: selectedItems })
 
-      .then((data) => {
-        alert("Selected Categories Deleted");
-      })
+    if (confirmDelete) {
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+      axios
+
+        .post("/api/deleteSelectedCategories", { ids: selectedItems })
+
+        .then((data) => {
+          alert("Selected Categories Deleted");
+        })
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+
+      console.log("Delete action canceled.");
+
+    }
   };
 
   const handleSubcategoryDelete = (id, categoryName,

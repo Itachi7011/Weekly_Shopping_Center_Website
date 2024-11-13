@@ -38,31 +38,57 @@ const ShowMarketData = () => {
   };
 
   const handleDelete = (id) => {
-    axios
 
-      .post("/api/deleteMarket", { id: id })
 
-      .then((data) => {
-        alert("Market Deleted");
-      })
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+
+    if (confirmDelete) {
+
+      axios
+
+        .post("/api/deleteMarket", { id: id })
+
+        .then((data) => {
+          alert("Market Deleted");
+        })
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+
+      console.log("Delete action canceled.");
+
+    }
   };
 
   const handleDeleteSelected = () => {
-    axios
 
-      .post("/api/deleteSelectedMarket", { ids: selectedItems })
 
-      .then((data) => {
-        alert("Selected Market Deleted");
-      })
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+
+    if (confirmDelete) {
+
+      axios
+
+        .post("/api/deleteSelectedMarket", { ids: selectedItems })
+
+        .then((data) => {
+          alert("Selected Market Deleted");
+        })
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+
+      console.log("Delete action canceled.");
+
+    }
   };
   useEffect(() => {
     axios
@@ -243,7 +269,7 @@ const ShowMarketData = () => {
                             <td>
                               {new Date(
                                 new Date(dateOfFormSubmission).getTime() -
-                                  19800000
+                                19800000
                               )
                                 .toUTCString()
                                 .slice(0, -12)}

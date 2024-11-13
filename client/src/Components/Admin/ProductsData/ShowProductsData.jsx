@@ -38,31 +38,54 @@ const ShowMarketData = () => {
   };
 
   const handleDelete = (id) => {
-    axios
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .post("/api/deleteMarket", { id: id })
 
-      .then((data) => {
-        alert("Market Deleted");
-      })
+    if (confirmDelete) {
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+      axios
+
+        .post("/api/deleteMarket", { id: id })
+
+        .then((data) => {
+          alert("Market Deleted");
+        })
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+
+      console.log("Delete action canceled.");
+
+    }
   };
 
   const handleDeleteSelected = () => {
-    axios
 
-      .post("/api/deleteSelectedMarket", { ids: selectedItems })
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .then((data) => {
-        alert("Selected Market Deleted");
-      })
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+    if (confirmDelete) {
+
+      axios
+
+        .post("/api/deleteSelectedMarket", { ids: selectedItems })
+
+        .then((data) => {
+          alert("Selected Market Deleted");
+        })
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+
+      console.log("Delete action canceled.");
+
+    }
   };
   useEffect(() => {
     axios
@@ -157,7 +180,7 @@ const ShowMarketData = () => {
                 }}
               >
                 List Of Products
-                
+
               </h1>
               <div className="adminListsSearchBar">
                 <input
@@ -246,7 +269,7 @@ const ShowMarketData = () => {
                             <td>
                               {new Date(
                                 new Date(dateOfFormSubmission).getTime() -
-                                  19800000
+                                19800000
                               )
                                 .toUTCString()
                                 .slice(0, -12)}
