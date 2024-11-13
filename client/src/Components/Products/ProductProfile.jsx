@@ -34,7 +34,7 @@ const ProductProfile = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
-    const [refreshReviews, setRefreshReviews] = useState(false); 
+    const [refreshReviews, setRefreshReviews] = useState(false);
 
     const [selectedStars, setSelectedStars] = useState({});
     const [clickedIcons, setClickedIcons] = useState({});
@@ -285,7 +285,7 @@ const ProductProfile = () => {
         });
     };
 
-    const handleLikeCommentClick = (id,commentId) => {
+    const handleLikeCommentClick = (id, commentId) => {
 
         // Prevent liking if already disliked
 
@@ -333,7 +333,7 @@ const ProductProfile = () => {
     };
 
 
-    const handleDislikeCommentClick = (id,commentId) => {
+    const handleDislikeCommentClick = (id, commentId) => {
 
 
         // Prevent disliking if already liked
@@ -1438,7 +1438,7 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
                                                     {
-                                                        reviews.map(({ rating, userName, comment, title,likes, disLikes,commentId}, index) => {
+                                                        reviews.map(({ rating, userName, comment, title, likes, disLikes, commentId }, index) => {
                                                             const Id = `${_id}-${index}`;
                                                             return (<>
                                                                 <div key={Id}>
@@ -1483,7 +1483,7 @@ const ProductProfile = () => {
 
                                                                                                 className="fas fa-star"
 
-                                                                                                style={{ color: getStarColor(index, rating), fontSize: "1rem", marginRight: "0.2rem",  }}
+                                                                                                style={{ color: getStarColor(index, rating), fontSize: "1rem", marginRight: "0.2rem", }}
 
                                                                                             ></i>
 
@@ -1505,11 +1505,12 @@ const ProductProfile = () => {
                                                                     </div>
 
                                                                     <h5>
-                                                                        <span
+                                                                        <div
                                                                             dangerouslySetInnerHTML={{
                                                                                 __html: comment,
                                                                             }}
-                                                                        ></span>
+
+                                                                        ></div>
                                                                     </h5>
                                                                 </div>
                                                                 <div>
@@ -1523,11 +1524,11 @@ const ProductProfile = () => {
                                                                             color: (likedComments[commentId] || likes.some(like => like.userName === user1.name)) ? 'green' : 'grey',
 
                                                                             cursor: 'pointer',
-                                                                            
+
 
                                                                         }}
 
-                                                                        onClick={() => handleLikeCommentClick(_id,commentId)}
+                                                                        onClick={() => handleLikeCommentClick(_id, commentId)}
 
                                                                     ></i>
 
@@ -1543,7 +1544,7 @@ const ProductProfile = () => {
 
                                                                         }}
 
-                                                                        onClick={() => handleDislikeCommentClick(_id,commentId)}
+                                                                        onClick={() => handleDislikeCommentClick(_id, commentId)}
 
                                                                     ></i>
 

@@ -25,6 +25,50 @@ const ProductListing = () => {
             });
     }, []);
 
+    const getStarColor = (index, rating) => {
+
+        if (index < rating) {
+
+            // If the index is less than the rating, color the star based on the rating
+
+            switch (rating) {
+
+                case 1:
+
+                    return 'darkred'; // 1 star
+
+                case 2:
+
+                    return '#FF6347'; // Light red for 2 stars
+
+                case 3:
+
+                    return '#FFD700'; // Yellow for 3 stars
+
+                case 4:
+
+                    return '#3CB371'; // Light green for 4 stars
+
+                case 5:
+
+                    return 'green'; // Dark green for 5 stars
+
+                default:
+
+                    return 'gray'; // Default color for no stars
+
+            }
+
+        } else {
+
+            // If the index is greater than or equal to the rating, return light gray
+
+            return 'lightgray';
+
+        }
+
+    };
+
     return (
 
         <div className="container productListPage">
@@ -35,9 +79,9 @@ const ProductListing = () => {
 
                 {products.map((product) => (
 
-                    <div className="col-md-3 mb-4" key={product.id}>
+                    <div className="col-md-4 mb-4" key={product.id}>
 
-                        <div className="card shadow-sm">
+                        <div className="card shadow-sm" style={{height:"650px"}}>
 
                             {product.isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
 
@@ -54,25 +98,22 @@ const ProductListing = () => {
 
                             </span>) : ""}
 
+                           
+
 
 
                             <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
 
                                 {[...Array(5)].map((_, index) => (
 
-                                    <span key={index} className={index < Math.floor(product.rating) ? "text-warning" : "text-muted"}>
-
-                                        ★
-
-                                    </span>
+                                    <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(product.averageRating)), fontSize: "large", }}></i>
 
                                 ))}
-
                             </span>
 
 
 
-                            <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "350px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
+                            <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
                                 navigate("/ProductProfile", {
                                     state: {
                                         _id: product._id,
@@ -81,14 +122,20 @@ const ProductListing = () => {
                                     },
                                 });
                             }} />
+                             {product.isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
+
+                                Sponsored
+
+                            </span>) : ""}
 
                             <div className="card-body">
 
                                 <h5 className="card-title">
+                                    <div className="" style={{marginBottom:"-1rem"}}> {product.name} <span style={{ fontSize: "smaller" }}>  </span>
+                                    </div>
 
-                                    {product.name} <span style={{ fontSize: "smaller" }}> ({product.newOrRefurbished}) </span>
 
-                                    {product.isLimitedTimeDeal === true ? (
+                                    <br />({product.newOrRefurbished}) {product.isLimitedTimeDeal === true ? (
 
                                         <span style={{ position: "relative", display: "inline-block" }}>
 
