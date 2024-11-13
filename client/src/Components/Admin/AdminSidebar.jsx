@@ -78,38 +78,51 @@ const AdminSidebar = () => {
       <div
         className="menu-btn"
         onClick={handleMenuBtnClick}
-        style={{ marginTop: "0rem" }}
+        style={{ marginTop: "-3rem" }}
       >
 
-        <i className="fas fa-bars"></i>
+        {!sidebarActive ? <i className="fas fa-bars"></i> : ""}
+
+
+
+
+
       </div>
 
       <div
-        className={`side-bar ${sidebarActive ? "active" : ""}`}
+        className={`side-bar ${sidebarActive ? "active" : "sidebarNotActive"}`}
         style={{ marginTop: "6rem" }}
       >
         <header onClick={handleCloseBtnClick}>
-        
-          <div className="close-btn">
-       
-            <i className="fas fa-times"></i>
-          </div>
-          <img
-            id="sidebar-image"
-            src={user.userImage.data}
-            alt=""
-          />
+
+          {!sidebarActive ? "" : <>
+            <div className="close-btn">
+
+              <i className="fas fa-times"></i>
+            </div>
+          </>}
+
+          {
+            !sidebarActive ? "" : <img
+              className="sidebar-image"
+              src={user.userImage.data}
+              alt=""
+            />
+          }
+
         </header>
         <div className="menu">
           <div className="item">
-            <a href="/Dashboard">
-              <DashboardIcon /> Dashboard
+            <a href={!sidebarActive ? "#" : "/Dashboard"}>
+              <DashboardIcon />
+              {!sidebarActive ? "" : "Dashboard"}
+
             </a>
           </div>
 
           <div className="item">
-            <a href="/">
-              <HomeIcon /> Home Page
+            <a href={!sidebarActive ? "#" : "/"}>
+              <HomeIcon />   {!sidebarActive ? "" : "Home Page"}
             </a>
           </div>
 
@@ -117,10 +130,14 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(0)}
+
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(0)}
+
             >
-              <GroupIcon /> Accounts Info.
-              <i className="fas fa-angle-right dropdown"></i>
+              <GroupIcon />   {!sidebarActive ? "" : "Accounts Info."}
+
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="AdminCustomersList" className="sub-item">
@@ -139,10 +156,13 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(1)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(1)}
+
             >
-              <GroupIcon /> Tags
-              <i className="fas fa-angle-right dropdown"></i>
+              <GroupIcon /> {!sidebarActive ? "" : "Tags"}
+
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/NewTag" className="sub-item">
@@ -159,10 +179,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(2)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(2)}
             >
-              <GroupIcon /> Navbar Items
-              <i className="fas fa-angle-right dropdown"></i>
+              <GroupIcon /> {!sidebarActive ? "" : "Navbar Items"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/NewNavbarItem" className="sub-item">
@@ -181,10 +202,12 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(3)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(0)}
+
             >
-              <PersonAddIcon /> Markets
-              <i className="fas fa-angle-right dropdown"></i>
+              <PersonAddIcon />  {!sidebarActive ? "" : "Markets"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/AddMarketData" className="sub-item">
@@ -200,10 +223,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(4)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(4)}
             >
-              <ThumbDownIcon /> Products
-              <i className="fas fa-angle-right dropdown"></i>
+              <ThumbDownIcon />  {!sidebarActive ? "" : "Products"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/AddProductData" className="sub-item">
@@ -219,10 +243,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(5)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(5)}
             >
-              <ReceiptLongIcon /> Brands / Companies
-              <i className="fas fa-angle-right dropdown"></i>
+              <ReceiptLongIcon />  {!sidebarActive ? "" : "Brands / Companies"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/NewBrand" className="sub-item">
@@ -238,10 +263,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(6)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(6)}
             >
-              <CurrencyRupeeIcon /> Credit / Debit Amount
-              <i className="fas fa-angle-right dropdown"></i>
+              <CurrencyRupeeIcon />  {!sidebarActive ? "" : "Credit / Debit Amount"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/CustomerSavingCreditDebitAmount" className="sub-item">
@@ -258,10 +284,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(7)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(7)}
             >
-              <DirectionsCarIcon /> Categories
-              <i className="fas fa-angle-right dropdown"></i>
+              <DirectionsCarIcon /> {!sidebarActive ? "" : "Categories"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/NewCategory" className="sub-item">
@@ -280,10 +307,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(8)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(8)}
             >
-              <SavingsIcon /> Bank Offers
-              <i className="fas fa-angle-right dropdown"></i>
+              <SavingsIcon />  {!sidebarActive ? "" : "Bank Offers"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/AddBankOffer" className="sub-item">
@@ -298,10 +326,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(9)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(9)}
             >
-              <LocalMallIcon /> Loans Schemes
-              <i className="fas fa-angle-right dropdown"></i>
+              <LocalMallIcon />  {!sidebarActive ? "" : "Loans Schemes"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/AddLoanOffer" className="sub-item">
@@ -317,10 +346,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(10)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(10)}
             >
-              <RedeemIcon /> Compensation
-              <i className="fas fa-angle-right dropdown"></i>
+              <RedeemIcon />  {!sidebarActive ? "" : "Compensation"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/FarmersCompensation" className="sub-item">
@@ -345,10 +375,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(11)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(11)}
             >
-              <NewspaperIcon /> Circulars
-              <i className="fas fa-angle-right dropdown"></i>
+              <NewspaperIcon />  {!sidebarActive ? "" : "Circulars"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="NewCicular" className="sub-item">
@@ -364,10 +395,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(12)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(12)}
             >
-              <FestivalIcon /> Branches
-              <i className="fas fa-angle-right dropdown"></i>
+              <FestivalIcon />  {!sidebarActive ? "" : "Branches"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/AddNewBranches" className="sub-item">
@@ -383,10 +415,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(13)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(13)}
             >
-              <NoteAddIcon /> Credit / Debit Cards
-              <i className="fas fa-angle-right dropdown"></i>
+              <NoteAddIcon /> {!sidebarActive ? "" : "Credit / Debit Cards"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/add-new-page" className="sub-item">
@@ -402,10 +435,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(14)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(14)}
             >
-              <SettingsIcon /> Settings
-              <i className="fas fa-angle-right dropdown"></i>
+              <SettingsIcon /> {!sidebarActive ? "" : "Settings"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
 
             <div className="sub-menu">
@@ -428,10 +462,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(15)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(15)}
             >
-              <ContactPageIcon /> Contact Info
-              <i className="fas fa-angle-right dropdown"></i>
+              <ContactPageIcon /> {!sidebarActive ? "" : "Contact Info"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/PhoneAndEmailAddress" className="sub-item">
@@ -448,10 +483,11 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={() => handleSubBtnClick(16)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(16)}
             >
-              <QueryStatsIcon /> Enquiries
-              <i className="fas fa-angle-right dropdown"></i>
+              <QueryStatsIcon /> {!sidebarActive ? "" : "Enquiries"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
             </a>
             <div className="sub-menu">
               <a href="/LoanEnquiryList" className="sub-item">
@@ -467,13 +503,13 @@ const AdminSidebar = () => {
           </div>
 
           <div className="item">
-            <a href="#">
-              <FeedbackIcon /> Reviews
+          <a href={!sidebarActive ? "#" : "/Reviews"}>
+          <FeedbackIcon /> {!sidebarActive ? "" : "Reviews"}
             </a>
           </div>
           <div className="item">
             <a href="/Logout">
-              <LogoutIcon /> Logout
+              <LogoutIcon /> {!sidebarActive ? "" : "Logout"}
             </a>
           </div>
         </div>
