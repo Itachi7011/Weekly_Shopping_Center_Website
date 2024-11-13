@@ -1516,6 +1516,38 @@ app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
   }
 });
 
+app.post("/api/deleteBankOffer", async (req, res) => {
+  try {
+    await BankOfferDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Bank Offer Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedBankOffers", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await BankOfferDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log(
+      "Selected Bank Offers Deleted from Database Successfully"
+    );
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
 // Profile Funtions
 
 app.get("/api/userProfile", authenticate, async (req, res) => {

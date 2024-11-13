@@ -38,7 +38,9 @@ const ShowAllTags = () => {
     });
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (event,id) => {
+    event.preventDefault(); 
+
     const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
 
@@ -287,7 +289,7 @@ const ShowAllTags = () => {
                             <td>
                               <button
                                 className=" btn btn-danger px-3"
-                                onClick={() => handleDelete(_id)}
+                                onClick={(event) => handleDelete(event,_id)}
                               >
                                 <i className="fas fa-trash-alt text-white mx-auto"></i>
                               </button>

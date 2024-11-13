@@ -30,36 +30,60 @@ const ShowAllTags = () => {
     });
   };
 
-  const handleDelete = (id) => {
-    axios
+  const handleDelete = (event,id) => {
+    event.preventDefault(); 
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .post("/api/deleteBrand", { id: id })
 
-      .then((data) => {
-        alert("Category Deleted");
-      })
+    if (confirmDelete) {
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+      axios
+
+        .post("/api/deleteBrand", { id: id })
+
+        .then((data) => {
+          alert("Category Deleted");
+        })
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+
+      console.log("Delete action canceled.");
+
+    }
   };
 
 
   const handleDeleteSelected = () => {
-    axios
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .post("/api/deleteSelectedBrands", { ids: selectedItems })
 
-      .then((data) => {
-        alert("Selected Categories Deleted");
-      })
+    if (confirmDelete) {
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+      axios
+
+        .post("/api/deleteSelectedBrands", { ids: selectedItems })
+
+        .then((data) => {
+          alert("Selected Categories Deleted");
+        })
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+      // User canceled the delete action
+
+      console.log("Delete action canceled.");
+
+    }
   };
 
- 
+
 
   useEffect(() => {
     axios
@@ -180,7 +204,7 @@ const ShowAllTags = () => {
                 </thead>
                 {currentItems.map(
                   (
-                    { brandName, content, createdBy, dateOfFormSubmission, categoryName , _id },
+                    { brandName, content, createdBy, dateOfFormSubmission, categoryName, _id },
                     index
                   ) => {
                     return (
@@ -205,7 +229,7 @@ const ShowAllTags = () => {
                             <td
                               dangerouslySetInnerHTML={{ __html: content }}
                             ></td>
-                            
+
                             <td>{categoryName}</td>
                             <td>{createdBy}</td>
                             <td>
@@ -220,7 +244,7 @@ const ShowAllTags = () => {
                             <td>
                               <button
                                 className=" btn btn-danger px-3"
-                                onClick={() => handleDelete(_id)}
+                                onClick={(event) => handleDelete(event,_id)}
                               >
                                 <i className="fas fa-trash-alt text-white mx-auto"></i>
                               </button>

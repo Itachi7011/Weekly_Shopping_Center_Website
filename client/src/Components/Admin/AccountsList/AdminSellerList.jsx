@@ -43,36 +43,58 @@ const AdminSellerList = () => {
     });
   };
 
-  const handleDelete = (id) => {
-    axios
-
-      .post("/api/deleteSellersAccount", { id: id })
-
-      .then((data) => {
-
-        alert("Seller Account  Deleted"); 
-      })
+  const handleDelete = (event, id) => {
+    event.preventDefault();
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+    if (confirmDelete) {
+      axios
+
+        .post("/api/deleteSellersAccount", { id: id })
+
+        .then((data) => {
+
+          alert("Seller Account  Deleted");
+        })
+
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+
+      console.log("Delete action canceled.");
+
+    }
   };
 
   const handleDeleteSelected = () => {
-    axios
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .post("/api/deleteSelectedSellersAccount", { ids: selectedItems })
 
-      .then((data) => {
+    if (confirmDelete) {
+      axios
 
-        alert("Selected Seller Account  Deleted"); 
-      })
-   
+        .post("/api/deleteSelectedSellersAccount", { ids: selectedItems })
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+        .then((data) => {
+
+          alert("Selected Seller Account  Deleted");
+        })
+
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+      // User canceled the delete action
+
+      console.log("Delete action canceled.");
+
+    }
   };
   useEffect(() => {
     axios
@@ -299,7 +321,7 @@ const AdminSellerList = () => {
                             <td>
                               <button
                                 className=" btn btn-danger px-3"
-                                onClick={() => handleDelete(_id)}
+                                onClick={(event) => handleDelete(event, _id)}
                               >
                                 <i className="fas fa-trash-alt text-white mx-auto"></i>
                               </button>

@@ -80,6 +80,7 @@ const AdminSidebar = () => {
         onClick={handleMenuBtnClick}
         style={{ marginTop: "0rem" }}
       >
+
         <i className="fas fa-bars"></i>
       </div>
 
@@ -87,15 +88,17 @@ const AdminSidebar = () => {
         className={`side-bar ${sidebarActive ? "active" : ""}`}
         style={{ marginTop: "6rem" }}
       >
-        <header>
-          <div className="close-btn" onClick={handleCloseBtnClick}>
+        <header onClick={handleCloseBtnClick}>
+        
+          <div className="close-btn">
+       
             <i className="fas fa-times"></i>
           </div>
-          {/* <img
+          <img
             id="sidebar-image"
-            src="https://lh3.googleusercontent.com/a-/AOh14Gj99VObFyE8W_h8RrcwZO_aYiIHu5AAa_XpnOym=s600-k-no-rp-mo"
+            src={user.userImage.data}
             alt=""
-          /> */}
+          />
         </header>
         <div className="menu">
           <div className="item">
@@ -148,7 +151,7 @@ const AdminSidebar = () => {
               <a href="/ShowAllTags" className="sub-item">
                 Show All Tags
               </a>
-            
+
             </div>
           </div>
 
@@ -168,7 +171,7 @@ const AdminSidebar = () => {
               <a href="/ShowAllNavbarItems" className="sub-item">
                 Show Navbar Items
               </a>
-             
+
             </div>
           </div>
 

@@ -119,27 +119,79 @@ const BankOffersList = () => {
     }
   };
 
+  const handleDelete = (event,id) => {
+
+    event.preventDefault();
+    // Ask for confirmation before proceeding with the delete action
+
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+
+
+    if (confirmDelete) {
+
+        // Proceed with the deletion if confirmed
+
+        axios
+
+            .post("/api/deleteBankOffer", { id: id })
+
+            .then((response) => {
+
+                alert("Bank Offer Deleted");
+
+                // Optionally, reload the page or update the UI here
+
+                window.location.reload();
+
+            })
+
+            .catch((err) => {
+
+                console.log("Error during delete selected:", err);
+
+            });
+
+    } else {
+
+        // Log that the delete action was canceled
+
+        console.log("Delete action canceled.");
+
+    }
+
+};
   const handleDeleteSelected = () => {
-    axios
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
-      .post("/api/deleteSelectedBankOffers", { ids: selectedItems })
 
-      .then((response) => {
-        console.log("Selected bank offers deleted:", response.data);
+    if (confirmDelete) {
 
-        <ReactJsAlert
-          status={true} // true or false
-          type="success" // success, warning, error, info
-          title="Successfully Deleted" // title you want to display
-          Close={() => this.setState({ status: false })} // callback method for hide
-        />;
+      axios
 
-        // You can add any necessary logic here to update the state or reload the data
-      })
+        .post("/api/deleteSelectedBankOffers", { ids: selectedItems })
 
-      .catch((err) => {
-        console.log("Error during delete selected:", err);
-      });
+        .then((response) => {
+          console.log("Selected bank offers deleted:", response.data);
+
+          <ReactJsAlert
+            status={true} // true or false
+            type="success" // success, warning, error, info
+            title="Successfully Deleted" // title you want to display
+            Close={() => this.setState({ status: false })} // callback method for hide
+          />;
+
+          // You can add any necessary logic here to update the state or reload the data
+        })
+
+        .catch((err) => {
+          console.log("Error during delete selected:", err);
+        });
+    } else {
+
+
+      console.log("Delete action canceled.");
+
+    }
   };
   const truncateString = (str, num) => {
 
@@ -241,12 +293,12 @@ const BankOffersList = () => {
                             <td>{tenure} </td>
                             <td>{processingFees}</td>
                             <td>{prepaymentCharges}</td>
+                            <td>{foreclosureCharges}</td>
                             <td
 
                               dangerouslySetInnerHTML={{ __html: truncateString(otherInformation, 20) }}
 
                             ></td>
-                            <td>{foreclosureCharges}</td>
                             <td>
                               <form method="POST" action="/deleteSubLocality">
                                 <input
@@ -344,6 +396,7 @@ const BankOffersList = () => {
                                 <button
                                   type="submit"
                                   className=" btn btn-danger px-3"
+                                  onClick={() => handleDelete(event,_id)}
                                 >
                                   <i className="fas fa-trash-alt text-white mx-auto"></i>
                                 </button>
