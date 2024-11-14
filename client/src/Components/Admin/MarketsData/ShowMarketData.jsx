@@ -168,11 +168,11 @@ const ShowMarketData = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "3rem", marginRight: "2rem" }}
+        style={{ marginTop: "7rem", marginRight: "0rem", marginLeft:"4rem" }}
       >
         <div className="container-fluid">
           <div className="row justify-subItems-end">
-            <div className="col-md-12 mt-3" style={{ marginLeft: "2rem" }}>
+            <div className="col-md-12 mt-3" style={{ marginLeft: "0rem" }}>
               <h1
                 style={{
                   padding: "1rem",

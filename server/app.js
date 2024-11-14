@@ -45,6 +45,7 @@ const BankOfferDB = require("./database/schema/BankOffers/bankOffers");
 const NavbarItemsDB = require("./database/schema/navbarItems");
 const MarketsDB = require("./database/schema/markets/markets");
 const ProductsDB = require("./database/schema/products/products");
+const AdminNavbarSettingContentDB = require("./database/schema/adminNavbarSettingContent");
 
 const CloudinaryDB = process.env.CLOUD_NAME;
 const CloudinaryAPIKey = process.env.API_KEY;
@@ -840,6 +841,35 @@ app.post("/api/deleteSelectedMarket", async (req, res) => {
     res.redirect("/failure-message");
   }
 });
+
+
+// Admin Navbar Setting Contents
+
+app.post("/api/addNewAdminNavBarSettingsContents", async (req, res) => {
+  try {
+
+    console.log("data is : ",req.body);
+ 
+
+    // const userData = await new AdminNavbarSettingContentDB({
+    //   name: req.body.name,
+    //   link: req.body.link,
+    //   details: req.body.details,
+    //   createdByName: req.body.createdByName,
+    //   createdByEmail: req.body.createdByEmail,
+    //   dateOfFormSubmission: new Date(),
+  
+    // });
+
+    // await userData.save();
+    // console.log("New Admin Navbar Setting Content Added in Database Successfully");
+    // res.send({ status: "Ok", data: "New Tag Saved." });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
 
 //    Products
 
