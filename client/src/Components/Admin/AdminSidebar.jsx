@@ -31,6 +31,9 @@ const AdminSidebar = () => {
   const [user, setUser] = useState("");
   const [sidebarActive, setSidebarActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [navSearchContents, setNavSearchContents] = useState({ post: [] });
+  const [productsData, setProductsData] = useState([]);
+
 
 
 
@@ -48,6 +51,32 @@ const AdminSidebar = () => {
       })
       .catch((err) => {
         console.log(`Error during catch of setProfile -  ${err}`);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("/api/adminNavBarSettingsContentsList")
+      .then((response) => {
+        const data = response.data;
+
+        setNavSearchContents({ post: data });
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("/api/productsList")
+      .then((response) => {
+        const data = response.data;
+
+        setProductsData(data);
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
       });
   }, []);
 
@@ -79,6 +108,91 @@ const AdminSidebar = () => {
   };
 
 
+  const filterResults = () => {
+
+    if (!searchTerm) return []; // Return an empty array if search term is empty
+
+
+    // Filter results from both navSearchContents and productsData
+
+    const navResults = navSearchContents.post.filter(item => {
+
+      return (
+
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+
+        item.details.toLowerCase().includes(searchTerm.toLowerCase())
+
+      );
+
+    });
+
+
+    const productResults = productsData.filter(item => {
+
+      return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+    });
+
+
+    // Combine both results
+
+    return [...navResults, ...productResults];
+
+  };
+
+
+
+
+  useEffect(() => {
+
+    // Add event listeners for clicks and key presses
+
+
+    document.addEventListener('keydown', handleEscKey);
+
+
+    // Cleanup event listeners on component unmount
+
+    return () => {
+
+
+      document.removeEventListener('keydown', handleEscKey);
+
+    };
+
+  }, []);
+
+  const handleEscKey = (event) => {
+
+    if (event.key === 'Escape') {
+
+      setSearchTerm(''); // Clear the search term to hide results
+
+    }
+
+  };
+
+
+  useEffect(() => {
+
+    // Add event listeners for clicks and key presses
+
+
+    document.addEventListener('keydown', handleEscKey);
+
+
+    // Cleanup event listeners on component unmount
+
+    return () => {
+
+
+      document.removeEventListener('keydown', handleEscKey);
+
+    };
+
+  }, []);
+
   if (user.userType !== "Admin") {
     return <div>
     </div>;
@@ -91,19 +205,19 @@ const AdminSidebar = () => {
       >
         <header className="navbar-main">
 
-          <div className="logo"> { sidebarActive ? "" : "Admin Panel"}  </div>
+          <div className="logo"> {sidebarActive ? "" : "Admin Panel"}  </div>
 
           <nav className="nav-links">
 
             <NavLink to="#" className="logo"><b>{user.name} ({user.email}) </b></NavLink>
 
-          
+
 
           </nav>
 
           <div className="search-bar">
 
-           Search <input
+            Search <input
 
               type="text"
 
@@ -112,7 +226,7 @@ const AdminSidebar = () => {
               value={searchTerm}
 
               onChange={handleSearchChange}
-               style={{ marginRight: sidebarActive ? "285px" : "90px" }}
+              style={{ marginRight: sidebarActive ? "285px" : "90px" }}
 
             />
 
@@ -120,6 +234,79 @@ const AdminSidebar = () => {
 
         </header>
       </div>
+      <div className={`admin-sidebar-search-results ${searchTerm && filterResults().length > 0 ? 'show' : ''}`}>
+
+{searchTerm && (
+
+    <div className="admin-sidebar-search-results-list d-flex justify-content-between">
+
+        <div className="nav-search-results" style={{ flex: 1, marginRight: '10px' }}>
+
+            <h4 style={{fontSize:"1.2rem"}}>Navigation Search Results:</h4>
+
+            {navSearchContents.post.filter(item => 
+
+                item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+
+                item.details.toLowerCase().includes(searchTerm.toLowerCase())
+
+            ).map((item, index) => (
+
+                <div key={index} className="search-result-item">
+
+                    <NavLink to={item.link} className="nav1-item">
+
+                        <h4 className="nav1-item-name">
+
+                            <i className="fas fa-thumbtack me-2"></i>
+
+                            {item.name}
+
+                        </h4>
+
+                    </NavLink>
+
+                </div>
+
+            ))}
+
+        </div>
+
+        <div className="product-search-results" style={{ flex: 1, marginLeft: '10px' }}>
+
+            <h4>Product Search Results:</h4>
+
+            {productsData.filter(item => 
+
+                item.name.toLowerCase().includes(searchTerm.toLowerCase())
+
+            ).map((item, index) => (
+
+                <div key={index} className="search-result-item">
+
+                    <NavLink to={item.link} className="nav1-item">
+
+                        <h4 className="nav1-item-name">
+
+                            <i className="fas fa-search me-2"></i>
+
+                            {item.name}
+
+                        </h4>
+
+                    </NavLink>
+
+                </div>
+
+            ))}
+
+        </div>
+
+    </div>
+
+)}
+
+</div>
       <div
         className="menu-btn"
         onClick={handleMenuBtnClick}
@@ -185,7 +372,7 @@ const AdminSidebar = () => {
 
             </a>
             <div className="sub-menu">
-              <a href="AdminCustomersList" className="sub-item">
+              <a href="/AdminCustomersList" className="sub-item">
                 Customers A/c
               </a>
               <a href="/AdminSellerList" className="sub-item">
@@ -488,7 +675,7 @@ const AdminSidebar = () => {
             </a>
 
             <div className="sub-menu">
-             
+
               <a href="/FDRateInterest" className="sub-item">
                 FD Rate %
               </a>
@@ -513,7 +700,7 @@ const AdminSidebar = () => {
             </a>
 
             <div className="sub-menu">
-              
+
               <a href="/NewAdminNavBarSettingsContents" className="sub-item">
                 Add New Nav Content
               </a>

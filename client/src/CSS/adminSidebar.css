@@ -192,7 +192,7 @@ header {
 
 .navbar-main {
   position: fixed;
-  top:0px;
+  top: 0px;
   width: 100%;
   display: flex;
 
@@ -228,7 +228,6 @@ header {
   color: white;
 }
 
-
 .search-bar input {
   padding: 5px;
 
@@ -236,6 +235,120 @@ header {
   margin-right: 90px;
 
   border-radius: 6px;
+}
+
+
+
+.admin-sidebar-search-results {
+
+  position: absolute;
+
+  top: 9%;
+
+  left: 60%;
+
+  right: 1%;
+
+  background-color: white;
+
+  border: 1px solid #ccc;
+
+  z-index: 1000;
+
+  max-height: 79vh;
+
+  overflow-y: auto;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  margin: 0;
+
+  padding: 0;
+  padding-left: 0.3rem;
+
+  list-style: none;
+
+  display: none; /* Initially hide the search results */
+
+}
+
+
+.admin-sidebar-search-results.show {
+
+  display: block; /* Show the search results when the class 'show' is added */
+
+}
+
+
+.search-result-item {
+
+  padding: 5px 10px;
+
+  cursor: pointer;
+
+}
+
+
+.search-result-item:hover {
+
+  background-color: #f5f5f5;
+
+}
+
+
+.nav1-item-name {
+
+  display: flex;
+
+  align-items: center;
+
+}
+
+
+
+
+.nav1-item {
+  position: relative; /* Position relative to allow absolute positioning of the tooltip */
+
+  display: inline-block; /* Allows the tooltip to position correctly */
+
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+.tooltip {
+  visibility: hidden; /* Hide the tooltip by default */
+
+  width: 150px; /* Set a width for the tooltip */
+
+  background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent background */
+
+  color: #fff; /* White text color */
+
+  text-align: center; /* Center the text */
+
+  border-radius: 5px; /* Rounded corners */
+
+  padding: 5px; /* Padding around the text */
+
+  position: absolute; /* Position it absolutely */
+
+  z-index: 1; /* Ensure it appears above other elements */
+
+  bottom: 125%; /* Position above the item */
+
+  left: 50%; /* Center horizontally */
+
+  margin-left: -75px; /* Adjust for half the width of the tooltip */
+
+  opacity: 0; /* Start hidden */
+
+  transition: opacity 0.3s; /* Smooth transition for visibility */
+}
+
+.nav1-item:hover .tooltip {
+  visibility: visible; /* Show tooltip on hover */
+
+  opacity: 1; /* Fade in */
 }
 
 @media (max-width: 768px) {

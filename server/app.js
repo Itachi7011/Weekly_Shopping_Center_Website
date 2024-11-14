@@ -848,25 +848,31 @@ app.post("/api/deleteSelectedMarket", async (req, res) => {
 app.post("/api/addNewAdminNavBarSettingsContents", async (req, res) => {
   try {
 
-    console.log("data is : ",req.body);
- 
+    const userData = await new AdminNavbarSettingContentDB({
+      name: req.body.name,
+      link: req.body.link,
+      details: req.body.details,
+      createdByName: req.body.createdByName,
+      createdByEmail: req.body.createdByEmail,
+      dateOfFormSubmission: new Date(),
 
-    // const userData = await new AdminNavbarSettingContentDB({
-    //   name: req.body.name,
-    //   link: req.body.link,
-    //   details: req.body.details,
-    //   createdByName: req.body.createdByName,
-    //   createdByEmail: req.body.createdByEmail,
-    //   dateOfFormSubmission: new Date(),
-  
-    // });
+    });
 
-    // await userData.save();
-    // console.log("New Admin Navbar Setting Content Added in Database Successfully");
-    // res.send({ status: "Ok", data: "New Tag Saved." });
+    await userData.save();
+    console.log("New Admin Navbar Setting Content Added in Database Successfully");
+    res.send({ status: "Ok", data: "New Tag Saved." });
   } catch (err) {
     console.log(err);
     res.redirect("/failure-message");
+  }
+});
+
+app.get("/api/adminNavBarSettingsContentsList", async (req, res) => {
+  try {
+    const data = await AdminNavbarSettingContentDB.find();
+    res.send(data);
+  } catch (err) {
+    console.log(`Error during sending Market List -${err}`);
   }
 });
 
