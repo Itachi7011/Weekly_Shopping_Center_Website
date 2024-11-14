@@ -174,7 +174,7 @@ const AdminCustomersList = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "1rem", marginRight: "0rem" }}
+        style={{ marginTop: "6rem", marginRight: "0rem" }}
       >
         <div className="container-fluid">
           <div className="row justify-content-end">

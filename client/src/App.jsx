@@ -69,6 +69,11 @@ import AddBankOffer from "./Components/Admin/BankOffer/AddBankOffer";
 import UpdateBankOffer from "./Components/Admin/BankOffer/UpdateBankOffer";
 import ViewAllBankOffers from "./Components/Admin/BankOffer/ViewAllBankOffers";
 
+// Admin Nav Search Contents
+
+import NewAdminNavBarSettingsContents from "./Components/Admin/AdminNavSearchContents/NewAdminNavBarSettingsContents";
+import ShowAdminNavBarSettingsContents from "./Components/Admin/AdminNavSearchContents/ShowAdminNavBarSettingsContents";
+
 export const UserContext = createContext();
 
 function App() {
@@ -127,12 +132,18 @@ function App() {
             path="/ShowAllNavbarItems"
             element={<ShowAllNavbarItems />}
           ></Route>
-
           {/* Markets */}
           <Route path="/AddMarketData" element={<AddMarketData />}></Route>
           <Route
             path="/ShowMarketData"
             element={<ShowMarketData />}
+          ></Route>
+
+          {/* Admin Nav Search Contents */}
+          <Route path="/NewAdminNavBarSettingsContents" element={<NewAdminNavBarSettingsContents />}></Route>
+          <Route
+            path="/ShowAdminNavBarSettingsContents"
+            element={<ShowAdminNavBarSettingsContents />}
           ></Route>
 
           {/* Products */}

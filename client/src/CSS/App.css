@@ -10,6 +10,10 @@
   font-size: larger;
 }
 
+.sublocationList{
+  margin-top: 7rem;
+}
+
 /* CK Editor */
 
 .ck.ck-editor__main > .ck-editor__editable {

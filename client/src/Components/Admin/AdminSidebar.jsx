@@ -112,7 +112,7 @@ const AdminSidebar = () => {
               value={searchTerm}
 
               onChange={handleSearchChange}
-               style={{ width:}}
+               style={{ marginRight: sidebarActive ? "285px" : "90px" }}
 
             />
 
@@ -247,7 +247,7 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(0)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(3)}
 
             >
               <PersonAddIcon />  {!sidebarActive ? "" : "Markets"}
@@ -488,9 +488,7 @@ const AdminSidebar = () => {
             </a>
 
             <div className="sub-menu">
-              <a href="/AdminPanelNavBarSettingsContents" className="sub-item">
-                Admin Nav Search Contents
-              </a>
+             
               <a href="/FDRateInterest" className="sub-item">
                 FD Rate %
               </a>
@@ -516,11 +514,11 @@ const AdminSidebar = () => {
 
             <div className="sub-menu">
               
-              <a href="/FDRateInterest" className="sub-item">
-                Add New Content
+              <a href="/NewAdminNavBarSettingsContents" className="sub-item">
+                Add New Nav Content
               </a>
-              <a href="/LoanInterestPercentage" className="sub-item">
-                Show All Contents
+              <a href="/ShowAdminNavBarSettingsContents" className="sub-item">
+                Show All Nav Contents
               </a>
             </div>
           </div>

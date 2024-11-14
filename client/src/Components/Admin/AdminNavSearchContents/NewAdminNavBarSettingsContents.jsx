@@ -165,7 +165,7 @@ const NewTag = () => {
             >
               <h3
                 className="text-center"
-                style={{ marginBottom: "1rem", color: "white" }}
+                style={{ marginBottom: "1rem", color: "white", fontSize:"2rem" }}
               >
                 Add New Market Data
               </h3>

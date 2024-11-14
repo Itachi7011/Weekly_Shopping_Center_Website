@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // import ReactJsAlert from "reactjs-alert";
 import { useNavigate } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { ToastContainer, toast } from "react-toastify";
-const AdminSellerList = () => {
+const ShowMarketData = () => {
   let name, value;
   const navigate = useNavigate();
   // const [UserType, setUserType] = useState("");
@@ -18,20 +18,14 @@ const AdminSellerList = () => {
   // These 3 are React alert setStates
 
   const [user, setUser] = useState({
-    title: "",
-    articleCategory: "",
-    articleCategory1: "",
-    articleContent: "",
-    youtubeUrl: "",
-    developerName: "",
-    projectName: "",
-    status: "",
-    articleImage: "",
+    itemName: "",
+    subItems: "",
+    createdBy: "",
   });
   const [Profile, setProfile] = useState("");
 
   const [selectedItems, setSelectedItems] = useState([]);
-  const [allItemsSelected, setAllItemsSelected] = useState(false);
+  // const [allItemsSelected, setAllItemsSelected] = useState(false);
 
   const inputHandler = (e) => {
     name = e.target.name;
@@ -43,21 +37,22 @@ const AdminSellerList = () => {
     });
   };
 
-  const handleDelete = (event, id) => {
-    event.preventDefault();
+  const handleDelete = (event,id) => {
+
+    event.preventDefault(); 
+
     const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
 
     if (confirmDelete) {
+
       axios
 
-        .post("/api/deleteSellersAccount", { id: id })
+        .post("/api/deleteMarket", { id: id })
 
         .then((data) => {
-
-          alert("Seller Account  Deleted");
+          alert("Market Deleted");
         })
-
 
         .catch((err) => {
           console.log("Error during delete selected:", err);
@@ -71,26 +66,26 @@ const AdminSellerList = () => {
   };
 
   const handleDeleteSelected = () => {
+
+
     const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
 
     if (confirmDelete) {
+
       axios
 
-        .post("/api/deleteSelectedSellersAccount", { ids: selectedItems })
+        .post("/api/deleteSelectedMarket", { ids: selectedItems })
 
         .then((data) => {
-
-          alert("Selected Seller Account  Deleted");
+          alert("Selected Market Deleted");
         })
-
 
         .catch((err) => {
           console.log("Error during delete selected:", err);
         });
     } else {
 
-      // User canceled the delete action
 
       console.log("Delete action canceled.");
 
@@ -98,7 +93,7 @@ const AdminSellerList = () => {
   };
   useEffect(() => {
     axios
-      .get("/api/adminCustomersList")
+      .get("/api/marketsList")
       .then((response) => {
         const data = response.data;
 
@@ -108,7 +103,6 @@ const AdminSellerList = () => {
         console.log("Error during Data:", err);
       });
   }, []);
-
 
   useEffect(() => {
     axios
@@ -128,6 +122,7 @@ const AdminSellerList = () => {
   if (Profile.userType !== "Admin") {
     return <div></div>;
   }
+
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
 
@@ -136,8 +131,10 @@ const AdminSellerList = () => {
     const searchResults = Data.post.filter((item) => {
       return (
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        String(item.phoneNo).toLowerCase().includes(searchTerm.toLowerCase())
+        item.speciality.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.district.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.location.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
 
@@ -171,10 +168,10 @@ const AdminSellerList = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "6rem", marginRight: "0rem" }}
+        style={{ marginTop: "7rem", marginRight: "0rem" }}
       >
         <div className="container-fluid">
-          <div className="row justify-content-end">
+          <div className="row justify-subItems-end">
             <div className="col-md-11 mt-3" style={{ marginLeft: "0rem" }}>
               <h1
                 style={{
@@ -184,7 +181,7 @@ const AdminSellerList = () => {
                   backgroundColor: "#708090",
                 }}
               >
-                List Of All Sellers&apos; Accounts
+                List Of Markets
               </h1>
               <div className="adminListsSearchBar">
                 <input
@@ -204,17 +201,13 @@ const AdminSellerList = () => {
                     />
                   </th>
                   <th>S No.</th>
-                  <th>Image</th>
+                  <th>Photo</th>
                   <th>Name</th>
-                  <th>Phone No.</th>
-                  <th>Email</th>
-                  <th>Gender</th>
-                  <th>Age</th>
-
                   <th>Address</th>
-                  <th>Email-Verification</th>
-                  <th>Blocked</th>
-                  <th>Profile</th>
+                  <th>Total Shops</th>
+                  <th>Speciality</th>
+                  <th>Created By</th>
+                  <th>Date</th>
 
                   <th>Delete</th>
                 </thead>
@@ -222,16 +215,14 @@ const AdminSellerList = () => {
                   (
                     {
                       name,
-                      userImage,
-                      email,
-                      gender,
-                      age,
-                      emailVerification,
-                      isBlocked,
-                      phoneNo,
                       state,
                       district,
                       location,
+                      totalShops,
+                      speciality,
+                      photo,
+                      createdBy,
+                      dateOfFormSubmission,
                       _id,
                     },
                     index
@@ -252,76 +243,43 @@ const AdminSellerList = () => {
                               />
                             </td>
                             <td>{indexOfFirstItem + index + 1}</td>
+
                             <td>
                               {" "}
                               <img
-                                src={userImage.data}
+                                src={photo.data}
                                 alt="user-photo"
                                 style={{ height: "10vh", width: "8vw" }}
                               />
                             </td>
+
                             <td>{name}</td>
-
-                            <td>{phoneNo}</td>
-                            <td>{email}</td>
-                            <td>{gender}</td>
-                            <td>{age}</td>
-
-                            <td>{(location, district, state)}</td>
                             <td>
-                              {emailVerification === false ? (
-                                <i
-                                  className="fas fa-times fa-2x"
-                                  style={{ color: "red" }}
-                                ></i>
-                              ) : (
-                                <i
-                                  className="far fa-check-circle  fa-2x"
-                                  style={{ color: "green" }}
-                                ></i>
-                              )}
+                              {location}, {district} , {state}
                             </td>
+                            <td>{totalShops}</td>
                             <td>
-                              {isBlocked === false ? (
-                                <i
-                                  className="fas fa-times fa-2x"
-                                  style={{ color: "red" }}
-                                ></i>
-                              ) : (
-                                <i
-                                  className="far fa-check-circle  fa-2x"
-                                  style={{ color: "green" }}
-                                ></i>
-                              )}
+                              <ol>
+                                {speciality.map((item, index) => (
+                                  <li key={index}>{item} </li>
+                                ))}
+                              </ol>
                             </td>
+
+                            <td>{createdBy}</td>
                             <td>
-                              <form method="POST" action="/updateArticle">
-                                <input
-                                  type="hidden"
-                                  name="_id"
-                                  value={_id}
-                                  onChange={inputHandler}
-                                ></input>
-                                <button
-                                  type="submit"
-                                  className=" btn btn-info px-3"
-                                  onClick={function () {
-                                    navigate("/Scale1EmpAdminProfile", {
-                                      state: {
-                                        id: _id,
-                                      },
-                                    });
-                                  }}
-                                >
-                                  <i className="fas fa-user"></i>
-                                </button>
-                              </form>
+                              {new Date(
+                                new Date(dateOfFormSubmission).getTime() -
+                                19800000
+                              )
+                                .toUTCString()
+                                .slice(0, -12)}
                             </td>
 
                             <td>
                               <button
                                 className=" btn btn-danger px-3"
-                                onClick={(event) => handleDelete(event, _id)}
+                                onClick={(event) => handleDelete(event,_id)}
                               >
                                 <i className="fas fa-trash-alt text-white mx-auto"></i>
                               </button>
@@ -374,4 +332,4 @@ const AdminSellerList = () => {
   );
 };
 
-export default AdminSellerList;
+export default ShowMarketData;
