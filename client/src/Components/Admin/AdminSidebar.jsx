@@ -91,11 +91,11 @@ const AdminSidebar = () => {
       >
         <header className="navbar-main">
 
-          <div className="logo"> Admin Panel </div>
+          <div className="logo"> { sidebarActive ? "" : "Admin Panel"}  </div>
 
           <nav className="nav-links">
 
-            <NavLink to="#"><b>{user.name} ({user.email}) </b></NavLink>
+            <NavLink to="#" className="logo"><b>{user.name} ({user.email}) </b></NavLink>
 
           
 
@@ -112,6 +112,7 @@ const AdminSidebar = () => {
               value={searchTerm}
 
               onChange={handleSearchChange}
+               style={{ width:}}
 
             />
 
@@ -487,8 +488,8 @@ const AdminSidebar = () => {
             </a>
 
             <div className="sub-menu">
-              <a href="/IFSCCode" className="sub-item">
-                IFSC Code
+              <a href="/AdminPanelNavBarSettingsContents" className="sub-item">
+                Admin Nav Search Contents
               </a>
               <a href="/FDRateInterest" className="sub-item">
                 FD Rate %
@@ -507,6 +508,28 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(15)}
+            >
+              <SettingsIcon /> {!sidebarActive ? "" : "Nav Search Contents"}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
+            </a>
+
+            <div className="sub-menu">
+              
+              <a href="/FDRateInterest" className="sub-item">
+                Add New Content
+              </a>
+              <a href="/LoanInterestPercentage" className="sub-item">
+                Show All Contents
+              </a>
+            </div>
+          </div>
+
+          <div className="item">
+            <a
+              className="sub-btn"
+              ref={(ref) => subBtnRefs.current.push(ref)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(16)}
             >
               <ContactPageIcon /> {!sidebarActive ? "" : "Contact Info"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -527,7 +550,7 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(16)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(17)}
             >
               <QueryStatsIcon /> {!sidebarActive ? "" : "Enquiries"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}

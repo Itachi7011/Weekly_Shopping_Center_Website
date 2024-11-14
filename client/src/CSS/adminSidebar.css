@@ -191,6 +191,9 @@ header {
 /* Admin Navbar */
 
 .navbar-main {
+  position: fixed;
+  top:0px;
+  width: 100%;
   display: flex;
 
   justify-content: space-between;
@@ -200,6 +203,7 @@ header {
   padding: 10px 20px;
 
   color: white;
+  z-index: 99999;
 
   background-color: black;
   margin-bottom: 3rem;
@@ -224,12 +228,14 @@ header {
   color: white;
 }
 
+
 .search-bar input {
   padding: 5px;
 
   border: 1px solid #ccc;
+  margin-right: 90px;
 
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 @media (max-width: 768px) {
