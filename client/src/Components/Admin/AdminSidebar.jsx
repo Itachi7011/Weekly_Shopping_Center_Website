@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import $ from "jquery"; // import jQuery
+// import $ from "jquery"; 
+import { NavLink } from 'react-router-dom';
 import { useState } from "react";
 import axios from "axios";
 
@@ -29,6 +30,9 @@ import GroupIcon from "@mui/icons-material/Group";
 const AdminSidebar = () => {
   const [user, setUser] = useState("");
   const [sidebarActive, setSidebarActive] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+
 
   const subBtnRefs = useRef([]);
 
@@ -68,13 +72,53 @@ const AdminSidebar = () => {
       .classList.toggle("rotate");
   };
 
+  const handleSearchChange = (e) => {
+
+    setSearchTerm(e.target.value);
+
+  };
 
 
   if (user.userType !== "Admin") {
-    return <div></div>;
+    return <div>
+    </div>;
   }
   return (
     <>
+
+      <div className="admin-navbar"
+        style={{ marginLeft: sidebarActive ? "9rem" : "0rem" }}
+      >
+        <header className="navbar-main">
+
+          <div className="logo"> Admin Panel </div>
+
+          <nav className="nav-links">
+
+            <NavLink to="#"><b>{user.name} ({user.email}) </b></NavLink>
+
+          
+
+          </nav>
+
+          <div className="search-bar">
+
+           Search <input
+
+              type="text"
+
+              placeholder="Search..."
+
+              value={searchTerm}
+
+              onChange={handleSearchChange}
+
+            />
+
+          </div>
+
+        </header>
+      </div>
       <div
         className="menu-btn"
         onClick={handleMenuBtnClick}
@@ -503,8 +547,8 @@ const AdminSidebar = () => {
           </div>
 
           <div className="item">
-          <a href={!sidebarActive ? "#" : "/Reviews"}>
-          <FeedbackIcon /> {!sidebarActive ? "" : "Reviews"}
+            <a href={!sidebarActive ? "#" : "/Reviews"}>
+              <FeedbackIcon /> {!sidebarActive ? "" : "Reviews"}
             </a>
           </div>
           <div className="item">

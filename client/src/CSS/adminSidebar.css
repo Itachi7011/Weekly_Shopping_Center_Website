@@ -103,8 +103,6 @@ h1 {
   padding-left: 4.5rem;
 }
 
-
-
 .rotate {
   transform: rotate(90deg);
 }
@@ -122,14 +120,13 @@ h1 {
   border: 1px solid white;
 }
 
-.menu-btn i{
+.menu-btn i {
   position: fixed; /* Make the header sticky */
 
   top: 0; /* Stick to the top of the sidebar */
 
   left: 0; /* Align to the left */
   background: #1b1a1b;
-
 
   z-index: 1000;
   color: rgb(255, 255, 255);
@@ -166,8 +163,8 @@ h1 {
   margin-left: 70px;
   border: 3px solid #b4b8b9;
 }
-.smallSidebarImage{
-  width: 3rem;  /* Width when sidebar is not active */
+.smallSidebarImage {
+  width: 3rem; /* Width when sidebar is not active */
   height: 3rem;
 }
 
@@ -183,9 +180,72 @@ header {
 
   display: block; /* Ensure it's displayed */
 }
+
 @media (max-width: 900px) {
   .main h1 {
     font-size: 40px;
     line-height: 60px;
+  }
+}
+
+/* Admin Navbar */
+
+.navbar-main {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 10px 20px;
+
+  color: white;
+
+  background-color: black;
+  margin-bottom: 3rem;
+  margin-left: 4.5rem;
+}
+
+.logo {
+  font-size: 24px;
+
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+
+  color: white;
+}
+
+.search-bar input {
+  padding: 5px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide links on small screens */
+  }
+
+  .navbar-main {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .search-bar {
+    width: 100%;
+
+    margin-top: 10px;
   }
 }

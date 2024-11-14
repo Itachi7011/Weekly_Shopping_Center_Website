@@ -38,6 +38,10 @@ const Navbar = () => {
       });
   }, []);
 
+  if (user.userType === "Admin") {
+    return ""
+  }
+
   return (
     <div>
       <nav className="navbar">
