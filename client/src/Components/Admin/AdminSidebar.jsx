@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 // import $ from "jquery"; 
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
@@ -28,6 +29,10 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import GroupIcon from "@mui/icons-material/Group";
 
 const AdminSidebar = () => {
+
+  const navigate = useNavigate();
+
+
   const [user, setUser] = useState("");
   const [sidebarActive, setSidebarActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -236,77 +241,87 @@ const AdminSidebar = () => {
       </div>
       <div className={`admin-sidebar-search-results ${searchTerm && filterResults().length > 0 ? 'show' : ''}`}>
 
-{searchTerm && (
+        {searchTerm && (
 
-    <div className="admin-sidebar-search-results-list d-flex justify-content-between">
+          <div className="admin-sidebar-search-results-list d-flex justify-content-between">
 
-        <div className="nav-search-results" style={{ flex: 1, marginRight: '10px' }}>
+            <div className="nav-search-results" style={{ flex: 1, marginRight: '10px' }}>
 
-            <h4 style={{fontSize:"1.2rem"}}>Navigation Search Results:</h4>
+              <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Navigation Search Results:</h4>
+              <hr />
 
-            {navSearchContents.post.filter(item => 
+              {navSearchContents.post.filter(item =>
 
                 item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 
                 item.details.toLowerCase().includes(searchTerm.toLowerCase())
 
-            ).map((item, index) => (
+              ).map((item, index) => (
 
                 <div key={index} className="search-result-item">
 
-                    <NavLink to={item.link} className="nav1-item">
+                  <NavLink to={item.link} className="nav1-item">
 
-                        <h4 className="nav1-item-name">
+                    <h4 className="nav1-item-name">
 
-                            <i className="fas fa-thumbtack me-2"></i>
+                      <i className="fas fa-thumbtack me-2"></i>
 
-                            {item.name}
+                      {item.name}
 
-                        </h4>
+                    </h4>
 
-                    </NavLink>
+                  </NavLink>
 
                 </div>
 
-            ))}
+              ))}
 
-        </div>
+            </div>
 
-        <div className="product-search-results" style={{ flex: 1, marginLeft: '10px' }}>
+            <div className="product-search-results" style={{ flex: 1, marginLeft: '10px' }}>
 
-            <h4>Product Search Results:</h4>
-
-            {productsData.filter(item => 
+              <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Product Search Results:</h4>
+              <hr />
+              {productsData.filter(item =>
 
                 item.name.toLowerCase().includes(searchTerm.toLowerCase())
 
-            ).map((item, index) => (
+              ).map((item, index) => (
 
                 <div key={index} className="search-result-item">
 
-                    <NavLink to={item.link} className="nav1-item">
+                  <a onClick={function () {
+                                navigate("/ProductProfile", {
+                                    state: {
+                                        _id: item._id,
+                                        id: item.id,
+                                        name: item.name,
+                                    },
+                                });
+                                setSearchTerm("");
+                            }} className="nav1-item">
 
-                        <h4 className="nav1-item-name">
+                    <h4 className="nav1-item-name">
 
-                            <i className="fas fa-search me-2"></i>
+                      <i className="fas fa-search me-2"></i>
 
-                            {item.name}
+                     <span style={{fontWeight:"bolder"}}> {item.name} &nbsp; </span>  ( {item.subCategory} )
 
-                        </h4>
+                    </h4>
 
-                    </NavLink>
+                  </a>
 
                 </div>
 
-            ))}
+              ))}
 
-        </div>
+            </div>
 
-    </div>
+          </div>
 
-)}
+        )}
 
-</div>
+      </div>
       <div
         className="menu-btn"
         onClick={handleMenuBtnClick}

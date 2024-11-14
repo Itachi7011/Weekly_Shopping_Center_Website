@@ -241,11 +241,11 @@ header {
 
 .admin-sidebar-search-results {
 
-  position: absolute;
+  position: fixed;
 
   top: 9%;
 
-  left: 60%;
+  left: 40%;
 
   right: 1%;
 
