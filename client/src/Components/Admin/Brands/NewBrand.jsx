@@ -129,7 +129,7 @@ const NewBrand = () => {
       >
         <div
           className="container"
-          style={{ backgroundColor: "#808080", marginTop: "1rem" }}
+          style={{ backgroundColor: "#808080", marginTop: "7rem" }}
         >
           <div className="row justify-content-center">
             <div
@@ -144,7 +144,7 @@ const NewBrand = () => {
             >
               <h3
                 className="text-center"
-                style={{ marginBottom: "1rem", color: "white" }}
+                style={{ marginBottom: "1rem", color: "white" ,fontSize:"1.5rem" }}
               >
                 Add New Brand
               </h3>

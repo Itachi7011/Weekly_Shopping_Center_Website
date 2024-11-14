@@ -260,7 +260,7 @@ const AdminSidebar = () => {
 
                 <div key={index} className="search-result-item">
 
-                  <NavLink to={item.link} className="nav1-item">
+                  <NavLink to={item.link} className="nav1-item" onClick={() => setSearchTerm("")}>
 
                     <h4 className="nav1-item-name">
 
@@ -291,21 +291,21 @@ const AdminSidebar = () => {
                 <div key={index} className="search-result-item">
 
                   <a onClick={function () {
-                                navigate("/ProductProfile", {
-                                    state: {
-                                        _id: item._id,
-                                        id: item.id,
-                                        name: item.name,
-                                    },
-                                });
-                                setSearchTerm("");
-                            }} className="nav1-item">
+                    navigate("/ProductProfile", {
+                      state: {
+                        _id: item._id,
+                        id: item.id,
+                        name: item.name,
+                      },
+                    });
+                    setSearchTerm("");
+                  }} className="nav1-item">
 
                     <h4 className="nav1-item-name">
 
                       <i className="fas fa-search me-2"></i>
 
-                     <span style={{fontWeight:"bolder"}}> {item.name} &nbsp; </span>  ( {item.subCategory} )
+                      <span style={{ fontWeight: "bolder" }}> {item.name} &nbsp; </span>  ( {item.subCategory} )
 
                     </h4>
 

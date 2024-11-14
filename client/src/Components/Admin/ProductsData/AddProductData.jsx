@@ -353,7 +353,7 @@ const AddNewProduct = () => {
       className="newProjectMainDiv"
       style={{
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-        marginTop: "3rem",
+        marginTop: "7rem",
         marginBottom: "5rem",
         marginLeft: "5rem",
         marginRight: "5rem",
@@ -363,7 +363,7 @@ const AddNewProduct = () => {
         // position: "absolute",
         // left: "12rem",
       }}
-    ><h2 style={{ textAlign: "center", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", margin: "1% 30%", padding: "0.6rem 0.2rem" }}>Add New Product</h2>
+    ><h2 style={{ textAlign: "center", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", margin: "1% 30%", padding: "1.5rem 0.2rem", fontSize:"1.8rem" }}>Add New Product</h2>
       <div>
         <div>
 

@@ -134,7 +134,7 @@ const AddBankOffer = () => {
 
   return (
     <>
-      <div className="container" style={{ backgroundColor: "#808080", marginTop: "2rem" }}>
+      <div className="container" style={{ backgroundColor: "#808080", marginTop: "7rem" }}>
         <Helmet>
           <meta charSet="utf-8" />
           <title>My Title</title>
@@ -151,7 +151,7 @@ const AddBankOffer = () => {
               borderRadius: "5px",
             }}
           >
-            <h3 className="text-center" style={{ marginBottom: "0.5rem", color: "white" }}>
+            <h3 className="text-center" style={{ marginBottom: "0.5rem", color: "white", fontSize:"1.5rem" }}>
               Add New Bank Offer
             </h3>
             <div

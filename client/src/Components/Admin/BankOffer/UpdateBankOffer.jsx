@@ -178,7 +178,7 @@ const UpdateBankOffer = () => {
     <>
       <div
         className="container"
-        style={{ backgroundColor: "#808080", marginTop: "1rem" }}
+        style={{ backgroundColor: "#808080", marginTop: "7rem" }}
       >
         <Helmet>
           <meta charSet="utf-8" />

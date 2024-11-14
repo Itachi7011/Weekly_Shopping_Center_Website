@@ -161,7 +161,7 @@ const ShowAllTags = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "3rem", marginRight: "2rem" }}
+        style={{ marginTop: "3rem", marginLeft: "4rem" }}
       >
         <div className="container-fluid">
           <div className="row justify-content-end">
@@ -172,6 +172,7 @@ const ShowAllTags = () => {
                   textAlign: "center",
                   color: "white",
                   backgroundColor: "#708090",
+                   fontSize:"1.5rem"
                 }}
               >
                 List Of Brands

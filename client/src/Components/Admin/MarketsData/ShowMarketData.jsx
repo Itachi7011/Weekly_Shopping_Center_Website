@@ -179,6 +179,7 @@ const ShowMarketData = () => {
                   textAlign: "center",
                   color: "white",
                   backgroundColor: "#708090",
+                   fontSize:"1.5rem"
                 }}
               >
                 List Of Markets

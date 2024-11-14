@@ -206,7 +206,7 @@ const BankOffersList = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "6rem", marginRight: "0rem" }}
+        style={{ marginTop: "7rem", marginLeft: "4rem" }}
       >
         <div className="container-fluid">
           <div className="row justify-content-end">

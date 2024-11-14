@@ -118,6 +118,7 @@ const NewSubCategory = () => {
         style={{
           // zIndex: "20",
           width: "100%",
+          marginLeft:"4",
           // margin: "7% auto",
           // marginLeft: "7%",
           // position: "absolute",
@@ -126,7 +127,7 @@ const NewSubCategory = () => {
       >
         <div
           className="container"
-          style={{ backgroundColor: "#808080", marginTop: "1rem" }}
+          style={{ backgroundColor: "#808080", marginTop: "7rem" }}
         >
           <div className="row justify-content-center">
             <div
@@ -141,7 +142,7 @@ const NewSubCategory = () => {
             >
               <h3
                 className="text-center"
-                style={{ marginBottom: "1rem", color: "white" }}
+                style={{ marginBottom: "1rem", color: "white", fontSize:"1.5rem" }}
               >
                 Add New Category
               </h3>

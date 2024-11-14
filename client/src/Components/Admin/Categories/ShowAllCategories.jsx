@@ -187,7 +187,7 @@ const ShowAllTags = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "3rem", marginRight: "2rem" }}
+        style={{ marginTop: "6rem", marginLeft: "4rem" }}
       >
         <div className="container-fluid">
           <div className="row justify-content-end">
