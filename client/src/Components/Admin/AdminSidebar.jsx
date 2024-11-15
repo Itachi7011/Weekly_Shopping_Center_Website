@@ -241,6 +241,7 @@ const AdminSidebar = () => {
       </div>
       <div className={`admin-sidebar-search-results ${searchTerm && filterResults().length > 0 ? 'show' : ''}`}>
 
+
         {searchTerm && (
 
           <div className="admin-sidebar-search-results-list d-flex justify-content-between">
@@ -269,6 +270,7 @@ const AdminSidebar = () => {
                       {item.name}
 
                     </h4>
+
 
                   </NavLink>
 
