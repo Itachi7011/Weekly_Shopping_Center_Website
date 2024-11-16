@@ -246,8 +246,10 @@ const AdminSidebar = () => {
 
           <div className="admin-sidebar-search-results-list d-flex justify-content-between">
 
+            <div className="nav-search-results" style={{ flex: 1, marginRight: '10px' }}>
 
-            <>
+              <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Navigation Search Results:</h4>
+              <hr />
 
               {navSearchContents.post.filter(item =>
 
@@ -255,125 +257,67 @@ const AdminSidebar = () => {
 
                 item.details.toLowerCase().includes(searchTerm.toLowerCase())
 
-              ).length > 0 ? (
+              ).map((item, index) => (
 
-                <div className="nav-search-results" style={{ flex: 1, marginRight: '10px' }}>
+                <div key={index} className="search-result-item">
 
-                  <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Navigation Search Results:</h4>
+                  <NavLink to={item.link} className="nav1-item" onClick={() => setSearchTerm("")}>
 
-                  <hr />
+                    <h4 className="nav1-item-name">
 
-                  {navSearchContents.post.filter(item =>
+                      <i className="fas fa-thumbtack me-2"></i>
 
-                    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                      {item.name}
 
-                    item.details.toLowerCase().includes(searchTerm.toLowerCase())
+                    </h4>
 
-                  ).map((item, index) => (
 
-                    <div key={index} className="search-result-item">
-
-                      <NavLink to={item.link} className="nav1-item" onClick={() => setSearchTerm("")}>
-
-                        <h4 className="nav1-item-name">
-
-                          <i className="fas fa-thumbtack me-2"></i>
-
-                          {item.name}
-
-                        </h4>
-
-                      </NavLink>
-
-                    </div>
-
-                  ))}
+                  </NavLink>
 
                 </div>
 
-              ) : null}
+              ))}
 
+            </div>
 
+            <div className="product-search-results" style={{ flex: 1, marginLeft: '10px' }}>
+
+              <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Product Search Results:</h4>
+              <hr />
               {productsData.filter(item =>
 
                 item.name.toLowerCase().includes(searchTerm.toLowerCase())
 
-              ).length > 0 ? (
+              ).map((item, index) => (
 
-                <div className="product-search-results" style={{ flex: 1, marginLeft: '10px' }}>
+                <div key={index} className="search-result-item">
 
-                  <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Product Search Results:</h4>
+                  <a onClick={function () {
+                    navigate("/ProductProfile", {
+                      state: {
+                        _id: item._id,
+                        id: item.id,
+                        name: item.name,
+                      },
+                    });
+                    setSearchTerm("");
+                  }} className="nav1-item">
 
-                  <hr />
+                    <h4 className="nav1-item-name">
 
-                  {productsData.filter(item =>
+                      <i className="fas fa-search me-2"></i>
 
-                    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+                      <span style={{ fontWeight: "bolder" }}> {item.name} &nbsp; </span>  ( {item.subCategory} )
 
-                  ).map((item, index) => (
+                    </h4>
 
-                    <div key={index} className="search-result-item">
-
-                      <a onClick={function () {
-
-                        navigate("/ProductProfile", {
-
-                          state: {
-
-                            _id: item._id,
-
-                            id: item.id,
-
-                            name: item.name,
-
-                          },
-
-                        });
-
-                        setSearchTerm("");
-
-                      }} className="nav1-item">
-
-                        <h4 className="nav1-item-name">
-
-                          <i className="fas fa-search me-2"></i>
-
-                          <span style={{ fontWeight: "bolder" }}> {item.name} &nbsp; </span>  ( {item.subCategory} )
-
-                        </h4>
-
-                      </a>
-
-                    </div>
-
-                  ))}
+                  </a>
 
                 </div>
 
-              ) : null}
+              ))}
 
-
-              {navSearchContents.post.filter(item =>
-
-                item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-
-                item.details.toLowerCase().includes(searchTerm.toLowerCase())
-
-              ).length === 0 && productsData.filter(item =>
-
-                item.name.toLowerCase().includes(searchTerm.toLowerCase())
-
-              ).length === 0 && ( // Check if both are empty
-
-                  <div className="no-results" style={{ flex: 1, margin: '10px' }}>
-
-                    <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Sorry! No Result Found</h4>
-
-                  </div>
-
-                )}
-
-            </>
+            </div>
 
           </div>
 
