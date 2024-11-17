@@ -2,11 +2,30 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+
 const NewFooter = () => {
+
+  const [Profile, setProfile] = useState("");
   const [PhoneNosData, setPhoneNos] = useState({});
   const [SocialMediaData, setSocialMedia] = useState({});
 
   useEffect(() => {
+    axios
+      .get("/api/userProfile")
+      .then(async (response) => {
+        const data = await response.data;
+
+        setProfile(data);
+
+        console.log("data fetched successfully");
+      })
+      .catch((err) => {
+        console.log(`Error during catch of setProfile -  ${err}`);
+      });
+  }, []);
+
+  useEffect(() => {
+    
     axios
 
       .get("/api/phoneAndEmailAPI")

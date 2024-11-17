@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { UserContext } from "../../App";
+import { useContext } from "react";
 
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
@@ -29,6 +31,8 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import GroupIcon from "@mui/icons-material/Group";
 
 const AdminSidebar = () => {
+
+  const { state, dispatch } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -100,10 +104,12 @@ const AdminSidebar = () => {
   }, []);
 
   const handleMenuBtnClick = () => {
+    dispatch({ type: "TOGGLE_SIDEBAR" });
     setSidebarActive(true);
   };
 
   const handleCloseBtnClick = () => {
+    dispatch({ type: "CLOSE_SIDEBAR" });
     setSidebarActive(false);
   };
 

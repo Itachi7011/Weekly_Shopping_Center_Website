@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+import { useContext } from "react";
+import { UserContext } from "../../../App";
+
 // import ReactJsAlert from "reactjs-alert";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { ToastContainer, toast } from "react-toastify";
+
+
 const ShowMarketData = () => {
+  const { state } = useContext(UserContext);
+
   let name, value;
   const navigate = useNavigate();
   // const [UserType, setUserType] = useState("");
@@ -37,9 +45,9 @@ const ShowMarketData = () => {
     });
   };
 
-  const handleDelete = (event,id) => {
+  const handleDelete = (event, id) => {
 
-    event.preventDefault(); 
+    event.preventDefault();
 
     const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
@@ -168,7 +176,15 @@ const ShowMarketData = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "7rem", marginRight: "0rem", marginLeft:"4rem" }}
+        style={{
+
+          marginTop: "7rem",
+
+          marginRight: "0rem",
+
+          marginLeft: state.sidebarActive ? "13.3rem" : "4rem", // Change marginLeft based on sidebarActive
+
+        }}
       >
         <div className="container-fluid">
           <div className="row justify-subItems-end">
@@ -179,7 +195,7 @@ const ShowMarketData = () => {
                   textAlign: "center",
                   color: "white",
                   backgroundColor: "#708090",
-                   fontSize:"1.5rem"
+                  fontSize: "1.5rem"
                 }}
               >
                 List Of Markets
@@ -280,7 +296,7 @@ const ShowMarketData = () => {
                             <td>
                               <button
                                 className=" btn btn-danger px-3"
-                                onClick={(event) => handleDelete(event,_id)}
+                                onClick={(event) => handleDelete(event, _id)}
                               >
                                 <i className="fas fa-trash-alt text-white mx-auto"></i>
                               </button>
