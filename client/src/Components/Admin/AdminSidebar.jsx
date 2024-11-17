@@ -8,26 +8,21 @@ import { UserContext } from "../../App";
 import { useContext } from "react";
 
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import HomeIcon from "@mui/icons-material/Home";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import RedeemIcon from "@mui/icons-material/Redeem";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
-import RoomPreferencesIcon from "@mui/icons-material/RoomPreferences";
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import AppleIcon from '@mui/icons-material/Apple';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import NewspaperIcon from "@mui/icons-material/Newspaper";
-import FestivalIcon from "@mui/icons-material/Festival";
-import AdUnitsIcon from "@mui/icons-material/AdUnits";
 import SettingsIcon from "@mui/icons-material/Settings";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import SavingsIcon from "@mui/icons-material/Savings";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import FeedbackIcon from "@mui/icons-material/Feedback";
-import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import GroupIcon from "@mui/icons-material/Group";
 
 const AdminSidebar = () => {
@@ -239,11 +234,25 @@ const AdminSidebar = () => {
     <>
 
       <div className="admin-navbar"
-        style={{ marginLeft: sidebarActive ? "9rem" : "0rem" }}
+        style={{ marginLeft: sidebarActive ? "8rem" : "0rem" }}
       >
+
+        <div
+          className="menu-btn"
+          onClick={handleMenuBtnClick}
+          style={{ marginTop: "-3rem" }}
+        >
+
+          {!sidebarActive ? <i className="fas fa-bars"></i> : ""}
+
+
+
+
+
+        </div>
         <header className="navbar-main">
 
-          <div className="logo"> {sidebarActive ? "" : "Admin Panel"}  </div>
+          <div className="logo" style={{ marginLeft: "4rem" }}> {sidebarActive ? "" : "Admin Panel"}  </div>
 
           <nav className="nav-links">
 
@@ -290,7 +299,7 @@ const AdminSidebar = () => {
 
                 item.userType.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                String(item.phoneNo).toLowerCase().includes(searchTerm.toLowerCase()) 
+                String(item.phoneNo).toLowerCase().includes(searchTerm.toLowerCase())
 
               ).map((item, index) => (
 
@@ -302,7 +311,7 @@ const AdminSidebar = () => {
 
                       <i className="fas fa-user me-2"></i>
 
-                      {item.name} &nbsp; ( <span style={{fontWeight:"bolder"}}>  {item.userType} </span> )
+                      {item.name} &nbsp; ( <span style={{ fontWeight: "bolder" }}>  {item.userType} </span> )
 
                     </h4>
 
@@ -393,30 +402,18 @@ const AdminSidebar = () => {
         )}
 
       </div>
-      <div
-        className="menu-btn"
-        onClick={handleMenuBtnClick}
-        style={{ marginTop: "-3rem" }}
-      >
 
-        {!sidebarActive ? <i className="fas fa-bars"></i> : ""}
-
-
-
-
-
-      </div>
 
       <div
         className={`side-bar ${sidebarActive ? "active" : "sidebarNotActive"}`}
         style={{ marginTop: "6rem" }}
       >
-        <header onClick={handleCloseBtnClick}>
+        <header onClick={handleCloseBtnClick} style={{ padding: !sidebarActive ? "0px" : "1rem" }}>
 
           {!sidebarActive ? "" : <>
-            <div className="close-btn">
+            <div className="close-btn mt-3">
 
-              <i className="fas fa-times"></i>
+              <i className="fas fa-arrow-left"></i>
             </div>
           </>}
 
@@ -431,17 +428,61 @@ const AdminSidebar = () => {
         </header>
         <div className="menu">
           <div className="item">
-            <a href={!sidebarActive ? "#" : "/Dashboard"}>
+
+            <a
+
+              href={sidebarActive ? "/Dashboard" : "#"}
+
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
+
+            >
+
               <DashboardIcon />
-              {!sidebarActive ? "" : "Dashboard"}
+
+              {sidebarActive ? "Dashboard" : ""}
 
             </a>
+
           </div>
 
           <div className="item">
-            <a href={!sidebarActive ? "#" : "/"}>
-              <HomeIcon />   {!sidebarActive ? "" : "Home Page"}
+
+
+            <a
+
+              href={sidebarActive ? "/" : "#"}
+
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
+
+
+            >
+
+              <HomeIcon />
+
+              {sidebarActive ? "Home Page" : ""}
+
             </a>
+
           </div>
 
           <div className="item">
@@ -450,9 +491,58 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
 
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(0)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
 
             >
               <GroupIcon />   {!sidebarActive ? "" : "Accounts Info."}
+
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
+            </a>
+            <div className="sub-menu">
+              <a href="/AdminCustomersList" className="sub-item">
+                Customers A/c
+              </a>
+              <a href="/AdminSellerList" className="sub-item">
+                Sellers A/c
+              </a>
+              <a href="/AdminsList" className="sub-item">
+                Admins A/c
+              </a>
+            </div>
+          </div>
+
+
+          <div className="item">
+            <a
+              className="sub-btn"
+              ref={(ref) => subBtnRefs.current.push(ref)}
+
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(1)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
+
+            >
+               <CurrencyRupeeIcon/>    {!sidebarActive ? "" : "Transactions Info."}
 
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
@@ -474,10 +564,21 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(1)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(2)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
 
             >
-              <GroupIcon /> {!sidebarActive ? "" : "Tags"}
+              <LocalOfferIcon /> {!sidebarActive ? "" : "Tags"}
 
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
@@ -497,9 +598,20 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(2)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(3)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
             >
-              <GroupIcon /> {!sidebarActive ? "" : "Navbar Items"}
+              <MyLocationIcon /> {!sidebarActive ? "" : "Navbar Items"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
             </a>
@@ -520,10 +632,21 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(3)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(4)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
 
             >
-              <PersonAddIcon />  {!sidebarActive ? "" : "Markets"}
+              <LocalGroceryStoreIcon />  {!sidebarActive ? "" : "Markets"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
             </a>
@@ -541,9 +664,20 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(4)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(5)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
             >
-              <ThumbDownIcon />  {!sidebarActive ? "" : "Products"}
+              <i className="fas fa-gift admin-sidebar-icons"></i>  &nbsp; &nbsp;{!sidebarActive ? "" : " Products"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
             </a>
@@ -561,9 +695,20 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(5)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(6)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
             >
-              <ReceiptLongIcon />  {!sidebarActive ? "" : "Brands / Companies"}
+              <AppleIcon />  {!sidebarActive ? "" : "Brands / Companies"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
             </a>
@@ -577,32 +722,24 @@ const AdminSidebar = () => {
             </div>
           </div>
 
-          <div className="item">
-            <a
-              className="sub-btn"
-              ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(6)}
-            >
-              <CurrencyRupeeIcon />  {!sidebarActive ? "" : "Credit / Debit Amount"}
-              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
-            </a>
-            <div className="sub-menu">
-              <a href="/CustomerSavingCreditDebitAmount" className="sub-item">
-                Saving A/C
-              </a>
-
-              <a href="/CustomerCurrentCreditDebitAmount" className="sub-item">
-                Current A/C
-              </a>
-            </div>
-          </div>
 
           <div className="item">
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(7)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
             >
               <DirectionsCarIcon /> {!sidebarActive ? "" : "Categories"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -621,11 +758,25 @@ const AdminSidebar = () => {
             </div>
           </div>
 
+
+
+
           <div className="item">
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(8)}
+                            onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
             >
               <SavingsIcon />  {!sidebarActive ? "" : "Bank Offers"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -640,71 +791,105 @@ const AdminSidebar = () => {
               </a>
             </div>
           </div>
+
           <div className="item">
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(9)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
             >
-              <LocalMallIcon />  {!sidebarActive ? "" : "Loans Schemes"}
+              <NotificationsActiveIcon /> {!sidebarActive ? "" : "Notifications"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
             </a>
             <div className="sub-menu">
-              <a href="/AddLoanOffer" className="sub-item">
-                Add New Loan Scheme
+              <a href="/NewCategory" className="sub-item">
+                Add New Notification
               </a>
-              <a href="/ViewAllLoanOffers" className="sub-item">
-                Show All Loan Schemes
+              
+              <a href="/ShowAllCategories" className="sub-item">
+                Show All Notifications
               </a>
             </div>
           </div>
+
 
           <div className="item">
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(10)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
+              
             >
-              <RedeemIcon />  {!sidebarActive ? "" : "Compensation"}
+              <NewspaperIcon />  {!sidebarActive ? "" : "Advertisement"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
             </a>
             <div className="sub-menu">
-              <a href="/FarmersCompensation" className="sub-item">
-                Farmers
+              <a href="NewCicular" className="sub-item">
+                Add New Advt.
               </a>
-              <a href="/PrivateJobCompensation" className="sub-item">
-                Private Jobs
-              </a>
-              <a href="/DefenceForcesCompensation" className="sub-item">
-                Defence Forces (Active)
-              </a>
-              <a href="/PensionHoldersCompensation" className="sub-item">
-                Pension Holders
-              </a>
-              <a href="/GovtJobCompensation" className="sub-item">
-                Govt. Jobs
+              <a href="/ShowAllCirculars" className="sub-item">
+                Show All Advt.s
               </a>
             </div>
           </div>
+
+
+
+
 
           <div className="item">
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(11)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
             >
-              <NewspaperIcon />  {!sidebarActive ? "" : "Circulars"}
+              <i className="fas fa-search admin-sidebar-icons"></i>  &nbsp; &nbsp; {!sidebarActive ? "" : "Nav Search Contents"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
             </a>
+
             <div className="sub-menu">
-              <a href="NewCicular" className="sub-item">
-                Add New Circular
+
+              <a href="/NewAdminNavBarSettingsContents" className="sub-item">
+                Add New Nav Content
               </a>
-              <a href="/ShowAllCirculars" className="sub-item">
-                Show All Circulars
+              <a href="/ShowAdminNavBarSettingsContents" className="sub-item">
+                Show All Nav Contents
               </a>
             </div>
           </div>
@@ -714,17 +899,29 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(12)}
+              onMouseEnter={(e) => {
+
+                if (!sidebarActive) {
+
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
             >
-              <FestivalIcon />  {!sidebarActive ? "" : "Branches"}
+              <ContactPageIcon /> {!sidebarActive ? "" : "Contact Info"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
 
             </a>
             <div className="sub-menu">
-              <a href="/AddNewBranches" className="sub-item">
-                Add New Branches
+              <a href="/PhoneAndEmailAddress" className="sub-item">
+                Phone No. & Email
               </a>
-              <a href="/ViewAllBranches" className="sub-item">
-                Show All Branches
+
+              <a href="/SocialMedia" className="sub-item">
+                Social Media
               </a>
             </div>
           </div>
@@ -734,26 +931,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(13)}
-            >
-              <NoteAddIcon /> {!sidebarActive ? "" : "Credit / Debit Cards"}
-              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+              onMouseEnter={(e) => {
 
-            </a>
-            <div className="sub-menu">
-              <a href="/add-new-page" className="sub-item">
-                Credit Card Requests
-              </a>
-              <a href="/view-pages-list" className="sub-item">
-                Debit Card Requests
-              </a>
-            </div>
-          </div>
+                if (!sidebarActive) {
 
-          <div className="item">
-            <a
-              className="sub-btn"
-              ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(14)}
+                  e.preventDefault(); // Prevent default link behavior
+
+                  handleMenuBtnClick(); // Call the onClick function
+
+                }
+
+              }}
             >
               <SettingsIcon /> {!sidebarActive ? "" : "Settings"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -778,50 +966,18 @@ const AdminSidebar = () => {
             <a
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(15)}
-            >
-              <SettingsIcon /> {!sidebarActive ? "" : "Nav Search Contents"}
-              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(14)}
+              onMouseEnter={(e) => {
 
-            </a>
+                if (!sidebarActive) {
 
-            <div className="sub-menu">
+                  e.preventDefault(); // Prevent default link behavior
 
-              <a href="/NewAdminNavBarSettingsContents" className="sub-item">
-                Add New Nav Content
-              </a>
-              <a href="/ShowAdminNavBarSettingsContents" className="sub-item">
-                Show All Nav Contents
-              </a>
-            </div>
-          </div>
+                  handleMenuBtnClick(); // Call the onClick function
 
-          <div className="item">
-            <a
-              className="sub-btn"
-              ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(16)}
-            >
-              <ContactPageIcon /> {!sidebarActive ? "" : "Contact Info"}
-              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+                }
 
-            </a>
-            <div className="sub-menu">
-              <a href="/PhoneAndEmailAddress" className="sub-item">
-                Phone No. & Email
-              </a>
-
-              <a href="/SocialMedia" className="sub-item">
-                Social Media
-              </a>
-            </div>
-          </div>
-
-          <div className="item">
-            <a
-              className="sub-btn"
-              ref={(ref) => subBtnRefs.current.push(ref)}
-              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(17)}
+              }}
             >
               <QueryStatsIcon /> {!sidebarActive ? "" : "Enquiries"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -829,7 +985,7 @@ const AdminSidebar = () => {
             </a>
             <div className="sub-menu">
               <a href="/LoanEnquiryList" className="sub-item">
-                Loan Enquiry
+                Questions List
               </a>
               {/* <a href="#" className="sub-item">
                 Project Enquiry
