@@ -3,8 +3,15 @@ import axios from "axios";
 // import ReactJsAlert from "reactjs-alert";
 import { useNavigate } from "react-router-dom";
 
+import { useContext } from "react";
+import { UserContext } from "../../../App";
+
 // import { ToastContainer, toast } from "react-toastify";
 const AdminsList = () => {
+
+  const { state } = useContext(UserContext);
+
+  
   let name, value;
   const navigate = useNavigate();
   // const [UserType, setUserType] = useState("");
@@ -124,7 +131,6 @@ const AdminsList = () => {
       });
   }, []);
 
-  console.log("Profile is : ", Profile)
 
 
   if (Profile.userType !== "Admin") {
@@ -174,11 +180,19 @@ const AdminsList = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "6rem", marginRight: "0rem" }}
+        style={{
+
+          marginTop: "7rem",
+
+          marginRight: "0rem",
+
+          marginLeft: state.sidebarActive ? "13.3rem" : "4rem",
+
+        }}
       >
         <div className="container-fluid">
           <div className="row justify-content-end">
-            <div className="col-md-11 mt-3" style={{ marginLeft: "0rem" }}>
+            <div className="col-md-12 mt-3" style={{ marginLeft: "0rem" }}>
               <h1
                 style={{
                   padding: "1rem",

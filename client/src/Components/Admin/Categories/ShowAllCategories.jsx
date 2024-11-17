@@ -3,8 +3,14 @@ import axios from "axios";
 // import ReactJsAlert from "reactjs-alert";
 import { useNavigate } from "react-router-dom";
 
+import { useContext } from "react";
+import { UserContext } from "../../../App";
+
 // import { ToastContainer, toast } from "react-toastify";
 const ShowAllTags = () => {
+
+  const { state } = useContext(UserContext);
+
   let name, value;
   const navigate = useNavigate();
   // const [UserType, setUserType] = useState("");
@@ -187,7 +193,15 @@ const ShowAllTags = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "6rem", marginLeft: "4rem" }}
+        style={{
+
+          marginTop: "7rem",
+
+          marginRight: "0rem",
+
+          marginLeft: state.sidebarActive ? "13.3rem" : "4rem",
+
+        }}
       >
         <div className="container-fluid">
           <div className="row justify-content-end">

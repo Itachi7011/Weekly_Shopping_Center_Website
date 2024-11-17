@@ -140,6 +140,19 @@ const AdminSidebar = () => {
 
     // Filter results from both navSearchContents and productsData
 
+    const usersResults = allUsers.post.filter(item => {
+
+      return (
+
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(item.phoneNo).toLowerCase().includes(searchTerm.toLowerCase()) ||
+
+        item.email.toLowerCase().includes(searchTerm.toLowerCase())
+
+      );
+
+    });
+
     const navResults = navSearchContents.post.filter(item => {
 
       return (
@@ -162,7 +175,7 @@ const AdminSidebar = () => {
 
     // Combine both results
 
-    return [...navResults, ...productResults];
+    return [...navResults, ...productResults, ...usersResults];
 
   };
 
@@ -275,7 +288,9 @@ const AdminSidebar = () => {
 
                 item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 
-                item.userType.toLowerCase().includes(searchTerm.toLowerCase())
+                item.userType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                String(item.phoneNo).toLowerCase().includes(searchTerm.toLowerCase()) 
 
               ).map((item, index) => (
 

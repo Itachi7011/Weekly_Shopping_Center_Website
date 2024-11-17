@@ -201,3 +201,44 @@ footer hr {
 .open-hours hr {
   margin: 30px 0;
 }
+
+.footer-toggle-container {
+  display: flex;
+
+  justify-content: center;
+
+  margin-bottom: -2rem; 
+  margin-left: 5rem; /* Space below the button */
+}
+
+.footer-toggle-button {
+  background-color: #4caf50; /* Green */
+
+  border: none;
+
+  color: white;
+
+  padding: 10px 20px;
+
+  text-align: center;
+
+  text-decoration: none;
+
+  font-size: 16px;
+
+  margin: 10px 0;
+
+  cursor: pointer;
+
+  border-radius: 25px;
+
+  transition: background-color 0.3s, transform 0.3s;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+}
+
+.footer-toggle-button:hover {
+  background-color: #45a049; /* Darker green */
+
+  transform: scale(1.05);
+}

@@ -4,7 +4,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { ToastContainer, toast } from "react-toastify";
+
+import { useContext } from "react";
+import { UserContext } from "../../../App";
+
 const ShowMarketData = () => {
+
+  const { state } = useContext(UserContext);
+
   let name, value;
   const navigate = useNavigate();
   // const [UserType, setUserType] = useState("");
@@ -166,7 +173,15 @@ const ShowMarketData = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "7rem", marginLeft: "4rem" }}
+        style={{
+
+          marginTop: "7rem",
+
+          marginRight: "0rem",
+
+          marginLeft: state.sidebarActive ? "13.3rem" : "4rem",
+
+        }}
       >
         <div className="container-fluid">
           <div className="row justify-subItems-end">

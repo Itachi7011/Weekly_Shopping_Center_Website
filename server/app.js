@@ -102,8 +102,7 @@ app.post(
   async (req, res) => {
     console.log(req.files);
     try {
-      console.log(req.body);
-      console.log(req.files);
+
       const Password = req.body.password;
       const Cpassword = req.body.cpassword;
       const Email = req.body.email;
@@ -427,7 +426,6 @@ app.post("/api/deleteSelectedAdminsAccount", async (req, res) => {
 app.get("/api/allUsersList", async (req, res) => {
   try {
     const data = await UsersDB.find();
-    console.log(data);
 
     res.send(data);
   } catch (err) {
@@ -557,7 +555,6 @@ app.post("/api/deleteSelectedCategories", async (req, res) => {
 app.post("/api/addSubCategory", async (req, res) => {
   try {
 
-    console.log(req.body)
     const category = req.body.categoryName;
     const subCategory = req.body.subCategoryName;
     const CategoriesDB1 = await CategoriesDB.findOne({
@@ -684,7 +681,6 @@ app.post("/api/deleteSelectedBrands", async (req, res) => {
 
 app.post("/api/addNavbarItems", async (req, res) => {
   try {
-    console.log(req.body);
 
     const userData = await new NavbarItemsDB({
       itemName: req.body.itemName,
@@ -1474,8 +1470,7 @@ app.get("/api/bankOfferList", async (req, res) => {
 app.post("/api/updateBankOffer", BankOfferMulter, async (req, res) => {
   try {
 
-    console.log(req.body)
-    console.log(req.files)
+
 
 
 

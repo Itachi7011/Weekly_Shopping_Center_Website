@@ -2,7 +2,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactJsAlert from "reactjs-alert";
 import { useNavigate } from "react-router-dom";
+
+
+import { useContext } from "react";
+import { UserContext } from "../../../App";
+
 const BankOffersList = () => {
+
+  const { state } = useContext(UserContext);
+
+
   let name, value;
   const navigate = useNavigate();
   const [UserType, setUserType] = useState("");
@@ -206,7 +215,15 @@ const BankOffersList = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "7rem", marginLeft: "4rem" }}
+        style={{
+
+          marginTop: "7rem",
+
+          marginRight: "0rem",
+
+          marginLeft: state.sidebarActive ? "13.3rem" : "4rem",
+
+        }}
       >
         <div className="container-fluid">
           <div className="row justify-content-end">

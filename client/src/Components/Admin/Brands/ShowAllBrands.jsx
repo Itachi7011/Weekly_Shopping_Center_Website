@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import { useContext } from "react";
+import { UserContext } from "../../../App";
+
 const ShowAllTags = () => {
+
+  const { state } = useContext(UserContext);
+
   let name, value;
   const [Data, setData] = useState({ post: [] });
 
@@ -161,7 +167,15 @@ const ShowAllTags = () => {
     <>
       <div
         className="sublocationList"
-        style={{ marginTop: "3rem", marginLeft: "4rem" }}
+        style={{
+
+          marginTop: "7rem",
+
+          marginRight: "0rem",
+
+          marginLeft: state.sidebarActive ? "13.3rem" : "4rem",
+
+        }}
       >
         <div className="container-fluid">
           <div className="row justify-content-end">
