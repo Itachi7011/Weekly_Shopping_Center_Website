@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -29,12 +29,14 @@ const AddAdvertisement = () => {
   const [Data, setData] = useState("");
   const [image, setImage] = useState("");
 
-  const [category, setCategory] = useState([]);
-
-
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [showTagsSuggestions, setShowTagsSuggestions] = useState(false);
+
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedSubCategories, setSelectedSubCategoriesTags] = useState([]);
+  const [showSubCategoriesSuggestions, setShowSubCategoriesSuggestions] = useState(false);
+
 
 
   let name, value;
@@ -100,7 +102,7 @@ const AddAdvertisement = () => {
       .then((response) => {
         const data = response.data;
 
-        setCategory(data);
+        setSubCategories(data);
       })
       .catch((err) => {
         console.log("Error during Data:", err);
@@ -115,7 +117,28 @@ const AddAdvertisement = () => {
       ...user,
       [name]: value,
     });
+
+    // If the textarea is for tags, update showTagsSuggestions based on its value
+
+    if (name === "tags") {
+
+      // Show suggestions only if there's text
+
+      setShowTagsSuggestions(value.trim().length > 0);
+
+    }
+
   };
+
+  if (name === "subCategories") {
+
+    // Show suggestions only if there's text
+
+    setShowSubCategoriesSuggestions(value.trim().length > 0);
+
+  }
+
+};
 
   const handleTagClick = (tag) => {
 
@@ -147,8 +170,15 @@ const AddAdvertisement = () => {
 
   };
 
-  const filteredTags = tags.filter(tag => !selectedTags.includes(tag.tagName));
+  const currentTagsValue = user.tags || "";
 
+  const filteredTags = tags.filter(tag =>
+
+    tag.tagName.toLowerCase().includes(currentTagsValue.toLowerCase()) &&
+
+    !selectedTags.includes(tag.tagName)
+
+  );
 
   const handleSubmit = async (e) => {
 
@@ -287,7 +317,7 @@ const AddAdvertisement = () => {
                     name="sponserName"
                     style={{ fontWeight: "400" }}
                     onChange={inputHandler}
-                    placeholder=""
+                    placeholder="Please Enter Sponser Name"
                     className="form-control mb-4"
                   />
                   <input
@@ -295,7 +325,7 @@ const AddAdvertisement = () => {
                     name="phoneNo"
                     style={{ fontWeight: "400" }}
                     onChange={inputHandler}
-                    placeholder=""
+                    placeholder="Please Enter Sponser's Phone No."
                     className="form-control mb-4"
                   />
                   <input
@@ -303,19 +333,39 @@ const AddAdvertisement = () => {
                     name="email"
                     style={{ fontWeight: "400" }}
                     onChange={inputHandler}
-                    placeholder=""
+                    placeholder="Please Enter Sponser's Email"
                     className="form-control mb-4"
                   />
 
 
-                  <input
-                    type="text"
-                    name="processingFees"
-                    style={{ fontWeight: "400" }}
-                    onChange={inputHandler}
-                    placeholder=""
-                    className="form-control mb-4"
-                  />
+                  <div className="checkbox-group">
+
+                    <label className="checkbox-option">
+
+                      <input type="checkbox" name="position" value="top" onChange={inputHandler} />
+
+                      <span className="checkbox-label">Top</span>
+
+                    </label>
+
+                    <label className="checkbox-option">
+
+                      <input type="checkbox" name="position" value="middle" onChange={inputHandler} />
+
+                      <span className="checkbox-label">Middle</span>
+
+                    </label>
+
+                    <label className="checkbox-option">
+
+                      <input type="checkbox" name="position" value="bottom" onChange={inputHandler} />
+
+                      <span className="checkbox-label">Bottom</span>
+
+                    </label>
+
+                  </div>
+
                   <input
                     type="text"
                     name="rateOfInterest"
@@ -349,27 +399,41 @@ const AddAdvertisement = () => {
                     className="form-control mb-4"
                   />
 
+                  <textarea
+                    aria-label="minimum height"
+                    rows={8}
+                    style={{ width: "50%", marginRight:"40%" }}
+                    onChange={inputHandler}
+                    placeholder="Please Type Here To Search Tags"
+                    // onFocus={handleFocus}
+                    // onBlur={handleBlur}
+                    name="tags"
+                  />
                   {showTagsSuggestions && filteredTags.length > 0 && (
 
-                    <l style={{ cursor: "pointer", position: "absolute", zIndex: 200 }}>
+                    <li style={{ cursor: "pointer", position: "absolute", zIndex: 200, marginTop: "-11rem", marginLeft: "12rem" }}>
 
-                      {filteredTags.map((tag) => (
+                      <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
 
-                        <ListItem button key={tag._id} onMouseDown={() => handleTagClick(tag)} style={{ cursor: "pointer" }}>
+                        {filteredTags.map((tag) => (
 
-                          <ListItemText primary={tag.tagName} style={{ color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem" }} />
+                          <li key={tag._id} onMouseDown={() => handleTagClick(tag)} style={{ cursor: "pointer", color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem", margin: "0.2rem 0" }}>
 
-                        </ListItem>
+                            {tag.tagName}
 
-                      ))}
+                          </li>
 
-                    </l>
+                        ))}
+
+                      </ul>
+
+                    </li>
 
                   )}
 
-                  <div style={{ marginLeft: "5%" }} >
+                  <div style={{ marginLeft: "55%",marginTop:"-12rem", marginBottom:"15rem" , zIndex:"99999"}} >
 
-                    <h4>Selected Tags:</h4>
+                    <h4 style={{fontSize:"1rem", color: "white", background: "#4E4B51", padding:"0.5rem"}}>Selected Tags:</h4>
 
                     <ul>
 

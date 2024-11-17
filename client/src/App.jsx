@@ -69,6 +69,12 @@ import AddBankOffer from "./Components/Admin/BankOffer/AddBankOffer";
 import UpdateBankOffer from "./Components/Admin/BankOffer/UpdateBankOffer";
 import ViewAllBankOffers from "./Components/Admin/BankOffer/ViewAllBankOffers";
 
+// Advertisements
+
+import AddAdvertisement from "./Components/Admin/Advertisement/AddAdvertisement";
+import UpdateEAdvertisement from "./Components/Admin/Advertisement/UpdateEAdvertisement";
+import ViewAllAdvertisements from "./Components/Admin/Advertisement/ViewAllAdvertisements";
+
 // Admin Nav Search Contents
 
 import NewAdminNavBarSettingsContents from "./Components/Admin/AdminNavSearchContents/NewAdminNavBarSettingsContents";
@@ -120,6 +126,11 @@ function App() {
           <Route path="/AddBankOffer" element={<AddBankOffer />}></Route>
           <Route path="/UpdateBankOffer" element={<UpdateBankOffer />}></Route>
           <Route path="/ViewAllBankOffers" element={<ViewAllBankOffers />}></Route>
+
+          {/* Advertisements */}
+          <Route path="/AddAdvertisement" element={<AddAdvertisement />}></Route>
+          <Route path="/UpdateEAdvertisement" element={<UpdateEAdvertisement />}></Route>
+          <Route path="/ViewAllAdvertisements" element={<ViewAllAdvertisements />}></Route>
 
 
           {/* Brands */}

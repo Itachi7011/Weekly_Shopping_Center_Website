@@ -20,3 +20,82 @@
   height: 30vh !important;
 }
 
+
+
+
+.checkbox-group {
+
+  display: flex;
+
+  flex-direction: row; /* Arrange checkboxes in a row */
+
+  margin: 20px 0; /* Add some margin */
+
+}
+
+
+.checkbox-option {
+
+  position: relative;
+
+  padding-left: 30px; /* Space for the custom checkbox */
+
+  cursor: pointer; /* Change cursor to pointer */
+
+  font-weight: 400; /* Font weight */
+
+  user-select: none; /* Prevent text selection */
+
+  margin-right: 20px; /* Space between checkboxes */
+
+}
+
+
+.checkbox-option:last-child {
+
+  margin-right: 0; /* Remove margin for the last checkbox */
+
+}
+
+
+.checkbox-option input {
+
+  position: absolute;
+
+  opacity: 0; /* Hide the default checkbox */
+
+  cursor: pointer; /* Change cursor to pointer */
+
+}
+
+
+.checkbox-label {
+
+  display: inline-block;
+
+  padding: 10px 20px; /* Padding for the label */
+
+  border: 2px solid #007bff; /* Border color */
+
+  border-radius: 5px; /* Rounded corners */
+
+  transition: background-color 0.3s, color 0.3s; /* Transition for hover effects */
+
+}
+
+
+.checkbox-option input:checked + .checkbox-label {
+
+  background-color: #007bff; /* Background color when checked */
+
+  color: white; /* Text color when checked */
+
+}
+
+
+.checkbox-option:hover .checkbox-label {
+
+  background-color: #e7f1ff; /* Light background on hover */
+
+}
+

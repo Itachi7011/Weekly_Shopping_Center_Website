@@ -848,10 +848,10 @@ const AdminSidebar = () => {
 
             </a>
             <div className="sub-menu">
-              <a href="NewCicular" className="sub-item">
+              <a href="AddAdvertisement" className="sub-item">
                 Add New Advt.
               </a>
-              <a href="/ShowAllCirculars" className="sub-item">
+              <a href="/ViewAllAdvertisements" className="sub-item">
                 Show All Advt.s
               </a>
             </div>
