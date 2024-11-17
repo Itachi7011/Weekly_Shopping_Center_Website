@@ -22,7 +22,8 @@ import {
 const AddAdvertisement = () => {
   const navigate = useNavigate();
 
-  const tadsTextAreaRef = useRef(null);
+  const tagsTextAreaRef = useRef(null);
+  const subCategoriesTextAreaRef = useRef(null);
 
 
   const [content, setContent] = useState("");
@@ -34,7 +35,7 @@ const AddAdvertisement = () => {
   const [showTagsSuggestions, setShowTagsSuggestions] = useState(false);
 
   const [subCategories, setSubCategories] = useState([]);
-  const [selectedSubCategories, setSelectedSubCategoriesTags] = useState([]);
+  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [showSubCategoriesSuggestions, setShowSubCategoriesSuggestions] = useState(false);
 
 
@@ -145,7 +146,7 @@ const AddAdvertisement = () => {
 
     setSelectedTags((prevTags) => [...prevTags, tag.tagName]);
 
-    tadsTextAreaRef.current.focus(); // Focus on the textarea immediately after clicking the tag
+    tagsTextAreaRef.current.focus(); // Focus on the textarea immediately after clicking the tag
 
     setShowTagsSuggestions(false); // Hide suggestions
 
@@ -156,6 +157,24 @@ const AddAdvertisement = () => {
     setSelectedTags((prevTags) => prevTags.filter(tag => tag !== tagToRemove));
 
   };
+
+  const handleSubCategoryClick = (subCategory) => {
+
+
+    setSelectedSubCategoriesTags((prevTags) => [...prevTags, subCategory.tagName]);
+
+    subCategoriesTextAreaRef.current.focus(); // Focus on the textarea immediately after clicking the tag
+
+    setShowSubCategoriesSuggestions(false); // Hide suggestions
+
+  };
+
+  const handleRemoveSubCategory = (subCategoryToRemove) => {
+
+    setSelectedSubCategories((prevTags) => prevTags.filter(tag => tag !== subCategoryToRemove));
+
+  };
+  
 
   const handleFocus = () => {
 
@@ -177,6 +196,16 @@ const AddAdvertisement = () => {
     tag.tagName.toLowerCase().includes(currentTagsValue.toLowerCase()) &&
 
     !selectedTags.includes(tag.tagName)
+
+  );
+
+  const currentSubCategoriessValue = user.subCategories || "";
+
+  const filteredSubCategoriess = subCategories.filter(subCategories =>
+
+    subCategories.subCategoryName.toLowerCase().includes(currentTagsValue.toLowerCase()) &&
+
+    !selectedSubCategories.includes(subCategories.subCategoryName)
 
   );
 
@@ -474,6 +503,120 @@ const AddAdvertisement = () => {
                     </ul>
 
                   </div>
+
+
+
+
+
+
+
+
+
+
+                  <textarea
+                    aria-label="minimum height"
+                    rows={8}
+                    style={{ width: "50%", marginRight:"40%" }}
+                    onChange={inputHandler}
+                    placeholder="Please Type Here To Search Tags"
+                    // onFocus={handleFocus}
+                    // onBlur={handleBlur}
+                    name="subCategories"
+                  />
+                  {showSubCategoriesSuggestions && filteredSubCategoriess.length > 0 && (
+
+                    <li style={{ cursor: "pointer", position: "absolute", zIndex: 200, marginTop: "-11rem", marginLeft: "12rem" }}>
+
+                      <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+
+                        {filteredSubCategoriess.map((subCategory) => (
+
+                          <li key={subCategory._id} onMouseDown={() => handleSubCategoryClick(subCategory)} style={{ cursor: "pointer", color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem", margin: "0.2rem 0" }}>
+
+                            {subCategory.tagName}
+
+                          </li>
+
+                        ))}
+
+                      </ul>
+
+                    </li>
+
+                  )}
+
+                  <div style={{ marginLeft: "55%",marginTop:"-12rem", marginBottom:"15rem" , zIndex:"99999"}} >
+
+                    <h4 style={{fontSize:"1rem", color: "white", background: "#4E4B51", padding:"0.5rem"}}>Selected Sub-Categories:</h4>
+
+                    <ul>
+
+                      {selectedTags.length === 0 ? "No Tags Selected Yet ! " : selectedTags.map((tag, index) => (
+
+                        <li key={index} style={{ color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem", marginTop: "0.5rem" }}>{subCategory}
+                          <span
+
+                            onClick={() => handleRemoveSubCategory(subCategory)}
+
+                            style={{
+
+                              color: "white",
+                              marginLeft: "0.4rem",
+                              paddingRight: "0.3rem",
+                              paddingLeft: "0.3rem",
+
+                              cursor: "pointer",
+                              float: "right",
+
+                              fontWeight: "bold",
+
+                              fontSize: "1rem",
+                              background: "red"
+
+                            }}
+
+                          >
+
+                            &times; {/* This is the close (X) character */}
+
+                          </span>
+
+                        </li>
+
+                      ))}
+
+                    </ul>
+
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  
 
                   <input
                     type="file"
