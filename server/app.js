@@ -422,6 +422,19 @@ app.post("/api/deleteSelectedAdminsAccount", async (req, res) => {
   }
 });
 
+// All Users API
+
+app.get("/api/allUsersList", async (req, res) => {
+  try {
+    const data = await UsersDB.find();
+    console.log(data);
+
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 //    Tags
 
 app.post("/api/addTag", async (req, res) => {

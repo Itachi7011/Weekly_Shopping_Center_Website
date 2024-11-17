@@ -116,7 +116,8 @@ h1 {
   right: 0px;
   margin: 15px;
   cursor: pointer;
-  padding: 1rem;
+  padding: 0.4rem;
+  border-radius: 5px;
   border: 1px solid white;
 }
 
@@ -243,9 +244,9 @@ header {
 
   position: fixed;
 
-  top: 9%;
+  top: 9%; /* Adjust as needed */
 
-  left: 40%;
+  left: 20%;
 
   right: 1%;
 
@@ -264,6 +265,7 @@ header {
   margin: 0;
 
   padding: 0;
+
   padding-left: 0.3rem;
 
   list-style: none;
@@ -279,6 +281,8 @@ header {
 
 }
 
+
+/* Search Result Item Styles */
 
 .search-result-item {
 
@@ -301,6 +305,127 @@ header {
   display: flex;
 
   align-items: center;
+
+}
+.nav-search-results > h4 {
+  position: sticky; /* Make the heading sticky */
+
+  top: 0; /* Stick to the top of the scrollable area */
+
+  background-color: white; /* Background color to cover content below */
+
+  z-index: 9999; /* Ensure it is above other elements */
+
+  margin: 0; /* Remove default margin */
+
+  padding: 10px; /* Add some padding */
+
+  border-bottom: 1px solid #ccc;
+}
+/* Add Different scroll bars in differen search results */
+
+.users-search-results {
+
+  max-height: 79vh; /* Set a max height for the scrollable area */
+
+  overflow-y: auto; /* Enable vertical scrolling */
+
+}
+
+
+.users-search-results::-webkit-scrollbar {
+
+  width: 10px; /* Width of the scrollbar */
+
+}
+
+
+.users-search-results::-webkit-scrollbar-thumb {
+
+  background: linear-gradient(180deg, #6a82fb, #fc5c7d); /* Gradient color for the scrollbar thumb */
+
+  border-radius: 10px; /* Rounded corners */
+
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+
+}
+
+
+.users-search-results::-webkit-scrollbar-thumb:hover {
+
+  background: linear-gradient(180deg, #fc5c7d, #6a82fb); /* Inverted gradient on hover */
+
+}
+
+
+/* Custom Scrollbar for Navigation Search Results */
+
+.nav-search-results {
+
+  max-height: 79vh; /* Set a max height for the scrollable area */
+
+  overflow-y: auto; /* Enable vertical scrolling */
+
+}
+
+
+.nav-search-results::-webkit-scrollbar {
+
+  width: 10px; /* Width of the scrollbar */
+
+}
+
+
+.nav-search-results::-webkit-scrollbar-thumb {
+
+  background: linear-gradient(180deg, #ff7e5f, #feb47b); /* Gradient color for the scrollbar thumb */
+
+  border-radius: 10px; /* Rounded corners */
+
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+
+}
+
+
+.nav-search-results::-webkit-scrollbar-thumb:hover {
+
+  background: linear-gradient(180deg, #feb47b, #ff7e5f); /* Inverted gradient on hover */
+
+}
+
+
+/* Custom Scrollbar for Product Search Results */
+
+.product-search-results {
+
+  max-height: 79vh; /* Set a max height for the scrollable area */
+
+  overflow-y: auto; /* Enable vertical scrolling */
+
+}
+
+
+.product-search-results::-webkit-scrollbar {
+
+  width: 10px; /* Width of the scrollbar */
+
+}
+
+
+.product-search-results::-webkit-scrollbar-thumb {
+
+  background: linear-gradient(180deg, #00c6ff, #0072ff); /* Gradient color for the scrollbar thumb */
+
+  border-radius: 10px; /* Rounded corners */
+
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+
+}
+
+
+.product-search-results::-webkit-scrollbar-thumb:hover {
+
+  background: linear-gradient(180deg, #0072ff, #00c6ff); /* Inverted gradient on hover */
 
 }
 

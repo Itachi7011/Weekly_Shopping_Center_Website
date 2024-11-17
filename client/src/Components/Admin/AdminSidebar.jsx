@@ -38,6 +38,7 @@ const AdminSidebar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [navSearchContents, setNavSearchContents] = useState({ post: [] });
   const [productsData, setProductsData] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
 
 
 
@@ -66,6 +67,19 @@ const AdminSidebar = () => {
         const data = response.data;
 
         setNavSearchContents({ post: data });
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("/api/allUsersList")
+      .then((response) => {
+        const data = response.data;
+
+        setAllUsers({ post: data });
       })
       .catch((err) => {
         console.log("Error during Data:", err);
@@ -245,6 +259,40 @@ const AdminSidebar = () => {
         {searchTerm && (
 
           <div className="admin-sidebar-search-results-list d-flex justify-content-between">
+
+            <div className="nav-search-results" style={{ flex: 1, marginRight: '10px' }}>
+
+              <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Users Search Results:</h4>
+              <hr />
+
+              {allUsers.post.filter(item =>
+
+                item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+
+                item.userType.toLowerCase().includes(searchTerm.toLowerCase())
+
+              ).map((item, index) => (
+
+                <div key={index} className="search-result-item">
+
+                  <NavLink to={item.link} className="nav1-item" onClick={() => setSearchTerm("")}>
+
+                    <h4 className="nav1-item-name">
+
+                      <i className="fas fa-user me-2"></i>
+
+                      {item.name} &nbsp; ( <span style={{fontWeight:"bolder"}}>  {item.userType} </span> )
+
+                    </h4>
+
+
+                  </NavLink>
+
+                </div>
+
+              ))}
+
+            </div>
 
             <div className="nav-search-results" style={{ flex: 1, marginRight: '10px' }}>
 
