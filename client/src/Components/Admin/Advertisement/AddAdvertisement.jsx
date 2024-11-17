@@ -6,21 +6,21 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Helmet } from "react-helmet";
 
-const AddBankOffer = () => {
+const AddAdvertisement = () => {
   const navigate = useNavigate();
 
   const [content, setContent] = useState("");
   const [Data, setData] = useState("");
-  const [image, setImage] = useState("");
+=  const [image, setImage] = useState("");
 
   let name, value;
   const [user, setUser] = useState({
-    bankName: "",
-    tenure: "",
-    processingFees: "",
-    loanAmount: "",
-    phoneNo: "",
-    rateOfInterest: "",
+    sponserName: "",
+    content: "",
+    position: "",
+    categories: "",
+    subCategories: "",
+    tags: "",
     prepaymentCharges: "",
     foreclosureCharges: "",
     dateOfFormSubmission: "",
@@ -97,7 +97,7 @@ const AddBankOffer = () => {
 
       const response = await axios.post(
 
-        "/api/addBankOffer",
+        "/api/AddAdvertisement",
 
         bodyFormData,
 
@@ -353,4 +353,4 @@ const AddBankOffer = () => {
   );
 };
 
-export default AddBankOffer;
+export default AddAdvertisement;

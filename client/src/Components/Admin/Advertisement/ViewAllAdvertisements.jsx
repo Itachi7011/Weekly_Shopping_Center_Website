@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../../App";
 
-const BankOffersList = () => {
+const ViewAllAdvertisements = () => {
 
   const { state } = useContext(UserContext);
 
@@ -470,4 +470,4 @@ const BankOffersList = () => {
   );
 };
 
-export default BankOffersList;
+export default ViewAllAdvertisements;

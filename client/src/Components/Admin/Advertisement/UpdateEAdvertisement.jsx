@@ -7,7 +7,7 @@ import axios from "axios";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const UpdateBankOffer = () => {
+const UpdateEAdvertisement = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -145,7 +145,7 @@ const UpdateBankOffer = () => {
 
     try {
       const response = await axios.post(
-        "/api/updateBankOffer",
+        "/api/UpdateEAdvertisement",
 
         bodyFormData,
 
@@ -243,7 +243,7 @@ const UpdateBankOffer = () => {
                 </div>
                 <div className="col-lg-8">
                   <form
-                    action="/api/updateBankOffer"
+                    action="/api/UpdateEAdvertisement"
                     method="post"
                   // encType="multipart/form-data"
                   >
@@ -415,4 +415,4 @@ const UpdateBankOffer = () => {
   );
 };
 
-export default UpdateBankOffer;
+export default UpdateEAdvertisement;
