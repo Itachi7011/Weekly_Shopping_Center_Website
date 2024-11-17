@@ -6,6 +6,19 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Helmet } from "react-helmet";
 
+import {
+  Container,
+  Grid,
+  TextField,
+  Button,
+  InputLabel,
+  TextareaAutosize,
+  List,
+  ListItem,
+  ListItemText,
+
+} from "@mui/material";
+
 const AddAdvertisement = () => {
   const navigate = useNavigate();
 
@@ -14,20 +27,21 @@ const AddAdvertisement = () => {
 
   const [content, setContent] = useState("");
   const [Data, setData] = useState("");
- const [image, setImage] = useState("");
+  const [image, setImage] = useState("");
 
- const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState([]);
 
 
- const [tags, setTags] = useState([]);
- const [selectedTags, setSelectedTags] = useState([]);
- const [showTagsSuggestions, setShowTagsSuggestions] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [showTagsSuggestions, setShowTagsSuggestions] = useState(false);
 
 
   let name, value;
   const [user, setUser] = useState({
     sponserName: "",
-    content: "",
+    phoneNo: "",
+    email: "",
     position: "",
     categories: "",
     subCategories: "",
@@ -120,6 +134,22 @@ const AddAdvertisement = () => {
 
   };
 
+  const handleFocus = () => {
+
+    setShowTagsSuggestions(true); // Show suggestions when focused
+
+  };
+
+
+  const handleBlur = () => {
+
+    setTimeout(() => setShowTagsSuggestions(false), 100); // Delay to allow click event on suggestions
+
+  };
+
+  const filteredTags = tags.filter(tag => !selectedTags.includes(tag.tagName));
+
+
   const handleSubmit = async (e) => {
 
     e.preventDefault();
@@ -128,22 +158,21 @@ const AddAdvertisement = () => {
 
     var bodyFormData = new FormData();
 
-    bodyFormData.append("bankName", user.bankName);
-
-    bodyFormData.append("tenure", user.tenure);
+    bodyFormData.append("sponserName", user.sponserName);
     bodyFormData.append("phoneNo", user.phoneNo);
+    bodyFormData.append("email", user.email);
 
-    bodyFormData.append("processingFees", user.processingFees);
+    bodyFormData.append("position", user.position);
 
-    bodyFormData.append("loanAmount", user.loanAmount);
+    bodyFormData.append("categories", user.categories);
 
-    bodyFormData.append("rateOfInterest", user.rateOfInterest);
-    bodyFormData.append("prepaymentCharges", user.prepaymentCharges);
-    bodyFormData.append("otherInformation", content);
+    bodyFormData.append("subCategories", user.subCategories);
 
-    bodyFormData.append("logo", image);
+    bodyFormData.append("tags", user.tags);
+    bodyFormData.append("content", content);
 
-    bodyFormData.append("foreclosureCharges", user.foreclosureCharges);
+    bodyFormData.append("images", image);
+
 
 
 
@@ -191,7 +220,7 @@ const AddAdvertisement = () => {
       <div className="container" style={{ backgroundColor: "#808080", marginTop: "7rem" }}>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>My Title</title>
+          <title>Add Advertisement</title>
           {/* <link rel="canonical" href="http://mysite.com/example" /> */}
         </Helmet>
         <div className="row justify-content-center">
@@ -205,8 +234,8 @@ const AddAdvertisement = () => {
               borderRadius: "5px",
             }}
           >
-            <h3 className="text-center" style={{ marginBottom: "0.5rem", color: "white", fontSize:"1.5rem" }}>
-              Add New Bank Offer
+            <h3 className="text-center" style={{ marginBottom: "0.5rem", color: "white", fontSize: "1.5rem" }}>
+              Add New Advertisement
             </h3>
             <div
               className="innerDiv container"
@@ -220,31 +249,31 @@ const AddAdvertisement = () => {
               <div className="row">
                 <div className="col-12 col-lg-3 mt-2 ">
                   <h6 style={{ marginBottom: "2.7rem", fontSize: "1rem" }}>
-                    Bank Name :
+                    Sponser Name :
                   </h6>
                   <h6 style={{ marginBottom: "2.5rem", fontSize: "1rem" }}>
                     Phone Number :
                   </h6>
                   <h6 style={{ marginBottom: "3rem", fontSize: "1rem" }}>
-                    Tenure :
+                    Email :
                   </h6>
                   <h6 style={{ marginBottom: "2.3rem", fontSize: "1rem" }}>
-                    Processing Fees :
+                    Position :
                   </h6>
                   <h6 style={{ marginBottom: "1.6rem", fontSize: "1rem" }}>
-                    Rate Of Interest (% Per Year):
+                    Sub-Categories:
                   </h6>
                   <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
-                    Loan Amount :
+                    Sub :
                   </h6>
                   <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
-                    Prepayment Charges :
+                    Tags :
                   </h6>
                   <h6 style={{ marginBottom: "2rem", fontSize: "1rem" }}>
                     Foreclosure Charges :
                   </h6>
                   <h6 style={{ marginBottom: "4.8rem", fontSize: "1rem" }}>
-                    Logo :
+                    Image :
                   </h6>
                   <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                     Other Information :
@@ -255,7 +284,7 @@ const AddAdvertisement = () => {
 
                   <input
                     type="text"
-                    name="bankName"
+                    name="sponserName"
                     style={{ fontWeight: "400" }}
                     onChange={inputHandler}
                     placeholder=""
@@ -271,7 +300,7 @@ const AddAdvertisement = () => {
                   />
                   <input
                     type="text"
-                    name="tenure"
+                    name="email"
                     style={{ fontWeight: "400" }}
                     onChange={inputHandler}
                     placeholder=""
@@ -319,6 +348,68 @@ const AddAdvertisement = () => {
                     placeholder=""
                     className="form-control mb-4"
                   />
+
+                  {showTagsSuggestions && filteredTags.length > 0 && (
+
+                    <l style={{ cursor: "pointer", position: "absolute", zIndex: 200 }}>
+
+                      {filteredTags.map((tag) => (
+
+                        <ListItem button key={tag._id} onMouseDown={() => handleTagClick(tag)} style={{ cursor: "pointer" }}>
+
+                          <ListItemText primary={tag.tagName} style={{ color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem" }} />
+
+                        </ListItem>
+
+                      ))}
+
+                    </l>
+
+                  )}
+
+                  <div style={{ marginLeft: "5%" }} >
+
+                    <h4>Selected Tags:</h4>
+
+                    <ul>
+
+                      {selectedTags.length === 0 ? "No Tags Selected Yet ! " : selectedTags.map((tag, index) => (
+
+                        <li key={index} style={{ color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem", marginTop: "0.5rem" }}>{tag}
+                          <span
+
+                            onClick={() => handleRemoveTag(tag)}
+
+                            style={{
+
+                              color: "white",
+                              marginLeft: "0.4rem",
+                              paddingRight: "0.3rem",
+                              paddingLeft: "0.3rem",
+
+                              cursor: "pointer",
+                              float: "right",
+
+                              fontWeight: "bold",
+
+                              fontSize: "1rem",
+                              background: "red"
+
+                            }}
+
+                          >
+
+                            &times; {/* This is the close (X) character */}
+
+                          </span>
+
+                        </li>
+
+                      ))}
+
+                    </ul>
+
+                  </div>
 
                   <input
                     type="file"

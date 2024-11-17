@@ -5,13 +5,15 @@ const W_Mark_Market_Page_Specific_Advetises = new mongoose.Schema({
     sponserName: {
         type: String,
     },
-    content: {
+    phoneNo: {
         type: String,
     },
-    position: [{
+    email: {
         type: String,
-    }],
-    categories: [{
+    },
+
+
+    position: [{
         type: String,
     }],
 
@@ -21,13 +23,16 @@ const W_Mark_Market_Page_Specific_Advetises = new mongoose.Schema({
     tags: [{
         type: String,
     }],
-    images:
-        [{
-            data: String,
-            originalFileName: String,
-            publicId: String,
-            contentType: String,
-        }],
+    image:
+    {
+        data: String,
+        originalFileName: String,
+        publicId: String,
+        contentType: String,
+    },
+    content: {
+        type: String,
+    },
     dateOfFormSubmission: {
         type: String,
     },
