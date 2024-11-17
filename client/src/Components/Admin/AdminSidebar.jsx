@@ -234,7 +234,7 @@ const AdminSidebar = () => {
     <>
 
       <div className="admin-navbar"
-        style={{ marginLeft: sidebarActive ? "8rem" : "0rem" }}
+        style={{ marginLeft: sidebarActive ? "9rem" : "0rem" }}
       >
 
         <div

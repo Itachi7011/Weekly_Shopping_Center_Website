@@ -9,9 +9,20 @@ import { Helmet } from "react-helmet";
 const AddAdvertisement = () => {
   const navigate = useNavigate();
 
+  const tadsTextAreaRef = useRef(null);
+
+
   const [content, setContent] = useState("");
   const [Data, setData] = useState("");
-=  const [image, setImage] = useState("");
+ const [image, setImage] = useState("");
+
+ const [category, setCategory] = useState([]);
+
+
+ const [tags, setTags] = useState([]);
+ const [selectedTags, setSelectedTags] = useState([]);
+ const [showTagsSuggestions, setShowTagsSuggestions] = useState(false);
+
 
   let name, value;
   const [user, setUser] = useState({
@@ -56,6 +67,32 @@ const AddAdvertisement = () => {
 
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("/api/tagsList")
+      .then((response) => {
+        const data = response.data;
+
+        setTags(data);
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("/api/categoriesList")
+      .then((response) => {
+        const data = response.data;
+
+        setCategory(data);
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+
   const inputHandler = (e) => {
     name = e.target.name;
     value = e.target.value;
@@ -64,6 +101,23 @@ const AddAdvertisement = () => {
       ...user,
       [name]: value,
     });
+  };
+
+  const handleTagClick = (tag) => {
+
+
+    setSelectedTags((prevTags) => [...prevTags, tag.tagName]);
+
+    tadsTextAreaRef.current.focus(); // Focus on the textarea immediately after clicking the tag
+
+    setShowTagsSuggestions(false); // Hide suggestions
+
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+
+    setSelectedTags((prevTags) => prevTags.filter(tag => tag !== tagToRemove));
+
   };
 
   const handleSubmit = async (e) => {

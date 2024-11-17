@@ -28,11 +28,6 @@ const W_Mark_Market_Page_Specific_Advetises = new mongoose.Schema({
             publicId: String,
             contentType: String,
         }],
-    status: {
-        type: String,
-        default: "Active"
-    },
-
     dateOfFormSubmission: {
         type: String,
     },
