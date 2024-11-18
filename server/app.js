@@ -487,15 +487,19 @@ app.post("/api/AddAdvertisement", AdvertisementImageMulter, async (req, res) => 
 
     const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
 
-    const cldResLogoFile = await uploadToCloudinaryMarkets(dataURIlogoFile);
+    const cldResLogoFile = await uploadToCloudinaryAdvertisement(dataURIlogoFile);
 
     const userData = await new AdvertisementsDB({
       sponserName: req.body.sponserName,
       phoneNo: req.body.phoneNo,
       email: req.body.email,
-      position: req.body.position.split(',').map(pos => pos.trim()),
-      subCategories: JSON.parse(req.body.subCategories),
-      tags: JSON.parse(req.body.tags),
+
+      position: Array.isArray(req.body.position) ? req.body.position : (typeof req.body.position === 'string' ? req.body.position.split(',').map(pos => pos.trim()) : []),
+
+      subCategories: Array.isArray(req.body.subCategories) ? req.body.subCategories : (typeof req.body.subCategories === 'string' ? req.body.subCategories.split(',').map(pos => pos.trim()) : []),
+
+      tags: Array.isArray(req.body.tags) ? req.body.tags : (typeof req.body.tags === 'string' ? req.body.tags.split(',').map(pos => pos.trim()) : []),
+
       content: req.body.content,
       createdByName: req.body.createdByName,
       createdByUserType: req.body.createdByUserType,
