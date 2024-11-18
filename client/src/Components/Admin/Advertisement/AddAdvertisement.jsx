@@ -34,7 +34,7 @@ const AddAdvertisement = () => {
   const [showTagsSuggestions, setShowTagsSuggestions] = useState(false);
 
   const [subCategories, setSubCategories] = useState([]);
-  const [selectedSubCategories, setSelectedSubCategoriesTags] = useState([]);
+  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [showSubCategoriesSuggestions, setShowSubCategoriesSuggestions] = useState(false);
 
 
@@ -44,7 +44,7 @@ const AddAdvertisement = () => {
     sponserName: "",
     phoneNo: "",
     email: "",
-    position: "",
+    position: [],
     categories: "",
     subCategories: "",
     tags: "",
@@ -109,28 +109,80 @@ const AddAdvertisement = () => {
       });
   }, []);
 
+
   const inputHandler = (e) => {
-    name = e.target.name;
-    value = e.target.value;
 
-    setUser({
-      ...user,
-      [name]: value,
-    });
+    const { name, value, checked } = e.target;
 
-    // If the textarea is for tags, update showTagsSuggestions based on its value
 
-    if (name === "tags") {
+    // For checkbox inputs, handle the position array
 
-      // Show suggestions only if there's text
+    if (name === "position") {
 
-      setShowTagsSuggestions(value.trim().length > 0);
+        setUser ((prevUser ) => {
+
+            const positionArray = prevUser .position || []; // Ensure it starts as an array
+
+
+            // Add or remove the value based on whether the checkbox is checked
+
+            if (checked) {
+
+                // Add the value to the array if checked
+
+                return {
+
+                    ...prevUser ,
+
+                    position: [...positionArray, value],
+
+                };
+
+            } else {
+
+                // Remove the value from the array if unchecked
+
+                return {
+
+                    ...prevUser ,
+
+                    position: positionArray.filter((pos) => pos !== value),
+
+                };
+
+            }
+
+        });
+
+    } else {
+
+        const value = e.target.value;
+
+        setUser ({
+
+            ...user,
+
+            [name]: value,
+
+        });
+
+
+        if (name === "tags") {
+
+            setShowTagsSuggestions(value.trim().length > 0);
+
+        }
+
+        if (name === "subCategories") {
+
+            setShowSubCategoriesSuggestions(value.trim().length > 0);
+
+        }
 
     }
 
-  };
+};
 
-  
 
   const handleTagClick = (tag) => {
 
@@ -148,19 +200,34 @@ const AddAdvertisement = () => {
     setSelectedTags((prevTags) => prevTags.filter(tag => tag !== tagToRemove));
 
   };
+  const handleSubCategoryClick = (subCategory, name) => {
 
-  const handleFocus = () => {
+    // Check if the clicked name is already selected
 
-    setShowTagsSuggestions(true); // Show suggestions when focused
+    if (!selectedSubCategories.includes(name) && selectedSubCategories.length < 5) {
+
+      setSelectedSubCategories((prevTags) => [...prevTags, name]);
+
+    } else if (selectedSubCategories.length >= 5) {
+
+      alert("You can select a maximum of 5 subcategories.");
+
+    }
+
+
+    tadsTextAreaRef.current.focus(); // Focus on the textarea immediately after clicking the subcategory
+
+    setShowSubCategoriesSuggestions(false); // Hide suggestions
+
+  };
+
+  const handleRemoveSubCategory = (subCategoryToRemove) => {
+
+    setSelectedSubCategories((prevTags) => prevTags.filter(tag => tag !== subCategoryToRemove));
 
   };
 
 
-  const handleBlur = () => {
-
-    setTimeout(() => setShowTagsSuggestions(false), 100); // Delay to allow click event on suggestions
-
-  };
 
   const currentTagsValue = user.tags || "";
 
@@ -172,6 +239,25 @@ const AddAdvertisement = () => {
 
   );
 
+
+
+  const currentSubCategoriesValue = user.subCategories || "";
+
+  const filteredSubCategories = subCategories.filter(subCategory =>
+
+    subCategory.subCategoryName.some(name => {
+
+      const isMatch = name.toLowerCase().includes(currentSubCategoriesValue.toLowerCase());
+
+
+      return isMatch;
+
+    })
+
+  );
+
+
+  console.log("Filtered Subcategories:", filteredSubCategories);
   const handleSubmit = async (e) => {
 
     e.preventDefault();
@@ -184,18 +270,23 @@ const AddAdvertisement = () => {
     bodyFormData.append("phoneNo", user.phoneNo);
     bodyFormData.append("email", user.email);
 
-    bodyFormData.append("position", user.position);
+    user.position.forEach((pos) => {
 
-    bodyFormData.append("categories", user.categories);
+      bodyFormData.append("position[]", pos); // Use "position[]" to indicate an array
 
-    bodyFormData.append("subCategories", user.subCategories);
+  });
 
-    bodyFormData.append("tags", user.tags);
+    bodyFormData.append("subCategories", selectedSubCategories);
+
+    bodyFormData.append("tags", selectedTags);
     bodyFormData.append("content", content);
+    bodyFormData.append("createdByName", Data.name);
+    bodyFormData.append("createdByUserType", Data.userType);
 
-    bodyFormData.append("images", image);
+    bodyFormData.append("image", image);
 
 
+    console.log(bodyFormData)
 
 
     try {
@@ -212,16 +303,17 @@ const AddAdvertisement = () => {
           headers: {
 
             "Content-Type": "multipart/form-data",
+            // "Content-Type": "application/json",
 
           },
 
         }
 
       );
-      alert("New Bank Offer added Successfully");
+      // alert("New Bank Offer added Successfully");
 
 
-      window.location.reload();
+      // window.location.reload();
 
     } catch (error) {
 
@@ -232,6 +324,8 @@ const AddAdvertisement = () => {
     }
 
   };
+
+
 
   if (Data.userType !== "Admin") {
     return <div></div>;
@@ -270,34 +364,29 @@ const AddAdvertisement = () => {
 
               <div className="row">
                 <div className="col-12 col-lg-3 mt-2 ">
-                  <h6 style={{ marginBottom: "2.7rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.9rem", fontSize: "1rem" }}>
                     Sponser Name :
                   </h6>
-                  <h6 style={{ marginBottom: "2.5rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.9rem", fontSize: "1rem" }}>
                     Phone Number :
                   </h6>
-                  <h6 style={{ marginBottom: "3rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                     Email :
                   </h6>
-                  <h6 style={{ marginBottom: "2.3rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "3.5rem", fontSize: "1rem" }}>
                     Position :
                   </h6>
-                  <h6 style={{ marginBottom: "1.6rem", fontSize: "1rem" }}>
-                    Sub-Categories:
-                  </h6>
-                  <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
-                    Sub :
-                  </h6>
-                  <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "14.6rem", fontSize: "1rem" }}>
                     Tags :
                   </h6>
-                  <h6 style={{ marginBottom: "2rem", fontSize: "1rem" }}>
-                    Foreclosure Charges :
+                  <h6 style={{ marginBottom: "12rem", fontSize: "1rem" }}>
+                    Sub-Categories :
                   </h6>
+
                   <h6 style={{ marginBottom: "4.8rem", fontSize: "1rem" }}>
                     Image :
                   </h6>
-                  <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
+                  <h6 style={{ marginBottom: "2.8rem", marginTop: !image ? "0.1rem" : "14rem", fontSize: "1rem" }}>
                     Other Information :
                   </h6>
 
@@ -340,6 +429,7 @@ const AddAdvertisement = () => {
 
                     </label>
 
+
                     <label className="checkbox-option">
 
                       <input type="checkbox" name="position" value="middle" onChange={inputHandler} />
@@ -347,6 +437,7 @@ const AddAdvertisement = () => {
                       <span className="checkbox-label">Middle</span>
 
                     </label>
+
 
                     <label className="checkbox-option">
 
@@ -358,43 +449,14 @@ const AddAdvertisement = () => {
 
                   </div>
 
-                  <input
-                    type="text"
-                    name="rateOfInterest"
-                    style={{ fontWeight: "400" }}
-                    onChange={inputHandler}
-                    placeholder=""
-                    className="form-control mb-4"
-                  />
-                  <input
-                    type="text"
-                    name="loanAmount"
-                    style={{ fontWeight: "400" }}
-                    onChange={inputHandler}
-                    placeholder=""
-                    className="form-control mb-4"
-                  />
-                  <input
-                    type="text"
-                    name="prepaymentCharges"
-                    style={{ fontWeight: "400" }}
-                    onChange={inputHandler}
-                    placeholder=""
-                    className="form-control mb-4"
-                  />
-                  <input
-                    type="text"
-                    name="foreclosureCharges"
-                    style={{ fontWeight: "400" }}
-                    onChange={inputHandler}
-                    placeholder=""
-                    className="form-control mb-4"
-                  />
+
+                  {/* Tags Input Fields */}
 
                   <textarea
+                    className="mt-4"
                     aria-label="minimum height"
                     rows={8}
-                    style={{ width: "50%", marginRight:"40%" }}
+                    style={{ width: "50%", marginRight: "40%" }}
                     onChange={inputHandler}
                     placeholder="Please Type Here To Search Tags"
                     // onFocus={handleFocus}
@@ -423,9 +485,9 @@ const AddAdvertisement = () => {
 
                   )}
 
-                  <div style={{ marginLeft: "55%",marginTop:"-12rem", marginBottom:"15rem" , zIndex:"99999"}} >
+                  <div style={{ marginLeft: "55%", marginTop: "-12rem", marginBottom: "15rem", zIndex: "99999" }} >
 
-                    <h4 style={{fontSize:"1rem", color: "white", background: "#4E4B51", padding:"0.5rem"}}>Selected Tags:</h4>
+                    <h4 style={{ fontSize: "1rem", color: "white", background: "#4E4B51", padding: "0.5rem" }}>Selected Tags (Max: 5 ):</h4>
 
                     <ul>
 
@@ -467,10 +529,120 @@ const AddAdvertisement = () => {
 
                   </div>
 
+
+                  {/* Subcategories Input Fields */}
+
+
+                  <textarea
+
+                    aria-label="minimum height"
+                    rows={8}
+                    style={{ width: "50%", marginRight: "40%", marginTop: "-5rem" }}
+                    onChange={inputHandler}
+                    placeholder="Please Type Here To Search Tags"
+                    // onFocus={handleFocus}
+                    // onBlur={handleBlur}
+                    name="subCategories"
+                  />
+
+
+                  {showSubCategoriesSuggestions && filteredSubCategories.length > 0 && (
+
+                    <li style={{ cursor: "pointer", position: "absolute", zIndex: 200, marginTop: "-11rem", marginLeft: "12rem" }}>
+
+                      <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+
+                        {filteredSubCategories.map((subCategory) => (
+
+                          subCategory.subCategoryName
+
+                            .filter(name => !selectedSubCategories.includes(name)) // Filter out already selected names
+
+                            .map(name => (
+
+                              <li key={name} onMouseDown={() => handleSubCategoryClick(subCategory, name)} style={{ cursor: "pointer", color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem", margin: "0.2rem 0" }}>
+
+                                {name}
+
+                              </li>
+
+                            ))
+
+                        ))}
+
+                      </ul>
+
+                    </li>
+
+                  )}
+
+
+                  <div style={{ marginLeft: "55%", marginTop: "-12rem", marginBottom: "15rem", zIndex: "99999" }}>
+
+                    <h4 style={{ fontSize: "1rem", color: "white", background: "#4E4B51", padding: "0.5rem" }}>Selected Sub-Categories (Max: 5):</h4>
+
+                    <ul>
+
+                      {selectedSubCategories.length === 0 ? "No Subcategories Selected Yet!" : selectedSubCategories.map((subCategory, index) => (
+
+                        <li key={index} style={{ color: "white", background: "blue", borderRadius: "5px", padding: "0.2rem", marginTop: "0.5rem" }}>{subCategory}
+
+                          <span
+
+                            onClick={() => handleRemoveSubCategory(subCategory)}
+
+                            style={{
+
+                              color: "white",
+
+                              marginLeft: "0.4rem",
+
+                              paddingRight: "0.3rem",
+
+                              paddingLeft: "0.3rem",
+
+                              cursor: "pointer",
+
+                              float: "right",
+
+                              fontWeight: "bold",
+
+                              fontSize: "1rem",
+
+                              background: "red"
+
+                            }}
+
+                          >
+
+                            &times; {/* This is the close (X) character */}
+
+                          </span>
+
+                        </li>
+
+                      ))}
+
+                    </ul>
+
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
                   <input
                     type="file"
                     name="logo"
-                    style={{ fontWeight: "400" }}
+                    style={{ fontWeight: "400", marginTop: "-5rem" }}
                     onChange={(e) => {
                       setImage(e.target.files[0]);
 
@@ -479,6 +651,59 @@ const AddAdvertisement = () => {
                     placeholder=""
                     className="form-control mb-4"
                   />
+
+                  {image && (
+
+                    <div style={{ marginTop: "1rem", position: "relative", display: "inline-block",marginBottom:"1rem" }}>
+
+                      <button
+
+                        onClick={() => setImage("")}
+
+                        style={{
+
+                          position: "absolute",
+
+                          top: "0",
+
+                          right: "0",
+
+                          padding: "0.2rem 0.4rem",
+
+                          color: "white",
+                          outline: " 5px solid white",
+
+                          background: "red",
+
+                          fontSize: "1rem",
+
+                          fontWeight: "bolder",
+
+                          border: "none",
+
+                          cursor: "pointer"
+
+                        }}
+
+                      >
+
+                        X
+
+                      </button>
+
+                      <img
+
+                        src={URL.createObjectURL(image)}
+
+                        alt="Uploaded Preview"
+
+                        style={{ width: '300px', height: '200px', borderRadius: '5px' }} // Adjust styles as needed
+
+                      />
+
+                    </div>
+
+                  )}
 
                   <br />
 
@@ -510,6 +735,8 @@ const AddAdvertisement = () => {
                       height: "800px !important",
                       maxHeight: "800px !important",
                       marginBottom: "1rem",
+                      marginTop: "1rem",
+
                     }}
                     editor={ClassicEditor}
                     onReady={(editor) => {

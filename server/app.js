@@ -433,6 +433,87 @@ app.get("/api/allUsersList", async (req, res) => {
   }
 });
 
+// Advertisement
+
+
+const uploadToCloudinaryAdvertisement = async (file) => {
+  try {
+    console.log("upload starts");
+    const result = await cloudinary.uploader.upload(file, {
+      folder: "W_Mark_Advetises",
+      resource_type: "auto",
+    });
+    console.log(result);
+
+    return result;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+const AdvertisementImageMulter = multer({
+  storage: cloudinaryStorage,
+
+  limits: {
+    fileSize: 10 * 1024 * 1024, // Limit file size to 10MB
+  },
+
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
+      // Allow only image files
+
+      return cb(new Error("Please upload an image (JPG, JPEG or PNG)."));
+    }
+
+    cb(null, true);
+  },
+}).fields([{ name: "image", minCount: 1, maxCount: 1 }]);
+
+
+
+
+app.post("/api/AddAdvertisement",AdvertisementImageMulter, async (req, res) => {
+  try {
+    console.log(req.files.image);
+
+    const photo = req.files.image[0];
+
+    const bufferlogo = photo.buffer;
+
+    const b64logoFile = Buffer.from(bufferlogo).toString("base64");
+
+    const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
+
+    const cldResLogoFile = await uploadToCloudinaryMarkets(dataURIlogoFile);
+
+    const userData = await new MarketsDB({
+      sponserName: req.body.name,
+      phoneNo: req.body.name,
+      email: req.body.state,
+      position: req.body.district,
+      subCategories: req.body.location,
+      tags: req.body.totalShops,
+      content: JSON.parse(req.body.speciality),
+      createdByName: req.body.createdBy,
+      createdByUserType: new Date(),
+      dateOfFormSubmission: new Date(),
+      photo: {
+        data: cldResLogoFile.secure_url,
+        originalFileName: photo.originalname,
+        publicId: cldResLogoFile.public_id,
+        contentType: `image/${cldResLogoFile.format}`,
+      },
+    });
+
+    await userData.save();
+    console.log("New Market Added in Database Successfully");
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
 //    Tags
 
 app.post("/api/addTag", async (req, res) => {

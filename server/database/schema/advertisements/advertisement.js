@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { buffer } = require("stream/consumers");
 
-const W_Mark_Market_Page_Specific_Advetises = new mongoose.Schema({
+const W_Mark_Advetises = new mongoose.Schema({
     sponserName: {
         type: String,
     },
@@ -33,13 +33,19 @@ const W_Mark_Market_Page_Specific_Advetises = new mongoose.Schema({
     content: {
         type: String,
     },
+    createdByName: {
+        type: String,
+    },
+    createdByUserType: {
+        type: String,
+    },
     dateOfFormSubmission: {
         type: String,
     },
 });
 
 const MarketPageSpecificAdvetises = new mongoose.model(
-    "W_Mark_Market_Page_Specific_Advetises",
-    W_Mark_Market_Page_Specific_Advetises
+    "W_Mark_Advetises",
+    W_Mark_Advetises
 );
 module.exports = MarketPageSpecificAdvetises;
