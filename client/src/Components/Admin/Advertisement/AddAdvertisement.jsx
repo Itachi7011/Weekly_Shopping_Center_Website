@@ -6,18 +6,6 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Helmet } from "react-helmet";
 
-import {
-  Container,
-  Grid,
-  TextField,
-  Button,
-  InputLabel,
-  TextareaAutosize,
-  List,
-  ListItem,
-  ListItemText,
-
-} from "@mui/material";
 
 const AddAdvertisement = () => {
   const navigate = useNavigate();
@@ -39,15 +27,12 @@ const AddAdvertisement = () => {
 
 
 
-  let name, value;
   const [user, setUser] = useState({
     sponserName: "",
     phoneNo: "",
     email: "",
     position: [],
     categories: "",
-    subCategories: "",
-    tags: "",
     prepaymentCharges: "",
     foreclosureCharges: "",
     dateOfFormSubmission: "",
@@ -109,13 +94,10 @@ const AddAdvertisement = () => {
       });
   }, []);
 
-
   const inputHandler = (e) => {
 
     const { name, value, checked } = e.target;
 
-
-    // For checkbox inputs, handle the position array
 
     if (name === "position") {
 
@@ -124,23 +106,25 @@ const AddAdvertisement = () => {
             const positionArray = prevUser .position || []; // Ensure it starts as an array
 
 
-            // Add or remove the value based on whether the checkbox is checked
+            // If the checkbox is checked, add the value if it's not already in the array
 
             if (checked) {
 
-                // Add the value to the array if checked
+                if (!positionArray.includes(value)) {
 
-                return {
+                    return {
 
-                    ...prevUser ,
+                        ...prevUser ,
 
-                    position: [...positionArray, value],
+                        position: [...positionArray, value],
 
-                };
+                    };
+
+                }
 
             } else {
 
-                // Remove the value from the array if unchecked
+                // If the checkbox is unchecked, remove the value from the array
 
                 return {
 
@@ -151,6 +135,8 @@ const AddAdvertisement = () => {
                 };
 
             }
+
+            return prevUser ; // Return the previous state if no changes were made
 
         });
 
@@ -172,6 +158,7 @@ const AddAdvertisement = () => {
             setShowTagsSuggestions(value.trim().length > 0);
 
         }
+
 
         if (name === "subCategories") {
 
@@ -257,7 +244,7 @@ const AddAdvertisement = () => {
   );
 
 
-  console.log("Filtered Subcategories:", filteredSubCategories);
+  console.log("Current Position State:", user.position);
   const handleSubmit = async (e) => {
 
     e.preventDefault();
@@ -276,9 +263,25 @@ const AddAdvertisement = () => {
 
   });
 
-    bodyFormData.append("subCategories", selectedSubCategories);
 
-    bodyFormData.append("tags", selectedTags);
+
+selectedSubCategories.forEach((subCategory) => {
+
+  bodyFormData.append("subCategories[]", subCategory); // Use "subCategories[]" to indicate an array
+
+});
+
+
+// Append selectedTags as an array
+
+selectedTags.forEach((tag) => {
+
+  bodyFormData.append("tags[]", tag); // Use "tags[]" to indicate an array
+
+});
+
+
+
     bodyFormData.append("content", content);
     bodyFormData.append("createdByName", Data.name);
     bodyFormData.append("createdByUserType", Data.userType);

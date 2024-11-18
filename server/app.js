@@ -45,6 +45,7 @@ const BankOfferDB = require("./database/schema/BankOffers/bankOffers");
 const NavbarItemsDB = require("./database/schema/navbarItems");
 const MarketsDB = require("./database/schema/markets/markets");
 const ProductsDB = require("./database/schema/products/products");
+const AdvertisementsDB = require("./database/schema/advertisements/advertisement");
 const AdminNavbarSettingContentDB = require("./database/schema/adminNavbarSettingContent");
 
 const CloudinaryDB = process.env.CLOUD_NAME;
@@ -473,9 +474,10 @@ const AdvertisementImageMulter = multer({
 
 
 
-app.post("/api/AddAdvertisement",AdvertisementImageMulter, async (req, res) => {
+app.post("/api/AddAdvertisement", AdvertisementImageMulter, async (req, res) => {
   try {
     console.log(req.files.image);
+    console.log(req.body);
 
     const photo = req.files.image[0];
 
@@ -487,18 +489,18 @@ app.post("/api/AddAdvertisement",AdvertisementImageMulter, async (req, res) => {
 
     const cldResLogoFile = await uploadToCloudinaryMarkets(dataURIlogoFile);
 
-    const userData = await new MarketsDB({
-      sponserName: req.body.name,
-      phoneNo: req.body.name,
-      email: req.body.state,
-      position: req.body.district,
-      subCategories: req.body.location,
-      tags: req.body.totalShops,
-      content: JSON.parse(req.body.speciality),
-      createdByName: req.body.createdBy,
-      createdByUserType: new Date(),
+    const userData = await new AdvertisementsDB({
+      sponserName: req.body.sponserName,
+      phoneNo: req.body.phoneNo,
+      email: req.body.email,
+      position: req.body.position.split(',').map(pos => pos.trim()),
+      subCategories: JSON.parse(req.body.subCategories),
+      tags: JSON.parse(req.body.tags),
+      content: req.body.content,
+      createdByName: req.body.createdByName,
+      createdByUserType: req.body.createdByUserType,
       dateOfFormSubmission: new Date(),
-      photo: {
+      image: {
         data: cldResLogoFile.secure_url,
         originalFileName: photo.originalname,
         publicId: cldResLogoFile.public_id,

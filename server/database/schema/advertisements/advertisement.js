@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { buffer } = require("stream/consumers");
 
-const W_Mark_Advetises = new mongoose.Schema({
+const W_Mark_Advertises = new mongoose.Schema({
     sponserName: {
         type: String,
     },
@@ -45,7 +45,7 @@ const W_Mark_Advetises = new mongoose.Schema({
 });
 
 const MarketPageSpecificAdvetises = new mongoose.model(
-    "W_Mark_Advetises",
-    W_Mark_Advetises
+    "W_Mark_Advertises",
+    W_Mark_Advertises
 );
 module.exports = MarketPageSpecificAdvetises;
