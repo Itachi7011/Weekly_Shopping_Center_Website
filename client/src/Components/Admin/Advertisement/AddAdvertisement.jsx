@@ -141,9 +141,7 @@ const AddAdvertisement = () => {
         });
 
     } else {
-
         const value = e.target.value;
-
         setUser ({
 
             ...user,
