@@ -18,6 +18,9 @@ const ViewAllAdvertisements = () => {
   const [Localities, setLocalities] = useState({ post: [] });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const [isEnabled, setIsEnabled] = useState({});
+
   // These 3 are React alert setStates
   const [status, setStatus] = useState(false);
   const [type, setType] = useState("success");
@@ -357,7 +360,31 @@ const ViewAllAdvertisements = () => {
                                 dangerouslySetInnerHTML={{ __html: truncateString(content, 20) }}
 
                               ></td>
-                              <td>{isEnable}</td>
+                              <td>
+
+                                <label className="switch">
+
+                                  <input
+
+                                    type="checkbox"
+
+                                    checked={isEnabled[_id] || false}
+
+                                    onChange={() => setIsEnabled(prevState => ({
+
+                                      ...prevState,
+                                    
+                                      [_id]: !prevState[_id] // Toggle the state for the specific advertisement
+                                    
+                                    }))}
+
+                                  />
+
+                                  <span className="slider round"></span>
+
+                                </label>
+
+                              </td>
                               <td>
                                 <form method="POST" action="/deleteSubLocality">
 
