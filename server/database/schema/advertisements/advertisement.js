@@ -11,7 +11,13 @@ const W_Mark_Advertises = new mongoose.Schema({
     email: {
         type: String,
     },
-
+    redirectLink: {
+        type: String,
+    },
+    isEnable: {
+        type: Boolean,
+        default: false,
+    },
 
     position: [{
         type: String,

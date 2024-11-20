@@ -253,12 +253,14 @@ const ViewAllAdvertisements = () => {
                   <th>Image</th>
                   <th>Sponser Name</th>
                   <th>Contact Info.</th>
+                  <th>Redirected Link</th>
                   <th>Position</th>
                   <th>Sub-Categories</th>
                   <th>Tags</th>
                   <th>Created By</th>
 
                   <th>Other Info.</th>
+                  <th>Status</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </thead>
@@ -268,6 +270,7 @@ const ViewAllAdvertisements = () => {
                       sponserName,
                       phoneNo,
                       email,
+                      redirectLink,
                       position,
                       subCategories,
                       tags,
@@ -276,6 +279,7 @@ const ViewAllAdvertisements = () => {
                       createdByUserType,
                       dateOfFormSubmission,
                       image,
+                      isEnable,
                       content,
                       _id,
                     },
@@ -307,6 +311,8 @@ const ViewAllAdvertisements = () => {
                             </td>
                             <td>{sponserName}</td>
                             <td> <i className="fa-solid fa-phone"></i> {phoneNo} , <br/><i className="fa-solid fa-envelope"></i> {email}</td>
+                            <td>{redirectLink}</td>
+
                             <td>
 
                               <ol>
@@ -350,6 +356,7 @@ const ViewAllAdvertisements = () => {
                               dangerouslySetInnerHTML={{ __html: truncateString(content, 20) }}
 
                             ></td>
+                            <td>{isEnable}</td>
                             <td>
                               <form method="POST" action="/deleteSubLocality">
 

@@ -493,6 +493,7 @@ app.post("/api/AddAdvertisement", AdvertisementImageMulter, async (req, res) => 
       sponserName: req.body.sponserName,
       phoneNo: req.body.phoneNo,
       email: req.body.email,
+      redirectLink: req.body.redirectLink,
 
       position: Array.isArray(req.body.position) ? req.body.position : (typeof req.body.position === 'string' ? req.body.position.split(',').map(pos => pos.trim()) : []),
 
@@ -514,7 +515,7 @@ app.post("/api/AddAdvertisement", AdvertisementImageMulter, async (req, res) => 
     });
 
     await userData.save();
-    console.log("New Market Added in Database Successfully");
+    console.log("New Advertisement Added in Database Successfully");
   } catch (err) {
     console.log(err);
   }

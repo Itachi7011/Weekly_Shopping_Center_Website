@@ -31,6 +31,7 @@ const AddAdvertisement = () => {
     sponserName: "",
     phoneNo: "",
     email: "",
+    redirectLink: "",
     position: [],
     categories: "",
     prepaymentCharges: "",
@@ -254,6 +255,7 @@ const AddAdvertisement = () => {
     bodyFormData.append("sponserName", user.sponserName);
     bodyFormData.append("phoneNo", user.phoneNo);
     bodyFormData.append("email", user.email);
+    bodyFormData.append("redirectLink", user.redirectLink);
 
     user.position.forEach((pos) => {
 
@@ -375,6 +377,9 @@ selectedTags.forEach((tag) => {
                   <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                     Email :
                   </h6>
+                  <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
+                    Link (To Redirect) :
+                  </h6>
                   <h6 style={{ marginBottom: "3.5rem", fontSize: "1rem" }}>
                     Position :
                   </h6>
@@ -419,7 +424,14 @@ selectedTags.forEach((tag) => {
                     placeholder="Please Enter Sponser's Email"
                     className="form-control mb-4"
                   />
-
+                  <input
+                    type="text"
+                    name="redirectLink"
+                    style={{ fontWeight: "400" }}
+                    onChange={inputHandler}
+                    placeholder="Please Enter Redirected Link"
+                    className="form-control mb-4"
+                  />
 
                   <div className="checkbox-group">
 
