@@ -24,13 +24,15 @@ const ViewAllAdvertisements = () => {
   const [title, setTitle] = useState("This is a alert");
 
   const [user, setUser] = useState({
-    bankOfferName: "",
-    bankOfferDetails: "",
-    applyOnBank: "",
-    rateOfInterest: "",
-    startingFrom: "",
-    endedOn: "",
-    logo: "",
+    sponserName: "",
+    phoneNo: "",
+    email: "",
+    position: "",
+    subCategories: "",
+    tags: "",
+    createdByName: "",
+    createdByUserType: "",
+    dateOfFormSubmission: "",
   });
 
   const [selectedItems, setSelectedItems] = useState([]);
@@ -72,7 +74,7 @@ const ViewAllAdvertisements = () => {
   };
   useEffect(() => {
     axios
-      .get("/api/bankOfferList")
+      .get("/api/allAdvertisementList")
       .then((response) => {
         const data = response.data;
 
@@ -236,7 +238,7 @@ const ViewAllAdvertisements = () => {
                   backgroundColor: "#708090",
                 }}
               >
-                List Of Bank Offers
+                List Of Advertisement
               </h1>
               <table className="table table-striped table-hover table-bordered">
                 <thead style={{ backgroundColor: "#708090", color: "white" }}>
@@ -248,15 +250,14 @@ const ViewAllAdvertisements = () => {
                     />
                   </th>
                   <th>S No.</th>
-                  <th>Logo</th>
-                  <th>Bank Name</th>
-                  <th>Contact No.</th>
-                  <th>Interest %</th>
-                  <th>Loan Amount</th>
-                  <th>Tenure</th>
-                  <th>Processing Fees</th>
-                  <th>Prepayment Charges</th>
-                  <th>Foreclosure Charges</th>
+                  <th>Image</th>
+                  <th>Sponser Name</th>
+                  <th>Contact Info.</th>
+                  <th>Position</th>
+                  <th>Sub-Categories</th>
+                  <th>Tags</th>
+                  <th>Created By</th>
+              
                   <th>Other Info.</th>
                   <th>Edit</th>
                   <th>Delete</th>
@@ -264,16 +265,17 @@ const ViewAllAdvertisements = () => {
                 {currentItems.map(
                   (
                     {
-                      bankName,
-                      loanAmount,
-                      tenure,
-                      processingFees,
-                      prepaymentCharges,
-                      foreclosureCharges,
+                      sponserName,
                       phoneNo,
-                      otherInformation,
-                      rateOfInterest,
-                      logo,
+                      email,
+                      position,
+                      subCategories,
+                      tags,
+                      createdByName,
+                      createdByUserType,
+                      dateOfFormSubmission,
+                      image,
+                      content,
                       _id,
                     },
                     index
@@ -297,77 +299,27 @@ const ViewAllAdvertisements = () => {
                             <td>{indexOfFirstItem + index + 1}</td>
                             <td>
                               <img
-                                src={logo.data}
+                                src={image.data}
                                 alt="main-img"
                                 style={{ height: "10vh", width: "8vw" }}
                               />
                             </td>
-                            <td>{bankName}</td>
-                            <td>{phoneNo}</td>
-                            <td>{rateOfInterest}</td>
-                            <td>{loanAmount}</td>
+                            <td>{sponserName}</td>
+                            <td> <i className="fa-solid fa-phone"></i> {phoneNo},<i className="fa-solid fa-envelope"></i> {email}</td>
+                            <td>{position}</td>
+                            <td>{subCategories}</td>
 
-                            <td>{tenure} </td>
-                            <td>{processingFees}</td>
-                            <td>{prepaymentCharges}</td>
-                            <td>{foreclosureCharges}</td>
+                            <td>{tags} </td>
+                            <td>{createdByName} ({createdByUserType}) , [{dateOfFormSubmission}]</td>
+                          
                             <td
 
-                              dangerouslySetInnerHTML={{ __html: truncateString(otherInformation, 20) }}
+                              dangerouslySetInnerHTML={{ __html: truncateString(content, 20) }}
 
                             ></td>
                             <td>
                               <form method="POST" action="/deleteSubLocality">
-                                <input
-                                  type="hidden"
-                                  name="bankName"
-                                  value={bankName}
-                                  onChange={inputHandler}
-                                ></input>
-
-                                <input
-                                  type="hidden"
-                                  name="loanAmount"
-                                  value={loanAmount}
-                                  onChange={inputHandler}
-                                ></input>
-                                <input
-                                  type="hidden"
-                                  name="tenure"
-                                  value={tenure}
-                                  onChange={inputHandler}
-                                ></input>
-                                <input
-                                  type="hidden"
-                                  name="rateOfInterest"
-                                  value={rateOfInterest}
-                                  onChange={inputHandler}
-                                ></input>
-                                <input
-                                  type="hidden"
-                                  name="processingFees"
-                                  value={processingFees}
-                                  onChange={inputHandler}
-                                ></input>
-                                <input
-                                  type="hidden"
-                                  name="prepaymentCharges"
-                                  value={prepaymentCharges}
-                                  onChange={inputHandler}
-                                ></input>
-                                <input
-                                  type="hidden"
-                                  name="foreclosureCharges"
-                                  value={foreclosureCharges}
-                                  onChange={inputHandler}
-                                ></input>
-
-                                <input
-                                  type="hidden"
-                                  name="logo"
-                                  value={logo}
-                                  onChange={inputHandler}
-                                ></input>
+                               
                                 <input
                                   type="hidden"
                                   name="_id"
@@ -381,18 +333,7 @@ const ViewAllAdvertisements = () => {
                                     navigate("/UpdateBankOffer", {
                                       state: {
                                         id: _id,
-                                        loanAmount: loanAmount,
-
-                                        bankName: bankName,
-                                        phoneNo: phoneNo,
-                                        tenure: tenure,
-                                        processingFees: processingFees,
-                                        prepaymentCharges: prepaymentCharges,
-                                        foreclosureCharges: foreclosureCharges,
-                                        otherInformation: otherInformation,
-                                        logo: logo,
-
-                                        rateOfInterest: rateOfInterest,
+                                       
                                       },
                                     });
                                   }}

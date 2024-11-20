@@ -519,6 +519,16 @@ app.post("/api/AddAdvertisement", AdvertisementImageMulter, async (req, res) => 
   }
 });
 
+app.get("/api/allAdvertisementList", async (req, res) => {
+  try {
+    const data = await AdvertisementsDB.find();
+
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 
 //    Tags
 
