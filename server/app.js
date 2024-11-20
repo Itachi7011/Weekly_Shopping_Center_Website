@@ -502,6 +502,7 @@ app.post("/api/AddAdvertisement", AdvertisementImageMulter, async (req, res) => 
 
       content: req.body.content,
       createdByName: req.body.createdByName,
+      createdByEmail: req.body.createdByEmail,
       createdByUserType: req.body.createdByUserType,
       dateOfFormSubmission: new Date(),
       image: {

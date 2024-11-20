@@ -130,7 +130,7 @@ const ViewAllAdvertisements = () => {
     }
   };
 
-  const handleDelete = (event,id) => {
+  const handleDelete = (event, id) => {
 
     event.preventDefault();
     // Ask for confirmation before proceeding with the delete action
@@ -140,37 +140,37 @@ const ViewAllAdvertisements = () => {
 
     if (confirmDelete) {
 
-        // Proceed with the deletion if confirmed
+      // Proceed with the deletion if confirmed
 
-        axios
+      axios
 
-            .post("/api/deleteBankOffer", { id: id })
+        .post("/api/deleteBankOffer", { id: id })
 
-            .then((response) => {
+        .then((response) => {
 
-                alert("Bank Offer Deleted");
+          alert("Bank Offer Deleted");
 
-                // Optionally, reload the page or update the UI here
+          // Optionally, reload the page or update the UI here
 
-                window.location.reload();
+          window.location.reload();
 
-            })
+        })
 
-            .catch((err) => {
+        .catch((err) => {
 
-                console.log("Error during delete selected:", err);
+          console.log("Error during delete selected:", err);
 
-            });
+        });
 
     } else {
 
-        // Log that the delete action was canceled
+      // Log that the delete action was canceled
 
-        console.log("Delete action canceled.");
+      console.log("Delete action canceled.");
 
     }
 
-};
+  };
   const handleDeleteSelected = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
@@ -257,7 +257,7 @@ const ViewAllAdvertisements = () => {
                   <th>Sub-Categories</th>
                   <th>Tags</th>
                   <th>Created By</th>
-              
+
                   <th>Other Info.</th>
                   <th>Edit</th>
                   <th>Delete</th>
@@ -272,6 +272,7 @@ const ViewAllAdvertisements = () => {
                       subCategories,
                       tags,
                       createdByName,
+                      createdByEmail,
                       createdByUserType,
                       dateOfFormSubmission,
                       image,
@@ -305,13 +306,45 @@ const ViewAllAdvertisements = () => {
                               />
                             </td>
                             <td>{sponserName}</td>
-                            <td> <i className="fa-solid fa-phone"></i> {phoneNo},<i className="fa-solid fa-envelope"></i> {email}</td>
-                            <td>{position}</td>
-                            <td>{subCategories}</td>
+                            <td> <i className="fa-solid fa-phone"></i> {phoneNo} , <br/><i className="fa-solid fa-envelope"></i> {email}</td>
+                            <td>
 
-                            <td>{tags} </td>
-                            <td>{createdByName} ({createdByUserType}) , [{dateOfFormSubmission}]</td>
-                          
+                              <ol>
+
+                                {position.map((item, index) => (
+
+                                  <li key={index}>{item}</li>
+
+                                ))}
+
+                              </ol>
+
+                            </td>
+                            <td>
+
+                              <ol>
+
+                                {subCategories.map((item, index) => (
+
+                                  <li key={index}>{item}</li>
+
+                                ))}
+
+                              </ol>
+                            </td>
+
+                            <td>
+                              <ol>
+
+                                {tags.map((item, index) => (
+
+                                  <li key={index}>{item}</li>
+
+                                ))}
+
+                              </ol> </td>
+                            <td>{createdByName} ({createdByUserType}) - <i className="fa-solid fa-envelope"></i>{createdByEmail} , <br/> [{dateOfFormSubmission}]</td>
+
                             <td
 
                               dangerouslySetInnerHTML={{ __html: truncateString(content, 20) }}
@@ -319,7 +352,7 @@ const ViewAllAdvertisements = () => {
                             ></td>
                             <td>
                               <form method="POST" action="/deleteSubLocality">
-                               
+
                                 <input
                                   type="hidden"
                                   name="_id"
@@ -333,7 +366,7 @@ const ViewAllAdvertisements = () => {
                                     navigate("/UpdateBankOffer", {
                                       state: {
                                         id: _id,
-                                       
+
                                       },
                                     });
                                   }}
@@ -354,7 +387,7 @@ const ViewAllAdvertisements = () => {
                                 <button
                                   type="submit"
                                   className=" btn btn-danger px-3"
-                                  onClick={() => handleDelete(event,_id)}
+                                  onClick={() => handleDelete(event, _id)}
                                 >
                                   <i className="fas fa-trash-alt text-white mx-auto"></i>
                                 </button>

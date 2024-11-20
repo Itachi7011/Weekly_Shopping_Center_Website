@@ -283,6 +283,7 @@ selectedTags.forEach((tag) => {
     bodyFormData.append("content", content);
     bodyFormData.append("createdByName", Data.name);
     bodyFormData.append("createdByUserType", Data.userType);
+    bodyFormData.append("createdByEmail", Data.email);
 
     bodyFormData.append("image", image);
 
@@ -424,7 +425,7 @@ selectedTags.forEach((tag) => {
 
                     <label className="checkbox-option">
 
-                      <input type="checkbox" name="position" value="top" onChange={inputHandler} />
+                      <input type="checkbox" name="position" value="Top" onChange={inputHandler} />
 
                       <span className="checkbox-label">Top</span>
 
@@ -433,7 +434,7 @@ selectedTags.forEach((tag) => {
 
                     <label className="checkbox-option">
 
-                      <input type="checkbox" name="position" value="middle" onChange={inputHandler} />
+                      <input type="checkbox" name="position" value="Middle" onChange={inputHandler} />
 
                       <span className="checkbox-label">Middle</span>
 
@@ -442,7 +443,7 @@ selectedTags.forEach((tag) => {
 
                     <label className="checkbox-option">
 
-                      <input type="checkbox" name="position" value="bottom" onChange={inputHandler} />
+                      <input type="checkbox" name="position" value="Bottom" onChange={inputHandler} />
 
                       <span className="checkbox-label">Bottom</span>
 

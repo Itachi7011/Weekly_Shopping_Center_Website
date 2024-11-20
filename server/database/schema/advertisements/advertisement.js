@@ -36,6 +36,9 @@ const W_Mark_Advertises = new mongoose.Schema({
     createdByName: {
         type: String,
     },
+    createdByEmail: {
+        type: String,
+    },
     createdByUserType: {
         type: String,
     },
