@@ -189,5 +189,20 @@
 
   background-color: #f44336; /* Red when disabled */
 
+
+  .ad-image:hover {
+
+    filter: brightness(0.7); /* Reduce brightness on hover */
+
+}
+
+
+.ad-image:hover + .content-overlay {
+
+    opacity: 1;
+
+    pointer-events: auto; 
+
+}
 }
 

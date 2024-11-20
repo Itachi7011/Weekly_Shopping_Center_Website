@@ -58,6 +58,7 @@ const ProductProfile = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const [bankOffers, setBankOffers] = useState({ post: [] });
+    const [Advertisement, setAdvertisement] = useState({ post: [] });
 
 
     const Profile = async () => {
@@ -130,6 +131,20 @@ const ProductProfile = () => {
                 setBankOffers({ post: data });
 
                 setSearchResults(data);
+            })
+            .catch((err) => {
+                console.log("Error during Data:", err);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get("/api/allAdvertisementList")
+            .then((response) => {
+                const data = response.data;
+
+                setAdvertisement({ post: data });
+
             })
             .catch((err) => {
                 console.log("Error during Data:", err);
@@ -272,6 +287,16 @@ const ProductProfile = () => {
 
 
     };
+
+    const filteredAds = Advertisement.post.filter(ad => ad.isEnable);
+
+    const adImageSrc = filteredAds.length > 0 ? filteredAds[0].image.data : null;
+
+    const redirectLink = filteredAds.length > 0 ? filteredAds[0].redirectLink : "#"; // Replace with appropriate fallback if needed
+
+    const sponsorName = filteredAds.length > 0 ? filteredAds[0].sponserName : "Sponsor"; // Replace with appropriate fallback if needed
+
+    const content = filteredAds.length > 0 ? filteredAds[0].content : "Content goes here"; // Replace with appropriate fallback if needed
 
     const handleIconClick = (e, id, name, rating) => {
         e.preventDefault();
@@ -709,11 +734,21 @@ const ProductProfile = () => {
                                         </div>
 
                                     )}
+
+
+
+
+
+
                                 <div style={{ marginTop: "3rem" }}>
+
+
 
                                     {/* All Images Main Div */}
 
                                     <div className="small-images-section mt-3 ms-5">
+
+
 
 
 
@@ -742,6 +777,8 @@ const ProductProfile = () => {
                                         </div>
 
                                     </div>
+
+
 
 
                                     <section className="left-side-section" style={{ marginTop: "-16rem", }}>
@@ -843,6 +880,7 @@ const ProductProfile = () => {
 
 
                                                 </div>
+
 
                                                 <div className="col-lg-4 col-md-4 col-12">
 
@@ -1029,6 +1067,8 @@ const ProductProfile = () => {
                                             </div>
                                         </div>
                                     </section>
+
+
 
                                     <section className="contant-navigation contant-nav">
                                         <div className="container">
@@ -1561,10 +1601,98 @@ const ProductProfile = () => {
 
 
                                 </div>
+
+
+                                {adImageSrc && (
+
+                                    <div style={{
+
+                                        position: 'absolute',
+
+                                        top: '70rem',
+
+                                        right: '0rem',
+
+                                        zIndex: '1000',
+
+                                        margin: '1rem',
+                                        overflow: 'hidden', // Prevent overflow if the image is larger
+
+                                        border: '3px solid #ccc', // Optional: Add a border for better visibility
+                                        outline: '1px solid black', // Optional: Add a border for better visibility
+
+                                        borderRadius: '8px',
+                                        // width: '100%', // Adjust width as necessary
+                                        // height: '100%' // Adjust width as necessary
+
+                                    }}
+                                        onClick={() => window.location.href = redirectLink}
+
+                                    >
+                                        <i className="fas fa-ad" style={{
+
+                                            position: 'absolute',
+
+                                            top: '0.5rem',
+
+                                            left: '0.5rem',
+                                            fontSize: '1.2rem', // Increase font size
+
+                                            fontWeight: 'bold',
+
+                                            color: 'white', // Change color as necessary
+
+                                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Optional: background for better visibility
+
+                                            borderRadius: '50%', // Optional: round icon
+
+                                            padding: '0.5rem' // Optional: padding for the icon
+
+                                        }}></i> <span style={{
+
+                                            position: 'absolute',
+
+                                            top: '0.5rem',
+
+                                            left: '3.5rem', // Adjust left position to place it right after the icon
+
+                                            color: 'white', // Change color as necessary
+
+                                            cursor: 'pointer', // Change cursor to pointer to indicate clickability
+
+                                            textDecoration: 'none', // Remove underline
+
+                                            fontSize: '1rem', // Increase font size
+
+                                            fontWeight: 'bold', // Make font bold
+
+                                            backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+
+                                            padding: '0.3rem 0.5rem', // Padding around the text
+
+                                            borderRadius: '4px', // Rounded corners
+
+                                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)', // Subtle shadow for depth
+
+                                            transition: 'background-color 0.3s',
+                                        }} onClick={() => window.location.href = redirectLink}>
+
+                                            {sponsorName}
+
+                                        </span>
+
+                                        <img src={adImageSrc} alt="Advertisement" style={{ width: '20rem', height: '80vh', objectFit: 'cover', cursor: "pointer",transition: 'filter 0.3s', }} />
+
+                                    </div>
+
+                                )}
+
                             </>
                         );
                     }
                 )}
+
+
 
             <></>
         </>
