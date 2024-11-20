@@ -494,6 +494,7 @@ app.post("/api/AddAdvertisement", AdvertisementImageMulter, async (req, res) => 
       phoneNo: req.body.phoneNo,
       email: req.body.email,
       redirectLink: req.body.redirectLink,
+      isEnable: false,
 
       position: Array.isArray(req.body.position) ? req.body.position : (typeof req.body.position === 'string' ? req.body.position.split(',').map(pos => pos.trim()) : []),
 
@@ -521,6 +522,36 @@ app.post("/api/AddAdvertisement", AdvertisementImageMulter, async (req, res) => 
   }
 });
 
+app.post("/api/deleteAdvertisement", async (req, res) => {
+  try {
+    await AdvertisementsDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Advertisement Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedAdvertisement", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await AdvertisementsDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Advertisements Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
 app.get("/api/allAdvertisementList", async (req, res) => {
   try {
     const data = await AdvertisementsDB.find();
@@ -530,6 +561,8 @@ app.get("/api/allAdvertisementList", async (req, res) => {
     console.log(err);
   }
 });
+
+
 
 
 //    Tags

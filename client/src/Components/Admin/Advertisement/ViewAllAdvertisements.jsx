@@ -144,11 +144,11 @@ const ViewAllAdvertisements = () => {
 
       axios
 
-        .post("/api/deleteBankOffer", { id: id })
+        .post("/api/deleteAdvertisement", { id: id })
 
         .then((response) => {
 
-          alert("Bank Offer Deleted");
+          alert("Advertisement Deleted");
 
           // Optionally, reload the page or update the UI here
 
@@ -179,10 +179,10 @@ const ViewAllAdvertisements = () => {
 
       axios
 
-        .post("/api/deleteSelectedBankOffers", { ids: selectedItems })
+        .post("/api/deleteSelectedAdvertisement", { ids: selectedItems })
 
         .then((response) => {
-          console.log("Selected bank offers deleted:", response.data);
+          console.log("Selected Advertisements deleted:", response.data);
 
           <ReactJsAlert
             status={true} // true or false
@@ -240,173 +240,174 @@ const ViewAllAdvertisements = () => {
               >
                 List Of Advertisement
               </h1>
-              <table className="table table-striped table-hover table-bordered">
-                <thead style={{ backgroundColor: "#708090", color: "white" }}>
-                  <th>
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      onChange={handleDeleteSelected}
-                    />
-                  </th>
-                  <th>S No.</th>
-                  <th>Image</th>
-                  <th>Sponser Name</th>
-                  <th>Contact Info.</th>
-                  <th>Redirected Link</th>
-                  <th>Position</th>
-                  <th>Sub-Categories</th>
-                  <th>Tags</th>
-                  <th>Created By</th>
+              <div className="table-responsive">
+                <table className="table table-striped table-hover table-bordered" style={{ width: '100%', maxWidth: '100%' }}>
+                  <thead style={{ backgroundColor: "#708090", color: "white" }}>
+                    <th>
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        onChange={handleDeleteSelected}
+                      />
+                    </th>
+                    <th>S No.</th>
+                    <th>Image</th>
+                    <th>Sponser Name</th>
+                    <th>Contact Info.</th>
+                    <th>Redirected Link</th>
+                    <th>Position</th>
+                    <th>Sub-Categories</th>
+                    <th>Tags</th>
+                    <th>Created By</th>
 
-                  <th>Other Info.</th>
-                  <th>Status</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </thead>
-                {currentItems.map(
-                  (
-                    {
-                      sponserName,
-                      phoneNo,
-                      email,
-                      redirectLink,
-                      position,
-                      subCategories,
-                      tags,
-                      createdByName,
-                      createdByEmail,
-                      createdByUserType,
-                      dateOfFormSubmission,
-                      image,
-                      isEnable,
-                      content,
-                      _id,
-                    },
-                    index
-                  ) => {
-                    return (
-                      <>
-                        <tbody>
-                          <tr className="bg-light">
-                            <td style={{ paddingLeft: "1rem" }}>
-                              <input
-                                style={{ paddingLeft: "1rem" }}
-                                type="checkbox"
-                                className="form-check-input"
-                                value={_id}
-                                onChange={(event) =>
-                                  handleSelectChange(event, _id)
-                                }
-                              />
-
-                            </td>
-                            <td>{indexOfFirstItem + index + 1}</td>
-                            <td>
-                              <img
-                                src={image.data}
-                                alt="main-img"
-                                style={{ height: "10vh", width: "8vw" }}
-                              />
-                            </td>
-                            <td>{sponserName}</td>
-                            <td> <i className="fa-solid fa-phone"></i> {phoneNo} , <br/><i className="fa-solid fa-envelope"></i> {email}</td>
-                            <td>{redirectLink}</td>
-
-                            <td>
-
-                              <ol>
-
-                                {position.map((item, index) => (
-
-                                  <li key={index}>{item}</li>
-
-                                ))}
-
-                              </ol>
-
-                            </td>
-                            <td>
-
-                              <ol>
-
-                                {subCategories.map((item, index) => (
-
-                                  <li key={index}>{item}</li>
-
-                                ))}
-
-                              </ol>
-                            </td>
-
-                            <td>
-                              <ol>
-
-                                {tags.map((item, index) => (
-
-                                  <li key={index}>{item}</li>
-
-                                ))}
-
-                              </ol> </td>
-                            <td>{createdByName} ({createdByUserType}) - <i className="fa-solid fa-envelope"></i>{createdByEmail} , <br/> [{dateOfFormSubmission}]</td>
-
-                            <td
-
-                              dangerouslySetInnerHTML={{ __html: truncateString(content, 20) }}
-
-                            ></td>
-                            <td>{isEnable}</td>
-                            <td>
-                              <form method="POST" action="/deleteSubLocality">
-
+                    <th>Other Info.</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                  </thead>
+                  {currentItems.map(
+                    (
+                      {
+                        sponserName,
+                        phoneNo,
+                        email,
+                        redirectLink,
+                        position,
+                        subCategories,
+                        tags,
+                        createdByName,
+                        createdByEmail,
+                        createdByUserType,
+                        dateOfFormSubmission,
+                        image,
+                        isEnable,
+                        content,
+                        _id,
+                      },
+                      index
+                    ) => {
+                      return (
+                        <>
+                          <tbody>
+                            <tr className="bg-light">
+                              <td style={{ paddingLeft: "1rem" }}>
                                 <input
-                                  type="hidden"
-                                  name="_id"
+                                  style={{ paddingLeft: "1rem" }}
+                                  type="checkbox"
+                                  className="form-check-input"
                                   value={_id}
-                                  onChange={inputHandler}
-                                ></input>
-                                <button
-                                  type="submit"
-                                  className=" btn btn-danger px-3"
-                                  onClick={function () {
-                                    navigate("/UpdateBankOffer", {
-                                      state: {
-                                        id: _id,
+                                  onChange={(event) =>
+                                    handleSelectChange(event, _id)
+                                  }
+                                />
 
-                                      },
-                                    });
-                                  }}
-                                >
-                                  <i className="fas fa-edit text-white"></i>
-                                </button>
-                              </form>
-                            </td>
-                            <td>
-                              <form method="POST" action="/api/deleteBankOffer">
-                                <input
-                                  type="hidden"
-                                  name="id"
-                                  value={_id}
-                                  onChange={inputHandler}
-                                ></input>
+                              </td>
+                              <td>{indexOfFirstItem + index + 1}</td>
+                              <td>
+                                <img
+                                  src={image.data}
+                                  alt="main-img"
+                                  style={{ height: "10vh", width: "8vw" }}
+                                />
+                              </td>
+                              <td>{sponserName}</td>
+                              <td> <i className="fa-solid fa-phone"></i> {phoneNo} , <br /><i className="fa-solid fa-envelope"></i> {email}</td>
+                              <td>{redirectLink}</td>
 
-                                <button
-                                  type="submit"
-                                  className=" btn btn-danger px-3"
-                                  onClick={() => handleDelete(event, _id)}
-                                >
-                                  <i className="fas fa-trash-alt text-white mx-auto"></i>
-                                </button>
-                              </form>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </>
-                    );
-                  }
-                )}
-              </table>
+                              <td>
+
+                                <ol>
+
+                                  {position.map((item, index) => (
+
+                                    <li key={index}>{item}</li>
+
+                                  ))}
+
+                                </ol>
+
+                              </td>
+                              <td>
+
+                                <ol>
+
+                                  {subCategories.map((item, index) => (
+
+                                    <li key={index}>{item}</li>
+
+                                  ))}
+
+                                </ol>
+                              </td>
+
+                              <td>
+                                <ol>
+
+                                  {tags.map((item, index) => (
+
+                                    <li key={index}>{item}</li>
+
+                                  ))}
+
+                                </ol> </td>
+                              <td>{createdByName} ({createdByUserType}) - <i className="fa-solid fa-envelope"></i>{createdByEmail} , <br /> [{dateOfFormSubmission}]</td>
+
+                              <td
+
+                                dangerouslySetInnerHTML={{ __html: truncateString(content, 20) }}
+
+                              ></td>
+                              <td>{isEnable}</td>
+                              <td>
+                                <form method="POST" action="/deleteSubLocality">
+
+                                  <input
+                                    type="hidden"
+                                    name="_id"
+                                    value={_id}
+                                    onChange={inputHandler}
+                                  ></input>
+                                  <button
+                                    type="submit"
+                                    className=" btn btn-danger px-3"
+                                    onClick={function () {
+                                      navigate("/UpdateBankOffer", {
+                                        state: {
+                                          id: _id,
+
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    <i className="fas fa-edit text-white"></i>
+                                  </button>
+                                </form>
+                              </td>
+                              <td>
+                                <form method="POST" action="/api/deleteBankOffer">
+                                  <input
+                                    type="hidden"
+                                    name="id"
+                                    value={_id}
+                                    onChange={inputHandler}
+                                  ></input>
+
+                                  <button
+                                    type="submit"
+                                    className=" btn btn-danger px-3"
+                                    onClick={() => handleDelete(event, _id)}
+                                  >
+                                    <i className="fas fa-trash-alt text-white mx-auto"></i>
+                                  </button>
+                                </form>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </>
+                      );
+                    }
+                  )}
+                </table></div>
               <button className="btn btn-danger" onClick={handleDeleteSelected}>
                 Delete Selected
               </button>
