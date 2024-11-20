@@ -564,6 +564,49 @@ app.get("/api/allAdvertisementList", async (req, res) => {
 
 
 
+app.post("/api/changeIsEnableAdvertise", async (req, res) => {
+  try {
+    const { id, isEnabled } = req.body; // Destructure id and isEnabled from request body
+
+    console.log(req.body)
+
+
+    try {
+  
+      // Find the advertisement by id and update the isEnabled field
+  
+      const updatedAdvertisement = await AdvertisementsDB.findByIdAndUpdate(
+  
+        id,
+  
+        { isEnable: isEnabled }, // Update the isEnabled field
+  
+        { new: true } // Return the updated document
+  
+      );
+  
+  
+      if (!updatedAdvertisement) {
+  
+        return res.status(404).send("Advertisement not found");
+  
+      }
+      console.log(updatedAdvertisement)
+
+    } catch (err) {
+  
+      console.log(err);
+  
+      res.status(500).send("Server error");
+  
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
 
 //    Tags
 

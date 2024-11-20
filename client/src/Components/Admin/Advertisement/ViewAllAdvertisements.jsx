@@ -76,16 +76,41 @@ const ViewAllAdvertisements = () => {
     });
   };
   useEffect(() => {
+
     axios
+
       .get("/api/allAdvertisementList")
+
       .then((response) => {
+
         const data = response.data;
 
+
+        // Initialize Localities
+
         setLocalities({ post: data });
+
+
+        // Initialize isEnabled state based on the fetched data
+
+        const initialIsEnabled = {};
+
+        data.forEach(item => {
+
+          initialIsEnabled[item._id] = item.isEnable; // Use isEnable from the fetched data
+
+        });
+
+        setIsEnabled(initialIsEnabled); // Set the initial state
+
       })
+
       .catch((err) => {
+
         console.log("Error during Data:", err);
+
       });
+
   }, []);
   useEffect(() => {
     UserDetails();
@@ -370,13 +395,40 @@ const ViewAllAdvertisements = () => {
 
                                     checked={isEnabled[_id] || false}
 
-                                    onChange={() => setIsEnabled(prevState => ({
+                                    onChange={async () => {
 
-                                      ...prevState,
-                                    
-                                      [_id]: !prevState[_id] // Toggle the state for the specific advertisement
-                                    
-                                    }))}
+                                      // Toggle the state locally
+                              
+                                      const newIsEnabled = !isEnabled[_id]; // Get the new state
+                              
+                                      setIsEnabled(prevState => ({
+                              
+                                        ...prevState,
+                              
+                                        [_id]: newIsEnabled // Toggle the state for the specific advertisement
+                              
+                                      }));
+                              
+                              
+                                      // Send the API request to update the server
+                              
+                                      try {
+                              
+                                        await axios.post("/api/changeIsEnableAdvertise", {
+                              
+                                          id: _id,
+                              
+                                          isEnabled: newIsEnabled, // Send the new state
+                              
+                                        });
+                              
+                                      } catch (error) {
+                              
+                                        console.error("Error updating advertisement status:", error);
+                              
+                                      }
+                              
+                                    }}
 
                                   />
 
