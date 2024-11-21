@@ -168,7 +168,7 @@ function App() {
             element={<ProductsList />}
           ></Route>
           <Route
-            path="/ProductProfile"
+            path="/ProductProfile/:name"
             element={<ProductProfile />}
           ></Route>
         </Routes>

@@ -5,13 +5,20 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import debounce from "lodash/debounce";
 
+import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+
 import axios from "axios";
 
 const ProductProfile = () => {
 
+    const { name: productName } = useParams();
+
     const location = useLocation();
     const previousData = location.state._id;
     const previousId = location.state.id;
+
+    
 
     const advertisementCloseButtonRef = useRef(null);
 
@@ -24,14 +31,7 @@ const ProductProfile = () => {
 
     const navigate = useNavigate();
 
-
-    // const ansRef = useRef(null);
-    // const previousData = location.state.id;
-
     const [Data, setData] = useState({ post: [] });
-
-
-
 
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
@@ -65,6 +65,8 @@ const ProductProfile = () => {
     const [advertisementVisible, setAdvertisementVisible] = useState(false);
 
     const [showCloseButton, setShowCloseButton] = useState(false);
+
+
 
 
     const Profile = async () => {
@@ -109,6 +111,32 @@ const ProductProfile = () => {
                 console.log("Error during Data:", err);
             });
     }, [ReviewSectionRef]);
+
+
+    // useEffect(() => {
+
+    //     // Update the URL to include the product name
+
+    //     console.log("Previous Data:", previousData);
+    //     console.log("Matching IDs:", Data.post.map(item => item._id));
+        
+    //     // Find the product that matches (with case insensitivity and trim)
+    //     const filteredProduct = Data.post.find(field => field._id.toLowerCase().trim().includes(previousData.toLowerCase().trim()));
+        
+    //     if (filteredProduct) {
+    //         console.log("Found Product:", filteredProduct); // Debug the found product
+            
+    //         // Format the name to be URL-friendly
+    //         const formattedName = encodeURIComponent(filteredProduct.name.replace(/\s+/g, '-').toLowerCase());
+        
+    //         // Update the URL
+    //         window.history.replaceState(null, '', `/product/${formattedName}`);
+    //     } else {
+    //         console.log("No matching product found for previousData:", previousData);
+    //     }
+        
+
+    // }, []); 
 
     const printImage = (content) => {
         const printWindow = window.open("", "", "width=800,height=600");
@@ -176,6 +204,12 @@ const ProductProfile = () => {
 
         return handleClick;
     };
+
+    // useEffect(() => {
+
+    //     console.log("Received product name:", productName);
+    
+    // }, [productName]);
 
     useEffect(() => {
 
@@ -322,8 +356,17 @@ const ProductProfile = () => {
 
     };
 
-    const filteredAds = Advertisement.post.filter(ad => ad.isEnable);
+    const filteredAds = Advertisement.post.filter(ad => 
 
+        ad.isEnable && 
+    
+        Data.post.some(product => 
+    
+            product.tags.some(tag => ad.tags.includes(tag))
+    
+        )
+    
+    );
     const adImageSrc = filteredAds.length > 0 ? filteredAds[0].image.data : null;
 
     const redirectLink = filteredAds.length > 0 ? filteredAds[0].redirectLink : "#"; // Replace with appropriate fallback if needed
@@ -615,6 +658,16 @@ const ProductProfile = () => {
                     }) => {
                         return (
                             <>
+
+                                <Helmet>
+
+                                    <title>{name} </title>
+
+                                </Helmet>
+
+                                {/* Your existing component code */}
+
+                                <h1>{name}</h1>
                                 {
 
 
