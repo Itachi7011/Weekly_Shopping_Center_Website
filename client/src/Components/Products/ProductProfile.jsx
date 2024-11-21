@@ -13,6 +13,8 @@ const ProductProfile = () => {
     const previousData = location.state._id;
     const previousId = location.state.id;
 
+    const advertisementCloseButtonRef = useRef(null);
+
     const bankOffersRef = useRef(null);
     const specificationRef = useRef(null);
     const technicalDetailsRef = useRef(null);
@@ -59,6 +61,10 @@ const ProductProfile = () => {
 
     const [bankOffers, setBankOffers] = useState({ post: [] });
     const [Advertisement, setAdvertisement] = useState({ post: [] });
+
+    const [advertisementVisible, setAdvertisementVisible] = useState(false);
+
+    const [showCloseButton, setShowCloseButton] = useState(false);
 
 
     const Profile = async () => {
@@ -171,6 +177,34 @@ const ProductProfile = () => {
         return handleClick;
     };
 
+    useEffect(() => {
+
+        const timer = setTimeout(() => {
+            setAdvertisementVisible(true);
+
+
+
+        }, 5000); // 5 seconds
+
+
+        return () => clearTimeout(timer);
+
+    }, []);
+
+
+    useEffect(() => {
+
+        const timer = setTimeout(() => {
+
+
+            setShowCloseButton(true);
+
+        }, 10000); // 5 seconds
+
+
+        return () => clearTimeout(timer);
+
+    }, []);
     const handleImageClick = (index) => {
 
         setCurrentImageIndex(index); // Update the current image index
@@ -1603,7 +1637,7 @@ const ProductProfile = () => {
                                 </div>
 
 
-                                {adImageSrc && (
+                                {advertisementVisible && adImageSrc && (
 
                                     <div style={{
 
@@ -1626,9 +1660,46 @@ const ProductProfile = () => {
                                         // height: '100%' // Adjust width as necessary
 
                                     }}
-                                        onClick={() => window.location.href = redirectLink}
+
 
                                     >
+                                        {showCloseButton && (
+
+                                            <button
+
+                                                ref={advertisementCloseButtonRef}
+
+                                                onClick={
+                                                    () => {
+                                                        console.log("Close Btn Clicked")
+                                                        setAdvertisementVisible(false)
+                                                    }
+                                                }
+
+                                                style={{
+
+                                                    position: 'absolute',
+                                                    top: '0.5rem',
+                                                    right: '0.5rem',
+                                                    fontSize: '2rem',
+                                                    background: 'red',
+                                                    color: 'white',
+                                                    padding: "0rem 0.4rem",
+                                                    border: 'none',
+                                                    borderRadius: '5px',
+                                                    cursor: 'pointer',
+                                                    zIndex: '99000',
+
+                                                }}
+
+                                            >
+
+                                                &times;
+
+                                            </button>
+
+                                        )}
+
                                         <i className="fas fa-ad" style={{
 
                                             position: 'absolute',
@@ -1648,7 +1719,29 @@ const ProductProfile = () => {
 
                                             padding: '0.5rem' // Optional: padding for the icon
 
-                                        }}></i> <span style={{
+                                        }}></i>
+                                        <span className="" style={{
+
+                                            position: 'absolute',
+
+                                            bottom: '0.5rem',
+
+                                            left: '0.5rem',
+                                            fontSize: '0.8rem', // Increase font size
+
+                                            fontWeight: 'bold',
+
+                                            color: 'white', // Change color as necessary
+
+                                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Optional: background for better visibility
+
+                                            borderRadius: '5px', // Optional: round icon
+
+                                            padding: '0.5rem' // Optional: padding for the icon
+
+                                        }}
+                                            onClick={() => window.location.href = redirectLink}>Sponsered</span>
+                                        <span style={{
 
                                             position: 'absolute',
 
@@ -1681,7 +1774,9 @@ const ProductProfile = () => {
 
                                         </span>
 
-                                        <img src={adImageSrc} alt="Advertisement" style={{ width: '20rem', height: '80vh', objectFit: 'cover', cursor: "pointer",transition: 'filter 0.3s', }} />
+                                        <img src={adImageSrc}
+                                            onClick={() => window.location.href = redirectLink}
+                                            alt="Advertisement" style={{ width: '20rem', height: '80vh', objectFit: 'cover', cursor: "pointer", transition: 'filter 0.3s', }} />
 
                                     </div>
 
