@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet';
 
 import axios from "axios";
 
+
 const ProductProfile = () => {
 
     const { name: productName } = useParams();
@@ -113,30 +114,30 @@ const ProductProfile = () => {
     }, [ReviewSectionRef]);
 
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     // Update the URL to include the product name
+        // Update the URL to include the product name
 
-    //     console.log("Previous Data:", previousData);
-    //     console.log("Matching IDs:", Data.post.map(item => item._id));
+        console.log("Previous Data:", previousData);
+        console.log("Matching IDs:", Data.post.map(item => item._id));
         
-    //     // Find the product that matches (with case insensitivity and trim)
-    //     const filteredProduct = Data.post.find(field => field._id.toLowerCase().trim().includes(previousData.toLowerCase().trim()));
+        // Find the product that matches (with case insensitivity and trim)
+        const filteredProduct = Data.post.find(field => field._id.toLowerCase().trim().includes(previousData.toLowerCase().trim()));
         
-    //     if (filteredProduct) {
-    //         console.log("Found Product:", filteredProduct); // Debug the found product
+        if (filteredProduct) {
+            console.log("Found Product:", filteredProduct); // Debug the found product
             
-    //         // Format the name to be URL-friendly
-    //         const formattedName = encodeURIComponent(filteredProduct.name.replace(/\s+/g, '-').toLowerCase());
+            // Format the name to be URL-friendly
+            const formattedName = encodeURIComponent(filteredProduct.name.replace(/\s+/g, '-').toLowerCase());
         
-    //         // Update the URL
-    //         window.history.replaceState(null, '', `/product/${formattedName}`);
-    //     } else {
-    //         console.log("No matching product found for previousData:", previousData);
-    //     }
+            // Update the URL
+            window.history.replaceState(null, '', `/product/${formattedName}`);
+        } else {
+            console.log("No matching product found for previousData:", previousData);
+        }
         
 
-    // }, []); 
+    }, []); 
 
     const printImage = (content) => {
         const printWindow = window.open("", "", "width=800,height=600");

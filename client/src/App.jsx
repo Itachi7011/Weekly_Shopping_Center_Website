@@ -152,7 +152,6 @@ function App() {
 
           {/* Admin Nav Search Contents */}
           <Route path="/NewAdminNavBarSettingsContents" element={<NewAdminNavBarSettingsContents />}></Route>
-          
           <Route
             path="/ShowAdminNavBarSettingsContents"
             element={<ShowAdminNavBarSettingsContents />}
