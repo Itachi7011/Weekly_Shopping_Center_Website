@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import debounce from "lodash/debounce";
+import Carousel from "react-multi-carousel";
 
 import { Helmet } from 'react-helmet';
 
@@ -74,14 +75,12 @@ const ProductProfile = () => {
 
     const adjustDate = (date) => {
 
-        console.log(date);
 
 
         // Step 1: Create a Date object
 
         const dateObj = new Date(date);
 
-        console.log("Original Date Object:", dateObj);
 
 
 
@@ -92,11 +91,7 @@ const ProductProfile = () => {
         dateObj.setMinutes(dateObj.getMinutes());
 
 
-        console.log("Adjusted Hours:", dateObj.getHours());
 
-        console.log("Adjusted Minutes:", dateObj.getMinutes());
-
-        console.log("Adjusted Date Object:", dateObj);
 
 
         // Step 3: Format the date to a string without the timezone part
@@ -307,7 +302,7 @@ const ProductProfile = () => {
 
             // Update the browser's URL to reflect the product name
 
-            window.history.replaceState(null, '', `/product/${formattedName}`);
+            window.history.replaceState(null, '', `/ProductProfile/${formattedName}`);
 
         } else {
 
@@ -379,6 +374,59 @@ const ProductProfile = () => {
         setSelectedStars({});
 
     };
+
+    const responsive = {
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 5,
+            slidesToSlide: 1, // optional, default to 1.
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 4,
+            slidesToSlide: 1, // optional, default to 1.
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 2,
+            slidesToSlide: 1, // optional, default to 1.
+        },
+    };
+
+    const handleDelete = (event, id) => {
+        event.preventDefault();
+        const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+
+
+        if (confirmDelete) {
+
+            axios
+
+                .post("/api/deleteProduct", { id: id })
+
+                .then((response) => {
+
+                    alert("Product Deleted Successfully");
+                    // window.location.reload();
+
+
+                })
+
+                .catch((err) => {
+
+                    console.log("Error during delete selected:", err);
+
+                });
+
+        } else {
+
+            // User canceled the delete action
+
+            console.log("Delete action canceled.");
+
+        }
+    };
+
 
     const saveRating = () => {
 
@@ -2036,53 +2084,224 @@ const ProductProfile = () => {
 
 
                                 <section className="location-section" ref={SimilarProductsRef}>
-                                    <div className="container">
                                         <h2> Similar Products</h2>
-                                        <div className="row justify-content-center">
-                                            <div className="col-lg-12 col-12 mb-4">
 
-                                                {Data.post
+                                        <div className="similarProductsDiv">
 
-                                                    .filter((product) => {
+                                             <Carousel
+                                                    responsive={responsive}
+                                                    swipeable={true}
+                                                    draggable={true}
+                                                    showDots={true}
+                                                    ssr={true} 
+                                                    infinite={false}
+                                                    autoPlaySpeed={1000}
+                                                    keyBoardControl={true}
+                                                    customTransition="all .5"
+                                                    transitionDuration={500}
+                                                    containerClassName="carousel-container"
+                                                    removeArrowOnDeviceType={["tablet", "mobile"]}
+                                                    dotListClassName="custom-dot-list-style"
+                                                    itemClassName="carousel-item"
+                                               >
 
-                                                        // Exclude the current product from similar products
+                                                    {Data.post
 
-                                                        if (product._id === previousData) {
+                                                        .filter((product) => {
 
-                                                            return false;
+                                                            // Exclude the current product from similar products
 
-                                                        }
+                                                            if (product._id === previousData) {
 
-                                                        // Check if the product matches the subCategory or tags
+                                                                return false;
 
-                                                        return product.subCategory === subCategory ||
+                                                            }
 
-                                                            product.tags.some(tag => tags.includes(tag));
+                                                            // Check if the product matches the subCategory or tags
 
-                                                    })
+                                                            return product.subCategory === subCategory ||
 
-                                                    .map(({ _id, name,tags, subCategory}) => (
+                                                                product.tags.some(tag => tags.includes(tag));
 
-                                                        <div key={_id}>
+                                                        })
 
-                                                            <h5>{name}</h5> {/* Display the name of the similar product */}
-                                                            <h5>{subCategory}</h5> {/* Display the name of the similar product */}
-                                                            <h5>
+                                                        .map(({
+                                                            _id,
+                                                            id,
+                                                            name,
+                                                            category,
+                                                            subCategory,
+                                                            marketName,
+                                                            newOrRefurbished,
+                                                            isPopular,
+                                                            reviews,
+                                                            isNewProduct,
+                                                            isPremium,
+                                                            isLimitedTimeDeal,
+                                                            price,
+                                                            effectivePrice,
+                                                            brand,
+                                                            model,
+                                                            color,
+                                                            weight,
+                                                            dimensions,
+                                                            stockNextRefillDate,
+                                                            sellerDiscount,
+                                                            adminDiscount,
+                                                            stock_available,
+                                                            tags,
+                                                            images,
+                                                            averageRating,
+                                                            youtubeUrl,
+                                                            productDetails,
+                                                            warrantyDetails,
+                                                            technicalDetails,
+                                                            rating,
+                                                            comments,
+                                                            freqAskedQuest,
+                                                            totalSold,
+                                                            totalCart,
+                                                            createdByName,
+                                                            createdByType,
+                                                            dateOfFormSubmission,
+                                                        }) => (
 
-                                                                {tags.map((tag) => (
 
-                                                                    <span key={tag.id}>{tag}</span>
+                                                         
 
-                                                                ))}
+                                                                    <div key={_id} className="m-4" style={{ height: "650px",margin:"1rem" }}>
 
-                                                            </h5> {/* Display the name of the similar product */}
+                                                                        {isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
 
-                                                        </div>
+                                                                            Premium
 
-                                                    ))}
-                                            </div>
+                                                                        </span>) : ""}
+
+
+
+
+                                                                        {isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
+
+                                                                            New
+
+                                                                        </span>) : ""}
+
+
+
+
+
+                                                                        <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
+
+                                                                            {[...Array(5)].map((_, index) => (
+
+                                                                                <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(averageRating)), fontSize: "large", }}></i>
+
+                                                                            ))}
+                                                                        </span>
+
+
+
+                                                                        <img src={images[0].data} className="card-img-top" alt={name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
+                                                                            const formattedName = encodeURIComponent(name);
+                                                                            console.log("Navigating to ProductProfile with name:", formattedName);
+                                                                            navigate(`/ProductProfile/${name}`, {
+                                                                                state: {
+                                                                                    _id: _id,
+                                                                                    id: id,
+                                                                                    name: name,
+                                                                                },
+                                                                            });
+                                                                        }} />
+                                                                        {isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
+
+                                                                            Sponsored
+
+                                                                        </span>) : ""}
+
+
+                                                                        {Profile.userType === "Admin" ? (
+
+                                                                            <button
+                                                                                className=" btn btn-danger px-3"
+                                                                                onClick={(event) => handleDelete(event, _id)}
+                                                                                style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
+                                                                                <i className="fas fa-trash-alt text-white mx-auto"
+                                                                                    style={{
+                                                                                        fontSize: "1.2rem"
+                                                                                    }}
+                                                                                ></i>
+                                                                            </button>
+
+                                                                        ) : ""}
+
+                                                                        <div className="card-body">
+
+                                                                            <h5 className="card-title">
+                                                                                <div className="" style={{ marginBottom: "-1rem" }}> {name}  <span style={{ fontSize: "smaller" }}>  </span>
+                                                                                </div>
+
+
+                                                                                <br />({newOrRefurbished}) {isLimitedTimeDeal === true ? (
+
+                                                                                    <span style={{ position: "relative", display: "inline-block" }}>
+
+                                                                                        <i
+
+                                                                                            className="fa-solid fa-hourglass-half ms-2"
+
+                                                                                            style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
+
+                                                                                        ></i>
+
+                                                                                        {/* Tooltip */}
+
+                                                                                        <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
+
+                                                                                    </span>
+
+                                                                                ) : ""}
+
+                                                                                <span className="rating-stars position-absolute ms-2"
+                                                                                    style={{
+                                                                                        // top: "50px",
+                                                                                        // right: "10px",
+                                                                                        zIndex: 1,
+                                                                                        background: "#00A86B"
+                                                                                    }}>
+                                                                                    {isNewProduct === true ? (<span className="badge "
+                                                                                    >
+                                                                                        Popular
+                                                                                    </span>) : ""}
+
+                                                                                </span>
+
+                                                                            </h5>
+
+
+                                                                            <p className="card-text">
+
+                                                                                <strong> <del>₹ {price}</del> </strong>  <span className="text-danger">(-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {effectivePrice}</strong> <span className="text-danger"> Save ₹ {price - (effectivePrice - (adminDiscount || 0))} </span>
+
+                                                                            </p>
+
+
+
+                                                                        </div>
+
+                                                                    </div>
+
+
+
+                                                        ))}
+
+                                                </Carousel>
                                         </div>
-                                    </div>
+                                       
+
+                                               
+
+
+                                           
                                 </section>
 
                             </>

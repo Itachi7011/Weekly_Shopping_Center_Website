@@ -4,6 +4,7 @@ import { reducer, initialState } from "./reducers/UseReducer";
 
 import 'react-tabs/style/react-tabs.css';
 import 'regenerator-runtime/runtime';
+import 'react-multi-carousel/lib/styles.css';
 
 import "./CSS/App.css";
 import "./CSS/navbar.css";
