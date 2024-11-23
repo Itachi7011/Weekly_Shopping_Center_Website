@@ -254,7 +254,7 @@ const ProductProfile = () => {
         return () => clearTimeout(timer);
 
     }, []);
-    
+
 
 
     useEffect(() => {
@@ -1320,7 +1320,7 @@ const ProductProfile = () => {
                                                                         className="nav-link"
                                                                         onClick={handleBankOffersClick}
                                                                     >
-                                                                      <i class="fa-solid fa-money-check-dollar"></i>  Bank Offers
+                                                                        <i className="fa-solid fa-money-check-dollar"></i>  Bank Offers
                                                                     </a>
                                                                 </li>
                                                                 <li
@@ -1331,7 +1331,7 @@ const ProductProfile = () => {
                                                                         className="nav-link"
                                                                         onClick={handleSpecificationClick}
                                                                     >
-                                                                        Specifications
+                                                                        <i className="fa-solid fa-circle-info"></i>  Specifications
                                                                     </a>
                                                                 </li>
 
@@ -1343,7 +1343,7 @@ const ProductProfile = () => {
                                                                         className="nav-link"
                                                                         onClick={handleAadharClick}
                                                                     >
-                                                                        Technical Details
+                                                                        <i className="fa-solid fa-microchip"></i>  Technical Details
                                                                     </a>
                                                                 </li>
                                                                 <li
@@ -1354,7 +1354,7 @@ const ProductProfile = () => {
                                                                         onClick={handlevoteridcardClick}
                                                                         className="nav-link"
                                                                     >
-                                                                        Warranty Details
+                                                                        <i className="fa-solid fa-screwdriver-wrench"></i>  Warranty Details
                                                                     </a>
                                                                 </li>
                                                                 <li
@@ -1365,7 +1365,7 @@ const ProductProfile = () => {
                                                                         onClick={handlePancardClick}
                                                                         className="nav-link"
                                                                     >
-                                                                        Other Details
+                                                                        <i className="fa-solid fa-network-wired"></i>  Other Details
                                                                     </a>
                                                                 </li>
 
@@ -1377,7 +1377,7 @@ const ProductProfile = () => {
                                                                         onClick={handleReviewSectionClick}
                                                                         className="nav-link"
                                                                     >
-                                                                        Reviews
+                                                                        <i className="fa-solid fa-comment-dots"></i>  Reviews
                                                                     </a>
                                                                 </li>
 
@@ -1389,7 +1389,7 @@ const ProductProfile = () => {
                                                                         onClick={handleSimilarProductsClick}
                                                                         className="nav-link"
                                                                     >
-                                                                        Similar Products
+                                                                        <i className="fa-solid fa-bookmark"></i>   Similar Products
                                                                     </a>
                                                                 </li>
 
@@ -1679,7 +1679,7 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
 
-                                                    <div dangerouslySetInnerHTML={{ __html: technicalDetails }} />
+                                                    <div style={{ border: "1px dotted black", padding: "2rem 4rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: technicalDetails }} />
 
                                                 </div>
                                             </div>
@@ -1698,7 +1698,7 @@ const ProductProfile = () => {
                                                     <div className="row justify-content-center">
                                                         <div className="col-lg-12 col-12 mb-4">
 
-                                                            <div dangerouslySetInnerHTML={{ __html: warrantyDetails }} />
+                                                            <div style={{ border: "1px dotted black", padding: "2rem 4rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: warrantyDetails }} />
 
                                                         </div>
                                                     </div>
@@ -1714,7 +1714,7 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
 
-                                                    <div dangerouslySetInnerHTML={{ __html: productDetails }} />
+                                                    <div style={{ border: "1px dotted black", padding: "2rem 4rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: productDetails }} />
 
                                                 </div>
                                             </div>
@@ -1726,18 +1726,18 @@ const ProductProfile = () => {
                                         margin: "1rem auto"
                                     }}>
                                         <div className="container">
-                                            <h2> Top Reviews </h2>
-                                            <button className="btn btn-primary" style={{ fontSize: "medium" }} onClick={() => openModal({ _id, name })}>
+                                            <h2> Reviews </h2>
+                                            <button className="btn btn-primary" style={{ fontSize: "medium", marginLeft: "85%", marginTop: "-4rem" }} onClick={() => openModal({ _id, name })}>
                                                 Add Review
                                             </button>
 
-                                            <div className="review-stars-section">
+                                            <div className="review-stars-section" style={{ marginTop: "-4rem" }}>
 
                                                 <div className="review-star-row" onClick={() => setSelectedRating(null)} style={{ cursor: 'pointer', fontWeight: 'bold' }}>
 
-                                                    <div className="review-star-icon-container pe-4">All Ratings</div>
+                                                    <div className="review-star-icon-container pe-4" style={{ fontWeight: "bolder", fontSize: "1rem" }} >All Ratings</div>
 
-                                                    <div className="review-star-users-container">{reviews.length} Users</div>
+                                                    <div className="review-star-users-container" style={{ marginLeft: "22rem" }}> {reviews.length} Reviews</div>
 
                                                 </div>
 
@@ -2035,18 +2035,55 @@ const ProductProfile = () => {
                                 )}
 
 
-<section className="location-section" ref={SimilarProductsRef}>
-                                        <div className="container">
-                                            <h2> Similar Products</h2>
-                                            <div className="row justify-content-center">
-                                                <div className="col-lg-12 col-12 mb-4">
+                                <section className="location-section" ref={SimilarProductsRef}>
+                                    <div className="container">
+                                        <h2> Similar Products</h2>
+                                        <div className="row justify-content-center">
+                                            <div className="col-lg-12 col-12 mb-4">
 
-                                                    <div dangerouslySetInnerHTML={{ __html: technicalDetails }} />
+                                                {Data.post
 
-                                                </div>
+                                                    .filter((product) => {
+
+                                                        // Exclude the current product from similar products
+
+                                                        if (product._id === previousData) {
+
+                                                            return false;
+
+                                                        }
+
+                                                        // Check if the product matches the subCategory or tags
+
+                                                        return product.subCategory === subCategory ||
+
+                                                            product.tags.some(tag => tags.includes(tag));
+
+                                                    })
+
+                                                    .map(({ _id, name,tags, subCategory}) => (
+
+                                                        <div key={_id}>
+
+                                                            <h5>{name}</h5> {/* Display the name of the similar product */}
+                                                            <h5>{subCategory}</h5> {/* Display the name of the similar product */}
+                                                            <h5>
+
+                                                                {tags.map((tag) => (
+
+                                                                    <span key={tag.id}>{tag}</span>
+
+                                                                ))}
+
+                                                            </h5> {/* Display the name of the similar product */}
+
+                                                        </div>
+
+                                                    ))}
                                             </div>
                                         </div>
-                                    </section>
+                                    </div>
+                                </section>
 
                             </>
                         );
@@ -2055,7 +2092,7 @@ const ProductProfile = () => {
 
 
 
-           
+
         </>
     );
 };
