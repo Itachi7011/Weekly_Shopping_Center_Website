@@ -112,7 +112,14 @@ const ProductListing = () => {
 
 
     const handleDelete = (event, id) => {
-        event.preventDefault();
+
+        if (event && typeof event.preventDefault === 'function') {
+
+            event.preventDefault();
+    
+        }
+        console.log("id is: ",id)
+    
         const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
 
@@ -558,7 +565,7 @@ const ProductListing = () => {
 
                                 <button
                                     className=" btn btn-danger px-3"
-                                    onClick={() => handleDelete(product._id)}
+                                    onClick={(event) => handleDelete(event, product._id)}
                                     style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
                                     <i className="fas fa-trash-alt text-white mx-auto"
                                         style={{

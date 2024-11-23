@@ -572,33 +572,33 @@ app.post("/api/changeIsEnableAdvertise", async (req, res) => {
 
 
     try {
-  
+
       // Find the advertisement by id and update the isEnabled field
-  
+
       const updatedAdvertisement = await AdvertisementsDB.findByIdAndUpdate(
-  
+
         id,
-  
+
         { isEnable: isEnabled }, // Update the isEnabled field
-  
+
         { new: true } // Return the updated document
-  
+
       );
-  
-  
+
+
       if (!updatedAdvertisement) {
-  
+
         return res.status(404).send("Advertisement not found");
-  
+
       }
       console.log(updatedAdvertisement)
 
     } catch (err) {
-  
+
       console.log(err);
-  
+
       res.status(500).send("Server error");
-  
+
     }
 
   } catch (err) {
