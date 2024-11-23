@@ -20061,12 +20061,11 @@ p {
   margin-right: 0.2rem; /* Space between stars */
   color: #ffd700;
 }
-
-.react-multi-carousel-item{
-  margin: 1rem 4rem;
+.react-multiple-carousel__arrow--right{
+  padding: 13rem 2rem;
 }
-.carousel-item {
 
-  margin: 0 20px; /* Adjust the margin as needed */
-
+.react-multiple-carousel__arrow--left{
+  padding: 13rem 2rem;
 }
+

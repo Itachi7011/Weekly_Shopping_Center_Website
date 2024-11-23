@@ -371,7 +371,7 @@ const AdminSidebar = () => {
                 <div key={index} className="search-result-item">
 
                   <a onClick={function () {
-                    navigate("/ProductProfile", {
+                    navigate(`/ProductProfile/${item.name}`, {
                       state: {
                         _id: item._id,
                         id: item.id,
@@ -433,17 +433,17 @@ const AdminSidebar = () => {
 
               href={sidebarActive ? "/Dashboard" : "#"}
 
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
 
             >
 
@@ -462,17 +462,17 @@ const AdminSidebar = () => {
 
               href={sidebarActive ? "/" : "#"}
 
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
 
 
             >
@@ -491,17 +491,17 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
 
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(0)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
 
             >
               <GroupIcon />   {!sidebarActive ? "" : "Accounts Info."}
@@ -529,17 +529,17 @@ const AdminSidebar = () => {
               ref={(ref) => subBtnRefs.current.push(ref)}
 
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(1)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
 
             >
                <CurrencyRupeeIcon/>    {!sidebarActive ? "" : "Transactions Info."}
@@ -565,17 +565,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(2)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
 
             >
               <LocalOfferIcon /> {!sidebarActive ? "" : "Tags"}
@@ -599,17 +599,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(3)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <MyLocationIcon /> {!sidebarActive ? "" : "Navbar Items"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -633,17 +633,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(4)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
 
             >
               <LocalGroceryStoreIcon />  {!sidebarActive ? "" : "Markets"}
@@ -665,17 +665,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(5)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <i className="fas fa-gift admin-sidebar-icons"></i>  &nbsp; &nbsp;{!sidebarActive ? "" : " Products"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -696,17 +696,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(6)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <AppleIcon />  {!sidebarActive ? "" : "Brands / Companies"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -729,17 +729,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(7)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <DirectionsCarIcon /> {!sidebarActive ? "" : "Categories"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -766,17 +766,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(8)}
-                            onMouseEnter={(e) => {
+              //               onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <SavingsIcon />  {!sidebarActive ? "" : "Bank Offers"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -797,17 +797,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(9)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <NotificationsActiveIcon /> {!sidebarActive ? "" : "Notifications"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -830,17 +830,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(10)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
               
             >
               <NewspaperIcon />  {!sidebarActive ? "" : "Advertisement"}
@@ -866,17 +866,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(11)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <i className="fas fa-search admin-sidebar-icons"></i>  &nbsp; &nbsp; {!sidebarActive ? "" : "Nav Search Contents"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -899,17 +899,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(12)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <ContactPageIcon /> {!sidebarActive ? "" : "Contact Info"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -931,17 +931,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(13)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <SettingsIcon /> {!sidebarActive ? "" : "Settings"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
@@ -967,17 +967,17 @@ const AdminSidebar = () => {
               className="sub-btn"
               ref={(ref) => subBtnRefs.current.push(ref)}
               onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(14)}
-              onMouseEnter={(e) => {
+              // onMouseEnter={(e) => {
 
-                if (!sidebarActive) {
+              //   if (!sidebarActive) {
 
-                  e.preventDefault(); // Prevent default link behavior
+              //     e.preventDefault(); // Prevent default link behavior
 
-                  handleMenuBtnClick(); // Call the onClick function
+              //     handleMenuBtnClick(); // Call the onClick function
 
-                }
+              //   }
 
-              }}
+              // }}
             >
               <QueryStatsIcon /> {!sidebarActive ? "" : "Enquiries"}
               {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
