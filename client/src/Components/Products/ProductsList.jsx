@@ -111,8 +111,8 @@ const ProductListing = () => {
     };
 
 
-    const handleDelete = (event,id) => {
-        event.preventDefault(); 
+    const handleDelete = (event, id) => {
+        event.preventDefault();
         const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
 
@@ -400,7 +400,7 @@ const ProductListing = () => {
                             <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
                                 const formattedName = encodeURIComponent(product.name);
                                 console.log("Navigating to ProductProfile with name:", formattedName);
-                                navigate(`/ProductProfile/${formattedName}`, {
+                                navigate(`/ProductProfile/${product.name}`, {
                                     state: {
                                         _id: product._id,
                                         id: product.id,
@@ -419,7 +419,7 @@ const ProductListing = () => {
 
                                 <button
                                     className=" btn btn-danger px-3"
-                                    onClick={(event) => handleDelete(event,product._id)}
+                                    onClick={(event) => handleDelete(event, product._id)}
                                     style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
                                     <i className="fas fa-trash-alt text-white mx-auto"
                                         style={{
@@ -433,7 +433,7 @@ const ProductListing = () => {
                             <div className="card-body">
 
                                 <h5 className="card-title">
-                                    <div className="" style={{ marginBottom: "-1rem" }}> {product.name} <span style={{ fontSize: "smaller" }}>  </span>
+                                    <div className="" style={{ marginBottom: "-1rem" }}> {product.name}  <span style={{ fontSize: "smaller" }}>  </span>
                                     </div>
 
 
@@ -539,7 +539,9 @@ const ProductListing = () => {
 
 
                             <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
-                                navigate("/ProductProfile", {
+                                const formattedName = encodeURIComponent(product.name);
+                                console.log("Navigating to ProductProfile with name:", formattedName);
+                                navigate(`/ProductProfile/${product.name}`, {
                                     state: {
                                         _id: product._id,
                                         id: product.id,

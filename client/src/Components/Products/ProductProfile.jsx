@@ -5,7 +5,6 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import debounce from "lodash/debounce";
 
-import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import axios from "axios";
@@ -13,13 +12,12 @@ import axios from "axios";
 
 const ProductProfile = () => {
 
-    const { name: productName } = useParams();
 
     const location = useLocation();
     const previousData = location.state._id;
     const previousId = location.state.id;
 
-    
+
 
     const advertisementCloseButtonRef = useRef(null);
 
@@ -29,10 +27,13 @@ const ProductProfile = () => {
     const otherDetailsRef = useRef(null);
     const warrantyDetailsRef = useRef(null);
     const ReviewSectionRef = useRef(null);
+    const SimilarProductsRef = useRef(null);
 
     const navigate = useNavigate();
 
     const [Data, setData] = useState({ post: [] });
+
+    const [selectedRating, setSelectedRating] = useState(null);
 
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
@@ -40,10 +41,13 @@ const ProductProfile = () => {
     const [refreshReviews, setRefreshReviews] = useState(false);
 
     const [selectedStars, setSelectedStars] = useState({});
-    const [clickedIcons, setClickedIcons] = useState({});
+    // const [clickedIcons, setClickedIcons] = useState({});
+
 
     const [title, setTitle] = useState("");
     const [answer, setAnswer] = useState("");
+
+    const [formattedName1, setFormattedName] = useState("");
 
     const [likedComments, setLikedComments] = useState({});
     const [dislikedComments, setDislikedComments] = useState({});
@@ -67,6 +71,44 @@ const ProductProfile = () => {
 
     const [showCloseButton, setShowCloseButton] = useState(false);
 
+
+    const adjustDate = (date) => {
+
+        console.log(date);
+
+
+        // Step 1: Create a Date object
+
+        const dateObj = new Date(date);
+
+        console.log("Original Date Object:", dateObj);
+
+
+
+        // Step 2: Add 5 hours and 30 minutes
+
+        dateObj.setHours(dateObj.getHours() - 12);
+
+        dateObj.setMinutes(dateObj.getMinutes());
+
+
+        console.log("Adjusted Hours:", dateObj.getHours());
+
+        console.log("Adjusted Minutes:", dateObj.getMinutes());
+
+        console.log("Adjusted Date Object:", dateObj);
+
+
+        // Step 3: Format the date to a string without the timezone part
+
+        const dateStr1 = dateObj.toString().replace(/GMT[^\s]*/, "");
+
+        const dateStr = dateStr1.replace("India Standard Time", "IST")
+        // Step 4: Return the adjusted date as a string
+
+        return dateStr; // or use dateObj.toLocaleString() for a different format
+
+    };
 
 
 
@@ -114,30 +156,6 @@ const ProductProfile = () => {
     }, [ReviewSectionRef]);
 
 
-    // useEffect(() => {
-
-    //     // Update the URL to include the product name
-
-    //     console.log("Previous Data:", previousData);
-    //     console.log("Matching IDs:", Data.post.map(item => item._id));
-        
-    //     // Find the product that matches (with case insensitivity and trim)
-    //     const filteredProduct = Data.post.find(field => field._id.toLowerCase().trim().includes(previousData.toLowerCase().trim()));
-        
-    //     if (filteredProduct) {
-    //         console.log("Found Product:", filteredProduct); // Debug the found product
-            
-    //         // Format the name to be URL-friendly
-    //         const formattedName = encodeURIComponent(filteredProduct.name.replace(/\s+/g, '-').toLowerCase());
-        
-    //         // Update the URL
-    //         window.history.replaceState(null, '', `/product/${formattedName}`);
-    //     } else {
-    //         console.log("No matching product found for previousData:", previousData);
-    //     }
-        
-
-    // }, []); 
 
     const printImage = (content) => {
         const printWindow = window.open("", "", "width=800,height=600");
@@ -206,11 +224,7 @@ const ProductProfile = () => {
         return handleClick;
     };
 
-    // useEffect(() => {
 
-    //     console.log("Received product name:", productName);
-    
-    // }, [productName]);
 
     useEffect(() => {
 
@@ -240,11 +254,79 @@ const ProductProfile = () => {
         return () => clearTimeout(timer);
 
     }, []);
+    
+
+
+    useEffect(() => {
+
+        // Update the URL to include the product name for better SEO
+
+
+        // Find the product that matches the previous data, ignoring case and whitespace
+
+        const filteredProduct = Data.post.find(product => {
+
+            const productIdLower = product._id.toLowerCase();
+
+            const previousDataLower = previousData.toLowerCase().trim();
+
+
+
+
+            // Log the comparison for debugging
+
+            console.log(`Comparing Product ID: "${productIdLower}" with Previous Data: "${previousDataLower}"`);
+
+
+            return productIdLower.includes(previousDataLower);
+
+        });
+
+
+        console.log("filtered product: ", filteredProduct)
+
+        if (filteredProduct) {
+
+            console.log("Found Product:", filteredProduct); // Debugging output for the found product
+
+
+            // Format the product name to be URL-friendly
+
+            const formattedName = filteredProduct.name
+
+                .replace(/\s+/g, '-') // Replace spaces with hyphens
+
+                .toLowerCase(); // Convert to lowercase
+
+
+            setFormattedName(formattedName); // Update state with the formatted product name
+
+
+            console.log(formattedName);
+
+
+            // Update the browser's URL to reflect the product name
+
+            window.history.replaceState(null, '', `/product/${formattedName}`);
+
+        } else {
+
+            console.log("No matching product found for previousData:", previousData);
+
+        }
+
+    }, [Data.post, previousData]);
+
+
+
+
+
     const handleImageClick = (index) => {
 
         setCurrentImageIndex(index); // Update the current image index
 
     };
+
 
     const openModal = (product) => {
 
@@ -304,49 +386,87 @@ const ProductProfile = () => {
 
             const { _id, name } = currentProduct;
 
-            const rating = selectedStars[_id]?.length || 0; // Get the rating from the state
+            const rating = selectedStars[_id]?.length || 0;
 
             const comment = answer;
 
-            console.log("Sending data to backend:", {
-
-                id: _id,
-
-                name: name,
-
-                rating: rating,
-
-                comment: comment,
-
-            });
 
             const bodyFormData = new FormData();
 
             bodyFormData.append("id", _id);
 
-
             bodyFormData.append("userName", user1.name);
+
             bodyFormData.append("userEmail", user1.email);
 
             bodyFormData.append("title", title);
+
             bodyFormData.append("rating", rating);
+
             bodyFormData.append("comment", answer);
 
 
-            axios.post("/api/productRating", bodyFormData,
+            axios.post("/api/productRating", bodyFormData, {
 
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                },
+
+            })
 
                 .then(response => {
 
                     console.log(response);
 
+                    // Create a new review object based on the response
+
+                    const newReview = {
+
+                        rating: rating,
+
+                        userName: user1.name,
+
+                        comment: answer,
+
+                        title: title,
+                        likes: ["0"],
+                        disLikes: ["0"],
+
+                        // Add any other fields you need from the response
+
+                    };
+
+
+                    // Update the reviews state immediately
+
+                    setData(prevData => {
+
+                        const updatedReviews = prevData.post.map(product => {
+
+                            if (product._id === _id) {
+
+                                return {
+
+                                    ...product,
+
+                                    reviews: [...product.reviews, newReview], // Add the new review
+
+                                };
+
+                            }
+
+                            return product;
+
+                        });
+
+                        return { post: updatedReviews };
+
+                    });
+
+
                     closeModal(); // Close modal after saving
-                    setRefreshReviews(prev => !prev);
 
                 })
 
@@ -354,19 +474,40 @@ const ProductProfile = () => {
 
         }
 
-
     };
 
-    const filteredAds = Advertisement.post.filter(ad => 
+    useEffect(() => {
 
-        ad.isEnable && 
-    
-        Data.post.some(product => 
-    
+        if (refreshReviews) {
+
+            axios.get(`/api/productRating/${previousData}`)
+
+                .then(response => {
+
+                    const data = response.data;
+
+                    setData(data);
+
+                })
+
+                .catch(err => console.error("Error fetching ratings:", err));
+
+            setRefreshReviews(false);
+
+        }
+
+    }, [refreshReviews, previousData]);
+
+    const filteredAds = Advertisement.post.filter(ad =>
+
+        ad.isEnable &&
+
+        Data.post.some(product =>
+
             product.tags.some(tag => ad.tags.includes(tag))
-    
+
         )
-    
+
     );
     const adImageSrc = filteredAds.length > 0 ? filteredAds[0].image.data : null;
 
@@ -488,6 +629,8 @@ const ProductProfile = () => {
     const handleAadharClick = useScrollIntoView(technicalDetailsRef);
     const handlePancardClick = useScrollIntoView(otherDetailsRef);
     const handlevoteridcardClick = useScrollIntoView(warrantyDetailsRef);
+    const handleReviewSectionClick = useScrollIntoView(ReviewSectionRef);
+    const handleSimilarProductsClick = useScrollIntoView(SimilarProductsRef);
 
 
     const handleSearch = (e) => {
@@ -662,7 +805,7 @@ const ProductProfile = () => {
 
                                 <Helmet>
 
-                                    <title>{name} </title>
+                                    <title>{formattedName1} </title>
 
                                 </Helmet>
 
@@ -1177,7 +1320,7 @@ const ProductProfile = () => {
                                                                         className="nav-link"
                                                                         onClick={handleBankOffersClick}
                                                                     >
-                                                                        Bank Offers
+                                                                      <i class="fa-solid fa-money-check-dollar"></i>  Bank Offers
                                                                     </a>
                                                                 </li>
                                                                 <li
@@ -1188,7 +1331,7 @@ const ProductProfile = () => {
                                                                         className="nav-link"
                                                                         onClick={handleSpecificationClick}
                                                                     >
-                                                                        Details
+                                                                        Specifications
                                                                     </a>
                                                                 </li>
 
@@ -1223,6 +1366,30 @@ const ProductProfile = () => {
                                                                         className="nav-link"
                                                                     >
                                                                         Other Details
+                                                                    </a>
+                                                                </li>
+
+                                                                <li
+                                                                    className="nav-item"
+                                                                    style={{ cursor: "pointer" }}
+                                                                >
+                                                                    <a
+                                                                        onClick={handleReviewSectionClick}
+                                                                        className="nav-link"
+                                                                    >
+                                                                        Reviews
+                                                                    </a>
+                                                                </li>
+
+                                                                <li
+                                                                    className="nav-item"
+                                                                    style={{ cursor: "pointer" }}
+                                                                >
+                                                                    <a
+                                                                        onClick={handleSimilarProductsClick}
+                                                                        className="nav-link"
+                                                                    >
+                                                                        Similar Products
                                                                     </a>
                                                                 </li>
 
@@ -1563,47 +1730,115 @@ const ProductProfile = () => {
                                             <button className="btn btn-primary" style={{ fontSize: "medium" }} onClick={() => openModal({ _id, name })}>
                                                 Add Review
                                             </button>
+
+                                            <div className="review-stars-section">
+
+                                                <div className="review-star-row" onClick={() => setSelectedRating(null)} style={{ cursor: 'pointer', fontWeight: 'bold' }}>
+
+                                                    <div className="review-star-icon-container pe-4">All Ratings</div>
+
+                                                    <div className="review-star-users-container">{reviews.length} Users</div>
+
+                                                </div>
+
+
+                                                {[5, 4, 3, 2, 1].map((star) => {
+
+                                                    const userCount = reviews.filter(r => r.rating === star).length;
+
+                                                    const percentage = reviews.length > 0 ? ((userCount / reviews.length) * 100).toFixed(0) : 0; // Calculate percentage
+
+
+                                                    return (
+
+                                                        <div className="review-star-row" key={star} onClick={() => setSelectedRating(star)}>
+
+                                                            <div className="review-star-icon-container pe-4 ">
+
+                                                                {[...Array(5)].map((_, index) => (
+
+                                                                    <i key={index} className="fas fa-star" style={{ color: getStarColor(index, star) }}></i>
+
+                                                                ))}
+
+                                                            </div>
+
+                                                            <div className="percentage-bar-container">
+
+                                                                <div className="percentage-fill" style={{ width: `${percentage}%`, backgroundColor: getStarColor(0, star) }}></div>
+
+                                                            </div>
+
+                                                            <div className="review-star-users-container">
+
+                                                                {percentage}% ({userCount} Reviews)  {/* Display user count and percentage */}
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    );
+
+                                                })}
+
+                                            </div>
+
+                                            {selectedRating !== null && (
+
+                                                <h3 style={{ marginTop: "2rem", fontSize: "1.5rem", textAlign: "center" }}>Reviews with {selectedRating} star{selectedRating > 1 ? 's' : ''}</h3>
+
+                                            )}
+
+                                            {selectedRating === null && (
+
+                                                <h3 style={{ marginTop: "2rem", fontSize: "1.5rem", textAlign: "center" }}>All Reviews</h3>
+
+                                            )}
+
                                             <div className="row justify-content-center">
+
                                                 <div className="col-lg-12 col-12 mb-4">
+
                                                     {
-                                                        reviews.map(({ rating, userName, comment, title, likes, disLikes, commentId }, index) => {
-                                                            const Id = `${_id}-${index}`;
-                                                            return (<>
-                                                                <div key={Id}>
-                                                                    <div style={{ display: 'flex', alignItems: 'center', height: '100px' }}>
 
-                                                                        <h5 style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
+                                                        reviews
 
-                                                                            <strong style={{ display: 'flex', alignItems: 'center' }}>
+                                                            .filter(review => selectedRating === null || review.rating === selectedRating) // Filter based on selected rating
 
-                                                                                <i className="fas fa-user-circle" style={{ fontSize: "2rem", marginRight: "0.5rem" }}></i>
+                                                            .map(({ rating, userName, comment, title, likes, disLikes, commentId, dateOfFormSubmission }, index) => {
 
-                                                                                <span style={{ fontSize: "1rem" }}>
+                                                                const Id = `${_id}-${index}`;
 
-                                                                                    {userName}
+                                                                return (
 
-                                                                                </span>
+                                                                    <div key={Id}>
 
-                                                                            </strong>
+                                                                        <div style={{ display: 'flex', alignItems: 'center', height: '100px' }}>
 
-                                                                        </h5>
+                                                                            <h5 style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
 
-                                                                    </div>
-                                                                    <div style={{ display: 'flex', alignItems: 'center', height: '100px', marginTop: "-2rem" }}>
+                                                                                <strong style={{ display: 'flex', alignItems: 'center' }}>
 
-                                                                        <h5 style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
+                                                                                    <i className="fas fa-user-circle" style={{ fontSize: "2rem", marginRight: "0.5rem" }}></i>
 
-                                                                            <strong style={{ display: 'flex', alignItems: 'center' }}>
+                                                                                    <span style={{ fontSize: "1rem" }}>{userName}</span>
 
-                                                                                {/* Replace user icon with stars based on rating */}
+                                                                                </strong>
 
-                                                                                <div className="rating-stars" style={{ display: 'flex', alignItems: 'center', marginRight: '0.5rem' }}>
+                                                                            </h5>
+                                                                            <h6 style={{ marginLeft: "-9rem", marginBottom: "-4rem" }}>{adjustDate(dateOfFormSubmission)}</h6>
 
-                                                                                    {Array.from({ length: 5 }, (_, index) => {
+                                                                        </div>
 
+                                                                        <div style={{ display: 'flex', alignItems: 'center', height: '100px', marginTop: "-1rem" }}>
 
+                                                                            <h5 style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
 
-                                                                                        return (
+                                                                                <strong style={{ display: 'flex', alignItems: 'center' }}>
+
+                                                                                    <div className="rating-stars" style={{ display: 'flex', alignItems: 'center', marginRight: '0.5rem' }}>
+
+                                                                                        {Array.from({ length: 5 }, (_, index) => (
 
                                                                                             <i
 
@@ -1615,73 +1850,36 @@ const ProductProfile = () => {
 
                                                                                             ></i>
 
-                                                                                        );
+                                                                                        ))}
 
-                                                                                    })}
+                                                                                    </div>
 
-                                                                                </div>
+                                                                                    <span style={{ fontSize: "1rem", fontWeight: "bolder", marginLeft: "0rem" }}>
+                                                                                        <br />     <br />  <br />{title}</span>
 
-                                                                                <span style={{ fontSize: "1rem", fontWeight: "bolder" }}>
+                                                                                </strong>
 
-                                                                                    {title}
-                                                                                </span>
+                                                                            </h5>
 
-                                                                            </strong>
+
+                                                                        </div>
+
+                                                                        <h5>
+
+                                                                            <div className="p-2 mt-2" style={{ border: "1px dotted black", width: "50%", borderRadius: "10px" }} dangerouslySetInnerHTML={{ __html: comment }}></div>
 
                                                                         </h5>
 
                                                                     </div>
 
-                                                                    <h5>
-                                                                        <div
-                                                                            dangerouslySetInnerHTML={{
-                                                                                __html: comment,
-                                                                            }}
+                                                                );
 
-                                                                        ></div>
-                                                                    </h5>
-                                                                </div>
-                                                                <div>
+                                                            })
 
-                                                                    <i
-
-                                                                        className={`fa-solid fa-thumbs-up me-4 p-2 ${likedComments[commentId] ? 'liked' : ''}`}
-
-                                                                        style={{
-
-                                                                            color: (likedComments[commentId] || likes.some(like => like.userName === user1.name)) ? 'green' : 'grey',
-
-                                                                            cursor: 'pointer',
-
-
-                                                                        }}
-
-                                                                        onClick={() => handleLikeCommentClick(_id, commentId)}
-
-                                                                    ></i>
-
-                                                                    <i
-
-                                                                        className={`fa-solid fa-thumbs-down p-2 ${dislikedComments[commentId] ? 'disliked' : ''}`}
-
-                                                                        style={{
-
-                                                                            color: (dislikedComments[commentId] || disLikes.some(disLikes => disLikes.userName === user1.name)) ? 'red' : 'grey',
-
-                                                                            cursor: 'pointer',
-
-                                                                        }}
-
-                                                                        onClick={() => handleDislikeCommentClick(_id, commentId)}
-
-                                                                    ></i>
-
-                                                                </div>
-                                                            </>)
-                                                        })
                                                     }
 
                                                 </div>
+
                                             </div>
                                         </div>
                                     </section>
@@ -1836,6 +2034,20 @@ const ProductProfile = () => {
 
                                 )}
 
+
+<section className="location-section" ref={SimilarProductsRef}>
+                                        <div className="container">
+                                            <h2> Similar Products</h2>
+                                            <div className="row justify-content-center">
+                                                <div className="col-lg-12 col-12 mb-4">
+
+                                                    <div dangerouslySetInnerHTML={{ __html: technicalDetails }} />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
                             </>
                         );
                     }
@@ -1843,7 +2055,7 @@ const ProductProfile = () => {
 
 
 
-            <></>
+           
         </>
     );
 };
