@@ -1208,6 +1208,7 @@ app.post("/api/deleteProduct", async (req, res) => {
 
     await ProductsDB.deleteOne({
       _id: req.body.id,
+      
     });
 
     console.log("Product Deleted Successfully");
