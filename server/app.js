@@ -1284,21 +1284,26 @@ app.post("/api/addToCartProduct", async (req, res) => {
 
   if (existingEntryIndex !== -1) {
 
-    // Remove the existing entry
-
     DB.addToCart.splice(existingEntryIndex, 1);
+    await DB.save();
+    console.log("Removed From Cart Successfully!");
+    res.send({ status: "Ok", data: "Removed From Cart Successfully." });
 
-    console.log("Add To Cart Removed Successfully!");
+
+  }else{
+      DB.addToCart.push(data);
+  await DB.save();
+  console.log("Add To Cart Successfully");
+
+  res.send({ status: "Ok", data: "Add To Cart Successfully." });
 
   }
 
 
 
-  // DB.addToCart.push(data);
-  // await DB.save();
+
 
   console.log("New Product Added in Database Successfully");
-  res.send({ status: "Ok", data: "New Tag Saved." });
 
 
 

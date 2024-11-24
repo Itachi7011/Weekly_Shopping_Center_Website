@@ -59,7 +59,7 @@ const ShowMarketData = () => {
         .post("/api/deleteMarket", { id: id })
 
         .then((data) => {
-          alert("Market Deleted");
+          alert(data.data.data);
         })
 
         .catch((err) => {

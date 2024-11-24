@@ -20067,7 +20067,7 @@ p {
   padding: 13rem 2rem;
 }
 
-.profileProductCartIcon {
+.profileProductCartIcon1 {
 font-size: 2.5rem !important;
   margin-left: 18rem;
   margin-top: -4rem;
@@ -20080,7 +20080,7 @@ font-size: 2.5rem !important;
 }
 
 
-.profileListCartIcon{
+.profileListCartIcon1{
   position: absolute;
   bottom: 220px;
   right: 10px;
@@ -20097,4 +20097,37 @@ font-size: 2.5rem !important;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 
 }
+
+.profileProductCartIcon2 {
+  font-size: 2.5rem !important;
+    margin-left: 18rem;
+    margin-top: -4rem;
+    color: green;
+    margin-right: 5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  }
+  
+  
+  .profileListCartIcon2{
+    position: absolute;
+    bottom: 220px;
+    right: 10px;
+    background: #FFFFE0;
+    border: 1px solid  #ADD8E6;
+    font-size: 2rem !important;
+    /* margin-left: 9rem; */
+    /* margin-top: -4rem; */
+    color: green;
+    /* margin-right: 5rem; */
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  
+  }
+
+
 

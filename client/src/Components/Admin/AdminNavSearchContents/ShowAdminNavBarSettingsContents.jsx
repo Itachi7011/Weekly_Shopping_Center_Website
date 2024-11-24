@@ -58,7 +58,7 @@ const ShowMarketData = () => {
         .post("/api/deleteMarket", { id: id })
 
         .then((data) => {
-          alert("Market Deleted");
+          alert(data.data.data);
         })
 
         .catch((err) => {
@@ -85,7 +85,7 @@ const ShowMarketData = () => {
         .post("/api/deleteSelectedMarket", { ids: selectedItems })
 
         .then((data) => {
-          alert("Selected Market Deleted");
+          alert(data.data.data);
         })
 
         .catch((err) => {

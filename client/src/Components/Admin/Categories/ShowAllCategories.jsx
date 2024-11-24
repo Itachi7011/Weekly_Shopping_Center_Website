@@ -57,7 +57,7 @@ const ShowAllTags = () => {
         .post("/api/deleteCategory", { id: id })
 
         .then((data) => {
-          alert("Category Deleted");
+          alert(data.data.data);
         })
 
         .catch((err) => {

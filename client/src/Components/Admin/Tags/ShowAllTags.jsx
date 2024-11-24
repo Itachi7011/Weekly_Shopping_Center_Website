@@ -50,7 +50,7 @@ const ShowAllTags = () => {
       .post("/api/deleteTag", { id: id })
 
       .then((data) => {
-        alert("Tag Deleted");
+        alert(data.data.data);
       })
 
       .catch((err) => {

@@ -62,7 +62,7 @@ const AdminsList = () => {
 
         .then((data) => {
 
-          alert("Admin Account  Deleted");
+          alert(data.data.data);
         })
 
 

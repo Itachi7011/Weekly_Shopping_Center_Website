@@ -146,7 +146,7 @@ const BankOffersList = () => {
 
             .then((response) => {
 
-                alert("Bank Offer Deleted");
+              alert(response.data.data);
 
                 // Optionally, reload the page or update the UI here
 

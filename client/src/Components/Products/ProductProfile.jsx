@@ -46,6 +46,8 @@ const ProductProfile = () => {
     // const [clickedIcons, setClickedIcons] = useState({});
 
 
+
+
     const [title, setTitle] = useState("");
     const [answer, setAnswer] = useState("");
 
@@ -76,6 +78,10 @@ const ProductProfile = () => {
     const [previousData, setPreviousData] = useState(null);
 
     const [previousId, setPreviousId] = useState(null);
+
+    const [addToCart, setAddToCart] = useState([]);
+    const [isInCart, setIsInCart] = useState(false);
+
 
     useEffect(() => {
 
@@ -257,6 +263,27 @@ const ProductProfile = () => {
 
         return handleClick;
     };
+
+    useEffect(() => {
+
+
+        console.log(user1.email)
+
+
+        setIsInCart(
+            addToCart.map(
+                item => {
+        console.log(item.userEmail)
+
+                    // item.userEmail === user1.email && item.productId === Data._id
+
+                }
+            )
+        );
+
+
+
+    }, [addToCart, user1]);
 
 
 
@@ -469,7 +496,7 @@ const ProductProfile = () => {
     };
 
 
-    const handleAddToCart = (event, id,name) => {
+    const handleAddToCart = (event, id, name) => {
         event.preventDefault();
 
 
@@ -498,8 +525,9 @@ const ProductProfile = () => {
 
             .then((response) => {
 
-                alert("Product Deleted Successfully");
                 // window.location.reload();
+                setAddToCart(prevState => [...prevState, { userEmail: user1.email, productId: name }]);
+                setRefreshReviews(true); // Refresh reviews
 
 
             })
@@ -817,6 +845,8 @@ const ProductProfile = () => {
 
     };
 
+    console.log("isInCart :", isInCart)
+
 
     const hoverStyle = {
 
@@ -919,6 +949,7 @@ const ProductProfile = () => {
                         averageRating,
                         youtubeUrl,
                         productDetails,
+                        addToCart,
                         warrantyDetails,
                         technicalDetails,
                         rating,
@@ -1401,9 +1432,17 @@ const ProductProfile = () => {
                                                                 <del>₹ {price}</del> <span className="text-danger">(-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {effectivePrice}</strong> <span className="text-danger"> (Save ₹ {price - (effectivePrice - (adminDiscount || 0))}) </span>
 
                                                             </h1>
-                                                            <span className="profileProductCartIcon" 
-                                                            onClick={(event) => handleAddToCart(event, _id,name)}
-                                                            >  <i className="fas fa-cart-plus"></i> </span>
+                                                            <span className={(isInCart) && (addToCart.some(item =>
+
+                                                                item.userEmail === user1.email && item.productId === name)
+
+                                                            ) ? "profileProductCartIcon1" : "profileProductCartIcon2"}
+                                                                onClick={(event) => handleAddToCart(event, _id, name)}
+                                                            >
+                                                                {user1.userType === "Admin" ?
+                                                                    (<span style={{ fontSize: "1rem", color: "red", fontWeight: "bolder" }}>  {addToCart.length} </span>) :
+                                                                    ""}
+                                                                <i className="fas fa-cart-plus"></i> </span>
                                                             <span>
                                                                 Stock Available:{" "}
                                                                 <strong style={{ marginLeft: "1rem" }}>

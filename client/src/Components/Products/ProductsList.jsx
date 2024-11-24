@@ -116,10 +116,10 @@ const ProductListing = () => {
         if (event && typeof event.preventDefault === 'function') {
 
             event.preventDefault();
-    
+
         }
-        console.log("id is: ",id)
-    
+        console.log("id is: ", id)
+
         const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
 
@@ -151,6 +151,55 @@ const ProductListing = () => {
 
         }
     };
+
+    const handleAddToCart = (event, id, name) => {
+
+        if (event && typeof event.preventDefault === 'function') {
+
+            event.preventDefault();
+
+        }
+
+
+        const bodyFormData = new FormData();
+
+        bodyFormData.append("productId", id);
+        bodyFormData.append("productName", name);
+
+        bodyFormData.append("userName", Profile.name);
+
+        bodyFormData.append("userEmail", Profile.email);
+
+
+
+        axios
+
+            .post("/api/addToCartProduct", bodyFormData, {
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                },
+
+            })
+
+            .then((response) => {
+
+                alert(response.data.data);
+
+
+            })
+
+            .catch((err) => {
+
+                console.log("Error during delete selected:", err);
+
+            });
+
+
+    };
+
 
     const BankOffers = () => {
         return (<>
@@ -477,7 +526,16 @@ const ProductListing = () => {
                                         </span>) : ""}
 
                                     </span>
-                                    <span className="profileListCartIcon"> {product.addToCart.length}  <i className="fas fa-cart-plus"></i> </span>
+                                    <span 
+                                   className={product.addToCart.some(item =>
+
+                                    item.userEmail === Profile.email && item.productId === product._id
+
+                                ) ? "profileListCartIcon2" : "profileListCartIcon1"}
+                                onClick={(event) => handleAddToCart(event, product._id, product.name)}
+                                    > {Profile.userType === "Admin" ?
+                                        (<span>  {product.addToCart.length} </span>) :
+                                        ""}   <i className="fas fa-cart-plus"></i> </span>
 
                                 </h5>
 
@@ -616,7 +674,17 @@ const ProductListing = () => {
                                         </span>) : ""}
 
                                     </span>
-   <span className="profileListCartIcon">  <i className="fas fa-cart-plus"></i> </span>
+                                    <span 
+                                   className={product.addToCart.some(item =>
+
+                                    item.userEmail === Profile.email && item.productId === product._id
+
+                                ) ? "profileListCartIcon2" : "profileListCartIcon1"}
+                                onClick={(event) => handleAddToCart(event, product._id, product.name)}
+                                    > {Profile.userType === "Admin" ?
+                                        (<span>  {product.addToCart.length} </span>) :
+                                        ""}   <i className="fas fa-cart-plus"></i> </span>
+                                    <span className="profileListCartIcon">  <i className="fas fa-cart-plus"></i> </span>
 
                                 </h5>
 

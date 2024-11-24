@@ -176,7 +176,7 @@ const ViewAllAdvertisements = () => {
 
         .then((response) => {
 
-          alert("Advertisement Deleted");
+          alert(response.data.data);
 
           // Optionally, reload the page or update the UI here
 
