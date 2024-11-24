@@ -46,8 +46,6 @@ const ProductProfile = () => {
     // const [clickedIcons, setClickedIcons] = useState({});
 
 
-
-
     const [title, setTitle] = useState("");
     const [answer, setAnswer] = useState("");
 
@@ -78,10 +76,6 @@ const ProductProfile = () => {
     const [previousData, setPreviousData] = useState(null);
 
     const [previousId, setPreviousId] = useState(null);
-
-    const [addToCart, setAddToCart] = useState([]);
-    const [isInCart, setIsInCart] = useState(false);
-
 
     useEffect(() => {
 
@@ -263,27 +257,6 @@ const ProductProfile = () => {
 
         return handleClick;
     };
-
-    useEffect(() => {
-
-
-        console.log(user1.email)
-
-
-        setIsInCart(
-            addToCart.map(
-                item => {
-        console.log(item.userEmail)
-
-                    // item.userEmail === user1.email && item.productId === Data._id
-
-                }
-            )
-        );
-
-
-
-    }, [addToCart, user1]);
 
 
 
@@ -525,9 +498,8 @@ const ProductProfile = () => {
 
             .then((response) => {
 
+                alert(response.data.data);
                 // window.location.reload();
-                setAddToCart(prevState => [...prevState, { userEmail: user1.email, productId: name }]);
-                setRefreshReviews(true); // Refresh reviews
 
 
             })
@@ -844,8 +816,6 @@ const ProductProfile = () => {
         outline: 'none', // Remove outline
 
     };
-
-    console.log("isInCart :", isInCart)
 
 
     const hoverStyle = {
@@ -1432,9 +1402,9 @@ const ProductProfile = () => {
                                                                 <del>₹ {price}</del> <span className="text-danger">(-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {effectivePrice}</strong> <span className="text-danger"> (Save ₹ {price - (effectivePrice - (adminDiscount || 0))}) </span>
 
                                                             </h1>
-                                                            <span className={(isInCart) && (addToCart.some(item =>
+                                                            <span className={addToCart.some(item =>
 
-                                                                item.userEmail === user1.email && item.productId === name)
+                                                                item.userEmail === user1.email && item.productId === name
 
                                                             ) ? "profileProductCartIcon1" : "profileProductCartIcon2"}
                                                                 onClick={(event) => handleAddToCart(event, _id, name)}
@@ -2041,11 +2011,50 @@ const ProductProfile = () => {
 
                                                                         <h5>
 
-                                                                            <div className="p-2 mt-2" style={{ border: "1px dotted black", width: "50%", borderRadius: "10px" }} dangerouslySetInnerHTML={{ __html: comment }}></div>
+                                                                            <div className="p-2 mt-2" style={{ border: "1px dotted black", width: "50%", borderRadius: "10px" }} dangerouslySetInnerHTML={{ __html: comment }}>
+
+                                                                            </div>
 
                                                                         </h5>
+                                                                        <div>
+                                                                            <i
+
+                                                                                className={`fa-solid fa-thumbs-up me-4 p-2 ${likedComments[commentId] ? 'liked' : ''}`}
+
+                                                                                style={{
+
+                                                                                    color: (likedComments[commentId] || likes.some(like => like.userName === user1.name)) ? 'green' : 'grey',
+
+                                                                                    cursor: 'pointer',
+
+
+                                                                                }}
+
+                                                                                onClick={() => handleLikeCommentClick(_id, commentId)}
+
+                                                                            ></i>
+
+                                                                            <i
+
+                                                                                className={`fa-solid fa-thumbs-down p-2 ${dislikedComments[commentId] ? 'disliked' : ''}`}
+
+                                                                                style={{
+
+                                                                                    color: (dislikedComments[commentId] || disLikes.some(disLikes => disLikes.userName === user1.name)) ? 'red' : 'grey',
+
+                                                                                    cursor: 'pointer',
+
+                                                                                }}
+
+                                                                                onClick={() => handleDislikeCommentClick(_id, commentId)}
+
+                                                                            ></i>
+
+                                                                        </div>
 
                                                                     </div>
+
+
 
                                                                 );
 
