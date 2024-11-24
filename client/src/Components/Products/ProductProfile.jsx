@@ -15,8 +15,9 @@ const ProductProfile = () => {
 
 
     const location = useLocation();
-    const previousData = location.state._id;
-    const previousId = location.state.id;
+
+    // const previousData = location.state._id;
+    // const previousId = location.state.id;
 
 
 
@@ -71,6 +72,44 @@ const ProductProfile = () => {
     const [advertisementVisible, setAdvertisementVisible] = useState(false);
 
     const [showCloseButton, setShowCloseButton] = useState(false);
+
+    const [previousData, setPreviousData] = useState(null);
+
+    const [previousId, setPreviousId] = useState(null);
+
+    useEffect(() => {
+
+        // Check if location.state is available
+
+        if (location.state) {
+
+            // Store the data in sessionStorage
+
+            sessionStorage.setItem('productData', JSON.stringify(location.state));
+
+            setPreviousData(location.state._id);
+
+            setPreviousId(location.state.id);
+
+        } else {
+
+            // Retrieve data from sessionStorage if location.state is not available
+
+            const storedData = sessionStorage.getItem('productData');
+
+            if (storedData) {
+
+                const parsedData = JSON.parse(storedData);
+
+                setPreviousData(parsedData._id);
+
+                setPreviousId(parsedData.id);
+
+            }
+
+        }
+
+    }, [location.state]);
 
 
     const adjustDate = (date) => {
