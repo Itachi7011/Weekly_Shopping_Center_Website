@@ -477,6 +477,7 @@ const ProductListing = () => {
                                         </span>) : ""}
 
                                     </span>
+                                    <span className="profileListCartIcon">  <i className="fas fa-cart-plus"></i> </span>
 
                                 </h5>
 
@@ -575,7 +576,6 @@ const ProductListing = () => {
                                 </button>
 
                             ) : ""}
-
                             <div className="card-body">
 
                                 <h5 className="card-title">
@@ -616,6 +616,7 @@ const ProductListing = () => {
                                         </span>) : ""}
 
                                     </span>
+   <span className="profileListCartIcon">  <i className="fas fa-cart-plus"></i> </span>
 
                                 </h5>
 

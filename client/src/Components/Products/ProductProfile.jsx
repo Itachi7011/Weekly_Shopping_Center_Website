@@ -433,7 +433,7 @@ const ProductProfile = () => {
     };
 
 
-    
+
     const handleDelete = (event, id) => {
         event.preventDefault();
         const confirmDelete = window.confirm("Are you sure you want to delete this item?");
@@ -468,6 +468,50 @@ const ProductProfile = () => {
         }
     };
 
+
+    const handleAddToCart = (event, id,name) => {
+        event.preventDefault();
+
+
+        const bodyFormData = new FormData();
+
+        bodyFormData.append("productId", id);
+        bodyFormData.append("productName", name);
+
+        bodyFormData.append("userName", user1.name);
+
+        bodyFormData.append("userEmail", user1.email);
+
+
+
+        axios
+
+            .post("/api/addToCartProduct", bodyFormData, {
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                },
+
+            })
+
+            .then((response) => {
+
+                alert("Product Deleted Successfully");
+                // window.location.reload();
+
+
+            })
+
+            .catch((err) => {
+
+                console.log("Error during delete selected:", err);
+
+            });
+
+
+    };
 
     const saveRating = () => {
 
@@ -1357,6 +1401,9 @@ const ProductProfile = () => {
                                                                 <del>₹ {price}</del> <span className="text-danger">(-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {effectivePrice}</strong> <span className="text-danger"> (Save ₹ {price - (effectivePrice - (adminDiscount || 0))}) </span>
 
                                                             </h1>
+                                                            <span className="profileProductCartIcon" 
+                                                            onClick={(event) => handleAddToCart(event, _id,name)}
+                                                            >  <i className="fas fa-cart-plus"></i> </span>
                                                             <span>
                                                                 Stock Available:{" "}
                                                                 <strong style={{ marginLeft: "1rem" }}>
@@ -1768,7 +1815,7 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
 
-                                                    <div style={{ border: "1px dotted black", padding: "2rem 4rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: technicalDetails }} />
+                                                    <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: technicalDetails }} />
 
                                                 </div>
                                             </div>
@@ -1787,7 +1834,7 @@ const ProductProfile = () => {
                                                     <div className="row justify-content-center">
                                                         <div className="col-lg-12 col-12 mb-4">
 
-                                                            <div style={{ border: "1px dotted black", padding: "2rem 4rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: warrantyDetails }} />
+                                                            <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: warrantyDetails }} />
 
                                                         </div>
                                                     </div>
@@ -1803,7 +1850,7 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
 
-                                                    <div style={{ border: "1px dotted black", padding: "2rem 4rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: productDetails }} />
+                                                    <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: productDetails }} />
 
                                                 </div>
                                             </div>
@@ -2125,224 +2172,224 @@ const ProductProfile = () => {
 
 
                                 <section className="location-section" ref={SimilarProductsRef}>
-                                        <h2> Similar Products</h2>
-
-                                        <div className="similarProductsDiv">
+                                    <h2> Similar Products</h2>
 
-                                             <Carousel
-                                                    responsive={responsive}
-                                                    swipeable={true}
-                                                    draggable={true}
-                                                    showDots={true}
-                                                    ssr={true} 
-                                                    infinite={false}
-                                                    autoPlaySpeed={1000}
-                                                    keyBoardControl={true}
-                                                    customTransition="all .5"
-                                                    transitionDuration={500}
-                                                    containerClassName="carousel-container"
-                                                    removeArrowOnDeviceType={["tablet", "mobile"]}
-                                                    dotListClassName="custom-dot-list-style"
-                                                    itemClassName="carousel-item"
-                                               >
+                                    <div className="similarProductsDiv">
 
-                                                    {Data.post
+                                        <Carousel
+                                            responsive={responsive}
+                                            swipeable={true}
+                                            draggable={true}
+                                            showDots={true}
+                                            ssr={true}
+                                            infinite={false}
+                                            autoPlaySpeed={1000}
+                                            keyBoardControl={true}
+                                            customTransition="all .5"
+                                            transitionDuration={500}
+                                            containerClassName="carousel-container"
+                                            removeArrowOnDeviceType={["tablet", "mobile"]}
+                                            dotListClassName="custom-dot-list-style"
+                                            itemClassName="carousel-item"
+                                        >
 
-                                                        .filter((product) => {
+                                            {Data.post
 
-                                                            // Exclude the current product from similar products
+                                                .filter((product) => {
 
-                                                            if (product._id === previousData) {
+                                                    // Exclude the current product from similar products
 
-                                                                return false;
+                                                    if (product._id === previousData) {
 
-                                                            }
+                                                        return false;
 
-                                                            // Check if the product matches the subCategory or tags
+                                                    }
 
-                                                            return product.subCategory === subCategory ||
+                                                    // Check if the product matches the subCategory or tags
 
-                                                                product.tags.some(tag => tags.includes(tag));
+                                                    return product.subCategory === subCategory ||
 
-                                                        })
+                                                        product.tags.some(tag => tags.includes(tag));
 
-                                                        .map(({
-                                                            _id,
-                                                            id,
-                                                            name,
-                                                            category,
-                                                            subCategory,
-                                                            marketName,
-                                                            newOrRefurbished,
-                                                            isPopular,
-                                                            reviews,
-                                                            isNewProduct,
-                                                            isPremium,
-                                                            isLimitedTimeDeal,
-                                                            price,
-                                                            effectivePrice,
-                                                            brand,
-                                                            model,
-                                                            color,
-                                                            weight,
-                                                            dimensions,
-                                                            stockNextRefillDate,
-                                                            sellerDiscount,
-                                                            adminDiscount,
-                                                            stock_available,
-                                                            tags,
-                                                            images,
-                                                            averageRating,
-                                                            youtubeUrl,
-                                                            productDetails,
-                                                            warrantyDetails,
-                                                            technicalDetails,
-                                                            rating,
-                                                            comments,
-                                                            freqAskedQuest,
-                                                            totalSold,
-                                                            totalCart,
-                                                            createdByName,
-                                                            createdByType,
-                                                            dateOfFormSubmission,
-                                                        }) => (
+                                                })
 
+                                                .map(({
+                                                    _id,
+                                                    id,
+                                                    name,
+                                                    category,
+                                                    subCategory,
+                                                    marketName,
+                                                    newOrRefurbished,
+                                                    isPopular,
+                                                    reviews,
+                                                    isNewProduct,
+                                                    isPremium,
+                                                    isLimitedTimeDeal,
+                                                    price,
+                                                    effectivePrice,
+                                                    brand,
+                                                    model,
+                                                    color,
+                                                    weight,
+                                                    dimensions,
+                                                    stockNextRefillDate,
+                                                    sellerDiscount,
+                                                    adminDiscount,
+                                                    stock_available,
+                                                    tags,
+                                                    images,
+                                                    averageRating,
+                                                    youtubeUrl,
+                                                    productDetails,
+                                                    warrantyDetails,
+                                                    technicalDetails,
+                                                    rating,
+                                                    comments,
+                                                    freqAskedQuest,
+                                                    totalSold,
+                                                    totalCart,
+                                                    createdByName,
+                                                    createdByType,
+                                                    dateOfFormSubmission,
+                                                }) => (
 
-                                                         
 
-                                                                    <div key={_id} className="card" style={{ height: "650px",margin:"1rem" }}>
 
-                                                                        {isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
 
-                                                                            Premium
+                                                    <div key={_id} className="card" style={{ height: "650px", margin: "1rem" }}>
 
-                                                                        </span>) : ""}
+                                                        {isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
 
+                                                            Premium
 
+                                                        </span>) : ""}
 
 
-                                                                        {isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
 
-                                                                            New
 
-                                                                        </span>) : ""}
+                                                        {isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
 
+                                                            New
 
+                                                        </span>) : ""}
 
 
 
-                                                                        <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
 
-                                                                            {[...Array(5)].map((_, index) => (
 
-                                                                                <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(averageRating)), fontSize: "large", }}></i>
+                                                        <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
 
-                                                                            ))}
-                                                                        </span>
+                                                            {[...Array(5)].map((_, index) => (
 
+                                                                <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(averageRating)), fontSize: "large", }}></i>
 
+                                                            ))}
+                                                        </span>
 
-                                                                        <img src={images[0].data} className="card-img-top" alt={name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
-                                                                            const formattedName = encodeURIComponent(name);
-                                                                            console.log("Navigating to ProductProfile with name:", formattedName);
-                                                                            navigate(`/ProductProfile/${name}`, {
-                                                                                state: {
-                                                                                    _id: _id,
-                                                                                    id: id,
-                                                                                    name: name,
-                                                                                },
-                                                                            });
-                                                                        }} />
-                                                                        {isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
 
-                                                                            Sponsored
 
-                                                                        </span>) : ""}
+                                                        <img src={images[0].data} className="card-img-top" alt={name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
+                                                            const formattedName = encodeURIComponent(name);
+                                                            console.log("Navigating to ProductProfile with name:", formattedName);
+                                                            navigate(`/ProductProfile/${name}`, {
+                                                                state: {
+                                                                    _id: _id,
+                                                                    id: id,
+                                                                    name: name,
+                                                                },
+                                                            });
+                                                        }} />
+                                                        {isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
 
+                                                            Sponsored
 
-                                                                        {Profile.userType === "Admin" ? (
+                                                        </span>) : ""}
 
-                                                                            <button
-                                                                                className=" btn btn-danger px-3"
-                                                                                onClick={(event) => handleDelete(event, _id)}
-                                                                                style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
-                                                                                <i className="fas fa-trash-alt text-white mx-auto"
-                                                                                    style={{
-                                                                                        fontSize: "1.2rem"
-                                                                                    }}
-                                                                                ></i>
-                                                                            </button>
 
-                                                                        ) : ""}
+                                                        {Profile.userType === "Admin" ? (
 
-                                                                        <div className="card-body">
+                                                            <button
+                                                                className=" btn btn-danger px-3"
+                                                                onClick={(event) => handleDelete(event, _id)}
+                                                                style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
+                                                                <i className="fas fa-trash-alt text-white mx-auto"
+                                                                    style={{
+                                                                        fontSize: "1.2rem"
+                                                                    }}
+                                                                ></i>
+                                                            </button>
 
-                                                                            <h5 className="card-title">
-                                                                                <div className="" style={{ marginBottom: "-1rem" }}> {name}  <span style={{ fontSize: "smaller" }}>  </span>
-                                                                                </div>
+                                                        ) : ""}
 
+                                                        <div className="card-body">
 
-                                                                                <br />({newOrRefurbished}) {isLimitedTimeDeal === true ? (
+                                                            <h5 className="card-title">
+                                                                <div className="" style={{ marginBottom: "-1rem" }}> {name}  <span style={{ fontSize: "smaller" }}>  </span>
+                                                                </div>
 
-                                                                                    <span style={{ position: "relative", display: "inline-block" }}>
 
-                                                                                        <i
+                                                                <br />({newOrRefurbished}) {isLimitedTimeDeal === true ? (
 
-                                                                                            className="fa-solid fa-hourglass-half ms-2"
+                                                                    <span style={{ position: "relative", display: "inline-block" }}>
 
-                                                                                            style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
+                                                                        <i
 
-                                                                                        ></i>
+                                                                            className="fa-solid fa-hourglass-half ms-2"
 
-                                                                                        {/* Tooltip */}
+                                                                            style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
 
-                                                                                        <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
+                                                                        ></i>
 
-                                                                                    </span>
+                                                                        {/* Tooltip */}
 
-                                                                                ) : ""}
+                                                                        <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
 
-                                                                                <span className="rating-stars position-absolute ms-2"
-                                                                                    style={{
-                                                                                        // top: "50px",
-                                                                                        // right: "10px",
-                                                                                        zIndex: 1,
-                                                                                        background: "#00A86B"
-                                                                                    }}>
-                                                                                    {isNewProduct === true ? (<span className="badge "
-                                                                                    >
-                                                                                        Popular
-                                                                                    </span>) : ""}
+                                                                    </span>
 
-                                                                                </span>
+                                                                ) : ""}
 
-                                                                            </h5>
+                                                                <span className="rating-stars position-absolute ms-2"
+                                                                    style={{
+                                                                        // top: "50px",
+                                                                        // right: "10px",
+                                                                        zIndex: 1,
+                                                                        background: "#00A86B"
+                                                                    }}>
+                                                                    {isNewProduct === true ? (<span className="badge "
+                                                                    >
+                                                                        Popular
+                                                                    </span>) : ""}
 
+                                                                </span>
 
-                                                                            <p className="card-text">
+                                                            </h5>
 
-                                                                                <strong> <del>₹ {price}</del> </strong>  <span className="text-danger">(-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {effectivePrice}</strong> <span className="text-danger"> Save ₹ {price - (effectivePrice - (adminDiscount || 0))} </span>
 
-                                                                            </p>
+                                                            <p className="card-text">
 
+                                                                <strong> <del>₹ {price}</del> </strong>  <span className="text-danger">(-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {effectivePrice}</strong> <span className="text-danger"> Save ₹ {price - (effectivePrice - (adminDiscount || 0))} </span>
 
+                                                            </p>
 
-                                                                        </div>
 
-                                                                    </div>
 
+                                                        </div>
 
+                                                    </div>
 
-                                                        ))}
 
-                                                </Carousel>
-                                        </div>
-                                       
 
-                                               
+                                                ))}
 
+                                        </Carousel>
+                                    </div>
 
-                                           
+
+
+
+
+
                                 </section>
 
                             </>

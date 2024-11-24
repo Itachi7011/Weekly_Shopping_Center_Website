@@ -161,6 +161,16 @@ const ProductsSchema = new mongoose.Schema({
     type: Number,
     default:0
   },
+
+  addToCart: [
+    {
+      userName: String,
+      userEmail: String,
+      productId: String,
+      productName: String,
+      dateOfFormSubmission: String,
+    },
+  ],
   totalCart: {
     type: Number,
     default:0

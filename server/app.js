@@ -1237,6 +1237,36 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
 });
 
 
+// Add To Cart Product
+
+app.post("/api/addToCartProduct",  async (req, res)=>{
+  console.log(req.body)
+
+  const id = req.body.productId;
+
+  const DB = await ProductsDB.findOne({_id: id})
+  // console.log(DB)
+
+  if (!DB) {
+    return res.status(404).send({ status: "Error", message: "Product not found." });
+  }
+
+  const data =  {
+    userName: req.body.userName,
+    userEmail: req.body.userEmail,
+    productId: req.body.productId,
+    productName: req.body.productName,
+    dateOfFormSubmission: new Date(),
+  };
+
+  // console.log("New Product Added in Database Successfully");
+  // res.send({ status: "Ok", data: "New Tag Saved." });
+
+
+
+})
+
+
 // Product Rating And Reviews
 
 app.post("/api/productRating", async (req, res) => {
