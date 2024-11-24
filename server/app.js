@@ -1208,7 +1208,7 @@ app.post("/api/deleteProduct", async (req, res) => {
 
     await ProductsDB.deleteOne({
       _id: req.body.id,
-      
+
     });
 
     console.log("Product Deleted Successfully");
@@ -1239,19 +1239,19 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
 
 // Add To Cart Product
 
-app.post("/api/addToCartProduct",  async (req, res)=>{
+app.post("/api/addToCartProduct", async (req, res) => {
   console.log(req.body)
 
   const id = req.body.productId;
 
-  const DB = await ProductsDB.findOne({_id: id})
+  const DB = await ProductsDB.findOne({ _id: id })
   // console.log(DB)
 
   if (!DB) {
     return res.status(404).send({ status: "Error", message: "Product not found." });
   }
 
-  const data =  {
+  const data = {
     userName: req.body.userName,
     userEmail: req.body.userEmail,
     productId: req.body.productId,
@@ -1259,8 +1259,46 @@ app.post("/api/addToCartProduct",  async (req, res)=>{
     dateOfFormSubmission: new Date(),
   };
 
-  // console.log("New Product Added in Database Successfully");
-  // res.send({ status: "Ok", data: "New Tag Saved." });
+  if (!Array.isArray(DB.addToCart)) {
+
+    console.error("addToCart is not an array or is undefined");
+
+    return res.status(500).send({ status: "Error", message: "Internal server error." });
+
+  }
+
+
+  // Find the index of the existing entry
+
+  const existingEntryIndex = DB.addToCart.findIndex(item =>
+    (
+      item.userEmail === (req.body.userEmail)) && (item.productId === (req.body.productId)
+    )
+
+  );
+  console.log("1 : ", existingEntryIndex)
+
+
+
+  // Check if the entry exists
+
+  if (existingEntryIndex !== -1) {
+
+    // Remove the existing entry
+
+    DB.addToCart.splice(existingEntryIndex, 1);
+
+    console.log("Add To Cart Removed Successfully!");
+
+  }
+
+
+
+  // DB.addToCart.push(data);
+  // await DB.save();
+
+  console.log("New Product Added in Database Successfully");
+  res.send({ status: "Ok", data: "New Tag Saved." });
 
 
 

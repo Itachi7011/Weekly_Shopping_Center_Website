@@ -477,7 +477,7 @@ const ProductListing = () => {
                                         </span>) : ""}
 
                                     </span>
-                                    <span className="profileListCartIcon">  <i className="fas fa-cart-plus"></i> </span>
+                                    <span className="profileListCartIcon"> {product.addToCart.length}  <i className="fas fa-cart-plus"></i> </span>
 
                                 </h5>
 
