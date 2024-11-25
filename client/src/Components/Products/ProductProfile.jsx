@@ -45,6 +45,7 @@ const ProductProfile = () => {
     const [selectedStars, setSelectedStars] = useState({});
     // const [clickedIcons, setClickedIcons] = useState({});
 
+    const [atBottom, setAtBottom] = useState(false);
 
     const [title, setTitle] = useState("");
     const [answer, setAnswer] = useState("");
@@ -111,6 +112,49 @@ const ProductProfile = () => {
 
     }, [location.state]);
 
+    const handleScrollToggle = () => {
+
+        if (atBottom) {
+
+            // Scroll to the top of the page
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } else {
+
+            // Scroll to the bottom of the page
+
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+        }
+
+    };
+
+
+    const checkScrollPosition = () => {
+
+        const scrollPosition = window.scrollY + window.innerHeight;
+
+        const documentHeight = document.body.scrollHeight;
+
+
+        // Check if the user is at the bottom of the page
+
+        setAtBottom(scrollPosition >= documentHeight - 100);
+
+    };
+
+    useEffect(() => {
+
+        window.addEventListener('scroll', checkScrollPosition);
+
+        return () => {
+
+            window.removeEventListener('scroll', checkScrollPosition);
+
+        };
+
+    }, []);
 
     const adjustDate = (date) => {
 
@@ -664,7 +708,13 @@ const ProductProfile = () => {
 
     const handleLikeCommentClick = (id, commentId) => {
 
-        // Prevent liking if already disliked
+        // Check if the comment is already liked
+
+        const isLiked = likedComments[commentId];
+
+
+
+        // If the comment is already disliked, deactivate the dislike
 
         if (dislikedComments[commentId]) {
 
@@ -673,47 +723,66 @@ const ProductProfile = () => {
         }
 
 
+        // Toggle like state
+
+        const newLikedState = !isLiked; // Toggle like state
+
         setLikedComments((prev) => ({
 
             ...prev,
 
-            [commentId]: !prev[commentId], // Toggle like state
+            [commentId]: newLikedState, // Update the like state
 
         }));
-        console.log(commentId)
+
+
+        // If the comment was already liked, deactivate it
+
+        if (isLiked) {
+
+            // If already liked, we don't send the request to the server
+
+            return;
+
+        }
+
 
         const bodyFormData = new FormData();
 
         bodyFormData.append("id", id);
+
         bodyFormData.append("userName", user1.name);
+
         bodyFormData.append("userEmail", user1.email);
+
         bodyFormData.append("commentId", commentId);
 
-        axios.post("/api/likedComment", bodyFormData,
 
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
+        axios.post("/api/likedComment", bodyFormData, {
 
-            .then(response => {
+            headers: {
 
-                console.log(response);
+                "Content-Type": "application/json",
 
+            },
 
+        }).then(response => {
 
-            })
+            console.log(response);
 
-            .catch(err => console.error("Error saving liked comment:", err));
+        }).catch(err => console.error("Error saving liked comment:", err));
 
     };
 
 
     const handleDislikeCommentClick = (id, commentId) => {
 
+        // Check if the comment is already disliked
 
-        // Prevent disliking if already liked
+        const isDisliked = dislikedComments[commentId];
+
+
+        // If the comment is already liked, deactivate the like
 
         if (likedComments[commentId]) {
 
@@ -722,38 +791,54 @@ const ProductProfile = () => {
         }
 
 
+        // Toggle dislike state
+
+        const newDislikedState = !isDisliked; // Toggle dislike state
+
         setDislikedComments((prev) => ({
 
             ...prev,
 
-            [commentId]: !prev[commentId], // Toggle dislike state
+            [commentId]: newDislikedState, // Update the dislike state
 
         }));
+
+
+        // If the comment was already disliked, deactivate it
+
+        if (isDisliked) {
+
+            // If already disliked, we don't send the request to the server
+
+            return;
+
+        }
+
 
         const bodyFormData = new FormData();
 
         bodyFormData.append("id", id);
+
         bodyFormData.append("userName", user1.name);
+
         bodyFormData.append("userEmail", user1.email);
+
         bodyFormData.append("commentId", commentId);
 
-        axios.post("/api/dislikedComment", bodyFormData,
 
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
+        axios.post("/api/dislikedComment", bodyFormData, {
 
-            .then(response => {
+            headers: {
 
-                console.log(response);
+                "Content-Type": "application/json",
 
+            },
 
+        }).then(response => {
 
-            })
+            console.log(response);
 
-            .catch(err => console.error("Error saving disliked comment:", err));
+        }).catch(err => console.error("Error saving disliked comment:", err));
 
     };
 
@@ -884,6 +969,40 @@ const ProductProfile = () => {
 
     return (
         <>
+
+            <button
+
+                style={{
+
+                    position: 'fixed',
+
+                    right: '20px',
+
+                    bottom: '12rem',
+
+                    backgroundColor: '#007bff',
+
+                    color: 'white',
+
+                    border: 'none',
+
+                    borderRadius: '5px',
+
+                    padding: '20px',
+
+                    cursor: 'pointer',
+
+                    zIndex: 9999999,
+
+                }}
+
+                onClick={handleScrollToggle}
+
+            >
+
+                <i className={atBottom ? "fas fa-arrow-up" : "fas fa-arrow-down"} />
+
+            </button>
             {Data.post
                 .filter((field) => {
                     if (field._id.includes(previousData)) {
