@@ -7,6 +7,7 @@ import 'regenerator-runtime/runtime';
 import 'react-multi-carousel/lib/styles.css';
 
 import "./CSS/App.css";
+import "./CSS/HomePage.css";
 import "./CSS/navbar.css";
 import "./CSS/Registration.css";
 import "./CSS/LoginForm.css";
@@ -15,6 +16,8 @@ import "./CSS/adminSidebar.css";
 import "./CSS/dashboard.css";
 import "./CSS/ProductList.css";
 import "./CSS/ProductProfile.css";
+
+import HomePage from "./Components/HomePage";
 
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
@@ -92,6 +95,11 @@ function App() {
         <Navbar />
         <AdminSidebar />
         <Routes>
+        <Route
+            path="/"
+            element={<HomePage />}
+          ></Route>
+
           <Route
             path="/NewUserRegistration"
             element={<NewUserRegistration />}

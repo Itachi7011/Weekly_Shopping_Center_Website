@@ -171,10 +171,6 @@ const ProductsSchema = new mongoose.Schema({
       dateOfFormSubmission: String,
     },
   ],
-  totalCart: {
-    type: Number,
-    default:0
-  },
 
   createdByName: {
     type: String,
