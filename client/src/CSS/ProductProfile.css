@@ -20131,3 +20131,53 @@ font-size: 2.5rem !important;
 
 
 
+like-animation {
+    animation: scale-up 0.3s forwards;
+}
+
+
+.dislike-animation {
+    animation: scale-down 0.3s forwards;
+}
+
+
+@keyframes scale-up {
+
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+@keyframes scale-down {
+
+    0% {
+       transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
