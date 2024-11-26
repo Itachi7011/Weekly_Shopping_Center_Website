@@ -139,6 +139,83 @@ del {
   text-decoration-style: solid; /* Change the style of the line (solid, dashed, etc.) */
 }
 
+
+.pagination {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  margin: 20px 0;
+
+}
+
+
+.pagination ul {
+
+  list-style: none;
+
+  display: flex;
+
+  padding: 0;
+
+}
+
+
+.pagination li {
+
+  margin: 0 5px;
+
+}
+
+
+.pagination button {
+
+  background-color: #007bff; /* Bootstrap primary color */
+
+  color: white;
+
+  border: none;
+
+  padding: 10px 15px;
+
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  transition: background-color 0.3s ease;
+
+}
+
+
+.pagination button:hover {
+
+  background-color: #0056b3; /* Darker shade on hover */
+
+}
+
+
+.pagination button:disabled {
+
+  background-color: #ccc; /* Gray for disabled buttons */
+
+  cursor: not-allowed;
+
+}
+
+
+.pagination .active {
+
+  background-color: #28a745; /* Green for active page */
+
+  color: white;
+
+  font-weight: bold;
+
+}
+
 /* Responsive adjustments */
 
 @media (max-width: 768px) {

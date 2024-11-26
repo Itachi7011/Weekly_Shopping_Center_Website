@@ -13,6 +13,11 @@ const ProductListing = () => {
 
     const [Profile, setProfile] = useState("");
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(4);
+
+    const [atBottom, setAtBottom] = useState(false);
+
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [bankOffers, setBankOffers] = useState({ post: [] });
     const [products, setProducts] = useState([]);
@@ -110,6 +115,63 @@ const ProductListing = () => {
 
     };
 
+    const indexOfLastItem = currentPage * itemsPerPage;
+
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+
+
+    const paginate = (pageNumber) => {
+
+        setCurrentPage((prevPage) => pageNumber);
+        
+        window.scrollTo(0, 0);
+    };
+
+    const handleScrollToggle = () => {
+
+        if (atBottom) {
+
+            // Scroll to the top of the page
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } else {
+
+            // Scroll to the bottom of the page
+
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+        }
+
+    };
+
+
+    const checkScrollPosition = () => {
+
+        const scrollPosition = window.scrollY + window.innerHeight;
+
+        const documentHeight = document.body.scrollHeight;
+
+
+        // Check if the user is at the bottom of the page
+
+        setAtBottom(scrollPosition >= documentHeight - 100);
+
+    };
+
+    useEffect(() => {
+
+        window.addEventListener('scroll', checkScrollPosition);
+
+        return () => {
+
+            window.removeEventListener('scroll', checkScrollPosition);
+
+        };
+
+    }, []);
 
     const handleDelete = (event, id) => {
 
@@ -199,6 +261,15 @@ const ProductListing = () => {
 
 
     };
+
+    console.log("Current Page:", currentPage);
+
+    console.log("Index of First Item:", indexOfFirstItem);
+
+    console.log("Index of Last Item:", indexOfLastItem);
+
+    console.log("Current Items:", currentItems);
+
 
 
     const BankOffers = () => {
@@ -395,6 +466,40 @@ const ProductListing = () => {
 
     return (<>
 
+        <button
+
+            style={{
+
+                position: 'fixed',
+
+                right: '20px',
+
+                bottom: '12rem',
+
+                backgroundColor: '#007bff',
+
+                color: 'white',
+
+                border: 'none',
+
+                borderRadius: '5px',
+
+                padding: '20px',
+
+                cursor: 'pointer',
+
+                zIndex: 9999999,
+
+            }}
+
+            onClick={handleScrollToggle}
+
+        >
+
+            <i className={atBottom ? "fas fa-arrow-up" : "fas fa-arrow-down"} />
+
+        </button>
+
 
 
 
@@ -417,296 +522,249 @@ const ProductListing = () => {
             <div className="row">
 
 
-                {products.slice(0, 3).map((product, index) => (
 
-                    <div className="col-md-4 mb-4" key={product.id}>
+                {currentItems.length > 0 ? (
 
-                        <div className="card shadow-sm" style={{ height: "650px" }}>
+                    currentItems.map((product, index) => (
 
-                            {product.isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
+                        <div className="col-md-4 mb-4" key={`${product.id}-${currentPage}`}>
 
-                                Premium
+                            <div className="card shadow-sm" style={{ height: "650px" }}>
 
-                            </span>) : ""}
+                                {product.isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
 
+                                    Premium
 
-
-
-                            {product.isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
-
-                                New
-
-                            </span>) : ""}
+                                </span>) : ""}
 
 
 
 
+                                {product.isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
 
-                            <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
+                                    New
 
-                                {[...Array(5)].map((_, index) => (
-
-                                    <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(product.averageRating)), fontSize: "large", }}></i>
-
-                                ))}
-                            </span>
+                                </span>) : ""}
 
 
 
-                            <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
-                                const formattedName = encodeURIComponent(product.name);
-                                console.log("Navigating to ProductProfile with name:", formattedName);
-                                navigate(`/ProductProfile/${product.name}`, {
-                                    state: {
-                                        _id: product._id,
-                                        id: product.id,
-                                        name: product.name,
-                                    },
-                                });
-                            }} />
-                            {product.isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
-
-                                Sponsored
-
-                            </span>) : ""}
 
 
-                            {Profile.userType === "Admin" ? (
+                                <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
 
-                                <button
-                                    className=" btn btn-danger px-3"
-                                    onClick={(event) => handleDelete(event, product._id)}
-                                    style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
-                                    <i className="fas fa-trash-alt text-white mx-auto"
-                                        style={{
-                                            fontSize: "1.2rem"
-                                        }}
-                                    ></i>
-                                </button>
+                                    {[...Array(5)].map((_, index) => (
 
-                            ) : ""}
+                                        <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(product.averageRating)), fontSize: "large", }}></i>
 
-                            <div className="card-body">
-
-                                <h5 className="card-title">
-                                    <div className="" style={{ marginBottom: "-1rem" }}> {product.name}  <span style={{ fontSize: "smaller" }}>  </span>
-                                    </div>
+                                    ))}
+                                </span>
 
 
-                                    <br />({product.newOrRefurbished}) {product.isLimitedTimeDeal === true ? (
 
-                                        <span style={{ position: "relative", display: "inline-block" }}>
+                                <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
+                                    const formattedName = encodeURIComponent(product.name);
+                                    console.log("Navigating to ProductProfile with name:", formattedName);
+                                    navigate(`/ProductProfile/${product.name}`, {
+                                        state: {
+                                            _id: product._id,
+                                            id: product.id,
+                                            name: product.name,
+                                        },
+                                    });
+                                }} />
+                                {product.isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
 
-                                            <i
+                                    Sponsored
 
-                                                className="fa-solid fa-hourglass-half ms-2"
+                                </span>) : ""}
 
-                                                style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
 
-                                            ></i>
+                                {Profile.userType === "Admin" ? (
 
-                                            {/* Tooltip */}
+                                    <button
+                                        className=" btn btn-danger px-3"
+                                        onClick={(event) => handleDelete(event, product._id)}
+                                        style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
+                                        <i className="fas fa-trash-alt text-white mx-auto"
+                                            style={{
+                                                fontSize: "1.2rem"
+                                            }}
+                                        ></i>
+                                    </button>
 
-                                            <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
+                                ) : ""}
+
+                                <div className="card-body">
+
+                                    <h5 className="card-title">
+                                        <div className="" style={{ marginBottom: "-1rem" }}> {product.name}
+                                            ( {index} )  
+                                             <span style={{ fontSize: "smaller" }}>  </span>
+                                        </div>
+
+
+                                        <br />({product.newOrRefurbished}) {product.isLimitedTimeDeal === true ? (
+
+                                            <span style={{ position: "relative", display: "inline-block" }}>
+
+                                                <i
+
+                                                    className="fa-solid fa-hourglass-half ms-2"
+
+                                                    style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
+
+                                                ></i>
+
+                                                {/* Tooltip */}
+
+                                                <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
+
+                                            </span>
+
+                                        ) : ""}
+
+                                        <span className="rating-stars position-absolute ms-2"
+                                            style={{
+                                                // top: "50px",
+                                                // right: "10px",
+                                                zIndex: 1,
+                                                background: "#00A86B"
+                                            }}>
+                                            {product.isNewProduct === true ? (<span className="badge "
+                                            >
+                                                Popular
+                                            </span>) : ""}
 
                                         </span>
+                                        <span
+                                            className={product.addToCart.some(item =>
 
-                                    ) : ""}
+                                                item.userEmail === Profile.email && item.productId === product._id
 
-                                    <span className="rating-stars position-absolute ms-2"
-                                        style={{
-                                            // top: "50px",
-                                            // right: "10px",
-                                            zIndex: 1,
-                                            background: "#00A86B"
-                                        }}>
-                                        {product.isNewProduct === true ? (<span className="badge "
-                                        >
-                                            Popular
-                                        </span>) : ""}
+                                            ) ? "profileListCartIcon2" : "profileListCartIcon1"}
+                                            onClick={(event) => handleAddToCart(event, product._id, product.name)}
+                                        > {Profile.userType === "Admin" ?
+                                            (<span>  {product.addToCart.length} </span>) :
+                                            ""}   <i className="fas fa-cart-plus"></i> </span>
 
-                                    </span>
-                                    <span 
-                                   className={product.addToCart.some(item =>
-
-                                    item.userEmail === Profile.email && item.productId === product._id
-
-                                ) ? "profileListCartIcon2" : "profileListCartIcon1"}
-                                onClick={(event) => handleAddToCart(event, product._id, product.name)}
-                                    > {Profile.userType === "Admin" ?
-                                        (<span>  {product.addToCart.length} </span>) :
-                                        ""}   <i className="fas fa-cart-plus"></i> </span>
-
-                                </h5>
+                                    </h5>
 
 
-                                <p className="card-text">
+                                    <p className="card-text">
 
-                                    <strong> <del>₹ {product.price}</del> </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {product.effectivePrice}</strong> <span className="text-danger"> Save ₹ {product.price - (product.effectivePrice - (product.adminDiscount || 0))} </span>
+                                        <strong> <del>₹ {product.price}</del> </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {product.effectivePrice}</strong> <span className="text-danger"> Save ₹ {product.price - (product.effectivePrice - (product.adminDiscount || 0))} </span>
 
-                                </p>
+                                    </p>
 
 
+
+                                </div>
 
                             </div>
+                            {/* {(index + 1) % 6 === 0 && (
+
+                        <div className="bank-offers-container">
+        
+                            <BankOffers />
+        
+                        </div>
+        
+                    )} */}
 
                         </div>
 
-                    </div>
 
-                ))}
+                    ))
+                ) : (
+
+                    <p>No products available.</p>
+
+                )
+                }
+
+            </div>
+
+
+
+
+
+
+
+            <div className="pagination">
+
+                <ul>
+
+                    <li>
+
+                        <button onClick={() => paginate(1)}>First</button>
+
+                    </li>
+
+                    <li>
+
+                        {currentPage > 1 ? (
+
+                            <button onClick={() => paginate(currentPage - 1)}>Prev</button>
+
+                        ) : (
+
+                            <button disabled>Prev</button>
+
+                        )}
+
+                    </li>
+
+                    {[...Array(Math.ceil(products.length / itemsPerPage))].map((_, index) => (
+
+                        <li key={index}>
+
+                            <button
+
+                                onClick={() => paginate(index + 1)}
+
+                                className={index + 1 === currentPage ? "active" : ""}
+
+                            >
+
+                                {index + 1}
+
+                            </button>
+
+                        </li>
+
+                    ))}
+
+                    <li>
+
+                        {currentPage < Math.ceil(products.length / itemsPerPage) ? (
+
+                            <button onClick={() => paginate(currentPage + 1)}>Next</button>
+
+                        ) : (
+
+                            <button disabled>Next</button>
+
+                        )}
+
+                    </li>
+
+                    <li>
+
+                        <button onClick={() => paginate(Math.ceil(products.length / itemsPerPage))}>
+
+                            Last
+
+                        </button>
+
+                    </li>
+
+                </ul>
 
             </div>
 
-            <div className="row">
-                {products.length > 3 && (
-                    <BankOffers />
-                )}
-            </div>
-
-
-            <div className="row">
-
-
-                {products.slice(3).map((product, index) => (
-
-                    <div className="col-md-4 mb-4" key={product.id}>
-
-                        <div className="card shadow-sm" style={{ height: "650px" }}>
-
-                            {product.isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
-
-                                Premium
-
-                            </span>) : ""}
-
-
-
-
-                            {product.isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
-
-                                New
-
-                            </span>) : ""}
-
-
-
-
-
-                            <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
-
-                                {[...Array(5)].map((_, index) => (
-
-                                    <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(product.averageRating)), fontSize: "large", }}></i>
-
-                                ))}
-                            </span>
-
-
-
-                            <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
-                                const formattedName = encodeURIComponent(product.name);
-                                console.log("Navigating to ProductProfile with name:", formattedName);
-                                navigate(`/ProductProfile/${product.name}`, {
-                                    state: {
-                                        _id: product._id,
-                                        id: product.id,
-                                        name: product.name,
-                                    },
-                                });
-                            }} />
-                            {product.isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
-
-                                Sponsored
-
-                            </span>) : ""}
-                            {Profile.userType === "Admin" ? (
-
-                                <button
-                                    className=" btn btn-danger px-3"
-                                    onClick={(event) => handleDelete(event, product._id)}
-                                    style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
-                                    <i className="fas fa-trash-alt text-white mx-auto"
-                                        style={{
-                                            fontSize: "1.2rem"
-                                        }}
-                                    ></i>
-                                </button>
-
-                            ) : ""}
-                            <div className="card-body">
-
-                                <h5 className="card-title">
-                                    <div className="" style={{ marginBottom: "-1rem" }}> {product.name} <span style={{ fontSize: "smaller" }}>  </span>
-                                    </div>
-
-
-                                    <br />({product.newOrRefurbished}) {product.isLimitedTimeDeal === true ? (
-
-                                        <span style={{ position: "relative", display: "inline-block" }}>
-
-                                            <i
-
-                                                className="fa-solid fa-hourglass-half ms-2"
-
-                                                style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
-
-                                            ></i>
-
-                                            {/* Tooltip */}
-
-                                            <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
-
-                                        </span>
-
-                                    ) : ""}
-
-                                    <span className="rating-stars position-absolute ms-2"
-                                        style={{
-                                            // top: "50px",
-                                            // right: "10px",
-                                            zIndex: 1,
-                                            background: "#00A86B"
-                                        }}>
-                                        {product.isNewProduct === true ? (<span className="badge "
-                                        >
-                                            Popular
-                                        </span>) : ""}
-
-                                    </span>
-                                    <span 
-                                   className={product.addToCart.some(item =>
-
-                                    item.userEmail === Profile.email && item.productId === product._id
-
-                                ) ? "profileListCartIcon2" : "profileListCartIcon1"}
-                                onClick={(event) => handleAddToCart(event, product._id, product.name)}
-                                    > {Profile.userType === "Admin" ?
-                                        (<span>  {product.addToCart.length} </span>) :
-                                        ""}   <i className="fas fa-cart-plus"></i> </span>
-                                    <span className="profileListCartIcon">  <i className="fas fa-cart-plus"></i> </span>
-
-                                </h5>
-
-
-                                <p className="card-text">
-
-                                    <strong> <del>₹ {product.price}</del> </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {product.effectivePrice}</strong> <span className="text-danger"> Save ₹ {product.price - (product.effectivePrice - (product.adminDiscount || 0))} </span>
-
-                                </p>
-
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                ))}
-
-            </div>
         </div>
+
+
     </>
 
     );
