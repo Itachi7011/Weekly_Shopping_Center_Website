@@ -157,6 +157,27 @@ const ProductsSchema = new mongoose.Schema({
       dateOfFormSubmission: String,
     },
   ],
+
+  sellingDetails: [
+    {
+      userName: String,
+      userEmail: String,
+      productId: String,
+      productName: String,
+      dateOfFormSubmission: String,
+    },
+  ],
+
+  paymentDetails: [
+    {
+      userName: String,
+      userEmail: String,
+      paymentType: String,
+      trasactionId: String,
+      productName: String,
+      dateOfFormSubmission: String,
+    },
+  ],
   totalSold: {
     type: Number,
     default:0

@@ -31,6 +31,7 @@ const ProductProfile = () => {
     const ReviewSectionRef = useRef(null);
     const SimilarProductsRef = useRef(null);
 
+
     const navigate = useNavigate();
 
     const [Data, setData] = useState({ post: [] });
@@ -77,6 +78,11 @@ const ProductProfile = () => {
     const [previousData, setPreviousData] = useState(null);
 
     const [previousId, setPreviousId] = useState(null);
+
+    const [isPopular, setIsPopular] = useState(false);
+    const [isNewProduct, setIsNewProduct] = useState(false);
+    const [isPremium, setIsPremium] = useState(false);
+    const [isLimitedTimeDeal, setIsLimitedTimeDeal] = useState(false);
 
     useEffect(() => {
 
@@ -1871,6 +1877,11 @@ const ProductProfile = () => {
                                                     <h6>Date Of Listing</h6>
 
                                                     <h6>Tags</h6>
+
+                                                    <h6>Popular</h6>
+                                                    <h6>New</h6>
+                                                    <h6>Premium</h6>
+                                                    <h6>Time Limited Offer</h6>
                                                 </div>
 
                                                 <div
@@ -1911,65 +1922,71 @@ const ProductProfile = () => {
 
                                                         </>}
 
+                                                        {Data.userType !== "Admin" ? "" : <>
+                                                        
+<h6 className="" >  {isPopular}  </h6>
+<h6 className="" >  {isNewProduct}  </h6>
+<h6 className="" >  {isPremium}  </h6>
+<h6 className="" >  {isLimitedTimeDeal}  </h6>
+
+</>}
 
 
+                                                    <h6 className="" > {dateOfFormSubmission} </h6>
+                                                    <h6 className="">
 
+                                                        {tags.map((tag, index) => (
 
-                                                        <h6 className="" > {dateOfFormSubmission} </h6>
-                                                        <h6 className="">
+                                                            <span key={tag}>
 
-                                                            {tags.map((tag, index) => (
+                                                                ({index + 1}). {tag} , &nbsp; &nbsp;
 
-                                                                <span key={tag}>
+                                                            </span>
 
-                                                                    ({index + 1}). {tag} , &nbsp; &nbsp;
+                                                        ))}
 
-                                                                </span>
-
-                                                            ))}
-
-                                                        </h6>
-                                                    </div>
+                                                    </h6>
                                                 </div>
                                             </div>
                                         </div>
-                                    </section>
+                                </div>
+                            </section >
 
 
 
-                                    <section className="location-section" ref={technicalDetailsRef}>
-                                        <div className="container">
-                                            <h2> Technical Details</h2>
-                                            <div className="row justify-content-center">
-                                                <div className="col-lg-12 col-12 mb-4">
+                                <section className="location-section" ref={technicalDetailsRef}>
+                                    <div className="container">
+                                        <h2> Technical Details</h2>
+                                        <div className="row justify-content-center">
+                                            <div className="col-lg-12 col-12 mb-4">
 
-                                                    <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: technicalDetails }} />
+                                                <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: technicalDetails }} />
 
-                                                </div>
                                             </div>
                                         </div>
-                                    </section>
+                                    </div>
+                                </section>
 
-                                    {
-                                        !warrantyDetails ? "" : (
-                                            <section
-                                                className="location-section"
-                                                id="voteridcard"
-                                                ref={warrantyDetailsRef}
-                                            >
-                                                <div className="container">
-                                                    <h2> Warranty Details</h2>
-                                                    <div className="row justify-content-center">
-                                                        <div className="col-lg-12 col-12 mb-4">
+                        {
+                            !warrantyDetails ? "" : (
+                                <section
+                                    className="location-section"
+                                    id="voteridcard"
+                                    ref={warrantyDetailsRef}
+                                >
+                                    <div className="container">
+                                        <h2> Warranty Details</h2>
+                                        <div className="row justify-content-center">
+                                            <div className="col-lg-12 col-12 mb-4">
 
-                                                            <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: warrantyDetails }} />
+                                                <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: warrantyDetails }} />
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        )
-                                    }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            )
+                        }
 
 
                                     <section className="location-section" ref={otherDetailsRef}>
@@ -2189,375 +2206,376 @@ const ProductProfile = () => {
 
 
 
+                                </div >
+
+
+        { advertisementVisible && adImageSrc && (
+
+            <div style={{
+
+                position: 'absolute',
+
+                top: '70rem',
+
+                right: '0rem',
+
+                zIndex: '1000',
+
+                margin: '1rem',
+                overflow: 'hidden', // Prevent overflow if the image is larger
+
+                border: '3px solid #ccc', // Optional: Add a border for better visibility
+                outline: '1px solid black', // Optional: Add a border for better visibility
+
+                borderRadius: '8px',
+                // width: '100%', // Adjust width as necessary
+                // height: '100%' // Adjust width as necessary
+
+            }}
+
+
+            >
+                {showCloseButton && (
+
+                    <button
+
+                        ref={advertisementCloseButtonRef}
+
+                        onClick={
+                            () => {
+                                console.log("Close Btn Clicked")
+                                setAdvertisementVisible(false)
+                            }
+                        }
+
+                        style={{
+
+                            position: 'absolute',
+                            top: '0.5rem',
+                            right: '0.5rem',
+                            fontSize: '2rem',
+                            background: 'red',
+                            color: 'white',
+                            padding: "0rem 0.4rem",
+                            border: 'none',
+                            borderRadius: '5px',
+                            cursor: 'pointer',
+                            zIndex: '99000',
+
+                        }}
+
+                    >
+
+                        &times;
+
+                    </button>
+
+                )}
+
+                <i className="fas fa-ad" style={{
+
+                    position: 'absolute',
+
+                    top: '0.5rem',
+
+                    left: '0.5rem',
+                    fontSize: '1.2rem', // Increase font size
+
+                    fontWeight: 'bold',
+
+                    color: 'white', // Change color as necessary
+
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Optional: background for better visibility
+
+                    borderRadius: '50%', // Optional: round icon
+
+                    padding: '0.5rem' // Optional: padding for the icon
+
+                }}></i>
+                <span className="" style={{
+
+                    position: 'absolute',
+
+                    bottom: '0.5rem',
+
+                    left: '0.5rem',
+                    fontSize: '0.8rem', // Increase font size
+
+                    fontWeight: 'bold',
+
+                    color: 'white', // Change color as necessary
+
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Optional: background for better visibility
+
+                    borderRadius: '5px', // Optional: round icon
+
+                    padding: '0.5rem' // Optional: padding for the icon
+
+                }}
+                    onClick={() => window.location.href = redirectLink}>Sponsered</span>
+                <span style={{
+
+                    position: 'absolute',
+
+                    top: '0.5rem',
+
+                    left: '3.5rem', // Adjust left position to place it right after the icon
+
+                    color: 'white', // Change color as necessary
+
+                    cursor: 'pointer', // Change cursor to pointer to indicate clickability
+
+                    textDecoration: 'none', // Remove underline
+
+                    fontSize: '1rem', // Increase font size
+
+                    fontWeight: 'bold', // Make font bold
+
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+
+                    padding: '0.3rem 0.5rem', // Padding around the text
+
+                    borderRadius: '4px', // Rounded corners
+
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)', // Subtle shadow for depth
+
+                    transition: 'background-color 0.3s',
+                }} onClick={() => window.location.href = redirectLink}>
+
+                    {sponsorName}
+
+                </span>
+
+                <img src={adImageSrc}
+                    onClick={() => window.location.href = redirectLink}
+                    alt="Advertisement" style={{ width: '20rem', height: '80vh', objectFit: 'cover', cursor: "pointer", transition: 'filter 0.3s', }} />
+
+            </div>
+
+        )
+}
+
+
+<section className="location-section" ref={SimilarProductsRef}>
+    <h2> Similar Products</h2>
+
+    <div className="similarProductsDiv">
+
+        <Carousel
+            responsive={responsive}
+            swipeable={true}
+            draggable={true}
+            showDots={true}
+            ssr={true}
+            infinite={false}
+            autoPlaySpeed={1000}
+            keyBoardControl={true}
+            customTransition="all .5"
+            transitionDuration={500}
+            containerClassName="carousel-container"
+            removeArrowOnDeviceType={["tablet", "mobile"]}
+            dotListClassName="custom-dot-list-style"
+            itemClassName="carousel-item"
+        >
+
+            {Data.post
+
+                .filter((product) => {
+
+                    // Exclude the current product from similar products
+
+                    if (product._id === previousData) {
+
+                        return false;
+
+                    }
+
+                    // Check if the product matches the subCategory or tags
+
+                    return product.subCategory === subCategory ||
+
+                        product.tags.some(tag => tags.includes(tag));
+
+                })
+
+                .map(({
+                    _id,
+                    id,
+                    name,
+                    category,
+                    subCategory,
+                    marketName,
+                    newOrRefurbished,
+                    isPopular,
+                    reviews,
+                    isNewProduct,
+                    isPremium,
+                    isLimitedTimeDeal,
+                    price,
+                    effectivePrice,
+                    brand,
+                    model,
+                    color,
+                    weight,
+                    dimensions,
+                    stockNextRefillDate,
+                    sellerDiscount,
+                    adminDiscount,
+                    stock_available,
+                    tags,
+                    images,
+                    averageRating,
+                    youtubeUrl,
+                    productDetails,
+                    warrantyDetails,
+                    technicalDetails,
+                    rating,
+                    comments,
+                    freqAskedQuest,
+                    totalSold,
+                    totalCart,
+                    createdByName,
+                    createdByType,
+                    dateOfFormSubmission,
+                }) => (
+
+
+
+
+                    <div key={_id} className="card" style={{ height: "650px", margin: "1rem" }}>
+
+                        {isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
+
+                            Premium
+
+                        </span>) : ""}
+
+
+
+
+                        {isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
+
+                            New
+
+                        </span>) : ""}
+
+
+
+
+
+                        <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
+
+                            {[...Array(5)].map((_, index) => (
+
+                                <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(averageRating)), fontSize: "large", }}></i>
+
+                            ))}
+                        </span>
+
+
+
+                        <img src={images[0].data} className="card-img-top" alt={name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
+                            const formattedName = encodeURIComponent(name);
+                            console.log("Navigating to ProductProfile with name:", formattedName);
+                            navigate(`/ProductProfile/${name}`, {
+                                state: {
+                                    _id: _id,
+                                    id: id,
+                                    name: name,
+                                },
+                            });
+                        }} />
+                        {isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
+
+                            Sponsored
+
+                        </span>) : ""}
+
+
+                        {Profile.userType === "Admin" ? (
+
+                            <button
+                                className=" btn btn-danger px-3"
+                                onClick={(event) => handleDelete(event, _id)}
+                                style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
+                                <i className="fas fa-trash-alt text-white mx-auto"
+                                    style={{
+                                        fontSize: "1.2rem"
+                                    }}
+                                ></i>
+                            </button>
+
+                        ) : ""}
+
+                        <div className="card-body">
+
+                            <h5 className="card-title">
+                                <div className="" style={{ marginBottom: "-1rem" }}> {name}  <span style={{ fontSize: "smaller" }}>  </span>
                                 </div>
 
 
-                                {advertisementVisible && adImageSrc && (
+                                <br />({newOrRefurbished}) {isLimitedTimeDeal === true ? (
 
-                                    <div style={{
+                                    <span style={{ position: "relative", display: "inline-block" }}>
 
-                                        position: 'absolute',
+                                        <i
 
-                                        top: '70rem',
+                                            className="fa-solid fa-hourglass-half ms-2"
 
-                                        right: '0rem',
+                                            style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
 
-                                        zIndex: '1000',
+                                        ></i>
 
-                                        margin: '1rem',
-                                        overflow: 'hidden', // Prevent overflow if the image is larger
+                                        {/* Tooltip */}
 
-                                        border: '3px solid #ccc', // Optional: Add a border for better visibility
-                                        outline: '1px solid black', // Optional: Add a border for better visibility
+                                        <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
 
-                                        borderRadius: '8px',
-                                        // width: '100%', // Adjust width as necessary
-                                        // height: '100%' // Adjust width as necessary
+                                    </span>
 
-                                    }}
+                                ) : ""}
 
-
+                                <span className="rating-stars position-absolute ms-2"
+                                    style={{
+                                        // top: "50px",
+                                        // right: "10px",
+                                        zIndex: 1,
+                                        background: "#00A86B"
+                                    }}>
+                                    {isNewProduct === true ? (<span className="badge "
                                     >
-                                        {showCloseButton && (
+                                        Popular
+                                    </span>) : ""}
 
-                                            <button
+                                </span>
 
-                                                ref={advertisementCloseButtonRef}
+                            </h5>
 
-                                                onClick={
-                                                    () => {
-                                                        console.log("Close Btn Clicked")
-                                                        setAdvertisementVisible(false)
-                                                    }
-                                                }
 
-                                                style={{
+                            <p className="card-text">
 
-                                                    position: 'absolute',
-                                                    top: '0.5rem',
-                                                    right: '0.5rem',
-                                                    fontSize: '2rem',
-                                                    background: 'red',
-                                                    color: 'white',
-                                                    padding: "0rem 0.4rem",
-                                                    border: 'none',
-                                                    borderRadius: '5px',
-                                                    cursor: 'pointer',
-                                                    zIndex: '99000',
+                                <strong> <del>₹ {price}</del> </strong>  <span className="text-danger">(-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {effectivePrice}</strong> <span className="text-danger"> Save ₹ {price - (effectivePrice - (adminDiscount || 0))} </span>
 
-                                                }}
+                            </p>
 
-                                            >
 
-                                                &times;
 
-                                            </button>
+                        </div>
 
-                                        )}
+                    </div>
 
-                                        <i className="fas fa-ad" style={{
 
-                                            position: 'absolute',
 
-                                            top: '0.5rem',
+                ))}
 
-                                            left: '0.5rem',
-                                            fontSize: '1.2rem', // Increase font size
+        </Carousel>
+    </div>
 
-                                            fontWeight: 'bold',
 
-                                            color: 'white', // Change color as necessary
 
-                                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Optional: background for better visibility
 
-                                            borderRadius: '50%', // Optional: round icon
 
-                                            padding: '0.5rem' // Optional: padding for the icon
 
-                                        }}></i>
-                                        <span className="" style={{
-
-                                            position: 'absolute',
-
-                                            bottom: '0.5rem',
-
-                                            left: '0.5rem',
-                                            fontSize: '0.8rem', // Increase font size
-
-                                            fontWeight: 'bold',
-
-                                            color: 'white', // Change color as necessary
-
-                                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Optional: background for better visibility
-
-                                            borderRadius: '5px', // Optional: round icon
-
-                                            padding: '0.5rem' // Optional: padding for the icon
-
-                                        }}
-                                            onClick={() => window.location.href = redirectLink}>Sponsered</span>
-                                        <span style={{
-
-                                            position: 'absolute',
-
-                                            top: '0.5rem',
-
-                                            left: '3.5rem', // Adjust left position to place it right after the icon
-
-                                            color: 'white', // Change color as necessary
-
-                                            cursor: 'pointer', // Change cursor to pointer to indicate clickability
-
-                                            textDecoration: 'none', // Remove underline
-
-                                            fontSize: '1rem', // Increase font size
-
-                                            fontWeight: 'bold', // Make font bold
-
-                                            backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
-
-                                            padding: '0.3rem 0.5rem', // Padding around the text
-
-                                            borderRadius: '4px', // Rounded corners
-
-                                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)', // Subtle shadow for depth
-
-                                            transition: 'background-color 0.3s',
-                                        }} onClick={() => window.location.href = redirectLink}>
-
-                                            {sponsorName}
-
-                                        </span>
-
-                                        <img src={adImageSrc}
-                                            onClick={() => window.location.href = redirectLink}
-                                            alt="Advertisement" style={{ width: '20rem', height: '80vh', objectFit: 'cover', cursor: "pointer", transition: 'filter 0.3s', }} />
-
-                                    </div>
-
-                                )}
-
-
-                                <section className="location-section" ref={SimilarProductsRef}>
-                                    <h2> Similar Products</h2>
-
-                                    <div className="similarProductsDiv">
-
-                                        <Carousel
-                                            responsive={responsive}
-                                            swipeable={true}
-                                            draggable={true}
-                                            showDots={true}
-                                            ssr={true}
-                                            infinite={false}
-                                            autoPlaySpeed={1000}
-                                            keyBoardControl={true}
-                                            customTransition="all .5"
-                                            transitionDuration={500}
-                                            containerClassName="carousel-container"
-                                            removeArrowOnDeviceType={["tablet", "mobile"]}
-                                            dotListClassName="custom-dot-list-style"
-                                            itemClassName="carousel-item"
-                                        >
-
-                                            {Data.post
-
-                                                .filter((product) => {
-
-                                                    // Exclude the current product from similar products
-
-                                                    if (product._id === previousData) {
-
-                                                        return false;
-
-                                                    }
-
-                                                    // Check if the product matches the subCategory or tags
-
-                                                    return product.subCategory === subCategory ||
-
-                                                        product.tags.some(tag => tags.includes(tag));
-
-                                                })
-
-                                                .map(({
-                                                    _id,
-                                                    id,
-                                                    name,
-                                                    category,
-                                                    subCategory,
-                                                    marketName,
-                                                    newOrRefurbished,
-                                                    isPopular,
-                                                    reviews,
-                                                    isNewProduct,
-                                                    isPremium,
-                                                    isLimitedTimeDeal,
-                                                    price,
-                                                    effectivePrice,
-                                                    brand,
-                                                    model,
-                                                    color,
-                                                    weight,
-                                                    dimensions,
-                                                    stockNextRefillDate,
-                                                    sellerDiscount,
-                                                    adminDiscount,
-                                                    stock_available,
-                                                    tags,
-                                                    images,
-                                                    averageRating,
-                                                    youtubeUrl,
-                                                    productDetails,
-                                                    warrantyDetails,
-                                                    technicalDetails,
-                                                    rating,
-                                                    comments,
-                                                    freqAskedQuest,
-                                                    totalSold,
-                                                    totalCart,
-                                                    createdByName,
-                                                    createdByType,
-                                                    dateOfFormSubmission,
-                                                }) => (
-
-
-
-
-                                                    <div key={_id} className="card" style={{ height: "650px", margin: "1rem" }}>
-
-                                                        {isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
-
-                                                            Premium
-
-                                                        </span>) : ""}
-
-
-
-
-                                                        {isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
-
-                                                            New
-
-                                                        </span>) : ""}
-
-
-
-
-
-                                                        <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
-
-                                                            {[...Array(5)].map((_, index) => (
-
-                                                                <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(averageRating)), fontSize: "large", }}></i>
-
-                                                            ))}
-                                                        </span>
-
-
-
-                                                        <img src={images[0].data} className="card-img-top" alt={name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
-                                                            const formattedName = encodeURIComponent(name);
-                                                            console.log("Navigating to ProductProfile with name:", formattedName);
-                                                            navigate(`/ProductProfile/${name}`, {
-                                                                state: {
-                                                                    _id: _id,
-                                                                    id: id,
-                                                                    name: name,
-                                                                },
-                                                            });
-                                                        }} />
-                                                        {isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
-
-                                                            Sponsored
-
-                                                        </span>) : ""}
-
-
-                                                        {Profile.userType === "Admin" ? (
-
-                                                            <button
-                                                                className=" btn btn-danger px-3"
-                                                                onClick={(event) => handleDelete(event, _id)}
-                                                                style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
-                                                                <i className="fas fa-trash-alt text-white mx-auto"
-                                                                    style={{
-                                                                        fontSize: "1.2rem"
-                                                                    }}
-                                                                ></i>
-                                                            </button>
-
-                                                        ) : ""}
-
-                                                        <div className="card-body">
-
-                                                            <h5 className="card-title">
-                                                                <div className="" style={{ marginBottom: "-1rem" }}> {name}  <span style={{ fontSize: "smaller" }}>  </span>
-                                                                </div>
-
-
-                                                                <br />({newOrRefurbished}) {isLimitedTimeDeal === true ? (
-
-                                                                    <span style={{ position: "relative", display: "inline-block" }}>
-
-                                                                        <i
-
-                                                                            className="fa-solid fa-hourglass-half ms-2"
-
-                                                                            style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
-
-                                                                        ></i>
-
-                                                                        {/* Tooltip */}
-
-                                                                        <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
-
-                                                                    </span>
-
-                                                                ) : ""}
-
-                                                                <span className="rating-stars position-absolute ms-2"
-                                                                    style={{
-                                                                        // top: "50px",
-                                                                        // right: "10px",
-                                                                        zIndex: 1,
-                                                                        background: "#00A86B"
-                                                                    }}>
-                                                                    {isNewProduct === true ? (<span className="badge "
-                                                                    >
-                                                                        Popular
-                                                                    </span>) : ""}
-
-                                                                </span>
-
-                                                            </h5>
-
-
-                                                            <p className="card-text">
-
-                                                                <strong> <del>₹ {price}</del> </strong>  <span className="text-danger">(-{sellerDiscount + "%" + (adminDiscount === 0 ? (" & " + adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {effectivePrice}</strong> <span className="text-danger"> Save ₹ {price - (effectivePrice - (adminDiscount || 0))} </span>
-
-                                                            </p>
-
-
-
-                                                        </div>
-
-                                                    </div>
-
-
-
-                                                ))}
-
-                                        </Carousel>
-                                    </div>
-
-
-
-
-
-
-                                </section>
+</section>
 
                             </>
                         );
