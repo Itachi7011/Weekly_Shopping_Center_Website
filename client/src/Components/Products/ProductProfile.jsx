@@ -78,13 +78,9 @@ const ProductProfile = () => {
     const [previousData, setPreviousData] = useState(null);
 
     const [previousId, setPreviousId] = useState(null);
-
     const [isPopular, setIsPopular] = useState(false);
-    
     const [isNewProduct, setIsNewProduct] = useState(false);
-
     const [isPremium, setIsPremium] = useState(false);
-
     const [isLimitedTimeDeal, setIsLimitedTimeDeal] = useState(false);
 
     useEffect(() => {
