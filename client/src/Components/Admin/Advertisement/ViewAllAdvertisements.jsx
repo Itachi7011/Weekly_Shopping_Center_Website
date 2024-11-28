@@ -398,36 +398,36 @@ const ViewAllAdvertisements = () => {
                                     onChange={async () => {
 
                                       // Toggle the state locally
-                              
+
                                       const newIsEnabled = !isEnabled[_id]; // Get the new state
-                              
+
                                       setIsEnabled(prevState => ({
-                              
+
                                         ...prevState,
-                              
+
                                         [_id]: newIsEnabled // Toggle the state for the specific advertisement
-                              
+
                                       }));
-                              
-                              
+
+
                                       // Send the API request to update the server
-                              
+
                                       try {
-                              
+
                                         await axios.post("/api/changeIsEnableAdvertise", {
-                              
+
                                           id: _id,
-                              
+
                                           isEnabled: newIsEnabled, // Send the new state
-                              
+
                                         });
-                              
+
                                       } catch (error) {
-                              
+
                                         console.error("Error updating advertisement status:", error);
-                              
+
                                       }
-                              
+
                                     }}
 
                                   />
