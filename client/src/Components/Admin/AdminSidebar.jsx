@@ -8,6 +8,7 @@ import { UserContext } from "../../App";
 import { useContext } from "react";
 
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import AddHomeIcon from '@mui/icons-material/AddHome';
 import HomeIcon from "@mui/icons-material/Home";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -922,6 +923,57 @@ const AdminSidebar = () => {
 
               <a href="/SocialMedia" className="sub-item">
                 Social Media
+              </a>
+            </div>
+          </div>
+
+          <div className="item">
+            <a
+              className="sub-btn"
+              ref={(ref) => subBtnRefs.current.push(ref)}
+              onClick={!sidebarActive ? handleMenuBtnClick : () => handleSubBtnClick(13)}
+            // onMouseEnter={(e) => {
+
+            //   if (!sidebarActive) {
+
+            //     e.preventDefault(); // Prevent default link behavior
+
+            //     handleMenuBtnClick(); // Call the onClick function
+
+            //   }
+
+            // }}
+            >
+              <AddHomeIcon /> {!sidebarActive ? "" : "HomePage Config."}
+              {!sidebarActive ? "" : <i className="fas fa-angle-right dropdown"></i>}
+
+            </a>
+
+            <div className="sub-menu">
+
+              <a href="/FDRateInterest" className="sub-item">
+                Top Carousel
+              </a>
+              <a href="/LoanInterestPercentage" className="sub-item">
+              Middle Ist Carousel
+              </a>
+              <a href="/LoanInterestPercentage" className="sub-item">
+              Middle IInd Carousel
+              </a>
+              <a href="/MainSiteSettings" className="sub-item">
+              Bottom Carousel
+              </a>
+              <a href="/FDRateInterest" className="sub-item">
+                Top Grid
+              </a>
+              <a href="/LoanInterestPercentage" className="sub-item">
+              Middle Ist Grid
+              </a>
+              <a href="/LoanInterestPercentage" className="sub-item">
+              Middle IInd Grid
+              </a>
+              <a href="/MainSiteSettings" className="sub-item">
+              Bottom Grid
               </a>
             </div>
           </div>
