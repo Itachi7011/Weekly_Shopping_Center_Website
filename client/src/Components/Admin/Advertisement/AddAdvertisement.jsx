@@ -102,72 +102,72 @@ const AddAdvertisement = () => {
 
     if (name === "position") {
 
-        setUser ((prevUser ) => {
+      setUser((prevUser) => {
 
-            const positionArray = prevUser .position || []; // Ensure it starts as an array
+        const positionArray = prevUser.position || []; // Ensure it starts as an array
 
 
-            // If the checkbox is checked, add the value if it's not already in the array
+        // If the checkbox is checked, add the value if it's not already in the array
 
-            if (checked) {
+        if (checked) {
 
-                if (!positionArray.includes(value)) {
+          if (!positionArray.includes(value)) {
 
-                    return {
+            return {
 
-                        ...prevUser ,
+              ...prevUser,
 
-                        position: [...positionArray, value],
+              position: [...positionArray, value],
 
-                    };
+            };
 
-                }
+          }
 
-            } else {
+        } else {
 
-                // If the checkbox is unchecked, remove the value from the array
+          // If the checkbox is unchecked, remove the value from the array
 
-                return {
+          return {
 
-                    ...prevUser ,
+            ...prevUser,
 
-                    position: positionArray.filter((pos) => pos !== value),
+            position: positionArray.filter((pos) => pos !== value),
 
-                };
+          };
 
-            }
+        }
 
-            return prevUser ; // Return the previous state if no changes were made
+        return prevUser; // Return the previous state if no changes were made
 
-        });
+      });
 
     } else {
-        const value = e.target.value;
-        setUser ({
+      const value = e.target.value;
+      setUser({
 
-            ...user,
+        ...user,
 
-            [name]: value,
+        [name]: value,
 
-        });
-
-
-        if (name === "tags") {
-
-            setShowTagsSuggestions(value.trim().length > 0);
-
-        }
+      });
 
 
-        if (name === "subCategories") {
+      if (name === "tags") {
 
-            setShowSubCategoriesSuggestions(value.trim().length > 0);
+        setShowTagsSuggestions(value.trim().length > 0);
 
-        }
+      }
+
+
+      if (name === "subCategories") {
+
+        setShowSubCategoriesSuggestions(value.trim().length > 0);
+
+      }
 
     }
 
-};
+  };
 
 
   const handleTagClick = (tag) => {
@@ -261,25 +261,24 @@ const AddAdvertisement = () => {
 
       bodyFormData.append("position[]", pos); // Use "position[]" to indicate an array
 
-  });
+    });
 
 
 
-selectedSubCategories.forEach((subCategory) => {
+    selectedSubCategories.forEach((subCategory) => {
 
-  bodyFormData.append("subCategories[]", subCategory); // Use "subCategories[]" to indicate an array
+      bodyFormData.append("subCategories[]", subCategory); // Use "subCategories[]" to indicate an array
 
-});
+    });
 
 
-// Append selectedTags as an array
+    // Append selectedTags as an array
 
-selectedTags.forEach((tag) => {
+    selectedTags.forEach((tag) => {
 
-  bodyFormData.append("tags[]", tag); // Use "tags[]" to indicate an array
+      bodyFormData.append("tags[]", tag); // Use "tags[]" to indicate an array
 
-});
-
+    });
 
 
     bodyFormData.append("content", content);
@@ -668,7 +667,7 @@ selectedTags.forEach((tag) => {
 
                   {image && (
 
-                    <div style={{ marginTop: "1rem", position: "relative", display: "inline-block",marginBottom:"1rem" }}>
+                    <div style={{ marginTop: "1rem", position: "relative", display: "inline-block", marginBottom: "1rem" }}>
 
                       <button
 

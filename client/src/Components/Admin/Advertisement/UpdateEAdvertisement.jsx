@@ -157,7 +157,6 @@ const UpdateEAdvertisement = () => {
       );
       alert(" Bank Offer updated Successfully");
 
-
       navigate("/ViewAllBankOffers")
     } catch (error) {
       //handle error

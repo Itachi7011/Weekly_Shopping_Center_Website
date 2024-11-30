@@ -44,9 +44,9 @@ const ShowMarketData = () => {
     });
   };
 
-  const handleDelete = (event,id) => {
+  const handleDelete = (event, id) => {
 
-    event.preventDefault(); 
+    event.preventDefault();
 
     const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
@@ -294,7 +294,7 @@ const ShowMarketData = () => {
                             <td>
                               <button
                                 className=" btn btn-danger px-3"
-                                onClick={(event) => handleDelete(event,_id)}
+                                onClick={(event) => handleDelete(event, _id)}
                               >
                                 <i className="fas fa-trash-alt text-white mx-auto"></i>
                               </button>

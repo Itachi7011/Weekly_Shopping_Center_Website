@@ -11,7 +11,7 @@ const AdminSellerList = () => {
 
   const { state } = useContext(UserContext);
 
-  
+
   let name, value;
   const navigate = useNavigate();
   // const [UserType, setUserType] = useState("");
