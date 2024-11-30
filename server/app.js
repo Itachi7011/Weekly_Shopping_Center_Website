@@ -46,6 +46,7 @@ const NavbarItemsDB = require("./database/schema/navbarItems");
 const MarketsDB = require("./database/schema/markets/markets");
 const ProductsDB = require("./database/schema/products/products");
 const AdvertisementsDB = require("./database/schema/advertisements/advertisement");
+const HomePageTopCarouselDB = require("./database/schema/homePage/topCarousel");
 const AdminNavbarSettingContentDB = require("./database/schema/adminNavbarSettingContent");
 
 const CloudinaryDB = process.env.CLOUD_NAME;
@@ -605,6 +606,129 @@ app.post("/api/changeIsEnableAdvertise", async (req, res) => {
     console.log(err);
   }
 });
+
+
+// Advertisement
+
+
+const uploadToCloudinaryHomePageTopCarousel = async (file) => {
+  try {
+    console.log("upload starts");
+    const result = await cloudinary.uploader.upload(file, {
+      folder: "W_Mark_HomePage_Top_Carousel",
+      resource_type: "auto",
+    });
+    console.log(result);
+
+    return result;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+const HomePageTopCarouselImageMulter = multer({
+  storage: cloudinaryStorage,
+
+  limits: {
+    fileSize: 10 * 1024 * 1024, // Limit file size to 10MB
+  },
+
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
+      // Allow only image files
+
+      return cb(new Error("Please upload an image (JPG, JPEG or PNG)."));
+    }
+
+    cb(null, true);
+  },
+}).fields([{ name: "image", minCount: 1, maxCount: 1 }]);
+
+
+
+
+app.post("/api/AddHomePageTopCarousel", HomePageTopCarouselImageMulter, async (req, res) => {
+  try {
+    console.log(req.files.image);
+    console.log(req.body);
+
+    const photo = req.files.image[0];
+
+    const bufferlogo = photo.buffer;
+
+    const b64logoFile = Buffer.from(bufferlogo).toString("base64");
+
+    const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
+
+    const cldResLogoFile = await uploadToCloudinaryHomePageTopCarousel(dataURIlogoFile);
+
+    const userData = await new AdvertisementsDB({
+
+      redirectLink: req.body.redirectLink,
+      content: req.body.content,
+      createdByName: req.body.createdByName,
+      createdByEmail: req.body.createdByEmail,
+      createdByUserType: req.body.createdByUserType,
+      image: {
+        data: cldResLogoFile.secure_url,
+        originalFileName: photo.originalname,
+        publicId: cldResLogoFile.public_id,
+        contentType: `image/${cldResLogoFile.format}`,
+      },
+      dateOfFormSubmission: new Date(),
+
+    });
+
+    await userData.save();
+    console.log("New Home Page Top Carousel Added in Database Successfully");
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/api/deleteAdvertisement", async (req, res) => {
+  try {
+    await AdvertisementsDB.deleteOne({
+      _id: req.body.id,
+    });
+    console.log("Home Page Top Carousel Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.post("/api/deleteSelectedAdvertisement", async (req, res) => {
+  try {
+    const ObjectId = require("mongoose").Types.ObjectId;
+    const ids = req.body.ids;
+    const objectIds = ids.map((id) => new ObjectId(id));
+
+    await AdvertisementsDB.deleteMany({
+      _id: { $in: objectIds },
+    });
+    console.log("Selected Home Page Top Carousels Deleted from Database Successfully");
+    res.send({ status: "OK", data: "Deleted" });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/failure-message");
+  }
+});
+
+app.get("/api/allAdvertisementList", async (req, res) => {
+  try {
+    const data = await AdvertisementsDB.find();
+
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
+
 
 
 
@@ -1290,12 +1414,12 @@ app.post("/api/addToCartProduct", async (req, res) => {
     res.send({ status: "Ok", data: "Removed From Cart Successfully." });
 
 
-  }else{
-      DB.addToCart.push(data);
-  await DB.save();
-  console.log("Add To Cart Successfully");
+  } else {
+    DB.addToCart.push(data);
+    await DB.save();
+    console.log("Add To Cart Successfully");
 
-  res.send({ status: "Ok", data: "Add To Cart Successfully." });
+    res.send({ status: "Ok", data: "Add To Cart Successfully." });
 
   }
 

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { buffer } = require("stream/consumers");
 
-const W_Mark_Advertises = new mongoose.Schema({
+const W_Mark_HomePage_Top_Carousel = new mongoose.Schema({
 
     redirectLink: {
         type: String,
@@ -13,6 +13,12 @@ const W_Mark_Advertises = new mongoose.Schema({
             publicId: String,
             contentType: String,
         }],
+    content: {
+        type: String,
+    },
+    createdByName: {
+        type: String,
+    },
     createdByEmail: {
         type: String,
     },
