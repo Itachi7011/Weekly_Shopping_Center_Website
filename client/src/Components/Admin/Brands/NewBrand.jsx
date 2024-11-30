@@ -53,7 +53,7 @@ const NewBrand = () => {
       .then((response) => {
         const data = response.data;
 
-        setCategory( data );
+        setCategory(data);
       })
       .catch((err) => {
         console.log("Error during Data:", err);
@@ -144,7 +144,7 @@ const NewBrand = () => {
             >
               <h3
                 className="text-center"
-                style={{ marginBottom: "1rem", color: "white" ,fontSize:"1.5rem" }}
+                style={{ marginBottom: "1rem", color: "white", fontSize: "1.5rem" }}
               >
                 Add New Brand
               </h3>
@@ -167,34 +167,34 @@ const NewBrand = () => {
                     <h6 style={{ marginBottom: "2.8rem", fontSize: "1rem" }}>
                       Details :
                     </h6>
-                   
+
                   </div>
                   <div className="col-lg-8">
-                  <select
-                        style={{
-                          height: "6vh",
-                          backgroundColor: "white",
-                          borderRadius: "5px",
-                          width: "100%",
-                          marginBottom:"1.6rem"
-                        }}
-                        name="categoryName"
-                        onChange={handleDropdownChange}
-                        // value={user.categoryName}
-                      >
-                        <option value="">- - - - Please Choose - - - </option>
+                    <select
+                      style={{
+                        height: "6vh",
+                        backgroundColor: "white",
+                        borderRadius: "5px",
+                        width: "100%",
+                        marginBottom: "1.6rem"
+                      }}
+                      name="categoryName"
+                      onChange={handleDropdownChange}
+                    // value={user.categoryName}
+                    >
+                      <option value="">- - - - Please Choose - - - </option>
 
-                        {
-                          category.map((item) => {
-                            return (<>
-                              <option value={item.categoryName}> {item.categoryName} </option>
-                            </>)
-                          })
-                        }
+                      {
+                        category.map((item) => {
+                          return (<>
+                            <option value={item.categoryName}> {item.categoryName} </option>
+                          </>)
+                        })
+                      }
 
-                      </select>
+                    </select>
 
-                      <input
+                    <input
                       type="text"
                       name="brandName"
                       style={{ fontWeight: "400" }}
@@ -202,7 +202,7 @@ const NewBrand = () => {
                       placeholder=""
                       className="form-control mb-4"
                     />
- <CKEditor
+                    <CKEditor
                       config={{
                         height: 800,
                         toolbar: [
@@ -242,8 +242,8 @@ const NewBrand = () => {
                           // });
                         });
                       }}
-                      onBlur={(event, editor) => {}}
-                      onFocus={(event, editor) => {}}
+                      onBlur={(event, editor) => { }}
+                      onFocus={(event, editor) => { }}
                       onChange={(event, editor) => {
                         const data = editor.getData();
                         console.log(data);
@@ -255,7 +255,7 @@ const NewBrand = () => {
 
                     <br />
                     <br />
-                  
+
                     <br />
                     <button
                       className="btn  me-4"

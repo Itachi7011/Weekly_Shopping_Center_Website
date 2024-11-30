@@ -36,8 +36,8 @@ const ShowAllTags = () => {
     });
   };
 
-  const handleDelete = (event,id) => {
-    event.preventDefault(); 
+  const handleDelete = (event, id) => {
+    event.preventDefault();
     const confirmDelete = window.confirm("Are you sure you want to delete this item?");
 
 
@@ -186,7 +186,7 @@ const ShowAllTags = () => {
                   textAlign: "center",
                   color: "white",
                   backgroundColor: "#708090",
-                   fontSize:"1.5rem"
+                  fontSize: "1.5rem"
                 }}
               >
                 List Of Brands
@@ -259,7 +259,7 @@ const ShowAllTags = () => {
                             <td>
                               <button
                                 className=" btn btn-danger px-3"
-                                onClick={(event) => handleDelete(event,_id)}
+                                onClick={(event) => handleDelete(event, _id)}
                               >
                                 <i className="fas fa-trash-alt text-white mx-auto"></i>
                               </button>
