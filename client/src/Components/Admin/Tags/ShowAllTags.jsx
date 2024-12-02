@@ -225,7 +225,7 @@ const ShowAllTags = () => {
                             <td>
                               {new Date(
                                 new Date(dateOfFormSubmission).getTime() -
-                                  19800000
+                                19800000
                               )
                                 .toUTCString()
                                 .slice(0, -12)}

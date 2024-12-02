@@ -126,7 +126,7 @@ const NewTag = () => {
             >
               <h3
                 className="text-center"
-                style={{ marginBottom: "1rem", color: "white", fontSize:"1.5rem" }}
+                style={{ marginBottom: "1rem", color: "white", fontSize: "1.5rem" }}
               >
                 Add New Tag
               </h3>
@@ -198,8 +198,8 @@ const NewTag = () => {
                           // });
                         });
                       }}
-                      onBlur={(event, editor) => {}}
-                      onFocus={(event, editor) => {}}
+                      onBlur={(event, editor) => { }}
+                      onFocus={(event, editor) => { }}
                       onChange={(event, editor) => {
                         const data = editor.getData();
                         console.log(data);

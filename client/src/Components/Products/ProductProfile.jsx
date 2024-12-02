@@ -31,7 +31,6 @@ const ProductProfile = () => {
     const ReviewSectionRef = useRef(null);
     const SimilarProductsRef = useRef(null);
 
-
     const navigate = useNavigate();
 
     const [Data, setData] = useState({ post: [] });

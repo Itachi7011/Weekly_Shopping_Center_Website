@@ -125,7 +125,7 @@ const ProductListing = () => {
     const paginate = (pageNumber) => {
 
         setCurrentPage((prevPage) => pageNumber);
-        
+
         window.scrollTo(0, 0);
     };
 
@@ -598,8 +598,8 @@ const ProductListing = () => {
 
                                     <h5 className="card-title">
                                         <div className="" style={{ marginBottom: "-1rem" }}> {product.name}
-                                            ( {index} )  
-                                             <span style={{ fontSize: "smaller" }}>  </span>
+                                            ( {index} )
+                                            <span style={{ fontSize: "smaller" }}>  </span>
                                         </div>
 
 

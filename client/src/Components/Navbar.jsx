@@ -104,7 +104,7 @@ const Navbar = () => {
               </li>
               <li className="navbar-dropdown">
                 <a href="#">
-                <i className="fas fa-shopping-cart me-1"></i>
+                  <i className="fas fa-shopping-cart me-1"></i>
                   Cart
                 </a>
               </li>

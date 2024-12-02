@@ -135,7 +135,7 @@ const HomePage = () => {
 
       <div>
 
-          {/* First Carousel */}
+        {/* First Carousel */}
 
         <section className="location-section">
 

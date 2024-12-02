@@ -955,25 +955,25 @@ const AdminSidebar = () => {
                 Top Carousel
               </a>
               <a href="/LoanInterestPercentage" className="sub-item">
-              Middle Ist Carousel
+                Middle Ist Carousel
               </a>
               <a href="/LoanInterestPercentage" className="sub-item">
-              Middle IInd Carousel
+                Middle IInd Carousel
               </a>
               <a href="/MainSiteSettings" className="sub-item">
-              Bottom Carousel
+                Bottom Carousel
               </a>
               <a href="/FDRateInterest" className="sub-item">
                 Top Grid
               </a>
               <a href="/LoanInterestPercentage" className="sub-item">
-              Middle Ist Grid
+                Middle Ist Grid
               </a>
               <a href="/LoanInterestPercentage" className="sub-item">
-              Middle IInd Grid
+                Middle IInd Grid
               </a>
               <a href="/MainSiteSettings" className="sub-item">
-              Bottom Grid
+                Bottom Grid
               </a>
             </div>
           </div>

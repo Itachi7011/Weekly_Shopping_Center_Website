@@ -1175,9 +1175,8 @@ const Dashboard = () => {
                   )}
                 </table>
               </div>
-              
-            </div>
 
+            </div>
 
             <nav aria-label="..." style={{ width: "50%", margin: "1rem auto" }}>
               <ul className="pagination" style={{ cursor: "pointer" }}>
