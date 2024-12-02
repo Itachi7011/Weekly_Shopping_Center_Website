@@ -654,15 +654,10 @@ app.post("/api/AddHomePageTopCarousel", HomePageTopCarouselImageMulter, async (r
     console.log(req.body);
 
     const photo = req.files.image[0];
-
     const bufferlogo = photo.buffer;
-
     const b64logoFile = Buffer.from(bufferlogo).toString("base64");
-
     const dataURIlogoFile = "data:" + photo.mimetype + ";base64," + b64logoFile;
-
     const cldResLogoFile = await uploadToCloudinaryHomePageTopCarousel(dataURIlogoFile);
-
     const userData = await new AdvertisementsDB({
 
       redirectLink: req.body.redirectLink,

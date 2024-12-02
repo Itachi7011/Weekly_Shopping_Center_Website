@@ -35,7 +35,6 @@
 
   z-index: 1000; /* Ensure it is above other elements */
 
-
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
 }
 
@@ -110,7 +109,6 @@ h1 {
   position: absolute;
   color: red;
   background: white;
-
 
   font-size: 23px;
   right: 0px;
@@ -241,10 +239,7 @@ header {
   border-radius: 6px;
 }
 
-
-
 .admin-sidebar-search-results {
-
   position: fixed;
 
   top: 9%; /* Adjust as needed */
@@ -253,7 +248,7 @@ header {
 
   right: 1%;
 
-  background-color:  #F2F0EB;
+  background-color: #f2f0eb;
 
   border: 1px solid #ccc;
 
@@ -274,49 +269,36 @@ header {
   list-style: none;
 
   display: none; /* Initially hide the search results */
-
 }
-
 
 .admin-sidebar-search-results.show {
-
   display: block; /* Show the search results when the class 'show' is added */
-
 }
-
 
 /* Search Result Item Styles */
 
 .search-result-item {
-
   padding: 5px 10px;
 
   cursor: pointer;
-
 }
-
 
 .search-result-item:hover {
-
   background-color: white;
   color: white;
-
 }
 
-
 .nav1-item-name {
-
   display: flex;
 
   align-items: center;
-
 }
-.nav-search-results > h4  {
+.nav-search-results > h4 {
   position: sticky; /* Make the heading sticky */
 
   top: 0; /* Stick to the top of the scrollable area */
 
-  background-color: #4E4B51  ; /* Background color to cover content below */
+  background-color: #4e4b51; /* Background color to cover content below */
 
   z-index: 9999; /* Ensure it is above other elements */
 
@@ -329,12 +311,12 @@ header {
   color: white;
 }
 
-.product-search-results > h4  {
+.product-search-results > h4 {
   position: sticky; /* Make the heading sticky */
 
   top: 0; /* Stick to the top of the scrollable area */
 
-  background-color: #4E4B51  ; /* Background color to cover content below */
+  background-color: #4e4b51; /* Background color to cover content below */
 
   z-index: 9999; /* Ensure it is above other elements */
 
@@ -349,112 +331,98 @@ header {
 /* Add Different scroll bars in differen search results */
 
 .users-search-results {
-
   max-height: 79vh; /* Set a max height for the scrollable area */
 
   overflow-y: auto; /* Enable vertical scrolling */
-
 }
-
 
 .users-search-results::-webkit-scrollbar {
-
   width: 10px; /* Width of the scrollbar */
-
 }
 
-
 .users-search-results::-webkit-scrollbar-thumb {
-
-  background: linear-gradient(180deg, #6a82fb, #fc5c7d); /* Gradient color for the scrollbar thumb */
+  background: linear-gradient(
+    180deg,
+    #6a82fb,
+    #fc5c7d
+  ); /* Gradient color for the scrollbar thumb */
 
   border-radius: 10px; /* Rounded corners */
 
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
-
 }
-
 
 .users-search-results::-webkit-scrollbar-thumb:hover {
-
-  background: linear-gradient(180deg, #fc5c7d, #6a82fb); /* Inverted gradient on hover */
-
+  background: linear-gradient(
+    180deg,
+    #fc5c7d,
+    #6a82fb
+  ); /* Inverted gradient on hover */
 }
-
 
 /* Custom Scrollbar for Navigation Search Results */
 
 .nav-search-results {
-
   max-height: 79vh; /* Set a max height for the scrollable area */
 
   overflow-y: auto; /* Enable vertical scrolling */
-
 }
-
 
 .nav-search-results::-webkit-scrollbar {
-
   width: 10px; /* Width of the scrollbar */
-
 }
 
-
 .nav-search-results::-webkit-scrollbar-thumb {
-
-  background: linear-gradient(180deg, #ff7e5f, #feb47b); /* Gradient color for the scrollbar thumb */
+  background: linear-gradient(
+    180deg,
+    #ff7e5f,
+    #feb47b
+  ); /* Gradient color for the scrollbar thumb */
 
   border-radius: 10px; /* Rounded corners */
 
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
-
 }
-
 
 .nav-search-results::-webkit-scrollbar-thumb:hover {
-
-  background: linear-gradient(180deg, #feb47b, #ff7e5f); /* Inverted gradient on hover */
-
+  background: linear-gradient(
+    180deg,
+    #feb47b,
+    #ff7e5f
+  ); /* Inverted gradient on hover */
 }
-
 
 /* Custom Scrollbar for Product Search Results */
 
 .product-search-results {
-
   max-height: 79vh; /* Set a max height for the scrollable area */
 
   overflow-y: auto; /* Enable vertical scrolling */
-
 }
-
 
 .product-search-results::-webkit-scrollbar {
-
   width: 10px; /* Width of the scrollbar */
-
 }
 
-
 .product-search-results::-webkit-scrollbar-thumb {
-
-  background: linear-gradient(180deg, #00c6ff, #0072ff); /* Gradient color for the scrollbar thumb */
+  background: linear-gradient(
+    180deg,
+    #00c6ff,
+    #0072ff
+  ); /* Gradient color for the scrollbar thumb */
 
   border-radius: 10px; /* Rounded corners */
 
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
-
 }
-
 
 .product-search-results::-webkit-scrollbar-thumb:hover {
-
-  background: linear-gradient(180deg, #0072ff, #00c6ff); /* Inverted gradient on hover */
-
+  background: linear-gradient(
+    180deg,
+    #0072ff,
+    #00c6ff
+  ); /* Inverted gradient on hover */
 }
-
-
-
 
 .nav1-item {
   position: relative; /* Position relative to allow absolute positioning of the tooltip */
@@ -499,7 +467,7 @@ header {
 
   opacity: 1; /* Fade in */
 }
-.admin-sidebar-icons{
+.admin-sidebar-icons {
   font-size: 1.2rem;
 }
 @media (max-width: 768px) {

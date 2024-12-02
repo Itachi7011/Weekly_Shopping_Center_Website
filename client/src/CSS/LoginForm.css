@@ -24,7 +24,6 @@ main-body-login {
   flex-wrap: wrap;
   overflow: hidden;
   margin-bottom: -5rem;
-
 }
 .loginSection::before {
   content: "";
@@ -145,8 +144,8 @@ main-body-login {
 input[type="submit"]:active {
   opacity: 0.6;
 }
-.resetbtn{
-background: red !important;
+.resetbtn {
+  background: red !important;
 }
 @media (max-width: 900px) {
   .loginSection span {
