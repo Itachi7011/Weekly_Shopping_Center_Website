@@ -246,14 +246,10 @@ const AdminSidebar = () => {
 
           {!sidebarActive ? <i className="fas fa-bars"></i> : ""}
 
-
-
-
-
         </div>
         <header className="navbar-main">
 
-          <div className="logo" style={{ marginLeft: "4rem" }}> {sidebarActive ? "" : "Admin Panel"}  </div>
+          <div className="logo" style={{ marginLeft: "4rem", }}> {sidebarActive ? "" : "Admin Panel"}  </div>
 
           <nav className="nav-links">
 
