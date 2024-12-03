@@ -561,7 +561,7 @@ const ProductListing = () => {
 
 
 
-                                <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer" }} onClick={function () {
+                                <img src={product.images[0].data} className="card-img-top" alt={product.name} style={{ width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer", padding:"0.3rem" }} onClick={function () {
                                     const formattedName = encodeURIComponent(product.name);
                                     console.log("Navigating to ProductProfile with name:", formattedName);
                                     navigate(`/ProductProfile/${product.name}`, {
