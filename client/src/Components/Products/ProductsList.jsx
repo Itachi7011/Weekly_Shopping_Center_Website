@@ -198,11 +198,11 @@ const ProductListing = () => {
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
 
-if (currentPage > totalPages && totalPages > 0) {
+    if (currentPage > totalPages && totalPages > 0) {
 
-    setCurrentPage(1); // Reset to page 1 if current page exceeds total pages
+        setCurrentPage(1); // Reset to page 1 if current page exceeds total pages
 
-}
+    }
 
     const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
