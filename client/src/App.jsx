@@ -23,6 +23,7 @@ import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import NewUserRegistration from "./Components/Users/NewUserRegistration";
 import Login from "./Components/Login";
+import Logout from "./Components/Logout";
 
 // Admin
 import AdminSidebar from "./Components/Admin/AdminSidebar";
@@ -105,6 +106,7 @@ function App() {
             element={<NewUserRegistration />}
           ></Route>
           <Route path="/Login" element={<Login />}></Route>
+          <Route path="/Logout" element={<Logout />}></Route>
 
           {/* Admin */}
           <Route path="/Dashboard" element={<Dashboard />}></Route>

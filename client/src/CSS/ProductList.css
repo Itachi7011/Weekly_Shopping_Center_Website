@@ -77,9 +77,9 @@
 .tooltip-text {
   visibility: hidden;
 
-  width: 200px;
+  width: 250px;
 
-  background-color: #555;
+  background-color: #e23e54;
 
   color: #fff;
 
@@ -196,7 +196,6 @@ del {
 }
 
 .product-list-loader {
-
   position: absolute;
 
   top: 50%;
@@ -209,7 +208,77 @@ del {
   font-size: 1.5rem;
 
   color: #c62e2e; /* Change color as needed */
+}
+.product-title {
+  color: black;
+  background-color: #fffdd0;
+  text-align: center;
+  padding: 8px 10px;
+}
 
+.product-title:hover {
+  color: black;
+  background-color: #ffd700;
+  cursor: pointer;
+}
+
+.product-list-sidebar {
+  position: fixed;
+
+  top: 8%;
+
+  left: -250px; /* Start hidden off-screen */
+
+  width: 350px;
+
+  height: 100vh;
+
+  background-color: #222023;
+  background-image: -webkit-linear-gradient(top, #222023, #1e2c47);
+  color: white;
+
+  padding: 20px;
+
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+
+  transition: left 0.3s ease, opacity 0.3s ease; /* Smooth transition */
+
+  z-index: 1000;
+
+  opacity: 0; /* Start hidden */
+}
+
+.product-list-sidebar.visible {
+  left: 0; /* Slide in */
+
+  opacity: 1; /* Fade in */
+}
+
+.product-list-sidebar h4 {
+  margin-top: 5rem;
+  margin-bottom: 20px;
+  color:white;
+
+  font-size: 1.5rem;
+}
+
+
+.product-list-sidebar label {
+  display: block;
+
+  margin-bottom: 10px;
+  font-size: 1rem;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.product-list-sidebar input[type="checkbox"] {
+  width: 20px; 
+  height: 20px; 
+  transform: scale(1.5); 
+  cursor: pointer; 
+  margin-right: 10px;
+  border-radius: 50%;
 }
 
 /* Responsive adjustments */

@@ -311,10 +311,10 @@ const AddNewProduct = () => {
         }
       );
 
-      // alert("New Product added Successfully");
+      alert("New Product added Successfully");
 
 
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       //handle error
 

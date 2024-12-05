@@ -22,6 +22,20 @@ const ProductListing = () => {
     const [bankOffers, setBankOffers] = useState({ post: [] });
     const [products, setProducts] = useState([]);
 
+    const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+    const [filters, setFilters] = useState({
+
+        isNewProduct: false,
+
+        isPremium: false,
+
+        isLimitedTimeDeal: false,
+
+        isPopular: false,
+
+    });
+
+
     useEffect(() => {
         axios
             .get("/api/userProfile")
@@ -119,14 +133,101 @@ const ProductListing = () => {
 
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
 
+
+    const toggleSidebar = () => {
+
+        setIsSidebarVisible(!isSidebarVisible);
+
+    };
+
+
+    const handleFilterChange = (event) => {
+
+        const { name, checked } = event.target;
+
+        setFilters((prevFilters) => ({
+
+            ...prevFilters,
+
+            [name]: checked,
+
+        }));
+
+        // Reset current page to 1 whenever a filter is changed
+
+        setCurrentPage(1);
+
+    };
+
+
+    // Filter products based on selected filters
+
+    const filteredProducts = products.filter((product) => {
+
+        // If no filters are selected, return all products
+
+        if (!filters.isNewProduct && !filters.refurbished && !filters.isPremium && !filters.isLimitedTimeDeal && !filters.isPopular) {
+
+            return true; // Show all products
+
+        }
+
+
+        const matchesNewProduct = filters.isNewProduct ? product.newOrRefurbished === "New" : false;
+
+        const matchesRefurbished = filters.refurbished ? product.newOrRefurbished === "Refurbished" : false;
+
+
+        const matchesPremium = filters.isPremium ? product.isPremium : true;
+
+        const matchesLimitedTimeDeal = filters.isLimitedTimeDeal ? product.isLimitedTimeDeal : true;
+
+        const matchesPopular = filters.isPopular ? product.isPopular : true;
+
+
+        // Check if either new or refurbished matches
+
+        const matchesNewOrRefurbished = matchesNewProduct || matchesRefurbished;
+
+
+        return (matchesNewOrRefurbished || !filters.isNewProduct && !filters.refurbished) && matchesPremium && matchesLimitedTimeDeal && matchesPopular;
+
+    });
+
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+
+if (currentPage > totalPages && totalPages > 0) {
+
+    setCurrentPage(1); // Reset to page 1 if current page exceeds total pages
+
+}
+
+    const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => {
 
         setCurrentPage((prevPage) => pageNumber);
 
         window.scrollTo(0, 0);
+    };
+
+
+    // Function to limit the text to 20 words
+
+    const limitWords = (text, wordLimit) => {
+
+        const words = text.split(/\s+/); // Split by whitespace
+
+        if (words.length <= wordLimit) {
+
+            return text; // Return original text if it's within the limit
+
+        }
+
+        return words.slice(0, wordLimit).join(' ') + '...'; // Join first 20 words and add ellipsis
+
     };
 
     const handleScrollToggle = () => {
@@ -472,6 +573,161 @@ const ProductListing = () => {
 
                 position: 'fixed',
 
+                left: '20px',
+
+                top: '5rem',
+
+                backgroundColor: '#007bff',
+
+                color: 'white',
+
+                border: 'none',
+
+                borderRadius: '5px',
+
+                padding: '10px',
+
+                cursor: 'pointer',
+
+                zIndex: 9999999,
+
+            }}
+
+            onClick={toggleSidebar}
+
+        >
+            {isSidebarVisible ? "Hide " : "Show "}
+            Filters
+
+        </button>
+
+
+        {isSidebarVisible && (
+
+            <div className={`product-list-sidebar ${isSidebarVisible ? 'visible' : ''}`}>
+
+                <h4></h4>
+
+                <div>
+
+                    <label>
+
+                        <input
+
+                            type="checkbox"
+
+                            name="isNewProduct"
+
+                            checked={filters.isNewProduct}
+
+                            onChange={handleFilterChange}
+
+                        />
+
+                        New Product
+
+                    </label>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        <input
+
+                            type="checkbox"
+
+                            name="refurbished"
+
+                            checked={filters.refurbished}
+
+                            onChange={handleFilterChange}
+
+                        />
+
+                        Refurbished
+
+                    </label>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        <input
+
+                            type="checkbox"
+
+                            name="isPremium"
+
+                            checked={filters.isPremium}
+
+                            onChange={handleFilterChange}
+
+                        />
+
+                        Premium
+
+                    </label>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        <input
+
+                            type="checkbox"
+
+                            name="isLimitedTimeDeal"
+
+                            checked={filters.isLimitedTimeDeal}
+
+                            onChange={handleFilterChange}
+
+                        />
+
+                        Limited Time Deal
+
+                    </label>
+
+                </div>
+
+                <div>
+
+                    <label>
+
+                        <input
+
+                            type="checkbox"
+
+                            name="isPopular"
+
+                            checked={filters.isPopular}
+
+                            onChange={handleFilterChange}
+
+                        />
+
+                        Popular
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        )}
+
+        <button
+
+            style={{
+
+                position: 'fixed',
+
                 right: '20px',
 
                 bottom: '12rem',
@@ -529,7 +785,7 @@ const ProductListing = () => {
 
                         <div className="col-md-4 mb-4" key={`${product.id}-${currentPage}`}>
 
-                            <div className="card shadow-sm" style={{ height: "650px" }}>
+                            <div className="card shadow-sm" style={{ height: "750px" }}>
 
                                 {product.isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
 
@@ -542,7 +798,7 @@ const ProductListing = () => {
 
                                 {product.isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
 
-                                    New
+                                    Latest
 
                                 </span>) : ""}
 
@@ -565,11 +821,15 @@ const ProductListing = () => {
                                     className="card-img-top"
                                     alt={product.name}
                                     style={{
-                                        width: "100%", height: "450px", objectFit: "cover", position: "relative", cursor: "pointer", padding: "0.5rem", background: "#F0F8FB"
+                                        width: "100%",
+                                        height: "450px",
+                                        objectFit: "cover",
+                                        position: "relative",
+                                        cursor: "pointer",
+                                        padding: "0.2rem",
+                                        background: "#F0F8FB"
                                     }}
                                     onClick={function () {
-                                        const formattedName = encodeURIComponent(product.name);
-                                        console.log("Navigating to ProductProfile with name:", formattedName);
                                         navigate(`/ProductProfile/${product.name}`, {
                                             state: {
                                                 _id: product._id,
@@ -578,13 +838,28 @@ const ProductListing = () => {
                                             },
                                         });
                                     }}
-                                    
-                                    />
+
+                                />
                                 {product.isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
 
                                     Sponsored
 
                                 </span>) : ""}
+
+                                <span
+                                    className={product.addToCart.some(item =>
+
+                                        item.userEmail === Profile.email && item.productId === product._id
+
+                                    ) ? "profileListCartIcon2" : "profileListCartIcon1"}
+                                    onClick={(event) => handleAddToCart(event, product._id, product.name)}
+                                    style={{
+                                        position: "absolute",
+                                        bottom: "14.5rem"
+                                    }}
+                                > {Profile.userType === "Admin" ?
+                                    (<span>  {product.addToCart.length} </span>) :
+                                    ""}   <i className="fas fa-cart-plus"></i> </span>
 
 
                                 {Profile.userType === "Admin" ? (
@@ -604,24 +879,49 @@ const ProductListing = () => {
 
                                 <div className="card-body">
 
-                                    <h5 className="card-title">
-                                        <div className="" style={{ marginBottom: "-1rem" }}> {product.name}
-                                            ( {index} )
-                                            <span style={{ fontSize: "smaller" }}>  </span>
+                                    <h5 className="card-title ">
+                                        <div className="product-title"
+                                            style={{
+                                                marginBottom: "-0.5rem"
+                                            }}
+
+                                            onClick={function () {
+                                                navigate(`/ProductProfile/${product.name}`, {
+                                                    state: {
+                                                        _id: product._id,
+                                                        id: product.id,
+                                                        name: product.name,
+                                                    },
+                                                });
+                                            }}
+                                        > {product.name}
+
+
                                         </div>
 
 
-                                        <br />({product.newOrRefurbished}) {product.isLimitedTimeDeal === true ? (
+
+                                        <br /> <span
+                                            style={{
+                                                fontSize: "small",
+                                                color: "white",
+                                                background: product.newOrRefurbished === "New" ? "#1866E1" : "#FF7518",
+                                                borderRadius: "5px",
+                                                padding: "5px 10px",
+                                                marginBottom: "0.5rem"
+                                            }}
+                                        > {product.newOrRefurbished}
+                                        </span> {product.isLimitedTimeDeal === true ? (
 
                                             <span style={{ position: "relative", display: "inline-block" }}>
 
-                                                <i
+                                                <span
 
-                                                    className="fa-solid fa-hourglass-half ms-2"
+                                                    className="ms-1"
 
-                                                    style={{ color: "white", background: "#2142AB", padding: "0.2rem 0.4rem", cursor: "pointer" }}
+                                                    style={{ color: "white", fontSize: "small", background: "#BE1F35 ", padding: "0.2rem 0.4rem", borderRadius: "5px", }}
 
-                                                ></i>
+                                                > Limited Time Deal </span>
 
                                                 {/* Tooltip */}
 
@@ -644,40 +944,74 @@ const ProductListing = () => {
                                             </span>) : ""}
 
                                         </span>
-                                        <span
-                                            className={product.addToCart.some(item =>
 
-                                                item.userEmail === Profile.email && item.productId === product._id
 
-                                            ) ? "profileListCartIcon2" : "profileListCartIcon1"}
-                                            onClick={(event) => handleAddToCart(event, product._id, product.name)}
-                                        > {Profile.userType === "Admin" ?
-                                            (<span>  {product.addToCart.length} </span>) :
-                                            ""}   <i className="fas fa-cart-plus"></i> </span>
 
                                     </h5>
 
 
-                                    <p className="card-text">
+                                    <p className="card-text" style={{ marginTop: "1.5rem", cursor: "pointer" }}
+                                        onClick={function () {
+                                            navigate(`/ProductProfile/${product.name}`, {
+                                                state: {
+                                                    _id: product._id,
+                                                    id: product.id,
+                                                    name: product.name,
+                                                },
+                                            });
+                                        }}
+                                    >
 
-                                        <strong> <del>₹ {product.price}</del> </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br /> <strong className="text-success"> ₹ {product.effectivePrice}</strong> <span className="text-danger"> Save ₹ {product.price - (product.effectivePrice - (product.adminDiscount || 0))} </span>
+                                        <strong className="text-success " style={{ fontSize: "xx-large" }}> ₹ {product.effectivePrice}</strong>
+
+                                        <strong> <del>₹ {product.price}</del> </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br />
 
                                     </p>
 
+                                    <p className="text-success" style={{ fontSize: "large", marginTop: "-0.5rem", cursor: "pointer" }}
+                                        onClick={function () {
+                                            navigate(`/ProductProfile/${product.name}`, {
+                                                state: {
+                                                    _id: product._id,
+                                                    id: product.id,
+                                                    name: product.name,
+                                                },
+                                            });
+                                        }}
+                                    ><i className="fa-solid fa-check"></i> Save ₹ {product.price - (product.effectivePrice - (product.adminDiscount || 0))} </p>
+
+                                    <p className="card-text">
+
+                                        <span>
+                                            {Number(product.effectivePrice) >= 500
+                                                ?
+                                                <span style={{
+                                                    color: "black",
+                                                    background: "yellow",
+                                                    padding: "5px 10px"
+                                                }}>
+                                                    Free Delivery
+                                                </span>
+
+                                                :
+
+                                                <span style={{
+                                                    color: "white",
+                                                    background: "red",
+                                                    padding: "5px 10px"
+                                                }}>
+                                                    + Delivery Charges
+                                                </span>
+                                            }
+                                        </span>
+
+                                    </p>
 
 
                                 </div>
 
                             </div>
-                            {/* {(index + 1) % 6 === 0 && (
 
-                        <div className="bank-offers-container">
-        
-                            <BankOffers />
-        
-                        </div>
-        
-                    )} */}
 
                         </div>
 
