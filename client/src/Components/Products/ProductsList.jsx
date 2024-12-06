@@ -606,8 +606,6 @@ const ProductListing = () => {
 
             <div className={`product-list-sidebar ${isSidebarVisible ? 'visible' : ''}`}>
 
-                <h4></h4>
-
                 <div>
 
                     <label>
