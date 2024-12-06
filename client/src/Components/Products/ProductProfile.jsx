@@ -1328,12 +1328,11 @@ const ProductProfile = () => {
                                                                         className="d-block w-100"
 
                                                                         alt={`Slide ${index + 1}`}
-                                                                        style={{ 
-                                                                            width: "100%", 
-                                                                            height: "auto", 
+                                                                        style={{
+                                                                            width: "100%",
+                                                                            height: "auto",
                                                                             objectFit: "contain",
-                                                                         }}
-
+                                                                        }}
 
                                                                     />
 
