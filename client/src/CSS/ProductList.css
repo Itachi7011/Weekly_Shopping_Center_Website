@@ -257,30 +257,101 @@ del {
 .product-list-sidebar h4 {
   margin-top: 5rem;
   margin-bottom: 20px;
-  color:white;
+  color: white;
 
   font-size: 1.5rem;
 }
 
-
 .product-list-sidebar label {
   display: block;
-
   margin-bottom: 10px;
   font-size: 1rem;
   margin-left: 10px;
   cursor: pointer;
 }
 
-
-
 .product-list-sidebar input[type="checkbox"] {
-  width: 20px; 
-  height: 20px; 
-  transform: scale(1.5); 
-  cursor: pointer; 
+  width: 20px;
+  height: 20px;
+  transform: scale(1.5);
+  cursor: pointer;
   margin-right: 15px;
   border-radius: 50%;
+}
+
+.range-slider {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  width: 300px;
+  margin: auto;
+}
+
+.range-slider .price-slider {
+
+  position: absolute;
+
+  cursor: pointer;
+/* 
+  top: 0;*/
+  margin-top: -3rem;
+  margin-left: 5%;
+  margin-right: 5%;
+
+  left: 0; 
+
+  /* right: 0;
+
+  bottom: 0; */
+
+  background-color: #ccc;
+
+  transition: .4s;
+
+  border-radius: 34px;
+  width: 90%;
+}
+
+/* .price-slider:before {
+
+  position: absolute;
+
+  content: "";
+
+  height: 26px;
+
+  width: 26px;
+
+  left: 4px;
+
+  bottom: 4px;
+
+  background-color: white;
+
+  transition: .4s;
+
+  border-radius: 50%;
+
+} */
+
+
+/* input:checked + .price-slider {
+
+  background-color: #2196F3;
+
+}
+
+
+input:checked + .slider:before {
+
+  transform: translateX(26px);
+
+} */
+
+.range-slider .values {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 /* Responsive adjustments */

@@ -23,6 +23,10 @@ const ProductListing = () => {
     const [products, setProducts] = useState([]);
 
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
+    const [minVal, setMinVal] = useState(0);
+    const [maxVal, setMaxVal] = useState(100);
+
     const [filters, setFilters] = useState({
 
         isNewProduct: false,
@@ -131,6 +135,23 @@ const ProductListing = () => {
             return 'lightgray';
 
         }
+
+    };
+
+    const handleMinChange = (e) => {
+
+        const value = Math.min(Number(e.target.value), maxVal); // Ensure min does not exceed max
+
+        setMinVal(value);
+
+    };
+
+
+    const handleMaxChange = (e) => {
+
+        const value = Math.max(Number(e.target.value), minVal); // Ensure max does not go below min
+
+        setMaxVal(value);
 
     };
 
@@ -763,6 +784,79 @@ const ProductListing = () => {
                     </label>
 
                 </div>
+
+
+                <hr style={{
+
+                    marginTop: "3rem"
+                }} />
+
+                <div
+                    style={{
+                        textAlign: "center",
+                        marginTop: "1rem",
+                        marginBottom: "0rem",
+
+                    }}
+                >
+
+                    <span
+                        style={{
+                            fontWeight: "bold",
+
+                        }}
+                    > Price Range:  </span>
+
+                    <hr />
+                    <br />
+
+                    <div className="range-slider">
+
+                        <input
+
+                            type="range"
+
+                            min="0"
+
+                            max="100"
+
+                            value={minVal}
+
+                            onChange={handleMinChange}
+
+                            className="price-slider"
+
+                        />
+
+                        <input
+
+                            type="range"
+
+                            min="0"
+
+                            max="100"
+
+                            value={maxVal}
+
+                            onChange={handleMaxChange}
+
+                            className="price-slider"
+
+                        />
+
+                        <div className="values">
+
+                            <span>Min: {minVal}</span>
+
+                            <span>Max: {maxVal}</span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
                 <div style={{
                     textAlign: "center",
                     marginTop: "2rem",
@@ -816,14 +910,14 @@ const ProductListing = () => {
                     <span
                         style={{
                             fontWeight: "bold",
-                            
+
                         }}
                     > Availability:  </span>
 
                     <hr />
                     <br />
 
-                    <label style={{ marginLeft: "-2.5rem", marginTop:"-2rem"}}>
+                    <label style={{ marginLeft: "-2.5rem", marginTop: "-2rem" }}>
 
                         <input
 
@@ -842,6 +936,11 @@ const ProductListing = () => {
                     </label>
 
                 </div>
+
+
+
+
+
 
             </div>
 
@@ -980,9 +1079,9 @@ const ProductListing = () => {
                                             style={{
                                                 position: "absolute",
                                                 textAlign: "center",
-                                                bottom: "18.5rem",
-                                                width:"100%",
-                                                margin:"0.5rem auto",
+                                                bottom: "20.5rem",
+                                                width: "100%",
+                                                margin: "0.5rem auto",
                                                 background: "white",
                                                 color: "red",
                                                 fontSize: "50px",
