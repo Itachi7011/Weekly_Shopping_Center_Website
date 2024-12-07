@@ -35,6 +35,9 @@ const ProductListing = () => {
 
         rating: 0,
 
+        includeOutOfStock: false,
+
+
     });
 
 
@@ -155,6 +158,8 @@ const ProductListing = () => {
             [name]: checked,
 
         }));
+        console.log("checked Name: ", name)
+        console.log("checked Checked: ", checked)
 
         // Reset current page to 1 whenever a filter is changed
 
@@ -181,7 +186,7 @@ const ProductListing = () => {
 
         // If no filters are selected, return all products
 
-        if (!filters.isNewProduct && !filters.refurbished && !filters.isPremium && !filters.isLimitedTimeDeal && !filters.isPopular && filters.rating === 0) {
+        if (!filters.isNewProduct && !filters.refurbished && !filters.isPremium && !filters.isLimitedTimeDeal && !filters.isPopular && filters.rating === 0 && !filters.includeOutOfStock) {
 
             return true; // Show all products
 
@@ -192,21 +197,40 @@ const ProductListing = () => {
 
         const matchesRefurbished = filters.refurbished ? product.newOrRefurbished === "Refurbished" : false;
 
-
         const matchesPremium = filters.isPremium ? product.isPremium : true;
 
         const matchesLimitedTimeDeal = filters.isLimitedTimeDeal ? product.isLimitedTimeDeal : true;
 
         const matchesPopular = filters.isPopular ? product.isPopular : true;
 
-        const matchesRating = filters.rating > 0 ? Number(product.averageRating) === Number(filters.rating) : true; // New rating filter
+        const matchesRating = filters.rating > 0 ? Number(product.averageRating) === Number(filters.rating) : true;
 
+
+        // Check stock availability based on the new filter
+
+        const matchesStockAvailability = filters.includeOutOfStock || Number(product.stock_available) > 0;
 
         // Check if either new or refurbished matches
 
         const matchesNewOrRefurbished = matchesNewProduct || matchesRefurbished;
 
-        return (matchesNewOrRefurbished || !filters.isNewProduct && !filters.refurbished) && matchesPremium && matchesLimitedTimeDeal && matchesPopular && matchesRating;
+
+        return (
+
+            (matchesNewOrRefurbished || !filters.isNewProduct && !filters.refurbished) &&
+
+            matchesPremium &&
+
+            matchesLimitedTimeDeal &&
+
+            matchesPopular &&
+
+            matchesRating &&
+
+            matchesStockAvailability
+
+        );
+
     });
 
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -740,6 +764,7 @@ const ProductListing = () => {
 
                 </div>
                 <div style={{
+                    textAlign: "center",
                     marginTop: "2rem",
                     marginBottom: "-2rem",
 
@@ -747,16 +772,16 @@ const ProductListing = () => {
                 >
                     <span
                         style={{
-                            marginLeft: "3rem",
                             fontWeight: "bold"
                         }}
-                    > Rating Filter:  </span>
+                    > Rating:  </span>
 
                     <hr />
                     <br />
                     <label
                         style={{
                             marginTop: "-2rem",
+                            textAlign: "center"
                         }}>
 
 
@@ -769,6 +794,50 @@ const ProductListing = () => {
                             </span>
 
                         ))}
+
+                    </label>
+
+                </div>
+
+                <hr style={{
+
+                    marginTop: "3rem"
+                }} />
+
+                <div
+                    style={{
+                        textAlign: "center",
+                        marginTop: "1rem",
+                        marginBottom: "-2rem",
+
+                    }}
+                >
+
+                    <span
+                        style={{
+                            fontWeight: "bold",
+                            
+                        }}
+                    > Availability:  </span>
+
+                    <hr />
+                    <br />
+
+                    <label style={{ marginLeft: "-2.5rem", marginTop:"-2rem"}}>
+
+                        <input
+
+                            type="checkbox"
+
+                            name="includeOutOfStock"
+
+                            checked={filters.includeOutOfStock}
+
+                            onChange={handleFilterChange}
+
+                        />
+
+                        Include Out Of Stock
 
                     </label>
 
@@ -904,6 +973,32 @@ const ProductListing = () => {
                                     Sponsored
 
                                 </span>) : ""}
+
+                                {
+                                    Number(product.stock_available) === 0 ? <>
+                                        <span
+                                            style={{
+                                                position: "absolute",
+                                                textAlign: "center",
+                                                bottom: "18.5rem",
+                                                width:"100%",
+                                                margin:"0.5rem auto",
+                                                background: "white",
+                                                color: "red",
+                                                fontSize: "50px",
+                                                fontWeight: "bolder",
+                                                padding: "0.2rem 2rem",
+                                                zIndex: 1
+                                            }}
+                                        >  Out Of Stock
+                                        </span>
+
+                                    </> : ""
+                                }
+
+
+
+
 
                                 <span
                                     className={product.addToCart.some(item =>
