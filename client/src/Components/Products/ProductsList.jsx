@@ -33,6 +33,8 @@ const ProductListing = () => {
 
         isPopular: false,
 
+        rating: 0,
+
     });
 
 
@@ -160,6 +162,18 @@ const ProductListing = () => {
 
     };
 
+    const handleRatingFilterChange = (rating) => {
+
+        setFilters((prevFilters) => ({
+
+            ...prevFilters,
+
+            rating: prevFilters.rating === rating ? 0 : rating, // Toggle the rating filter
+
+        }));
+
+    };
+
 
     // Filter products based on selected filters
 
@@ -167,7 +181,7 @@ const ProductListing = () => {
 
         // If no filters are selected, return all products
 
-        if (!filters.isNewProduct && !filters.refurbished && !filters.isPremium && !filters.isLimitedTimeDeal && !filters.isPopular) {
+        if (!filters.isNewProduct && !filters.refurbished && !filters.isPremium && !filters.isLimitedTimeDeal && !filters.isPopular && filters.rating === 0) {
 
             return true; // Show all products
 
@@ -185,14 +199,14 @@ const ProductListing = () => {
 
         const matchesPopular = filters.isPopular ? product.isPopular : true;
 
+        const matchesRating = filters.rating > 0 ? Number(product.averageRating) === Number(filters.rating) : true; // New rating filter
+
 
         // Check if either new or refurbished matches
 
         const matchesNewOrRefurbished = matchesNewProduct || matchesRefurbished;
 
-
-        return (matchesNewOrRefurbished || !filters.isNewProduct && !filters.refurbished) && matchesPremium && matchesLimitedTimeDeal && matchesPopular;
-
+        return (matchesNewOrRefurbished || !filters.isNewProduct && !filters.refurbished) && matchesPremium && matchesLimitedTimeDeal && matchesPopular && matchesRating;
     });
 
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -606,9 +620,19 @@ const ProductListing = () => {
 
             <div className={`product-list-sidebar ${isSidebarVisible ? 'visible' : ''}`}>
 
-                <div>
+                <div style={{ marginTop: "3.5rem" }}>
+                    <span
+                        style={{
+                            marginLeft: "3rem",
+                            marginTop: "1rem",
+                            fontWeight: "bold"
+                        }}
+                    > Types Filter:  </span>
 
-                    <label>
+                    <hr />
+                    <br />
+
+                    <label >
 
                         <input
 
@@ -715,6 +739,40 @@ const ProductListing = () => {
                     </label>
 
                 </div>
+                <div style={{
+                    marginTop: "2rem",
+                    marginBottom: "-2rem",
+
+                }}
+                >
+                    <span
+                        style={{
+                            marginLeft: "3rem",
+                            fontWeight: "bold"
+                        }}
+                    > Rating Filter:  </span>
+
+                    <hr />
+                    <br />
+                    <label
+                        style={{
+                            marginTop: "-2rem",
+                        }}>
+
+
+                        {[...Array(5)].map((_, index) => (
+
+                            <span key={index} onClick={() => handleRatingFilterChange(index + 1)} style={{ cursor: 'pointer', fontSize: "30px" }}>
+
+                                <i className="fas fa-star" style={{ color: index < filters.rating ? "yellow" : "lightgray" }}></i>
+
+                            </span>
+
+                        ))}
+
+                    </label>
+
+                </div>
 
             </div>
 
@@ -776,8 +834,11 @@ const ProductListing = () => {
             <div className="row">
 
 
+                {(filteredProducts.length === 0) && (currentItems.length > 0) ? (
 
-                {currentItems.length > 0 ? (
+                    <div>No Products Match Rating Filter</div>
+
+                ) : (
 
                     currentItems.map((product, index) => (
 
@@ -1015,12 +1076,11 @@ const ProductListing = () => {
 
 
                     ))
-                ) : (
 
-                    <p>No products available.</p>
+                )}
 
-                )
-                }
+
+
 
             </div>
 
