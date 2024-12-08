@@ -1011,9 +1011,8 @@ const ProductListing = () => {
                     currentItems.map((product, index) => (
 
 
-
-
-                            <div className="col-md-4 mb-4" key={`${product.id}-${currentPage}`}>
+                        <div key={`${product.id}-${currentPage}`}>
+                            <div className="col-md-4 mb-4">
 
                                 <div className="card shadow-sm" style={{ height: "750px" }}>
 
@@ -1267,14 +1266,18 @@ const ProductListing = () => {
                                     </div>
 
                                 </div>
-                                {(index + 1) % 2 === 0 && <BankOffers key={`bank-offer-${index}`} />}
+
 
 
                             </div>
+                            {(index + 1) % 2 === 0 && <BankOffers key={`bank-offer-${index}`} />}
+                        </div>
 
 
 
-                            
+
+
+
 
 
                     ))
