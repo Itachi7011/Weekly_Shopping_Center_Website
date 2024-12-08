@@ -999,8 +999,8 @@ const ProductListing = () => {
             >Products List</h2>
 
 
-            <div className="row">
 
+            <div className="row">
 
                 {(filteredProducts.length === 0) && (currentItems.length > 0) ? (
 
@@ -1010,134 +1010,203 @@ const ProductListing = () => {
 
                     currentItems.map((product, index) => (
 
-                        <div className="col-md-4 mb-4" key={`${product.id}-${currentPage}`}>
-
-                            <div className="card shadow-sm" style={{ height: "750px" }}>
-
-                                {product.isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
-
-                                    Premium
-
-                                </span>) : ""}
 
 
 
+                            <div className="col-md-4 mb-4" key={`${product.id}-${currentPage}`}>
 
-                                {product.isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
+                                <div className="card shadow-sm" style={{ height: "750px" }}>
 
-                                    Latest
+                                    {product.isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
 
-                                </span>) : ""}
+                                        Premium
+
+                                    </span>) : ""}
 
 
 
 
+                                    {product.isPopular === true ? (<span className="badge  position-absolute" style={{ top: "50px", left: "10px", zIndex: 1, background: "#00A86B" }}>
 
-                                <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
+                                        Latest
 
-                                    {[...Array(5)].map((_, index) => (
-
-                                        <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(product.averageRating)), fontSize: "large", }}></i>
-
-                                    ))}
-                                </span>
-
-
-
-                                <img src={product.images[0].data}
-                                    className="card-img-top"
-                                    alt={product.name}
-                                    style={{
-                                        width: "100%",
-                                        height: "450px",
-                                        objectFit: "cover",
-                                        position: "relative",
-                                        cursor: "pointer",
-                                        padding: "0.2rem",
-                                        background: "#F0F8FB"
-                                    }}
-                                    onClick={function () {
-                                        navigate(`/ProductProfile/${product.name}`, {
-                                            state: {
-                                                _id: product._id,
-                                                id: product.id,
-                                                name: product.name,
-                                            },
-                                        });
-                                    }}
-
-                                />
-                                {product.isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
-
-                                    Sponsored
-
-                                </span>) : ""}
-
-                                {
-                                    Number(product.stock_available) === 0 ? <>
-                                        <span
-                                            style={{
-                                                position: "absolute",
-                                                textAlign: "center",
-                                                bottom: "20.5rem",
-                                                width: "100%",
-                                                margin: "0.5rem auto",
-                                                background: "white",
-                                                color: "red",
-                                                fontSize: "50px",
-                                                fontWeight: "bolder",
-                                                padding: "0.2rem 2rem",
-                                                zIndex: 1
-                                            }}
-                                        >  Out Of Stock
-                                        </span>
-
-                                    </> : ""
-                                }
+                                    </span>) : ""}
 
 
 
 
 
-                                <span
-                                    className={product.addToCart.some(item =>
+                                    <span className="rating-stars position-absolute" style={{ top: "10px", right: "10px", zIndex: 1 }}>
 
-                                        item.userEmail === Profile.email && item.productId === product._id
+                                        {[...Array(5)].map((_, index) => (
 
-                                    ) ? "profileListCartIcon2" : "profileListCartIcon1"}
-                                    onClick={(event) => handleAddToCart(event, product._id, product.name)}
-                                    style={{
-                                        position: "absolute",
-                                        bottom: "14.5rem"
-                                    }}
-                                > {Profile.userType === "Admin" ?
-                                    (<span>  {product.addToCart.length} </span>) :
-                                    ""}   <i className="fas fa-cart-plus"></i> </span>
+                                            <i key={index} className="fas fa-star" style={{ color: getStarColor(index, parseInt(product.averageRating)), fontSize: "large", }}></i>
+
+                                        ))}
+                                    </span>
 
 
-                                {Profile.userType === "Admin" ? (
 
-                                    <button
-                                        className=" btn btn-danger px-3"
-                                        onClick={(event) => handleDelete(event, product._id)}
-                                        style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
-                                        <i className="fas fa-trash-alt text-white mx-auto"
-                                            style={{
-                                                fontSize: "1.2rem"
-                                            }}
-                                        ></i>
-                                    </button>
+                                    <img src={product.images[0].data}
+                                        className="card-img-top"
+                                        alt={product.name}
+                                        style={{
+                                            width: "100%",
+                                            height: "450px",
+                                            objectFit: "cover",
+                                            position: "relative",
+                                            cursor: "pointer",
+                                            padding: "0.2rem",
+                                            background: "#F0F8FB"
+                                        }}
+                                        onClick={function () {
+                                            navigate(`/ProductProfile/${product.name}`, {
+                                                state: {
+                                                    _id: product._id,
+                                                    id: product.id,
+                                                    name: product.name,
+                                                },
+                                            });
+                                        }}
 
-                                ) : ""}
+                                    />
+                                    {product.isPopular === true ? (<span className="badge bg-primary text-white position-absolute" style={{ top: "50px", right: "10px", zIndex: 1 }}>
 
-                                <div className="card-body">
+                                        Sponsored
 
-                                    <h5 className="card-title ">
-                                        <div className="product-title"
-                                            style={{
-                                                marginBottom: "-0.5rem"
-                                            }}
+                                    </span>) : ""}
 
+                                    {
+                                        Number(product.stock_available) === 0 ? <>
+                                            <span
+                                                style={{
+                                                    position: "absolute",
+                                                    textAlign: "center",
+                                                    bottom: "20.5rem",
+                                                    width: "100%",
+                                                    margin: "0.5rem auto",
+                                                    background: "white",
+                                                    color: "red",
+                                                    fontSize: "50px",
+                                                    fontWeight: "bolder",
+                                                    padding: "0.2rem 2rem",
+                                                    zIndex: 1
+                                                }}
+                                            >  Out Of Stock
+                                            </span>
+
+                                        </> : ""
+                                    }
+
+
+
+
+
+                                    <span
+                                        className={product.addToCart.some(item =>
+
+                                            item.userEmail === Profile.email && item.productId === product._id
+
+                                        ) ? "profileListCartIcon2" : "profileListCartIcon1"}
+                                        onClick={(event) => handleAddToCart(event, product._id, product.name)}
+                                        style={{
+                                            position: "absolute",
+                                            bottom: "14.5rem"
+                                        }}
+                                    > {Profile.userType === "Admin" ?
+                                        (<span>  {product.addToCart.length} </span>) :
+                                        ""}   <i className="fas fa-cart-plus"></i> </span>
+
+
+                                    {Profile.userType === "Admin" ? (
+
+                                        <button
+                                            className=" btn btn-danger px-3"
+                                            onClick={(event) => handleDelete(event, product._id)}
+                                            style={{ bottom: "140px", right: "10px", position: "absolute", zIndex: 1 }}>
+                                            <i className="fas fa-trash-alt text-white mx-auto"
+                                                style={{
+                                                    fontSize: "1.2rem"
+                                                }}
+                                            ></i>
+                                        </button>
+
+                                    ) : ""}
+
+                                    <div className="card-body">
+
+                                        <h5 className="card-title ">
+                                            <div className="product-title"
+                                                style={{
+                                                    marginBottom: "-0.5rem"
+                                                }}
+
+                                                onClick={function () {
+                                                    navigate(`/ProductProfile/${product.name}`, {
+                                                        state: {
+                                                            _id: product._id,
+                                                            id: product.id,
+                                                            name: product.name,
+                                                        },
+                                                    });
+                                                }}
+                                            > {product.name}
+
+
+                                            </div>
+
+
+
+                                            <br /> <span
+                                                style={{
+                                                    fontSize: "small",
+                                                    color: "white",
+                                                    background: product.newOrRefurbished === "New" ? "#1866E1" : "#FF7518",
+                                                    borderRadius: "5px",
+                                                    padding: "5px 10px",
+                                                    marginBottom: "0.5rem"
+                                                }}
+                                            > {product.newOrRefurbished}
+                                            </span> {product.isLimitedTimeDeal === true ? (
+
+                                                <span style={{ position: "relative", display: "inline-block" }}>
+
+                                                    <span
+
+                                                        className="ms-1"
+
+                                                        style={{ color: "white", fontSize: "small", background: "#BE1F35 ", padding: "0.2rem 0.4rem", borderRadius: "5px", }}
+
+                                                    > Limited Time Deal </span>
+
+                                                    {/* Tooltip */}
+
+                                                    <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
+
+                                                </span>
+
+                                            ) : ""}
+
+                                            <span className="rating-stars position-absolute ms-2"
+                                                style={{
+                                                    // top: "50px",
+                                                    // right: "10px",
+                                                    zIndex: 1,
+                                                    background: "#00A86B"
+                                                }}>
+                                                {product.isNewProduct === true ? (<span className="badge "
+                                                >
+                                                    Popular
+                                                </span>) : ""}
+
+                                            </span>
+
+
+
+                                        </h5>
+
+
+                                        <p className="card-text" style={{ marginTop: "1.5rem", cursor: "pointer" }}
                                             onClick={function () {
                                                 navigate(`/ProductProfile/${product.name}`, {
                                                     state: {
@@ -1147,134 +1216,70 @@ const ProductListing = () => {
                                                     },
                                                 });
                                             }}
-                                        > {product.name}
+                                        >
 
+                                            <strong className="text-success " style={{ fontSize: "xx-large" }}> ₹ {product.effectivePrice}</strong>
 
-                                        </div>
+                                            <strong> <del>₹ {product.price}</del> </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br />
 
+                                        </p>
 
-
-                                        <br /> <span
-                                            style={{
-                                                fontSize: "small",
-                                                color: "white",
-                                                background: product.newOrRefurbished === "New" ? "#1866E1" : "#FF7518",
-                                                borderRadius: "5px",
-                                                padding: "5px 10px",
-                                                marginBottom: "0.5rem"
+                                        <p className="text-success" style={{ fontSize: "large", marginTop: "-0.5rem", cursor: "pointer" }}
+                                            onClick={function () {
+                                                navigate(`/ProductProfile/${product.name}`, {
+                                                    state: {
+                                                        _id: product._id,
+                                                        id: product.id,
+                                                        name: product.name,
+                                                    },
+                                                });
                                             }}
-                                        > {product.newOrRefurbished}
-                                        </span> {product.isLimitedTimeDeal === true ? (
+                                        ><i className="fa-solid fa-check"></i> Save ₹ {product.price - (product.effectivePrice - (product.adminDiscount || 0))} </p>
 
-                                            <span style={{ position: "relative", display: "inline-block" }}>
+                                        <p className="card-text">
 
-                                                <span
+                                            <span>
+                                                {Number(product.effectivePrice) >= 500
+                                                    ?
+                                                    <span style={{
+                                                        color: "black",
+                                                        background: "yellow",
+                                                        padding: "5px 10px"
+                                                    }}>
+                                                        Free Delivery
+                                                    </span>
 
-                                                    className="ms-1"
+                                                    :
 
-                                                    style={{ color: "white", fontSize: "small", background: "#BE1F35 ", padding: "0.2rem 0.4rem", borderRadius: "5px", }}
-
-                                                > Limited Time Deal </span>
-
-                                                {/* Tooltip */}
-
-                                                <span className="tooltip-text">It is a time-limited offer, price will rise soon</span>
-
+                                                    <span style={{
+                                                        color: "white",
+                                                        background: "red",
+                                                        padding: "5px 10px"
+                                                    }}>
+                                                        + Delivery Charges
+                                                    </span>
+                                                }
                                             </span>
 
-                                        ) : ""}
-
-                                        <span className="rating-stars position-absolute ms-2"
-                                            style={{
-                                                // top: "50px",
-                                                // right: "10px",
-                                                zIndex: 1,
-                                                background: "#00A86B"
-                                            }}>
-                                            {product.isNewProduct === true ? (<span className="badge "
-                                            >
-                                                Popular
-                                            </span>) : ""}
-
-                                        </span>
+                                        </p>
 
 
-
-                                    </h5>
-
-
-                                    <p className="card-text" style={{ marginTop: "1.5rem", cursor: "pointer" }}
-                                        onClick={function () {
-                                            navigate(`/ProductProfile/${product.name}`, {
-                                                state: {
-                                                    _id: product._id,
-                                                    id: product.id,
-                                                    name: product.name,
-                                                },
-                                            });
-                                        }}
-                                    >
-
-                                        <strong className="text-success " style={{ fontSize: "xx-large" }}> ₹ {product.effectivePrice}</strong>
-
-                                        <strong> <del>₹ {product.price}</del> </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br />
-
-                                    </p>
-
-                                    <p className="text-success" style={{ fontSize: "large", marginTop: "-0.5rem", cursor: "pointer" }}
-                                        onClick={function () {
-                                            navigate(`/ProductProfile/${product.name}`, {
-                                                state: {
-                                                    _id: product._id,
-                                                    id: product.id,
-                                                    name: product.name,
-                                                },
-                                            });
-                                        }}
-                                    ><i className="fa-solid fa-check"></i> Save ₹ {product.price - (product.effectivePrice - (product.adminDiscount || 0))} </p>
-
-                                    <p className="card-text">
-
-                                        <span>
-                                            {Number(product.effectivePrice) >= 500
-                                                ?
-                                                <span style={{
-                                                    color: "black",
-                                                    background: "yellow",
-                                                    padding: "5px 10px"
-                                                }}>
-                                                    Free Delivery
-                                                </span>
-
-                                                :
-
-                                                <span style={{
-                                                    color: "white",
-                                                    background: "red",
-                                                    padding: "5px 10px"
-                                                }}>
-                                                    + Delivery Charges
-                                                </span>
-                                            }
-                                        </span>
-
-                                    </p>
-
+                                    </div>
 
                                 </div>
+                                {(index + 1) % 2 === 0 && <BankOffers key={`bank-offer-${index}`} />}
+
 
                             </div>
 
 
-                        </div>
+
+                            
 
 
                     ))
 
                 )}
-
-
-
 
             </div>
 
