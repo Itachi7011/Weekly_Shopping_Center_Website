@@ -1216,9 +1216,9 @@ const ProductListing = () => {
                                         }}
                                     >
 
-                                        <strong className="text-success " style={{ fontSize: "xx-large" }}> ₹ {product.effectivePrice}</strong>
-
-                                        <strong> <del>₹ {product.price}</del> </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br />
+                                        <strong className="" style={{ fontSize: "xx-large" }}> ₹ {product.effectivePrice}</strong>
+                                        &nbsp;
+                                        <strong> <del>₹ {product.price}</del> &nbsp; </strong>  <span className="text-danger">(-{product.sellerDiscount + "%" + (product.adminDiscount === 0 ? (" & " + product.adminDiscount + "%") : "")} Off)</span> <br />
 
                                     </p>
 

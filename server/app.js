@@ -1358,25 +1358,106 @@ app.post("/api/deleteSelectedProduct", async (req, res) => {
 
 // Add To Cart Product
 
+// app.post("/api/addToCartProduct", async (req, res) => {
+//   // console.log(req.body)
+
+//   const id = req.body.productId;
+
+//   const DB = await ProductsDB.findOne({ _id: id })
+//   // console.log(DB)
+
+//   if (!DB) {
+//     return res.status(404).send({ status: "Error", message: "Product not found." });
+//   }
+
+//   const data = {
+//     userName: req.body.userName,
+//     userEmail: req.body.userEmail,
+//     productId: req.body.productId,
+//     productName: req.body.productName,
+//     dateOfFormSubmission: new Date(),
+//   };
+
+//   if (!Array.isArray(DB.addToCart)) {
+
+//     console.error("addToCart is not an array or is undefined");
+
+//     return res.status(500).send({ status: "Error", message: "Internal server error." });
+
+//   }
+
+
+//   // Find the index of the existing entry
+
+//   const existingEntryIndex = DB.addToCart.findIndex(item =>
+//     (
+//       item.userEmail === (req.body.userEmail)) && (item.productId === (req.body.productId)
+//     )
+
+//   );
+//   console.log("1 : ", existingEntryIndex)
+
+
+
+//   // Check if the entry exists
+
+//   if (existingEntryIndex !== -1) {
+
+//     DB.addToCart.splice(existingEntryIndex, 1);
+//     await DB.save();
+//     console.log("Removed From Cart Successfully!");
+//     res.send({ status: "Ok", data: "Removed From Cart Successfully." });
+
+
+//   } else {
+//     DB.addToCart.push(data);
+//     await DB.save();
+//     console.log("Add To Cart Successfully");
+
+//     res.send({ status: "Ok", data: "Add To Cart Successfully." });
+
+//   }
+
+
+
+
+
+//   console.log("New Product Added in Database Successfully");
+
+
+
+// })
+
 app.post("/api/addToCartProduct", async (req, res) => {
-  console.log(req.body)
 
   const id = req.body.productId;
 
-  const DB = await ProductsDB.findOne({ _id: id })
-  // console.log(DB)
+
+  const DB = await ProductsDB.findOne({ _id: id });
 
   if (!DB) {
+
     return res.status(404).send({ status: "Error", message: "Product not found." });
+
   }
 
-  const data = {
+
+  const productData = {
+
     userName: req.body.userName,
+
     userEmail: req.body.userEmail,
+
     productId: req.body.productId,
+
     productName: req.body.productName,
+
     dateOfFormSubmission: new Date(),
+
   };
+
+
+  // Check if the product is already in the ProductsDB cart
 
   if (!Array.isArray(DB.addToCart)) {
 
@@ -1387,46 +1468,108 @@ app.post("/api/addToCartProduct", async (req, res) => {
   }
 
 
-  // Find the index of the existing entry
+  // Find the index of the existing entry in ProductsDB
 
   const existingEntryIndex = DB.addToCart.findIndex(item =>
-    (
-      item.userEmail === (req.body.userEmail)) && (item.productId === (req.body.productId)
-    )
+
+    item.userEmail === req.body.userEmail && item.productId === req.body.productId
 
   );
-  console.log("1 : ", existingEntryIndex)
 
 
-
-  // Check if the entry exists
+  // Check if the entry exists in ProductsDB
 
   if (existingEntryIndex !== -1) {
 
     DB.addToCart.splice(existingEntryIndex, 1);
-    await DB.save();
-    console.log("Removed From Cart Successfully!");
-    res.send({ status: "Ok", data: "Removed From Cart Successfully." });
 
+    await DB.save();
+
+    console.log("Removed From Cart Successfully!");
+
+    // res.send({ status: "Ok", data: "Removed From Cart Successfully." });
 
   } else {
-    DB.addToCart.push(data);
+
+    DB.addToCart.push(productData);
+
     await DB.save();
+
     console.log("Add To Cart Successfully");
+
+
+    // Now handle the UsersDB entry
+
+    const userEntry = await UsersDB.findOne({ email: req.body.userEmail });
+    console.log("userEntry: ",userEntry)
+
+
+
+    const cartItem = {
+
+      productName: req.body.productName,
+
+      productId: req.body.productId,
+
+    };
+
+    if (userEntry) {
+      // User exists, check if the product is already in the cart
+
+      const existingCartIndex = userEntry.cart.findIndex(item => item.productId === req.body.productId);
+      console.log("existingCartIndex", existingCartIndex)
+
+
+      if (existingCartIndex !== -1) {
+
+        userEntry.cart.splice(existingCartIndex, 1);
+
+        await userEntry.save();
+
+        console.log("Product removed from user's cart.");
+
+      } else {
+
+
+        // Add the new product to the user's cart if it doesn't exist
+
+        userEntry.cart.push(cartItem);
+
+        await userEntry.save();
+
+        console.log("Product added to existing user's cart.");
+
+
+      }
+    } else {
+      // If user does not exist, create a new entry
+
+      const newUserEntry = new UsersDB({
+
+        userName: req.body.userName,
+
+        userEmail: req.body.userEmail,
+
+        cart: [cartItem], // Initialize cart with the new product
+
+      });
+
+
+      await newUserEntry.save();
+
+      console.log("New user entry created with cart.");
+    }
+
+
 
     res.send({ status: "Ok", data: "Add To Cart Successfully." });
 
   }
 
 
-
-
-
   console.log("New Product Added in Database Successfully");
 
-
-
-})
+});
 
 
 // Product Rating And Reviews

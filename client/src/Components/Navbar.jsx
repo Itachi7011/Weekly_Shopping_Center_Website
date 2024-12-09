@@ -16,6 +16,7 @@ const Navbar = () => {
   const [Data, setData] = useState({ post: [] });
 
   const [category, setCategory] = useState([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
 
   const [data1, setData1] = useState("");
 
@@ -86,33 +87,6 @@ const Navbar = () => {
   };
 
 
-
-
-  const filterResults = () => {
-
-    if (!searchTerm) return []; // Return an empty array if search term is empty
-
-
-    // Filter results from both navSearchContents and productsData
-
-
-
-    const productResults = productsData.filter(item => {
-
-      return item.name.toLowerCase().includes(searchTerm.toLowerCase());
-
-    });
-
-
-    // Combine both results
-
-    return [...productResults];
-
-  };
-
-
-
-
   useEffect(() => {
 
     // Add event listeners for clicks and key presses
@@ -166,13 +140,35 @@ const Navbar = () => {
 
     const { name, value } = e.target;
 
-    if (name === "category") {
+    if (name === "subCategory") {
 
-      setSelectedCategory(value);
+      setSelectedSubCategory(value);
 
     }
 
     setUser({ ...user, [name]: value });
+
+  };
+
+  const filterResults = () => {
+
+    if (!searchTerm) return []; // Return an empty array if search term is empty
+
+
+    // Filter results based on selected subcategory and search term
+
+    const productResults = productsData.filter(item => {
+
+      const matchesSubCategory = selectedSubCategory === "" || item.subCategory === selectedSubCategory;
+
+      const matchesSearchTerm = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+      return matchesSubCategory && matchesSearchTerm;
+
+    });
+
+
+    return productResults; // Return filtered results
 
   };
 
@@ -200,7 +196,7 @@ const Navbar = () => {
 
             type="text"
 
-            placeholder="Search..."
+            placeholder="Search Products ..."
 
             value={searchTerm}
 
@@ -223,22 +219,25 @@ const Navbar = () => {
 
               marginLeft: "-32rem",
 
-              borderRadius: " 6px 0  0 6px",
-              padding:"0rem 0.5rem",
+              borderRadius: "6px 0 0 6px",
 
-              // width: "100%",
+              padding: "0rem 0.5rem",
+
               zIndex: 1,
+
               background: "#ECEFE3"
 
             }}
 
-            name="subCategory"
+            name="subCategory" // Ensure the name matches
+
+            value={selectedSubCategory} // Set the value to the selected subcategory
 
             onChange={handleDropdownChange}
 
           >
 
-            <option value="" style={{ padding:"0rem 2rem",}}> All Categories </option>
+            <option value=""> All Categories </option>
 
             {
 
@@ -246,7 +245,7 @@ const Navbar = () => {
 
                 cat.subCategoryName.map((subCat, subIndex) => (
 
-                  <option key={`${index}-${subIndex}`} value={subCat} style={{ padding:"0rem 2rem",}}>{subCat}</option>
+                  <option key={`${index}-${subIndex}`} value={subCat}>{subCat}</option>
 
                 ))
 
@@ -268,7 +267,7 @@ const Navbar = () => {
 
         </div>
 
-        <div className={`admin-sidebar-search-results ${searchTerm && filterResults().length > 0 ? 'show' : ''}`} style={{marginRight:"11rem"}}>
+        <div className={`admin-sidebar-search-results ${searchTerm && filterResults().length > 0 ? 'show' : ''}`} style={{ marginRight: "11rem" }}>
 
 
           {searchTerm && (
@@ -279,11 +278,7 @@ const Navbar = () => {
 
                 <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Product Search Results:</h4>
                 <hr />
-                {productsData.filter(item =>
-
-                  item.name.toLowerCase().includes(searchTerm.toLowerCase())
-
-                ).map((item, index) => (
+                {filterResults().map((item, index) => (
 
                   <div key={index} className="search-result-item">
 
@@ -324,7 +319,7 @@ const Navbar = () => {
         <ul className="navbar-links">
           <li className="navbar-dropdown">
             <a href="/">
-              <i className="fas fa-home me-1"></i>Home
+              <i className="fas fa-user me-1"></i>{user.firstName}
             </a>
           </li>
 
@@ -373,7 +368,7 @@ const Navbar = () => {
               <li className="navbar-dropdown">
                 <a href="#">
                   <i className="fas fa-shopping-cart me-1"></i>
-                  Cart
+                  Cart <span style={{color: user.cart.length === 0  ?"red" :"green" }}> ({user.cart.length}) </span> 
                 </a>
               </li>
               <li className="navbar-dropdown">
