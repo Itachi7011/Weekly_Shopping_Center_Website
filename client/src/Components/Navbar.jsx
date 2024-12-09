@@ -2,13 +2,28 @@
 // import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
 const Navbar = () => {
+
+  const navigate = useNavigate();
+
   // const { state, dispatch } = useContext(UserContext);
 
   const [user, setUser] = useState("");
   const [Data, setData] = useState({ post: [] });
+
+  const [category, setCategory] = useState([]);
+
+  const [data1, setData1] = useState("");
+
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [productsData, setProductsData] = useState([]);
+
+
 
   useEffect(() => {
     axios
@@ -38,6 +53,131 @@ const Navbar = () => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("/api/productsList")
+      .then((response) => {
+        const data = response.data;
+
+        setProductsData(data);
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+
+
+  useEffect(() => {
+    axios
+      .get("/api/categoriesList")
+      .then((response) => {
+        const data = response.data;
+
+        setCategory(data);
+      })
+      .catch((err) => {
+        console.log("Error during Data:", err);
+      });
+  }, []);
+  const handleSearchChange = (e) => {
+
+    setSearchTerm(e.target.value);
+
+  };
+
+
+
+
+  const filterResults = () => {
+
+    if (!searchTerm) return []; // Return an empty array if search term is empty
+
+
+    // Filter results from both navSearchContents and productsData
+
+
+
+    const productResults = productsData.filter(item => {
+
+      return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+    });
+
+
+    // Combine both results
+
+    return [...productResults];
+
+  };
+
+
+
+
+  useEffect(() => {
+
+    // Add event listeners for clicks and key presses
+
+
+    document.addEventListener('keydown', handleEscKey);
+
+
+    // Cleanup event listeners on component unmount
+
+    return () => {
+
+
+      document.removeEventListener('keydown', handleEscKey);
+
+    };
+
+  }, []);
+
+  const handleEscKey = (event) => {
+
+    if (event.key === 'Escape') {
+
+      setSearchTerm(''); // Clear the search term to hide results
+
+    }
+
+  };
+
+
+  useEffect(() => {
+
+    // Add event listeners for clicks and key presses
+
+
+    document.addEventListener('keydown', handleEscKey);
+
+
+    // Cleanup event listeners on component unmount
+
+    return () => {
+
+
+      document.removeEventListener('keydown', handleEscKey);
+
+    };
+
+  }, []);
+
+  const handleDropdownChange = (e) => {
+
+    const { name, value } = e.target;
+
+    if (name === "category") {
+
+      setSelectedCategory(value);
+
+    }
+
+    setUser({ ...user, [name]: value });
+
+  };
+
+
+
   if (user.userType === "Admin") {
     return ""
   }
@@ -49,6 +189,138 @@ const Navbar = () => {
           <i className="fas fa-bullhorn flip-horizontal ps-2"></i> Weekly Market{" "}
           <i className="fas fa-bullhorn ps-2"></i>
         </a>
+
+        {/* Search Bar Code */}
+
+        <div className="search-bar">
+
+
+
+          <input
+
+            type="text"
+
+            placeholder="Search..."
+
+            value={searchTerm}
+
+            onChange={handleSearchChange}
+            style={{
+              marginLeft: "2px",
+              height: "4.5vh",
+              marginRight: "-3rem",
+              paddingLeft: "10rem",
+              paddingRight: "4rem",
+              width: "35rem"
+            }}
+
+          />
+          <select
+
+            style={{
+
+              height: "4.5vh",
+
+              marginLeft: "-32rem",
+
+              borderRadius: " 6px 0  0 6px",
+              padding:"0rem 0.5rem",
+
+              // width: "100%",
+              zIndex: 1,
+              background: "#ECEFE3"
+
+            }}
+
+            name="subCategory"
+
+            onChange={handleDropdownChange}
+
+          >
+
+            <option value="" style={{ padding:"0rem 2rem",}}> All Categories </option>
+
+            {
+
+              category.map((cat, index) => (
+
+                cat.subCategoryName.map((subCat, subIndex) => (
+
+                  <option key={`${index}-${subIndex}`} value={subCat} style={{ padding:"0rem 2rem",}}>{subCat}</option>
+
+                ))
+
+              ))
+
+            }
+
+          </select>
+
+          <i className="fas fa-search me-2"
+            style={{
+              background: "orange",
+              marginLeft: "22.4rem",
+              padding: "0.5rem 1.1rem",
+              cursor: "pointer",
+              borderRadius: "0 6px 6px 0"
+            }}
+          ></i>
+
+        </div>
+
+        <div className={`admin-sidebar-search-results ${searchTerm && filterResults().length > 0 ? 'show' : ''}`} style={{marginRight:"11rem"}}>
+
+
+          {searchTerm && (
+
+            <div className="admin-sidebar-search-results-list d-flex justify-content-between">
+
+              <div className="product-search-results" style={{ flex: 1, marginLeft: '10px', }}>
+
+                <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Product Search Results:</h4>
+                <hr />
+                {productsData.filter(item =>
+
+                  item.name.toLowerCase().includes(searchTerm.toLowerCase())
+
+                ).map((item, index) => (
+
+                  <div key={index} className="search-result-item">
+
+                    <a onClick={function () {
+                      navigate(`/ProductProfile/${item.name}`, {
+                        state: {
+                          _id: item._id,
+                          id: item.id,
+                          name: item.name,
+                        },
+                      });
+                      setSearchTerm("");
+                    }} className="nav1-item">
+
+                      <h4 className="nav1-item-name">
+
+                        <i className="fas fa-search me-2"></i>
+
+                        <span style={{ fontWeight: "bolder" }}> {item.name} &nbsp; </span>  ( {item.subCategory} )
+
+                      </h4>
+
+                    </a>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            </div>
+
+          )}
+
+        </div>
+
+
         <ul className="navbar-links">
           <li className="navbar-dropdown">
             <a href="/">
@@ -57,11 +329,11 @@ const Navbar = () => {
           </li>
 
           {Data.post.map(
-            ({ itemName, itemLink, itemIcon, subItems }) => {
+            ({ itemName, link, itemIcon, subItems }) => {
               return (
                 <>
                   <li className="navbar-dropdown">
-                    <a href="#">
+                    <a href={link}>
                       <i className={itemIcon}></i>
                       {itemName}
                     </a>
@@ -97,12 +369,7 @@ const Navbar = () => {
             </li>
           ) : (
             <>
-              <li className="navbar-dropdown">
-                <a href="#">
-                  <i className="fas fa-heart me-1" style={{ color: "red" }}></i>
-                  Liked
-                </a>
-              </li>
+
               <li className="navbar-dropdown">
                 <a href="#">
                   <i className="fas fa-shopping-cart me-1"></i>
