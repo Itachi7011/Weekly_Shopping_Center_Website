@@ -632,9 +632,9 @@ const ProductListing = () => {
 
                 position: 'fixed',
 
-                left: '20px',
+                left: isSidebarVisible ? "16rem" : "2px",
 
-                top: '5rem',
+                top: '25rem',
 
                 backgroundColor: '#007bff',
 
@@ -644,7 +644,7 @@ const ProductListing = () => {
 
                 borderRadius: '5px',
 
-                padding: '10px',
+                padding: '20px 10px',
 
                 cursor: 'pointer',
 
@@ -655,8 +655,8 @@ const ProductListing = () => {
             onClick={toggleSidebar}
 
         >
-            {isSidebarVisible ? "Hide " : "Show "}
-            Filters
+            {isSidebarVisible ? <i className="fa-solid fa-angle-left"></i> : <i className="fa-solid fa-angle-right"></i>}
+            
 
         </button>
 
@@ -665,7 +665,7 @@ const ProductListing = () => {
 
             <div className={`product-list-sidebar ${isSidebarVisible ? 'visible' : ''}`}>
 
-                <div style={{ marginTop: "3.5rem" }}>
+                <div style={{ marginTop: "0rem" }}>
                     <span
                         style={{
                             marginLeft: "3rem",
