@@ -521,8 +521,6 @@ const SearchProduct = () => {
 
                                                         <img
 
-
-
                                                             src={offer.logo.data}
 
                                                             className="img-fluid ms-2 mb-3"

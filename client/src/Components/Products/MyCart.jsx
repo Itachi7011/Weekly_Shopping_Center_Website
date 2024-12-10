@@ -12,7 +12,7 @@ const MyCart = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    
+
 
 
 
@@ -516,7 +516,6 @@ const MyCart = () => {
                                                         <img
 
 
-
                                                             src={offer.logo.data}
 
                                                             className="img-fluid ms-2 mb-3"
@@ -525,7 +524,7 @@ const MyCart = () => {
                                                             style={{
                                                                 width: "8rem",
                                                                 height: "8rem",
-                                                                 color:"black"
+                                                                color: "black"
 
                                                             }}
 
@@ -534,14 +533,13 @@ const MyCart = () => {
                                                     </div>
 
 
-
                                                 </div>
 
                                                 <div className="col-lg-2 col-12 mt-4">
 
                                                     <h3 style={{ fontSize: "32px" }}>Loan Amount</h3>
 
-                                                    <h6 style={{ fontSize: "24px", color:"black" }} className="loan-amount">₹ {offer.loanAmount}</h6>
+                                                    <h6 style={{ fontSize: "24px", color: "black" }} className="loan-amount">₹ {offer.loanAmount}</h6>
 
                                                 </div>
 
@@ -549,7 +547,7 @@ const MyCart = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Interest Rate</h3>
 
-                                                    <h6 style={{ fontSize: "24px", color:"black" }} className="">Starts {offer.rateOfInterest}</h6>
+                                                    <h6 style={{ fontSize: "24px", color: "black" }} className="">Starts {offer.rateOfInterest}</h6>
 
                                                 </div>
 
@@ -557,7 +555,7 @@ const MyCart = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Processing Fees</h3>
 
-                                                    <h6 style={{ fontSize: "24px", color:"black" }} className="">{offer.processingFees}</h6>
+                                                    <h6 style={{ fontSize: "24px", color: "black" }} className="">{offer.processingFees}</h6>
 
                                                 </div>
 
@@ -565,7 +563,7 @@ const MyCart = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Total Tenure</h3>
 
-                                                    <h6 style={{ fontSize: "24px", color:"black" }}>{offer.tenure}</h6>
+                                                    <h6 style={{ fontSize: "24px", color: "black" }}>{offer.tenure}</h6>
 
                                                 </div>
 
@@ -1025,14 +1023,14 @@ const MyCart = () => {
 
                 ) : (
 
-                    currentItems.filter((data1)=>{
+                    currentItems.filter((data1) => {
 
                         const matchCart = Profile.cart.some((cartItem) => {
                             return cartItem.productName.toLowerCase() === data1.name.toLowerCase() && cartItem.productId === data1._id;
-                          });
-                        
-                          // Include this item if it matches both the search term and the cart filter
-                          return  matchCart;
+                        });
+
+                        // Include this item if it matches both the search term and the cart filter
+                        return matchCart;
 
                     }).map((product, index) => (
 
