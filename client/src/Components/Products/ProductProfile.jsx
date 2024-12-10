@@ -1068,7 +1068,7 @@ const ProductProfile = () => {
 
                                 {/* Your existing component code */}
 
-                              
+
                                 {
 
 
@@ -1240,7 +1240,7 @@ const ProductProfile = () => {
 
 
 
-                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: "-3rem" ,marginTop:"5rem"}}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: "-3rem", marginTop: "5rem" }}>
 
                                             {images.map((image, index) => (
 
@@ -1374,8 +1374,6 @@ const ProductProfile = () => {
 
 
                                                 <div className="col-lg-4 col-md-4 col-12">
-
-
 
 
                                                     <div className="side-bar-contant">
@@ -1714,33 +1712,33 @@ const ProductProfile = () => {
                                                                             src={logo.data}
                                                                             className="img-fluid ms-2 mb-3"
                                                                             alt=""
-                                                                         style={{color:"black"}} />
+                                                                            style={{ color: "black" }} />
                                                                     </div>
-                                                                    <h6 style={{color:"black"}}> {bankName} </h6>
+                                                                    <h6 style={{ color: "black" }}> {bankName} </h6>
                                                                 </div>
 
                                                                 <div className="col-lg-2 col-12">
                                                                     <h3>Loan Amount</h3>
-                                                                    <h6 className="loan-amount" style={{color:"black"}} >
+                                                                    <h6 className="loan-amount" style={{ color: "black" }} >
                                                                         ₹ {loanAmount}
                                                                     </h6>
                                                                 </div>
 
                                                                 <div className="col-lg-2 col-12">
                                                                     <h3>Interest Rate</h3>
-                                                                    <h6 className="interest-rate" style={{color:"black"}} >
+                                                                    <h6 className="interest-rate" style={{ color: "black" }} >
                                                                         Starts {rateOfInterest}
                                                                     </h6>
                                                                 </div>
 
-                                                                <div className="col-lg-2 col-12" style={{color:"black"}} >
+                                                                <div className="col-lg-2 col-12" style={{ color: "black" }} >
                                                                     <h3>Processing Fees</h3>
                                                                     <h6 className="emi"> {processingFees} </h6>
                                                                 </div>
 
                                                                 <div className="col-lg-2 col-12">
                                                                     <h3>Total Tenure</h3>
-                                                                    <h6 className=" " style={{color:"black"}}> {tenure} </h6>
+                                                                    <h6 className=" " style={{ color: "black" }}> {tenure} </h6>
                                                                 </div>
                                                                 <div className="col-lg-2 col-12">
 
@@ -1841,7 +1839,7 @@ const ProductProfile = () => {
                                             <h2>Details</h2>
                                             <hr />
                                             <div className="row justify-content-center">
-                                                <div className="col-lg-3 col-md-3 col-3 mt-4 product-profile-details" style={{color:"black"}} >
+                                                <div className="col-lg-3 col-md-3 col-3 mt-4 product-profile-details" style={{ color: "black" }} >
                                                     <h6>Name</h6>
                                                     <h6>Brand</h6>
                                                     <h6>Model</h6>
@@ -1880,7 +1878,7 @@ const ProductProfile = () => {
                                                     className="col-lg-5 col-md-5 col-9 mt-4"
                                                     id="specifications"
                                                 >
-                                                    <div className="specification-content" style={{color:"black"}}>
+                                                    <div className="specification-content" style={{ color: "black" }}>
 
 
                                                         <h6 className="" > {name} </h6>
@@ -2008,7 +2006,7 @@ const ProductProfile = () => {
 
                                                 <div className="review-star-row" onClick={() => setSelectedRating(null)} style={{ cursor: 'pointer', fontWeight: 'bold' }}>
 
-                                                    <div className="review-star-icon-container pe-4" style={{ fontWeight: "bolder", fontSize: "1rem" , }} >All Ratings</div>
+                                                    <div className="review-star-icon-container pe-4" style={{ fontWeight: "bolder", fontSize: "1rem", }} >All Ratings</div>
 
                                                     <div className="review-star-users-container" style={{ marginLeft: "22rem" }}> {reviews.length} Reviews</div>
 

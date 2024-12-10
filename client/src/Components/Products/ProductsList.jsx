@@ -1064,7 +1064,6 @@ const ProductListing = () => {
             </div>
 
 
-
             <div className="row">
 
                 {(filteredProducts.length === 0) && (currentItems.length > 0) ? (
