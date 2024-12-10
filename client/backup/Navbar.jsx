@@ -87,7 +87,6 @@ const Navbar = () => {
   };
 
 
-
   useEffect(() => {
 
     // Add event listeners for clicks and key presses
@@ -116,22 +115,6 @@ const Navbar = () => {
     }
 
   };
-
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-
-      navigate(`/SearchProduct`, {
-        state: {
-          searchTerm: searchTerm,
-
-        },
-      });
-
- setSearchTerm(''); 
-
-  };
-}
 
 
   useEffect(() => {
@@ -169,32 +152,23 @@ const Navbar = () => {
 
   const filterResults = () => {
 
-    if (!searchTerm) return [];
-    // Return an empty array if search term is empty
+    if (!searchTerm) return []; // Return an empty array if search term is empty
 
 
     // Filter results based on selected subcategory and search term
 
-    const productResults = productsData.filter(data1 => {
+    const productResults = productsData.filter(item => {
 
-      const searchWords = searchTerm.toLowerCase().split(/\s+/);
+      const matchesSubCategory = selectedSubCategory === "" || item.subCategory === selectedSubCategory;
 
-      // Check if any word matches any field
-      return searchWords.some((word) => 
-        data1.name.toLowerCase().includes(word) ||
-        data1.category.toLowerCase().includes(word) ||
-        data1.subCategory.toLowerCase().includes(word) ||
-        data1.productDetails.toLowerCase().includes(word)
-      );
+      const matchesSearchTerm = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+      return matchesSubCategory && matchesSearchTerm;
 
     });
 
-    return productResults;
 
- 
-
-
-    // return productResults; 
+    return productResults; // Return filtered results
 
   };
 
@@ -227,7 +201,6 @@ const Navbar = () => {
             value={searchTerm}
 
             onChange={handleSearchChange}
-            onKeyDown={handleKeyDown}
             style={{
               marginLeft: "2px",
               height: "4.5vh",
@@ -294,14 +267,12 @@ const Navbar = () => {
               // const formattedSearchTerm =  searchTerm.replace(/\s+/g, '-').toLowerCase();
               // console.log(formattedSearchTerm)
 
-              navigate(`/SearchProduct`, {
+              navigate(`/ProductList/search="${searchTerm}"`, {
                 state: {
                   searchTerm: searchTerm,
 
                 },
               });
-
-              setSearchTerm(''); 
             }}            
             ></i>
 
@@ -314,13 +285,13 @@ const Navbar = () => {
 
             <div className="admin-sidebar-search-results-list d-flex justify-content-between">
 
-              <div className="product-search-results" style={{ flex: 1, marginLeft: '0px', paddingBottom:"0.5rem", paddingRight:"0.2rem" ,paddingTop:"0.2rem" }}>
+              <div className="product-search-results" style={{ flex: 1, marginLeft: '10px', }}>
 
                 <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Product Search Results:</h4>
                 <hr />
                 {filterResults().map((item, index) => (
 
-                  <div key={index} className="search-result-item" style={{borderRadius:"5px"}}>
+                  <div key={index} className="search-result-item">
 
                     <a onClick={function () {
                       navigate(`/ProductProfile/${item.name}`, {
@@ -406,7 +377,7 @@ const Navbar = () => {
             <>
 
               <li className="navbar-dropdown">
-                <a href="/MyCart">
+                <a href="#">
                   <i className="fas fa-shopping-cart me-1"></i>
                   Cart <span style={{ color: user.cart.length === 0 ? "red" : "green" }}> ({user.cart.length}) </span>
                 </a>

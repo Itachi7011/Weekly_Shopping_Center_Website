@@ -67,6 +67,8 @@ import AddProductData from "./Components/Admin/ProductsData/AddProductData";
 import ShowProductsData from "./Components/Admin/ProductsData/ShowProductsData";
 import ProductsList from "./Components/Products/ProductsList";
 import ProductProfile from "./Components/Products/ProductProfile";
+import SearchProduct from "./Components/Products/SearchProduct";
+import MyCart from "./Components/Products/MyCart";
 
 // Bank Offers
 
@@ -96,7 +98,7 @@ function App() {
         <Navbar />
         <AdminSidebar />
         <Routes>
-        <Route
+          <Route
             path="/"
             element={<HomePage />}
           ></Route>
@@ -181,6 +183,15 @@ function App() {
           <Route
             path="/ProductProfile/:name"
             element={<ProductProfile />}
+          ></Route>
+          <Route
+            path="/SearchProduct"
+            element={<SearchProduct />}
+          ></Route>
+
+          <Route
+            path="/MyCart"
+            element={<MyCart />}
           ></Route>
         </Routes>
         <Footer />
