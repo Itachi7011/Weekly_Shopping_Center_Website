@@ -422,7 +422,7 @@ const ProductListing = () => {
 
     };
 
-   
+
 
 
     const BankOffers = () => {
@@ -523,7 +523,7 @@ const ProductListing = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Loan Amount</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color:"black" }} className="loan-amount">₹ {offer.loanAmount}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color: "black" }} className="loan-amount">₹ {offer.loanAmount}</h6>
 
                                                 </div>
 
@@ -531,7 +531,7 @@ const ProductListing = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Interest Rate</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color:"black" }} className="">Starts {offer.rateOfInterest}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color: "black" }} className="">Starts {offer.rateOfInterest}</h6>
 
                                                 </div>
 
@@ -539,7 +539,7 @@ const ProductListing = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Processing Fees</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color:"black" }} className="">{offer.processingFees}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color: "black" }} className="">{offer.processingFees}</h6>
 
                                                 </div>
 
@@ -547,7 +547,7 @@ const ProductListing = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Total Tenure</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color:"black" }}>{offer.tenure}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color: "black" }}>{offer.tenure}</h6>
 
                                                 </div>
 
@@ -649,7 +649,7 @@ const ProductListing = () => {
 
         >
             {isSidebarVisible ? <i className="fa-solid fa-angle-left"></i> : <i className="fa-solid fa-angle-right"></i>}
-            
+
 
         </button>
 
@@ -991,6 +991,78 @@ const ProductListing = () => {
                 }}
             >Products List</h2>
 
+            <div className="pagination">
+
+                <ul>
+
+                    <li>
+
+                        <button onClick={() => paginate(1)}>First</button>
+
+                    </li>
+
+                    <li>
+
+                        {currentPage > 1 ? (
+
+                            <button onClick={() => paginate(currentPage - 1)}>Prev</button>
+
+                        ) : (
+
+                            <button disabled>Prev</button>
+
+                        )}
+
+                    </li>
+
+                    {[...Array(Math.ceil(products.length / itemsPerPage))].map((_, index) => (
+
+                        <li key={index}>
+
+                            <button
+
+                                onClick={() => paginate(index + 1)}
+
+                                className={index + 1 === currentPage ? "active" : ""}
+
+                            >
+
+                                {index + 1}
+
+                            </button>
+
+                        </li>
+
+                    ))}
+
+                    <li>
+
+                        {currentPage < Math.ceil(products.length / itemsPerPage) ? (
+
+                            <button onClick={() => paginate(currentPage + 1)}>Next</button>
+
+                        ) : (
+
+                            <button disabled>Next</button>
+
+                        )}
+
+                    </li>
+
+                    <li>
+
+                        <button onClick={() => paginate(Math.ceil(products.length / itemsPerPage))}>
+
+                            Last
+
+                        </button>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
 
 
             <div className="row">
@@ -1235,7 +1307,8 @@ const ProductListing = () => {
                                                 <span style={{
                                                     color: "black",
                                                     background: "yellow",
-                                                    padding: "5px 10px"
+                                                    padding: "5px 10px",
+                                                    borderRadius: "5px"
                                                 }}>
                                                     Free Delivery
                                                 </span>

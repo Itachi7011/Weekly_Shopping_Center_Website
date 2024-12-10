@@ -16,7 +16,7 @@ const SearchProduct = () => {
 
 
     const searchTerm = location.state.searchTerm;
-    
+
 
 
 
@@ -56,7 +56,7 @@ const SearchProduct = () => {
 
     });
 
-    
+
 
 
     useEffect(() => {
@@ -531,6 +531,7 @@ const SearchProduct = () => {
                                                             style={{
                                                                 width: "8rem",
                                                                 height: "8rem",
+                                                                color: "black"
 
                                                             }}
 
@@ -546,7 +547,7 @@ const SearchProduct = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Loan Amount</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }} className="loan-amount">₹ {offer.loanAmount}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color: "black" }} className="loan-amount">₹ {offer.loanAmount}</h6>
 
                                                 </div>
 
@@ -554,7 +555,7 @@ const SearchProduct = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Interest Rate</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }} className="">Starts {offer.rateOfInterest}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color: "black" }} className="">Starts {offer.rateOfInterest}</h6>
 
                                                 </div>
 
@@ -562,7 +563,7 @@ const SearchProduct = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Processing Fees</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }} className="">{offer.processingFees}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color: "black" }} className="">{offer.processingFees}</h6>
 
                                                 </div>
 
@@ -570,7 +571,7 @@ const SearchProduct = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Total Tenure</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }}>{offer.tenure}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color: "black" }}>{offer.tenure}</h6>
 
                                                 </div>
 
@@ -1030,15 +1031,15 @@ const SearchProduct = () => {
 
                 ) : (
 
-                    currentItems.filter((data1)=>{
+                    currentItems.filter((data1) => {
                         const searchWords = searchTerm.toLowerCase().split(/\s+/);
 
                         // Check if any word matches any field
-                        return searchWords.some((word) => 
-                          data1.name.toLowerCase().includes(word) ||
-                          data1.category.toLowerCase().includes(word) ||
-                          data1.subCategory.toLowerCase().includes(word) ||
-                          data1.productDetails.toLowerCase().includes(word)
+                        return searchWords.some((word) =>
+                            data1.name.toLowerCase().includes(word) ||
+                            data1.category.toLowerCase().includes(word) ||
+                            data1.subCategory.toLowerCase().includes(word) ||
+                            data1.productDetails.toLowerCase().includes(word)
                         );
 
                     }).map((product, index) => (
