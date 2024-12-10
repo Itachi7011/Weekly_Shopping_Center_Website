@@ -4,6 +4,7 @@ export const initialState = {
 
     sidebarActive: false, // New state variable
     isFooterActive: true,
+    theme: localStorage.getItem('theme') || 'light',
 };
 export const reducer = (state, action) => {
 
@@ -20,7 +21,7 @@ export const reducer = (state, action) => {
         case "CLOSE_SIDEBAR": // New action type to close sidebar
 
             return { ...state, sidebarActive: false };
-            
+
         case "TOGGLE_FOOTER": // Toggle footer visibility
 
             return { ...state, isFooterActive: !state.isFooterActive };
@@ -28,6 +29,10 @@ export const reducer = (state, action) => {
         case "SET_FOOTER": // Set footer active or inactive
 
             return { ...state, isFooterActive: action.payload };
+
+        case "TOGGLE_THEME": // New action type for toggling theme
+
+            return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };
 
         default:
 

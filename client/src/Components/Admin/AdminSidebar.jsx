@@ -28,6 +28,10 @@ import GroupIcon from "@mui/icons-material/Group";
 
 const AdminSidebar = () => {
 
+  const contextValue = useContext(UserContext);
+
+console.log(contextValue); 
+
   const { state, dispatch } = useContext(UserContext);
 
   const navigate = useNavigate();

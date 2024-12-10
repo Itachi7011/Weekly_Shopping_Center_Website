@@ -422,14 +422,7 @@ const ProductListing = () => {
 
     };
 
-    console.log("Current Page:", currentPage);
-
-    console.log("Index of First Item:", indexOfFirstItem);
-
-    console.log("Index of Last Item:", indexOfLastItem);
-
-    console.log("Current Items:", currentItems);
-
+   
 
 
     const BankOffers = () => {
@@ -530,7 +523,7 @@ const ProductListing = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Loan Amount</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }} className="loan-amount">₹ {offer.loanAmount}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color:"black" }} className="loan-amount">₹ {offer.loanAmount}</h6>
 
                                                 </div>
 
@@ -538,7 +531,7 @@ const ProductListing = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Interest Rate</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }} className="">Starts {offer.rateOfInterest}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color:"black" }} className="">Starts {offer.rateOfInterest}</h6>
 
                                                 </div>
 
@@ -546,7 +539,7 @@ const ProductListing = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Processing Fees</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }} className="">{offer.processingFees}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color:"black" }} className="">{offer.processingFees}</h6>
 
                                                 </div>
 
@@ -554,7 +547,7 @@ const ProductListing = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Total Tenure</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }}>{offer.tenure}</h6>
+                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5", color:"black" }}>{offer.tenure}</h6>
 
                                                 </div>
 

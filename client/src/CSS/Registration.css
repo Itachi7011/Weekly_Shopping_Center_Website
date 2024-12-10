@@ -1,3 +1,19 @@
+
+
+:root {
+  --background-color: white;
+  --text-color: black;
+}
+
+[data-theme="light"] {
+  --background-color: white; /* Use #f8f9fa for light theme */
+  --text-color: black;
+}
+
+[data-theme="dark"] {
+  --background-color: black;
+  --text-color: white;
+}
 .main-body1 {
   box-shadow: 8px 16px 16px hsl(0deg 0% 0% / 0.25);
   padding: 2%;

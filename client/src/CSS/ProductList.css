@@ -1,9 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500;700&display=swap");
 
+:root {
+  --background-color: white;
+  --text-color: black;
+}
+
+[data-theme="light"] {
+  --background-color: white; /* Use #f8f9fa for light theme */
+  --text-color:  #2A292B ;
+  --bg-color: #f8f9fa;
+}
+
+[data-theme="dark"] {
+  --background-color: black;
+  --text-color: white;
+  --bg-color: #2a292b;
+}
+
 .productListPage {
   font-family: "Roboto", sans-serif;
 
-  background-color: #f8f9fa; /* Light background for contrast */
+  /* background-color: #f8f9fa;  */
+  background-color: var(--bg-color);
+  color: var(--text-color);
   padding: 1rem 5rem;
   max-width: 1800px;
 }
@@ -288,17 +307,16 @@ del {
 }
 
 .range-slider .price-slider {
-
   position: absolute;
 
   cursor: pointer;
-/* 
+  /* 
   top: 0;*/
   margin-top: -3rem;
   margin-left: 5%;
   margin-right: 5%;
 
-  left: 0; 
+  left: 0;
 
   /* right: 0;
 
@@ -306,7 +324,7 @@ del {
 
   background-color: #ccc;
 
-  transition: .4s;
+  transition: 0.4s;
 
   border-radius: 34px;
   width: 90%;
@@ -333,7 +351,6 @@ del {
   border-radius: 50%;
 
 } */
-
 
 /* input:checked + .price-slider {
 

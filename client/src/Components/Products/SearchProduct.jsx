@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Helmet } from 'react-helmet';
 
+
+
 import axios from "axios";
 
 
@@ -11,6 +13,7 @@ const SearchProduct = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
+
 
     const searchTerm = location.state.searchTerm;
     
@@ -52,6 +55,8 @@ const SearchProduct = () => {
 
 
     });
+
+    
 
 
     useEffect(() => {
@@ -1008,7 +1013,7 @@ const SearchProduct = () => {
                     fontSize: "2rem",
                     fontWeight: "bolder",
                     color: "white",
-                    background: "#828382",
+                    background: "#663399",
                     padding: "1rem 5rem",
                     margin: "1rem 15%",
                     borderRadius: "15px"

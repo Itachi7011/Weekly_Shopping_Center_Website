@@ -4,9 +4,14 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { UserContext } from "../App";
+import { useContext } from "react";
+
 import axios from "axios";
 
 const Navbar = () => {
+
+  const { state, dispatch } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -107,6 +112,27 @@ const Navbar = () => {
 
   }, []);
 
+
+
+  const toggleTheme = () => {
+
+    const newTheme = state.theme === 'light' ? 'dark' : 'light'; // Calculate new theme
+
+    dispatch({ type: 'TOGGLE_THEME' }); // Dispatch the action to toggle theme
+
+    document.documentElement.setAttribute('data-theme', newTheme); // Set the theme attribute
+
+    localStorage.setItem('theme', newTheme); // Persist theme in localStorage
+
+  };
+
+  // const handleMenuBtnClick = () => {
+  //     dispatch({ type: "TOGGLE_SIDEBAR" });
+  //     setSidebarActive(true);
+  //   };
+
+
+
   const handleEscKey = (event) => {
 
     if (event.key === 'Escape') {
@@ -128,10 +154,10 @@ const Navbar = () => {
         },
       });
 
- setSearchTerm(''); 
+      setSearchTerm('');
 
-  };
-}
+    };
+  }
 
 
   useEffect(() => {
@@ -180,7 +206,7 @@ const Navbar = () => {
       const searchWords = searchTerm.toLowerCase().split(/\s+/);
 
       // Check if any word matches any field
-      return searchWords.some((word) => 
+      return searchWords.some((word) =>
         data1.name.toLowerCase().includes(word) ||
         data1.category.toLowerCase().includes(word) ||
         data1.subCategory.toLowerCase().includes(word) ||
@@ -191,7 +217,7 @@ const Navbar = () => {
 
     return productResults;
 
- 
+
 
 
     // return productResults; 
@@ -219,6 +245,7 @@ const Navbar = () => {
 
 
           <input
+          className="navbar-input-search-bar"
 
             type="text"
 
@@ -301,9 +328,9 @@ const Navbar = () => {
                 },
               });
 
-              setSearchTerm(''); 
-            }}            
-            ></i>
+              setSearchTerm('');
+            }}
+          ></i>
 
         </div>
 
@@ -314,13 +341,13 @@ const Navbar = () => {
 
             <div className="admin-sidebar-search-results-list d-flex justify-content-between">
 
-              <div className="product-search-results" style={{ flex: 1, marginLeft: '0px', paddingBottom:"0.5rem", paddingRight:"0.2rem" ,paddingTop:"0.2rem" }}>
+              <div className="product-search-results" style={{ flex: 1, marginLeft: '0px', paddingBottom: "0.5rem", paddingRight: "0.2rem", paddingTop: "0.2rem" }}>
 
                 <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Product Search Results:</h4>
                 <hr />
                 {filterResults().map((item, index) => (
 
-                  <div key={index} className="search-result-item" style={{borderRadius:"5px"}}>
+                  <div key={index} className="search-result-item" style={{ borderRadius: "5px" }}>
 
                     <a onClick={function () {
                       navigate(`/ProductProfile/${item.name}`, {
@@ -408,14 +435,23 @@ const Navbar = () => {
               <li className="navbar-dropdown">
                 <a href="/MyCart">
                   <i className="fas fa-shopping-cart me-1"></i>
-                  Cart <span style={{ color: user.cart.length === 0 ? "red" : "green" }}> ({user.cart.length}) </span>
+                  Cart <span > ({user.cart.length}) </span>
                 </a>
               </li>
+
               <li className="navbar-dropdown">
-                <a href="/api/logout">
+
+                <a>
+                <i className="fa-solid fa-circle-half-stroke" onClick={toggleTheme} style={{ cursor: "pointer" }}></i>
+                </a>
+              </li>
+
+              <li className="navbar-dropdown">
+                <a >
                   <i className="fas fa-sign-out-alt me-1"></i>Logout
                 </a>
               </li>
+
             </>
           )}
         </ul>

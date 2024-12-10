@@ -525,6 +525,7 @@ const MyCart = () => {
                                                             style={{
                                                                 width: "8rem",
                                                                 height: "8rem",
+                                                                 color:"black"
 
                                                             }}
 
@@ -540,7 +541,7 @@ const MyCart = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Loan Amount</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }} className="loan-amount">₹ {offer.loanAmount}</h6>
+                                                    <h6 style={{ fontSize: "24px", color:"black" }} className="loan-amount">₹ {offer.loanAmount}</h6>
 
                                                 </div>
 
@@ -548,7 +549,7 @@ const MyCart = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Interest Rate</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }} className="">Starts {offer.rateOfInterest}</h6>
+                                                    <h6 style={{ fontSize: "24px", color:"black" }} className="">Starts {offer.rateOfInterest}</h6>
 
                                                 </div>
 
@@ -556,7 +557,7 @@ const MyCart = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Processing Fees</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }} className="">{offer.processingFees}</h6>
+                                                    <h6 style={{ fontSize: "24px", color:"black" }} className="">{offer.processingFees}</h6>
 
                                                 </div>
 
@@ -564,7 +565,7 @@ const MyCart = () => {
 
                                                     <h3 style={{ fontSize: "32px" }}>Total Tenure</h3>
 
-                                                    <h6 style={{ fontSize: "24px", lineHeight: "1.5" }}>{offer.tenure}</h6>
+                                                    <h6 style={{ fontSize: "24px", color:"black" }}>{offer.tenure}</h6>
 
                                                 </div>
 
@@ -1007,7 +1008,7 @@ const MyCart = () => {
                     fontSize: "2rem",
                     fontWeight: "bolder",
                     color: "white",
-                    background: "#828382",
+                    background: "#3A7575",
                     padding: "1rem 5rem",
                     margin: "1rem 15%",
                     borderRadius: "15px"
