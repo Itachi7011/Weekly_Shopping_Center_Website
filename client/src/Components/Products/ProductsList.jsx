@@ -242,11 +242,11 @@ const ProductListing = () => {
 
         const matchesPopular = filters.isPopular ? product.isPopular : true;
 
-        const matchesRating = isCumulativeRating
+        const matchesRating = !isCumulativeRating
 
             ? (product.averageRating === undefined || product.averageRating === null || Number(product.averageRating) <= Number(filters.rating))
 
-            : ( Number(product.averageRating) === Number(filters.rating)); 
+            : (Number(product.averageRating) === Number(filters.rating));
 
 
 
@@ -1033,7 +1033,12 @@ const ProductListing = () => {
 
 
                                     </h5>
+                                    <p className="card-text" style={{
+                                        marginTop: "1rem", marginBottom: "-0.5rem", cursor: "pointer", color: "#5B5B6C ", fontSize: "1.2rem",
 
+                                    }}>
+                                        {product.subCategory} ({product.category})
+                                    </p>
 
                                     <p className="card-text" style={{ marginTop: "1.5rem", cursor: "pointer" }}
                                         onClick={function () {

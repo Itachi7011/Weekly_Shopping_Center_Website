@@ -7,7 +7,7 @@
 
 [data-theme="light"] {
   --background-color: white; /* Use #f8f9fa for light theme */
-  --text-color:  #2A292B ;
+  --text-color: #2a292b;
   --bg-color: #f8f9fa;
 }
 
@@ -248,7 +248,7 @@ del {
 
   top: 8%;
 
-  left: 0px; 
+  left: 0px;
 
   width: 350px;
 
@@ -263,17 +263,17 @@ del {
 
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 
-  transition: left 0.3s ease, opacity 0.3s ease; 
+  transition: left 0.3s ease, opacity 0.3s ease;
 
   z-index: 999999;
 
-  opacity: 1; 
+  opacity: 1;
 }
 
 .product-list-sidebar.visible {
   left: 0;
 
-  opacity: 1; 
+  opacity: 1;
 }
 
 .product-list-sidebar h4 {
@@ -288,7 +288,7 @@ del {
   display: block;
   margin-bottom: 10px;
   font-size: 1rem;
-  margin-left: 10px;
+  margin-left: 20px;
   cursor: pointer;
 }
 
@@ -299,6 +299,63 @@ del {
   cursor: pointer;
   margin-right: 15px;
   border-radius: 50%;
+}
+
+.rating-filter-checkbox {
+  display: none;
+}
+
+/* Create the switch */
+
+.rating-filter-switch {
+  position: relative;
+
+  display: inline-flex;
+  /* text-align: left; */
+  /* align-items: center; */
+  width: 60px; 
+  margin-left: 10px;
+  height: 34px; 
+}
+
+/* Create the slider */
+
+.rating-filter-slider {
+
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(152, 54, 54); /* Background color when off */
+  transition: 0.4s; /* Transition effect */
+  border-radius: 34px; /* Rounded corners */
+  /* margin-top: 50px; */
+}
+
+/* Create the circle inside the switch */
+
+.rating-filter-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px; /* Height of the circle */
+  width: 26px; /* Width of the circle */
+  left: 4px; /* Position of the circle */
+  bottom: 4px; /* Position of the circle */
+  background-color: white; /* Circle color */
+  transition: 0.4s; /* Transition effect */
+  border-radius: 50%; /* Make it a circle */
+}
+
+/* Change the background color and position of the circle when checked */
+
+.rating-filter-checkbox:checked + .rating-filter-slider {
+  background-color: #4caf50; /* Background color when on */
+}
+
+.rating-filter-checkbox:checked + .rating-filter-slider:before {
+  transform: translateX(26px); /* Move the circle to the right */
 }
 
 .range-slider {

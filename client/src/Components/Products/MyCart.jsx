@@ -21,7 +21,7 @@ const MyCart = () => {
 
     const [atBottom, setAtBottom] = useState(false);
 
-    const [isCumulativeRating, setIsCumulativeRating] = useState(false); 
+    const [isCumulativeRating, setIsCumulativeRating] = useState(false);
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [bankOffers, setBankOffers] = useState({ post: [] });
@@ -256,11 +256,11 @@ const MyCart = () => {
 
         const matchesPopular = filters.isPopular ? product.isPopular : true;
 
-        const matchesRating = isCumulativeRating
+        const matchesRating = !isCumulativeRating
 
-        ? (product.averageRating === undefined || product.averageRating === null || Number(product.averageRating) <= Number(filters.rating))
+            ? (product.averageRating === undefined || product.averageRating === null || Number(product.averageRating) <= Number(filters.rating))
 
-        : ( Number(product.averageRating) === Number(filters.rating)); 
+            : (Number(product.averageRating) === Number(filters.rating));
 
 
         // Check stock availability based on the new filter
@@ -660,39 +660,39 @@ const MyCart = () => {
 
 </Helmet> */}
 
-<button
+        <button
 
-style={{
+            style={{
 
-    position: 'fixed',
+                position: 'fixed',
 
-    left: isSidebarVisible ? "15.5rem" : "0px",
+                left: isSidebarVisible ? "15.5rem" : "0px",
 
-    top: '3.65rem',
+                top: '3.65rem',
 
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
 
-    color: 'white',
+                color: 'white',
 
-    border: 'none',
+                border: 'none',
 
-    borderRadius: '5px',
+                borderRadius: '5px',
 
-    padding: '21rem 10px 21rem 10px',
+                padding: '21rem 10px 21rem 10px',
 
-    cursor: 'pointer',
+                cursor: 'pointer',
 
-    zIndex: 9999999,
+                zIndex: 9999999,
 
-}}
+            }}
 
-onClick={toggleSidebar}
+            onClick={toggleSidebar}
 
->
+        >
 
-{isSidebarVisible ? <i className="fa-solid fa-angle-left"></i> : <i className="fa-solid fa-angle-right"></i>}
+            {isSidebarVisible ? <i className="fa-solid fa-angle-left"></i> : <i className="fa-solid fa-angle-right"></i>}
 
-</button>
+        </button>
 
         {isSidebarVisible && (
 
@@ -714,7 +714,7 @@ onClick={toggleSidebar}
 
                 includeOutOfStock={filters.includeOutOfStock}
 
-                isCumulativeRating={isCumulativeRating} 
+                isCumulativeRating={isCumulativeRating}
 
                 toggleCumulativeRating={toggleCumulativeRating}
 
@@ -988,7 +988,12 @@ onClick={toggleSidebar}
 
 
                                     </h5>
+                                    <p className="card-text" style={{
+                                        marginTop: "1rem", marginBottom: "-0.5rem", cursor: "pointer", color: "#5B5B6C ",  fontSize: "1.2rem",
 
+                                    }}>
+                                        {product.subCategory} ({product.category})
+                                    </p>
 
                                     <p className="card-text" style={{ marginTop: "1.5rem", cursor: "pointer" }}
                                         onClick={function () {

@@ -32,9 +32,9 @@ const FilterSidebar = ({
             <div className="product-list-sidebar">
 
 
-                <div style={{ marginTop: "2rem" }}>
+                <div style={{ marginTop: "0rem" }}>
 
-                    <span style={{ marginLeft: "3rem", marginTop: "1rem", fontWeight: "bold" }}> Types Filter:  </span>
+                    <span style={{ marginLeft: "3rem", marginTop: "0rem", fontWeight: "bold" }}> Types Filter:  </span>
 
                     <hr />
 
@@ -213,76 +213,83 @@ const FilterSidebar = ({
 
                 <div style={{ textAlign: "center", marginTop: "2rem", marginBottom: "-2rem" }}>
 
-                    <span style={{ fontWeight: "bold" }}> Strict Rating:  </span>
-                    <input
+                    <span style={{ fontWeight: "bold" }}> Strict Rating:
+                        <label className='rating-filter-switch' style={{display:"inline-flex", marginBottom:"-10px"}}>
+                            <input
+                                className='rating-filter-checkbox'
 
-                        type="checkbox"
+                                type="checkbox"
 
-                        checked={isCumulativeRating}
+                                checked={isCumulativeRating}
 
-                        onChange={toggleCumulativeRating}
+                                onChange={toggleCumulativeRating}
 
-                    />
-
-                    {isCumulativeRating ? "On" : "Off"}
-
-              
-
-                <hr />
-
-
-                <br />
-
-                <label style={{ marginTop: "-2rem", textAlign: "center" }}>
+                            />
+                            <span className="rating-filter-slider"></span>
+                        </label>
+                    </span>
 
 
-                    {[...Array(5)].map((_, index) => (
 
-                        <span key={index} onClick={() => handleRatingFilterChange(index + 1)} style={{ cursor: 'pointer', fontSize: "30px" }}>
-
-                            <i className="fas fa-star" style={{ color: index < filters.rating ? "yellow" : "lightgray" }}></i>
-
-                        </span>
-
-                    ))}
-
-                </label>
-
-            </div>
+                    {/* {isCumulativeRating ? "On" : "Off"} */}
 
 
-            <hr style={{ marginTop: "3rem" }} />
+
+                    <hr />
 
 
-            <div style={{ textAlign: "center", marginTop: "1rem", marginBottom: "-2rem" }}>
+                    <br />
 
-                <span style={{ fontWeight: "bold" }}> Availability:  </span>
+                    <label style={{ marginTop: "-2rem", textAlign: "center" }}>
 
-                <hr />
 
-                <br />
+                        {[...Array(5)].map((_, index) => (
 
-                <label style={{ marginLeft: "-2.5rem", marginTop: "-2rem" }}>
+                            <span key={index} onClick={() => handleRatingFilterChange(index + 1)} style={{ cursor: 'pointer', fontSize: "30px" }}>
 
-                    <input
+                                <i className="fas fa-star" style={{ color: index < filters.rating ? "yellow" : "lightgray" }}></i>
 
-                        type="checkbox"
+                            </span>
 
-                        name="includeOutOfStock"
+                        ))}
 
-                        checked={includeOutOfStock}
+                    </label>
 
-                        onChange={handleFilterChange}
+                </div>
 
-                    />
 
-                    Include Out Of Stock
+                <hr style={{ marginTop: "3rem" }} />
 
-                </label>
 
-            </div>
+                <div style={{ textAlign: "center", marginTop: "1rem", marginBottom: "-2rem" }}>
 
-        </div >
+                    <span style={{ fontWeight: "bold" }}> Availability:  </span>
+
+                    <hr />
+
+                    <br />
+
+                    <label style={{ marginLeft: "-2.5rem", marginTop: "-2rem" }}>
+
+                        <input
+
+                            type="checkbox"
+
+                            name="includeOutOfStock"
+
+                            checked={includeOutOfStock}
+
+                            onChange={handleFilterChange}
+
+                        />
+
+                        Include Out Of Stock
+
+                    </label>
+
+                </div>
+
+            </div >
         </>
 
 
