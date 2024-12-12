@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import FilterSidebar from './FilterComponent';
 
 import axios from "axios";
 
@@ -619,325 +620,66 @@ const ProductListing = () => {
 
     return (<>
 
-        <button
+<button
 
-            style={{
+style={{
 
-                position: 'fixed',
+    position: 'fixed',
 
-                left: isSidebarVisible ? "16rem" : "2px",
+    left: isSidebarVisible ? "15.5rem" : "0px",
 
-                top: '25rem',
+    top: '3.65rem',
 
-                backgroundColor: '#007bff',
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
 
-                color: 'white',
+    color: 'white',
 
-                border: 'none',
+    border: 'none',
 
-                borderRadius: '5px',
+    borderRadius: '5px',
 
-                padding: '20px 10px',
+    padding: '21rem 10px 21rem 10px',
 
-                cursor: 'pointer',
+    cursor: 'pointer',
 
-                zIndex: 9999999,
+    zIndex: 9999999,
 
-            }}
+}}
 
-            onClick={toggleSidebar}
+onClick={toggleSidebar}
 
-        >
-            {isSidebarVisible ? <i className="fa-solid fa-angle-left"></i> : <i className="fa-solid fa-angle-right"></i>}
+>
 
+{isSidebarVisible ? <i className="fa-solid fa-angle-left"></i> : <i className="fa-solid fa-angle-right"></i>}
 
-        </button>
-
+</button>
 
         {isSidebarVisible && (
 
-            <div className={`product-list-sidebar ${isSidebarVisible ? 'visible' : ''}`}>
+            <FilterSidebar
 
-                <div style={{ marginTop: "0rem" }}>
-                    <span
-                        style={{
-                            marginLeft: "3rem",
-                            marginTop: "1rem",
-                            fontWeight: "bold"
-                        }}
-                    > Types Filter:  </span>
+                filters={filters}
 
-                    <hr />
-                    <br />
+                handleFilterChange={handleFilterChange}
 
-                    <label >
+                handleRatingFilterChange={handleRatingFilterChange}
 
-                        <input
+                minVal={minVal}
 
-                            type="checkbox"
+                maxVal={maxVal}
 
-                            name="isNewProduct"
+                handleMinChange={handleMinChange}
 
-                            checked={filters.isNewProduct}
+                handleMaxChange={handleMaxChange}
 
-                            onChange={handleFilterChange}
+                includeOutOfStock={filters.includeOutOfStock}
 
-                        />
 
-                        New Product
 
-                    </label>
-
-                </div>
-
-                <div>
-
-                    <label>
-
-                        <input
-
-                            type="checkbox"
-
-                            name="refurbished"
-
-                            checked={filters.refurbished}
-
-                            onChange={handleFilterChange}
-
-                        />
-
-                        Refurbished
-
-                    </label>
-
-                </div>
-
-                <div>
-
-                    <label>
-
-                        <input
-
-                            type="checkbox"
-
-                            name="isPremium"
-
-                            checked={filters.isPremium}
-
-                            onChange={handleFilterChange}
-
-                        />
-
-                        Premium
-
-                    </label>
-
-                </div>
-
-                <div>
-
-                    <label>
-
-                        <input
-
-                            type="checkbox"
-
-                            name="isLimitedTimeDeal"
-
-                            checked={filters.isLimitedTimeDeal}
-
-                            onChange={handleFilterChange}
-
-                        />
-
-                        Limited Time Deal
-
-                    </label>
-
-                </div>
-
-                <div>
-
-                    <label>
-
-                        <input
-
-                            type="checkbox"
-
-                            name="isPopular"
-
-                            checked={filters.isPopular}
-
-                            onChange={handleFilterChange}
-
-                        />
-
-                        Popular
-
-                    </label>
-
-                </div>
-
-
-                <hr style={{
-
-                    marginTop: "3rem"
-                }} />
-
-                <div
-                    style={{
-                        textAlign: "center",
-                        marginTop: "1rem",
-                        marginBottom: "0rem",
-
-                    }}
-                >
-
-                    <span
-                        style={{
-                            fontWeight: "bold",
-
-                        }}
-                    > Price Range:  </span>
-
-                    <hr />
-                    <br />
-
-                    <div className="range-slider">
-
-                        <input
-
-                            type="range"
-
-                            min="0"
-
-                            max="100"
-
-                            value={minVal}
-
-                            onChange={handleMinChange}
-
-                            className="price-slider"
-
-                        />
-
-                        <input
-
-                            type="range"
-
-                            min="0"
-
-                            max="100"
-
-                            value={maxVal}
-
-                            onChange={handleMaxChange}
-
-                            className="price-slider"
-
-                        />
-
-                        <div className="values">
-
-                            <span>Min: {minVal}</span>
-
-                            <span>Max: {maxVal}</span>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-                <div style={{
-                    textAlign: "center",
-                    marginTop: "2rem",
-                    marginBottom: "-2rem",
-
-                }}
-                >
-                    <span
-                        style={{
-                            fontWeight: "bold"
-                        }}
-                    > Rating:  </span>
-
-                    <hr />
-                    <br />
-                    <label
-                        style={{
-                            marginTop: "-2rem",
-                            textAlign: "center"
-                        }}>
-
-
-                        {[...Array(5)].map((_, index) => (
-
-                            <span key={index} onClick={() => handleRatingFilterChange(index + 1)} style={{ cursor: 'pointer', fontSize: "30px" }}>
-
-                                <i className="fas fa-star" style={{ color: index < filters.rating ? "yellow" : "lightgray" }}></i>
-
-                            </span>
-
-                        ))}
-
-                    </label>
-
-                </div>
-
-                <hr style={{
-
-                    marginTop: "3rem"
-                }} />
-
-                <div
-                    style={{
-                        textAlign: "center",
-                        marginTop: "1rem",
-                        marginBottom: "-2rem",
-
-                    }}
-                >
-
-                    <span
-                        style={{
-                            fontWeight: "bold",
-
-                        }}
-                    > Availability:  </span>
-
-                    <hr />
-                    <br />
-
-                    <label style={{ marginLeft: "-2.5rem", marginTop: "-2rem" }}>
-
-                        <input
-
-                            type="checkbox"
-
-                            name="includeOutOfStock"
-
-                            checked={filters.includeOutOfStock}
-
-                            onChange={handleFilterChange}
-
-                        />
-
-                        Include Out Of Stock
-
-                    </label>
-
-                </div>
-
-
-
-
-
-
-            </div>
+            />
 
         )}
+
 
         <button
 

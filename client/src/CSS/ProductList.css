@@ -243,16 +243,19 @@ del {
 
 .product-list-sidebar {
   position: fixed;
+  height: calc(100vh - 8%);
+  overflow-y: auto;
 
   top: 8%;
 
-  left: -250px; /* Start hidden off-screen */
+  left: 0px; 
 
   width: 350px;
 
   height: 100vh;
 
-  background-color: #222023;
+  /* background-color: #222023; */
+  background-image: -webkit-linear-gradient(top, #222023, #1e2c47);
   background-image: -webkit-linear-gradient(top, #222023, #1e2c47);
   color: white;
 
@@ -260,17 +263,17 @@ del {
 
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 
-  transition: left 0.3s ease, opacity 0.3s ease; /* Smooth transition */
+  transition: left 0.3s ease, opacity 0.3s ease; 
 
-  z-index: 1000;
+  z-index: 999999;
 
-  opacity: 0; /* Start hidden */
+  opacity: 1; 
 }
 
 .product-list-sidebar.visible {
-  left: 0; /* Slide in */
+  left: 0;
 
-  opacity: 1; /* Fade in */
+  opacity: 1; 
 }
 
 .product-list-sidebar h4 {
