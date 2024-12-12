@@ -12,6 +12,8 @@ const ProductListing = () => {
 
     const navigate = useNavigate();
 
+    const [isCumulativeRating, setIsCumulativeRating] = useState(false);
+
     const [Profile, setProfile] = useState("");
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -169,35 +171,50 @@ const ProductListing = () => {
     };
 
 
-    const handleFilterChange = (event) => {
+    const handleFilterChange = (e) => {
 
-        const { name, checked } = event.target;
+        const { name, checked } = e.target;
 
-        setFilters((prevFilters) => ({
+        setFilters(prevFilters => ({
 
             ...prevFilters,
 
-            [name]: checked,
+            [name]: checked
 
         }));
-        console.log("checked Name: ", name)
-        console.log("checked Checked: ", checked)
-
-        // Reset current page to 1 whenever a filter is changed
-
-        setCurrentPage(1);
 
     };
 
+
     const handleRatingFilterChange = (rating) => {
 
-        setFilters((prevFilters) => ({
+        setFilters(prevFilters => {
 
-            ...prevFilters,
+            // If the rating is already selected, deselect it
 
-            rating: prevFilters.rating === rating ? 0 : rating, // Toggle the rating filter
+            if (prevFilters.rating === rating) {
 
-        }));
+                return { ...prevFilters, rating: 0 }; // Deselect
+
+            }
+
+            return { ...prevFilters, rating }; // Select new rating
+
+        });
+
+    };
+
+    const toggleCumulativeRating = () => {
+
+        setIsCumulativeRating(prev => {
+
+            const newValue = !prev; // Toggle the value
+
+            console.log("isCumulativeRating : ", newValue); // Log the new value
+
+            return newValue; // Return the new value
+
+        });
 
     };
 
@@ -225,7 +242,12 @@ const ProductListing = () => {
 
         const matchesPopular = filters.isPopular ? product.isPopular : true;
 
-        const matchesRating = filters.rating > 0 ? Number(product.averageRating) === Number(filters.rating) : true;
+        const matchesRating = isCumulativeRating
+
+            ? (product.averageRating === undefined || product.averageRating === null || Number(product.averageRating) <= Number(filters.rating))
+
+            : ( Number(product.averageRating) === Number(filters.rating)); 
+
 
 
         // Check stock availability based on the new filter
@@ -620,39 +642,39 @@ const ProductListing = () => {
 
     return (<>
 
-<button
+        <button
 
-style={{
+            style={{
 
-    position: 'fixed',
+                position: 'fixed',
 
-    left: isSidebarVisible ? "15.5rem" : "0px",
+                left: isSidebarVisible ? "15.5rem" : "0px",
 
-    top: '3.65rem',
+                top: '3.65rem',
 
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
 
-    color: 'white',
+                color: 'white',
 
-    border: 'none',
+                border: 'none',
 
-    borderRadius: '5px',
+                borderRadius: '5px',
 
-    padding: '21rem 10px 21rem 10px',
+                padding: '21rem 10px 21rem 10px',
 
-    cursor: 'pointer',
+                cursor: 'pointer',
 
-    zIndex: 9999999,
+                zIndex: 9999999,
 
-}}
+            }}
 
-onClick={toggleSidebar}
+            onClick={toggleSidebar}
 
->
+        >
 
-{isSidebarVisible ? <i className="fa-solid fa-angle-left"></i> : <i className="fa-solid fa-angle-right"></i>}
+            {isSidebarVisible ? <i className="fa-solid fa-angle-left"></i> : <i className="fa-solid fa-angle-right"></i>}
 
-</button>
+        </button>
 
         {isSidebarVisible && (
 
@@ -674,6 +696,9 @@ onClick={toggleSidebar}
 
                 includeOutOfStock={filters.includeOutOfStock}
 
+                isCumulativeRating={isCumulativeRating}
+
+                toggleCumulativeRating={toggleCumulativeRating}
 
 
             />

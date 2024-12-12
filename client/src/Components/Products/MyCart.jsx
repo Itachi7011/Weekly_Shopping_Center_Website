@@ -21,6 +21,8 @@ const MyCart = () => {
 
     const [atBottom, setAtBottom] = useState(false);
 
+    const [isCumulativeRating, setIsCumulativeRating] = useState(false); 
+
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [bankOffers, setBankOffers] = useState({ post: [] });
     const [products, setProducts] = useState([]);
@@ -182,35 +184,50 @@ const MyCart = () => {
     };
 
 
-    const handleFilterChange = (event) => {
+    const handleFilterChange = (e) => {
 
-        const { name, checked } = event.target;
+        const { name, checked } = e.target;
 
-        setFilters((prevFilters) => ({
+        setFilters(prevFilters => ({
 
             ...prevFilters,
 
-            [name]: checked,
+            [name]: checked
 
         }));
-        console.log("checked Name: ", name)
-        console.log("checked Checked: ", checked)
-
-        // Reset current page to 1 whenever a filter is changed
-
-        setCurrentPage(1);
 
     };
 
+
     const handleRatingFilterChange = (rating) => {
 
-        setFilters((prevFilters) => ({
+        setFilters(prevFilters => {
 
-            ...prevFilters,
+            // If the rating is already selected, deselect it
 
-            rating: prevFilters.rating === rating ? 0 : rating, // Toggle the rating filter
+            if (prevFilters.rating === rating) {
 
-        }));
+                return { ...prevFilters, rating: 0 }; // Deselect
+
+            }
+
+            return { ...prevFilters, rating }; // Select new rating
+
+        });
+
+    };
+
+    const toggleCumulativeRating = () => {
+
+        setIsCumulativeRating(prev => {
+
+            const newValue = !prev; // Toggle the value
+
+            console.log("isCumulativeRating : ", newValue); // Log the new value
+
+            return newValue; // Return the new value
+
+        });
 
     };
 
@@ -239,7 +256,11 @@ const MyCart = () => {
 
         const matchesPopular = filters.isPopular ? product.isPopular : true;
 
-        const matchesRating = filters.rating > 0 ? Number(product.averageRating) === Number(filters.rating) : true;
+        const matchesRating = isCumulativeRating
+
+        ? (product.averageRating === undefined || product.averageRating === null || Number(product.averageRating) <= Number(filters.rating))
+
+        : ( Number(product.averageRating) === Number(filters.rating)); 
 
 
         // Check stock availability based on the new filter
@@ -693,6 +714,9 @@ onClick={toggleSidebar}
 
                 includeOutOfStock={filters.includeOutOfStock}
 
+                isCumulativeRating={isCumulativeRating} 
+
+                toggleCumulativeRating={toggleCumulativeRating}
 
 
             />

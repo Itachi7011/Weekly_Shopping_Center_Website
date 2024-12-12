@@ -18,12 +18,15 @@ const FilterSidebar = ({
 
     includeOutOfStock,
 
+    isCumulativeRating,
+
+    toggleCumulativeRating
 
 
 }) => {
 
     return (
-        <>      
+        <>
 
 
             <div className="product-list-sidebar">
@@ -210,61 +213,76 @@ const FilterSidebar = ({
 
                 <div style={{ textAlign: "center", marginTop: "2rem", marginBottom: "-2rem" }}>
 
-                    <span style={{ fontWeight: "bold" }}> Rating:  </span>
+                    <span style={{ fontWeight: "bold" }}> Strict Rating:  </span>
+                    <input
 
-                    <hr />
+                        type="checkbox"
 
-                    <br />
+                        checked={isCumulativeRating}
 
-                    <label style={{ marginTop: "-2rem", textAlign: "center" }}>
+                        onChange={toggleCumulativeRating}
 
-                        {[...Array(5)].map((_, index) => (
+                    />
 
-                            <span key={index} onClick={() => handleRatingFilterChange(index + 1)} style={{ cursor: 'pointer', fontSize: "30px" }}>
+                    {isCumulativeRating ? "On" : "Off"}
 
-                                <i className="fas fa-star" style={{ color: index < filters.rating ? "yellow" : "lightgray" }}></i>
+              
 
-                            </span>
-
-                        ))}
-
-                    </label>
-
-                </div>
+                <hr />
 
 
-                <hr style={{ marginTop: "3rem" }} />
+                <br />
+
+                <label style={{ marginTop: "-2rem", textAlign: "center" }}>
 
 
-                <div style={{ textAlign: "center", marginTop: "1rem", marginBottom: "-2rem" }}>
+                    {[...Array(5)].map((_, index) => (
 
-                    <span style={{ fontWeight: "bold" }}> Availability:  </span>
+                        <span key={index} onClick={() => handleRatingFilterChange(index + 1)} style={{ cursor: 'pointer', fontSize: "30px" }}>
 
-                    <hr />
+                            <i className="fas fa-star" style={{ color: index < filters.rating ? "yellow" : "lightgray" }}></i>
 
-                    <br />
+                        </span>
 
-                    <label style={{ marginLeft: "-2.5rem", marginTop: "-2rem" }}>
+                    ))}
 
-                        <input
-
-                            type="checkbox"
-
-                            name="includeOutOfStock"
-
-                            checked={includeOutOfStock}
-
-                            onChange={handleFilterChange}
-
-                        />
-
-                        Include Out Of Stock
-
-                    </label>
-
-                </div>
+                </label>
 
             </div>
+
+
+            <hr style={{ marginTop: "3rem" }} />
+
+
+            <div style={{ textAlign: "center", marginTop: "1rem", marginBottom: "-2rem" }}>
+
+                <span style={{ fontWeight: "bold" }}> Availability:  </span>
+
+                <hr />
+
+                <br />
+
+                <label style={{ marginLeft: "-2.5rem", marginTop: "-2rem" }}>
+
+                    <input
+
+                        type="checkbox"
+
+                        name="includeOutOfStock"
+
+                        checked={includeOutOfStock}
+
+                        onChange={handleFilterChange}
+
+                    />
+
+                    Include Out Of Stock
+
+                </label>
+
+            </div>
+
+        </div >
         </>
 
 
@@ -292,6 +310,10 @@ FilterSidebar.propTypes = {
 
     includeOutOfStock: PropTypes.bool.isRequired,
 
+
+    isCumulativeRating: PropTypes.bool.isRequired,
+
+    toggleCumulativeRating: PropTypes.func.isRequired
 
 };
 
