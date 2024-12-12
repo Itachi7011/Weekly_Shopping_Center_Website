@@ -1528,7 +1528,7 @@ const ProductProfile = () => {
                                                                     (<span style={{ fontSize: "1rem", color: "red", fontWeight: "bolder" }}>  {addToCart.length} </span>) :
                                                                     ""}
                                                                 <i className="fas fa-cart-plus"></i> </span>
-                                                            <span>
+                                                            <span style={{ color: "black" }}>
                                                                 Stock Available:{" "}
                                                                 <strong style={{ marginLeft: "1rem" }}>
                                                                     {" "}
@@ -1539,7 +1539,7 @@ const ProductProfile = () => {
                                                             <div className="project-size d-flex mt-4">
                                                                 <div className="box-1"></div>
                                                                 <div className="box-2">
-                                                                    <span className="ms-2 me-5">
+                                                                    <span className="ms-2 me-5" style={{ color: "black" }}>
 
                                                                         Date Of Listing:{" "}
                                                                         <strong style={{ marginLeft: "1rem" }}>    {new Date(new Date(dateOfFormSubmission).getTime() - (5 * 60 + 30) * 60 * 1000).toLocaleString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).replace(',', '')}</strong>
@@ -1832,14 +1832,14 @@ const ProductProfile = () => {
                                     </section>
 
                                     <section
-                                        className="specification-section"
+                                        className="specification-section product-profile-specification-section"
                                         ref={specificationRef}
                                     >
                                         <div className="container">
                                             <h2>Details</h2>
                                             <hr />
                                             <div className="row justify-content-center">
-                                                <div className="col-lg-3 col-md-3 col-3 mt-4 product-profile-details" style={{ color: "black" }} >
+                                                <div className="col-lg-3 col-md-3 col-3 mt-4 product-profile-details" >
                                                     <h6>Name</h6>
                                                     <h6>Brand</h6>
                                                     <h6>Model</h6>
@@ -1878,7 +1878,7 @@ const ProductProfile = () => {
                                                     className="col-lg-5 col-md-5 col-9 mt-4"
                                                     id="specifications"
                                                 >
-                                                    <div className="specification-content" style={{ color: "black" }}>
+                                                    <div className="specification-content" >
 
 
                                                         <h6 className="" > {name} </h6>
@@ -1950,7 +1950,7 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
 
-                                                    <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: technicalDetails }} />
+                                                    <div className="product-profile-dangerouslySetInnerHTML-details" style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: technicalDetails }} />
 
                                                 </div>
                                             </div>
@@ -1969,7 +1969,7 @@ const ProductProfile = () => {
                                                     <div className="row justify-content-center">
                                                         <div className="col-lg-12 col-12 mb-4">
 
-                                                            <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: warrantyDetails }} />
+                                                            <div className="product-profile-dangerouslySetInnerHTML-details"  style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px" ,  fontSize: "large" }} dangerouslySetInnerHTML={{ __html: warrantyDetails }} />
 
                                                         </div>
                                                     </div>
@@ -1985,7 +1985,7 @@ const ProductProfile = () => {
                                             <div className="row justify-content-center">
                                                 <div className="col-lg-12 col-12 mb-4">
 
-                                                    <div style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", background: "#ededed", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: productDetails }} />
+                                                    <div className="product-profile-dangerouslySetInnerHTML-details"  style={{ border: "1px dotted black", padding: "2rem 8rem", borderRadius: "10px", fontSize: "large" }} dangerouslySetInnerHTML={{ __html: productDetails }} />
 
                                                 </div>
                                             </div>
@@ -2068,7 +2068,7 @@ const ProductProfile = () => {
 
                                             <div className="row justify-content-center">
 
-                                                <div className="col-lg-12 col-12 mb-4">
+                                                <div className="col-lg-12 col-12 mb-4 product-list-main-comment-section" >
 
                                                     {
 
@@ -2125,7 +2125,7 @@ const ProductProfile = () => {
 
                                                                                     </div>
 
-                                                                                    <span style={{ fontSize: "1rem", fontWeight: "bolder", marginLeft: "0rem" }}>
+                                                                                    <span style={{ fontSize: "1rem", fontWeight: "bolder", marginLeft: "0rem",color: "black" ,  }}>
                                                                                         <br />     <br />  <br />{title}</span>
 
                                                                                 </strong>
@@ -2137,7 +2137,7 @@ const ProductProfile = () => {
 
                                                                         <h5>
 
-                                                                            <div className="p-2 mt-2" style={{ border: "1px dotted black", width: "50%", borderRadius: "10px" }} dangerouslySetInnerHTML={{ __html: comment }}>
+                                                                            <div className="p-2 mt-2 product-profile-comment" style={{  width: "50%", borderRadius: "10px" }} dangerouslySetInnerHTML={{ __html: comment }}>
 
                                                                             </div>
 

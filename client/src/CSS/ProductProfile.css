@@ -8,17 +8,37 @@
 [data-theme="light"] {
   --background-color: white; /* Use #f8f9fa for light theme */
   --text-color: black;
+  --details-color: #ededed;
   --card-color: white;
 }
 
 [data-theme="dark"] {
   --background-color: black;
   --text-color: white;
+  --details-color: #4B3D33 ;
   --card-color: #D8D1CC ;
 }
 
 .card{
   background-color: var(--card-color);
+}
+.product-profile-comment{
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px dotted var(--text-color)
+}
+.product-profile-dangerouslySetInnerHTML-details{
+  background-color: var(--details-color) !important;
+  color: var(--text-color) !important;
+  border: 1px dotted var(--text-color)
+}
+.product-list-main-comment-section{
+  border: 1px dotted var(--text-color);
+border-radius: 10px;
+}
+.product-profile-specification-section {
+  background-color: var(--details-color) !important;
+  color: var(--text-color) !important;
 }
 
 .red-background {
