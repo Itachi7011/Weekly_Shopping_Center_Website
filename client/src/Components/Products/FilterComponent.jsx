@@ -214,7 +214,7 @@ const FilterSidebar = ({
                 <div style={{ textAlign: "center", marginTop: "2rem", marginBottom: "-2rem" }}>
 
                     <span style={{ fontWeight: "bold" }}> Strict Rating:
-                        <label className='rating-filter-switch' style={{display:"inline-flex", marginBottom:"-10px"}}>
+                        <label className='rating-filter-switch' style={{ display: "inline-flex", marginBottom: "-10px" }}>
                             <input
                                 className='rating-filter-checkbox'
 
@@ -230,13 +230,9 @@ const FilterSidebar = ({
                     </span>
 
 
-
                     {/* {isCumulativeRating ? "On" : "Off"} */}
 
-
-
-                    <hr  />
-
+                    <hr />
 
                     <br />
 
