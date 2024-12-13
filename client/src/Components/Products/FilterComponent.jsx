@@ -209,7 +209,7 @@ const FilterSidebar = ({
                     </div>
 
                 </div>
-
+                <hr />
 
                 <div style={{ textAlign: "center", marginTop: "2rem", marginBottom: "-2rem" }}>
 
@@ -235,7 +235,7 @@ const FilterSidebar = ({
 
 
 
-                    <hr />
+                    <hr  />
 
 
                     <br />
