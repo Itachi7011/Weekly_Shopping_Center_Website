@@ -313,15 +313,14 @@ del {
   display: inline-flex;
   /* text-align: left; */
   /* align-items: center; */
-  width: 60px; 
+  width: 60px;
   margin-left: 10px;
-  height: 34px; 
+  height: 34px;
 }
 
 /* Create the slider */
 
 .rating-filter-slider {
-
   cursor: pointer;
   position: absolute;
   top: 0;
