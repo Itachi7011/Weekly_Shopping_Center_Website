@@ -1055,24 +1055,9 @@ const MyCart = () => {
 
                             </div>
 
-
-
                         </div>
-
-
-
-
-
-
-
-
-
-
-
                     ))
-
                 )}
-
             </div>
 
 
@@ -1098,8 +1083,6 @@ const MyCart = () => {
             )}
 
 
-
-
             <div className="pagination">
 
                 <ul>
@@ -1119,7 +1102,6 @@ const MyCart = () => {
                         ) : (
 
                             <button disabled>Prev</button>
-
                         )}
 
                     </li>
@@ -1135,7 +1117,6 @@ const MyCart = () => {
                                 className={index + 1 === currentPage ? "active" : ""}
 
                             >
-
                                 {index + 1}
 
                             </button>
