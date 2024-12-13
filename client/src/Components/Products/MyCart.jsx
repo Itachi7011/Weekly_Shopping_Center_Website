@@ -985,11 +985,9 @@ const MyCart = () => {
 
                                         </span>
 
-
-
                                     </h5>
                                     <p className="card-text" style={{
-                                        marginTop: "1rem", marginBottom: "-0.5rem", cursor: "pointer", color: "#5B5B6C ",  fontSize: "1.2rem",
+                                        marginTop: "1rem", marginBottom: "-0.5rem", cursor: "pointer", color: "#5B5B6C ", fontSize: "1.2rem",
 
                                     }}>
                                         {product.subCategory} ({product.category})
