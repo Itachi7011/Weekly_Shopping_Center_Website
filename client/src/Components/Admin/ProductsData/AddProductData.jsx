@@ -19,6 +19,7 @@ import {
 
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
 const AddNewProduct = () => {
 
   const [category, setCategory] = useState([]);
@@ -363,7 +364,7 @@ const AddNewProduct = () => {
         // position: "absolute",
         // left: "12rem",
       }}
-    ><h2 style={{ textAlign: "center", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", margin: "1% 30%", padding: "1.5rem 0.2rem", fontSize:"1.8rem" }}>Add New Product</h2>
+    ><h2 style={{ textAlign: "center", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", margin: "1% 30%", padding: "1.5rem 0.2rem", fontSize: "1.8rem" }}>Add New Product</h2>
       <div>
         <div>
 
@@ -528,7 +529,7 @@ const AddNewProduct = () => {
                       </select>
                     </Grid>
                     <Grid item xs={10}>
-                     
+
 
                       Product Brands{" "}
                       <select
@@ -1137,7 +1138,7 @@ const AddNewProduct = () => {
 
                   <br />
                   <Grid item xs={8}>
-                  Upload Product Images  ( You can select upto 5 Product Images)<br/><br/>
+                    Upload Product Images  ( You can select upto 5 Product Images)<br /><br />
                     <Button
                       component="label"
                       role={undefined}
@@ -1167,9 +1168,9 @@ const AddNewProduct = () => {
                         }}
                       />
                     </Button>{" "}
-                   
+
                   </Grid>
-                  <br /><br/>
+                  <br /><br />
                   <Grid item xs={10}>
                     <TextField
                       placeholder="Please Enter Product Youtube Video URL"
