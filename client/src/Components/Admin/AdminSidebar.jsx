@@ -30,7 +30,7 @@ const AdminSidebar = () => {
 
   const contextValue = useContext(UserContext);
 
-console.log(contextValue); 
+  console.log(contextValue);
 
   const { state, dispatch } = useContext(UserContext);
 
@@ -178,8 +178,6 @@ console.log(contextValue);
     return [...navResults, ...productResults, ...usersResults];
 
   };
-
-
 
 
   useEffect(() => {

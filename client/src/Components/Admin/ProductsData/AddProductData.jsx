@@ -777,8 +777,11 @@ const AddNewProduct = () => {
                       editor.editing.view.document.on("change:data", () => { });
                     }}
                     onBlur={(event, editor) => { }}
+
                     onFocus={(event, editor) => { }}
+
                     onChange={debouncedOnChange3}
+
                   />
                   <br />
 
@@ -809,7 +812,6 @@ const AddNewProduct = () => {
                 </Container>
               </div>
             </TabPanel>
-
 
             <TabPanel>
               <div>
