@@ -182,13 +182,7 @@ const AdminSidebar = () => {
 
   useEffect(() => {
 
-    // Add event listeners for clicks and key presses
-
-
     document.addEventListener('keydown', handleEscKey);
-
-
-    // Cleanup event listeners on component unmount
 
     return () => {
 
@@ -212,16 +206,9 @@ const AdminSidebar = () => {
 
   useEffect(() => {
 
-    // Add event listeners for clicks and key presses
-
-
     document.addEventListener('keydown', handleEscKey);
 
-
-    // Cleanup event listeners on component unmount
-
     return () => {
-
 
       document.removeEventListener('keydown', handleEscKey);
 
@@ -229,10 +216,12 @@ const AdminSidebar = () => {
 
   }, []);
 
+
   if (user.userType !== "Admin") {
     return <div>
     </div>;
   }
+
   return (
     <>
 
