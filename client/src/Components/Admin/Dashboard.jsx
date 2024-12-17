@@ -168,7 +168,6 @@ const Dashboard = () => {
       });
   }, []);
 
-  console.log(IFSCCode);
 
   useEffect(() => {
     axios
@@ -1175,7 +1174,6 @@ const Dashboard = () => {
                   )}
                 </table>
               </div>
-
             </div>
 
             <nav aria-label="..." style={{ width: "50%", margin: "1rem auto" }}>
