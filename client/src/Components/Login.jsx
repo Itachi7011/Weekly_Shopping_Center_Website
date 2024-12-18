@@ -22,6 +22,7 @@ const Login = () => {
         <form className="loginForm" action="/api/login" method="POST">
           <section className="loginSection">
             {" "}
+
             <span></span> <span></span> <span></span> <span></span>{" "}
             <span></span> <span></span> <span></span> <span></span>{" "}
             <span></span> <span></span> <span></span> <span></span>{" "}
@@ -87,8 +88,11 @@ const Login = () => {
             <span></span> <span></span> <span></span> <span></span>{" "}
             <span></span> <span></span> <span></span> <span></span>{" "}
             <span></span> <span></span> <span></span> <span></span>
+
             <div className="signin">
+
               <div className="content">
+
                 <h2>Login</h2>
 
                 <div className="form">
