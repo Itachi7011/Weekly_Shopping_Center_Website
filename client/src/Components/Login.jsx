@@ -23,6 +23,7 @@ const Login = () => {
           <section className="loginSection">
             {" "}
 
+
             <span></span> <span></span> <span></span> <span></span>{" "}
             <span></span> <span></span> <span></span> <span></span>{" "}
             <span></span> <span></span> <span></span> <span></span>{" "}
@@ -89,6 +90,7 @@ const Login = () => {
             <span></span> <span></span> <span></span> <span></span>{" "}
             <span></span> <span></span> <span></span> <span></span>
 
+
             <div className="signin">
 
               <div className="content">
@@ -96,7 +98,6 @@ const Login = () => {
                 <h2>Login</h2>
 
                 <div className="form">
-
 
                   <div className="inputBox">
                     <input
@@ -130,10 +131,14 @@ const Login = () => {
                     <input type="submit" value="Login" />
                   </div>
                 </div>
+
               </div>
+
             </div>
           </section>
+
         </form>
+
       </div>
     </>
   );
