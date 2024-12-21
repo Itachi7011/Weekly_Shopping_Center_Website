@@ -8,7 +8,9 @@ const Logout = () => {
   const navigate = useNavigate();
 
   const LogoutData = () => {
+
     try {
+
       fetch("/api/logout", {
         method: "GET",
         headers: {

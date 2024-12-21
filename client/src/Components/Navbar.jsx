@@ -245,7 +245,7 @@ const Navbar = () => {
 
 
           <input
-          className="navbar-input-search-bar"
+            className="navbar-input-search-bar"
 
             type="text"
 
@@ -337,48 +337,50 @@ const Navbar = () => {
         <div className={`admin-sidebar-search-results ${searchTerm && filterResults().length > 0 ? 'show' : ''}`} style={{ marginRight: "11rem" }}>
 
 
-          {searchTerm && (
 
-            <div className="admin-sidebar-search-results-list d-flex justify-content-between">
+          {searchTerm &&
+            (
 
-              <div className="product-search-results" style={{ flex: 1, marginLeft: '0px', paddingBottom: "0.5rem", paddingRight: "0.2rem", paddingTop: "0.2rem" }}>
+              <div className="admin-sidebar-search-results-list d-flex justify-content-between">
 
-                <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Product Search Results:</h4>
-                <hr />
-                {filterResults().map((item, index) => (
+                <div className="product-search-results" style={{ flex: 1, marginLeft: '0px', paddingBottom: "0.5rem", paddingRight: "0.2rem", paddingTop: "0.2rem" }}>
 
-                  <div key={index} className="search-result-item" style={{ borderRadius: "5px" }}>
+                  <h4 style={{ fontSize: "1.2rem", paddingTop: "0.8rem", paddingLeft: "1.8rem" }}>Product Search Results:</h4>
+                  <hr />
+                  {filterResults().map((item, index) => (
 
-                    <a onClick={function () {
-                      navigate(`/ProductProfile/${item.name}`, {
-                        state: {
-                          _id: item._id,
-                          id: item.id,
-                          name: item.name,
-                        },
-                      });
-                      setSearchTerm("");
-                    }} className="nav1-item">
+                    <div key={index} className="search-result-item" style={{ borderRadius: "5px" }}>
 
-                      <h4 className="nav1-item-name">
+                      <a onClick={function () {
+                        navigate(`/ProductProfile/${item.name}`, {
+                          state: {
+                            _id: item._id,
+                            id: item.id,
+                            name: item.name,
+                          },
+                        });
+                        setSearchTerm("");
+                      }} className="nav1-item">
 
-                        <i className="fas fa-search me-2"></i>
+                        <h4 className="nav1-item-name">
 
-                        <span style={{ fontWeight: "bolder" }}> {item.name} &nbsp; </span>  ( {item.subCategory} )
+                          <i className="fas fa-search me-2"></i>
 
-                      </h4>
+                          <span style={{ fontWeight: "bolder" }}> {item.name} &nbsp; </span>  ( {item.subCategory} )
 
-                    </a>
+                        </h4>
 
-                  </div>
+                      </a>
 
-                ))}
+                    </div>
+
+                  ))}
+
+                </div>
 
               </div>
 
-            </div>
-
-          )}
+            )}
 
         </div>
 
@@ -442,7 +444,7 @@ const Navbar = () => {
               <li className="navbar-dropdown">
 
                 <a>
-                <i className="fa-solid fa-circle-half-stroke" onClick={toggleTheme} style={{ cursor: "pointer" }}></i>
+                  <i className="fa-solid fa-circle-half-stroke" onClick={toggleTheme} style={{ cursor: "pointer" }}></i>
                 </a>
               </li>
 

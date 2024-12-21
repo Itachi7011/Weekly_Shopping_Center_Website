@@ -201,8 +201,6 @@ const HomePage = () => {
               }) => (
 
 
-
-
                 <div key={_id} className="card" style={{ height: "650px", margin: "1rem" }}>
 
                   {isPremium === true ? (<span className="badge bg-warning text-dark position-absolute" style={{ top: "10px", left: "10px", zIndex: 1 }}>
