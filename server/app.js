@@ -869,6 +869,7 @@ app.post("/api/addSubCategory", async (req, res) => {
   }
 });
 
+
 app.post("/api/deleteSubCategory", async (req, res) => {
   try {
 
@@ -888,9 +889,6 @@ app.post("/api/deleteSubCategory", async (req, res) => {
       }
 
     );
-    // console.log(result)
-
-
 
 
     if (result.nModified === 0) {
@@ -1533,7 +1531,7 @@ app.post("/api/addToCartProduct", async (req, res) => {
       await userEntry.save();
 
       console.log("Product removed from user's cart.");
-          res.send({ status: "Ok", data: "Removed From Cart Successfully." });
+      res.send({ status: "Ok", data: "Removed From Cart Successfully." });
 
 
     } else {
@@ -1549,6 +1547,7 @@ app.post("/api/addToCartProduct", async (req, res) => {
 
 
     }
+
   } else {
     // If user does not exist, create a new entry
 
@@ -1561,7 +1560,6 @@ app.post("/api/addToCartProduct", async (req, res) => {
       cart: [cartItem], // Initialize cart with the new product
 
     });
-
 
     await newUserEntry.save();
 
