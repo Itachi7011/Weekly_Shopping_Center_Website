@@ -890,7 +890,6 @@ app.post("/api/deleteSubCategory", async (req, res) => {
 
     );
 
-
     if (result.nModified === 0) {
 
       return res.status(404).send({ status: "ERROR", message: "No matching category found or subcategory not found" });

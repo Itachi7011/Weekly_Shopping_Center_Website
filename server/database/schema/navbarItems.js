@@ -5,21 +5,26 @@ const W_Mark_Navbar_Items = new mongoose.Schema({
   itemName: {
     type: String
   },
+
   itemLink: {
     type: String
   },
+
   itemIcon: {
     type: String
   },
+
   subItems: [
     {
       name: String,
       link: String,
     },
   ],
+
   createdBy: {
     type: String,
   },
+
   dateOfFormSubmission: {
     type: String,
   },

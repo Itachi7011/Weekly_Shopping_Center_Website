@@ -29,4 +29,5 @@ const NewBankOffers = new mongoose.model(
   "W_Mark_Phone_Email",
   W_Mark_Phone_Email_Schema
 );
+
 module.exports = NewBankOffers;
