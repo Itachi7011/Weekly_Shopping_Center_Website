@@ -297,7 +297,6 @@ app.get("/api/logout", authenticate, async (req, res) => {
 app.get("/api/adminCustomersList", async (req, res) => {
   try {
     const data = await UsersDB.find({ userType: "Customer" });
-    console.log(data);
 
     res.send(data);
   } catch (err) {
@@ -342,7 +341,6 @@ app.post("/api/deleteSelectedSCustomerAccount", async (req, res) => {
 app.get("/api/adminSellersList", async (req, res) => {
   try {
     const data = await UsersDB.find({ userType: "Seller" });
-    console.log(data);
 
     res.send(data);
   } catch (err) {
@@ -385,7 +383,6 @@ app.post("/api/deleteSelectedSellersAccount", async (req, res) => {
 app.get("/api/adminsList", async (req, res) => {
   try {
     const data = await UsersDB.find({ userType: "Admin" });
-    console.log(data);
 
     res.send(data);
   } catch (err) {
